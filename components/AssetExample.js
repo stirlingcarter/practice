@@ -1,32 +1,18 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 
+// STYLE IMPORT
+import {asset_example_styles} from "../styles/styles.js";
+
 export default function AssetExample() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.paragraph}>
-        Local files and assets can be imported by dragging and dropping them into the editor
+    <View style={asset_example_styles.container}>
+      <Text style={asset_example_styles.paragraph}>
+        Local filess and assets can be imported by dragging and dropping them into the editor
       </Text>
-      <Image style={styles.logo} source={require('../assets/snack-icon.png')} />
+      <Image style={asset_example_styles.logo} source={require('../assets/snack-icon.png')} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  paragraph: {
-    margin: 24,
-    marginTop: 0,
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  logo: {
-    height: 128,
-    width: 128,
-  }
-});
+
