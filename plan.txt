@@ -1,0 +1,32 @@
+
+notes by string
+1. note - string
+2. string - note
+
+notes by fret 
+3. note - string
+4. string - note
+
+notes
+
+scales by note
+5. MAJOR - note - string
+5. MAJOR - string - note
+intervals
+
+octaves
+tritones
+5ths
+6ths
+4ths
+3rds
+m3rds
+7ths 
+
+
+
+memorize
+memorize
+memorize
+memorize
+memorize

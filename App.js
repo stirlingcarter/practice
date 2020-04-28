@@ -4,14 +4,13 @@ import { FlatList, Button, Text, View, StyleSheet } from "react-native";
 
 // You can import from local files
 import AssetExample from "./components/AssetExample";
+import { app_styles } from "./styles/styles.js"; //this me
 
 // or any pure javascript modules available in npm
 import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-// STYLE IMPORT
-import { app_styles } from "./styles/styles.js";
 
 const Stack = createStackNavigator();
 
@@ -22,22 +21,31 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "HOME_SCR" }}
+          options={{ title: "landing" }}
         />
         <Stack.Screen
           name="InstrumentScreen"
           component={InstrumentScreen}
-          options={{ title: "INSTR_SCRj" }}
+          options={{ title: "lessons" }}
         />
         <Stack.Screen
-          name="LessonScreen"
-          component={LessonScreen}
-          options={{ title: "lesson_screen_title" }}
+          name="LessonLaunchScreen"
+          component={LessonLaunchScreen}
+          options={{ title: "lesson launch" }}
         />
+        <Stack.Screen
+          name="LessonChallengeScreen"
+          component={LessonChallengeScreen}
+          options={{ title: "lesson challenge" }}
+        />
+
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+//SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
   var instrumentNames = getInstrumentNames();
@@ -66,37 +74,58 @@ function InstrumentScreen({ route, navigation }) {
 
   return (
     <View style={styles1.container}>
-      <Text>hi</Text>
-      <LessonContainer nav={navigation} lessons={lessons} />
+      <Text>{instrument}</Text>
+      <LessonPreviewsContainer nav={navigation} lessons={lessons} />
     </View>
   );
 }
+
+function LessonLaunchScreen({ route, navigation }) {
+  const { lesson } = route.params;
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text> 
+      <Button title={"start " + lesson} onPress={() => navigation.navigate("LessonChallengeScreen")} />
+    </View>
+  );
+}
+
+function LessonChallengeScreen({ route, navigation }) {
+
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>do a back flip.</Text> 
+      <Text>{"\n\n\n\n"}</Text> 
+
+      <Button title={"DONE, NEXT."} onPress={() => props.nav.navigate("LessonLaunchScreen", {lesson : "yo"})} />
+    </View>
+  );
+}
+
+
+//COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function LessonPreviewsContainer(props) {
+  return (
+    <FlatList
+      data={props.lessons}
+      renderItem={({ item }) => (
+        <Button title={item} onPress={() => props.nav.navigate("LessonLaunchScreen", {lesson : item})} />
+      )}
+    />
+  );
+}
+
+//DATA COMPUTATION FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------
 
 function getInstrumentNames() {
   var names = ["guitar", "piano"];
   return names;
 }
 
-function LessonContainer(props) {
-  return (
-    <FlatList
-      data={props.lessons}
-      renderItem={({ item }) => (
-        <Button title={item} onPress={() => props.nav.navigate({ item })} />
-      )}
-    />
-  );
-}
-
-function LessonScreen({ route, navigation }) {
-  const { lesson } = route.params;
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>playcard component go here</Text>
-    </View>
-  );
-}
+//STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const styles1 = StyleSheet.create({
   container: {
@@ -109,3 +138,6 @@ const styles1 = StyleSheet.create({
     height: 44,
   },
 });
+
+
+
