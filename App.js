@@ -70,6 +70,7 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
+  // load lessonIds from disk. for <insntrument> 
   var lessons = ["lesson1", "lesson2", "3"];
 
   return (
@@ -83,6 +84,7 @@ function InstrumentScreen({ route, navigation }) {
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
 
+  
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text> 
@@ -99,7 +101,7 @@ function LessonChallengeScreen({ route, navigation }) {
       <Text>do a back flip.</Text> 
       <Text>{"\n\n\n\n"}</Text> 
 
-      <Button title={"DONE, NEXT."} onPress={() => props.nav.navigate("LessonLaunchScreen", {lesson : "yo"})} />
+      <Button title={"DONE, NEXT."} onPress={() => navigation.navigate("LessonChallengeScreen")} />
     </View>
   );
 }
