@@ -95,10 +95,21 @@ function LessonLaunchScreen({ route, navigation }) {
 
 function LessonChallengeScreen({ route, navigation }) {
 
+  var challenge_data = {
+    "note" : "A",
+    "bpm" : "0",
+    "cri" : "every instance",
+    "visId" : "neck_maj7_e_root",
+  }
+
+  var note = challenge_data["note"] // A
+  var bpm = challenge_data["bpm"] // 0 
+  var cri = challenge_data["cri"] // every voicing of x 
+  var visId = challenge_data["visId"] // the path of a pic, perhaps
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>do a back flip.</Text> 
+      <Text>{"Play " + cri + " of " + note + " at " + bpm + " bpm:" }</Text> 
       <Text>{"\n\n\n\n"}</Text> 
 
       <Button title={"DONE, NEXT."} onPress={() => navigation.navigate("LessonChallengeScreen")} />
