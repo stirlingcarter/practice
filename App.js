@@ -14,36 +14,96 @@ import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: "landing" }}
-        />
-        <Stack.Screen
-          name="InstrumentScreen"
-          component={InstrumentScreen}
-          options={{ title: "lessons" }}
-        />
-        <Stack.Screen
-          name="LessonLaunchScreen"
-          component={LessonLaunchScreen}
-          options={{ title: "lesson launch" }}
-        />
-        <Stack.Screen
-          name="LessonChallengeScreen"
-          component={LessonChallengeScreen}
-          options={{ title: "lesson challenge" }}
-        />
 
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+export default function App() {
+
+  return (
+
+    <Practice/>
+
   );
+
+
 }
+
+
+
+function Practice(props) {
+
+  return (
+
+    <EntryScreen/>
+
+  );
+
+}
+
+
+function EntryScreen(props) {
+
+  return (
+
+    <InstrumentPreviewsContainer/>
+
+  );
+
+}
+
+
+function InstrumentPreviewsContainer(props) {
+
+  let Instruments = ["gutar","pano"]
+  
+  var instrument = "piiano"
+
+  return (
+
+     <>
+    
+
+    <InstrumentPreview instr={instrument}/>
+    </>
+
+  );
+
+}
+
+function InstrumentPreview(props) {
+
+  return (
+
+    < Text u/>
+
+  );
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
