@@ -12,9 +12,18 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 
+
+//const db = timeDB(); //constrcutr loads shit from disk
+//db.commit(instr,lesson,note,time)
+//db.save()
 const Stack = createStackNavigator();
 
 export default function App() {
+
+  const [stateString, setStateString] = React.useState("inital"); 
+
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -51,6 +60,9 @@ function HomeScreen({ navigation }) {
   var instrumentNames = getInstrumentNames();
 
   return (
+
+
+
     <View style={styles1.container}>
       <FlatList
         data={instrumentNames}
@@ -64,12 +76,13 @@ function HomeScreen({ navigation }) {
         )}
       />
     </View>
+
   );
 }
 
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
-
+  
   // load lessonIds from disk. for <insntrument> 
   var lessons = ["lesson1", "lesson2", "3"];
 
@@ -88,14 +101,16 @@ function LessonLaunchScreen({ route, navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text> 
-      <Button title={"start " + lesson} onPress={() => navigation.navigate("LessonChallengeScreen")} />
+      <Button title={"start " + lesson} onPress={() => navigation.navigate("LessonChallengeScreen", { lesson: lesson })} />
     </View>
   );
 }
 
 function LessonChallengeScreen({ route, navigation }) {
+  const { lesson } = route.params;
 
-  var challenge_data = {
+ 
+  var challenge_data = {//db.getNext()
     "note" : "A",
     "bpm" : "0",
     "cri" : "every instance",
@@ -108,12 +123,7 @@ function LessonChallengeScreen({ route, navigation }) {
   var visId = challenge_data["visId"] // the path of a pic, perhaps
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>{"Play " + cri + " of " + note + " at " + bpm + " bpm:" }</Text> 
-      <Text>{"\n\n\n\n"}</Text> 
-
-      <Button title={"DONE, NEXT."} onPress={() => navigation.navigate("LessonChallengeScreen")} />
-    </View>
+      <ChallengeClock note={note}  nav={navigation}/>
   );
 }
 
@@ -131,11 +141,93 @@ function LessonPreviewsContainer(props) {
   );
 }
 
+function ChallengeComponent(props) {
+
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>{ props.note }</Text> 
+
+      <Text>{"\n\n\n\n"}</Text> 
+      
+      <Button title={"DONE, NEXT."} onPress={() => challengeCallback(props.nav)} /> 
+    </View>
+  );
+}
+
+
 //DATA COMPUTATION FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------
 
 function getInstrumentNames() {
   var names = ["guitar", "piano"];
   return names;
+}
+
+class ChallengeClock extends React.Component{
+
+  constructor(props) {
+    super(props);
+    this.challengeCallback = this.challengeCallback.bind(this)
+    this.state = {
+      start: 0,
+      isOn: false,
+      end: 0
+    };
+  }
+
+  componentDidMount(){
+    alert("mounnt entered")
+
+    if (this.state.isOn == false){
+      this.setState({
+        start: Date.now(),
+        isOn: true,
+        end: this.state.end
+      })
+    }
+  }
+
+  //entered at mount due to state channge
+  componentDidUpdate(){
+    alert("update entered")
+
+    //not entered at mount due to bool 
+    if (this.state.isOn == false){
+      alert(this.state.end - this.state.start)
+      this.setState({
+        start: Date.now(),
+        isOn: true,
+        end: this.state.end
+      })
+    }
+  }
+
+  challengeCallback(nav) {
+    this.setState({
+      start: this.state.start,
+      isOn: false,
+      end: 77
+    })
+
+
+    
+    //db.update()
+    nav.navigate("LessonChallengeScreen")
+  }
+
+  render (){
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>{  "hmm"}</Text> 
+  
+        <Text>{"\n\n\n\n"}</Text> 
+        
+        <Button title={"DONE, NEXT."} onPress={() => this.challengeCallback(this.props.nav)} /> 
+      </View>
+    );
+  }
+
+
 }
 
 //STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
