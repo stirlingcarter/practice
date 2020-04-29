@@ -5,17 +5,8 @@ import { NativeRouter, Route, Link } from "react-router-native";
 // STYLE IMPORT
 import { instrument_styles, router_demo_styles } from "../styles/styles.js";
 
-
-export class LessonDAO extends Component{
-
-    render () {
-        return <Text>Yost</Text>
-    }
-
-
-
-
-
+export class LessonDAO extends Component {
+  render() {
+    return <Text>Yost</Text>;
+  }
 }
-
-

@@ -11,18 +11,13 @@ import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-
-
 //const db = timeDB(); //constrcutr loads shit from disk
 //db.commit(instr,lesson,note,time)
 //db.save()
 const Stack = createStackNavigator();
 
 export default function App() {
-
-  const [stateString, setStateString] = React.useState("inital"); 
-
-
+  const [stateString, setStateString] = React.useState("inital");
 
   return (
     <NavigationContainer>
@@ -47,8 +42,6 @@ export default function App() {
           component={LessonChallengeScreen}
           options={{ title: "lesson challenge" }}
         />
-
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -60,9 +53,6 @@ function HomeScreen({ navigation }) {
   var instrumentNames = getInstrumentNames();
 
   return (
-
-
-
     <View style={styles1.container}>
       <FlatList
         data={instrumentNames}
@@ -76,14 +66,13 @@ function HomeScreen({ navigation }) {
         )}
       />
     </View>
-
   );
 }
 
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
-  
-  // load lessonIds from disk. for <insntrument> 
+
+  // load lessonIds from disk. for <insntrument>
   var lessons = ["lesson1", "lesson2", "3"];
 
   return (
@@ -97,11 +86,15 @@ function InstrumentScreen({ route, navigation }) {
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
 
-  
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text> 
-      <Button title={"start " + lesson} onPress={() => navigation.navigate("LessonChallengeScreen", { lesson: lesson })} />
+      <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text>
+      <Button
+        title={"start " + lesson}
+        onPress={() =>
+          navigation.navigate("LessonChallengeScreen", { lesson: lesson })
+        }
+      />
     </View>
   );
 }
@@ -109,24 +102,21 @@ function LessonLaunchScreen({ route, navigation }) {
 function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
 
- 
-  var challenge_data = {//db.getNext()
-    "note" : "A",
-    "bpm" : "0",
-    "cri" : "every instance",
-    "visId" : "neck_maj7_e_root",
-  }
+  var challenge_data = {
+    //db.getNext()
+    note: "A",
+    bpm: "0",
+    cri: "every instance",
+    visId: "neck_maj7_e_root",
+  };
 
-  var note = challenge_data["note"] // A
-  var bpm = challenge_data["bpm"] // 0 
-  var cri = challenge_data["cri"] // every voicing of x 
-  var visId = challenge_data["visId"] // the path of a pic, perhaps
+  var note = challenge_data["note"]; // A
+  var bpm = challenge_data["bpm"]; // 0
+  var cri = challenge_data["cri"]; // every voicing of x
+  var visId = challenge_data["visId"]; // the path of a pic, perhaps
 
-  return (
-      <ChallengeClock note={note}  nav={navigation}/>
-  );
+  return <ChallengeClock note={note} nav={navigation} />;
 }
-
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -135,70 +125,52 @@ function LessonPreviewsContainer(props) {
     <FlatList
       data={props.lessons}
       renderItem={({ item }) => (
-        <Button title={item} onPress={() => props.nav.navigate("LessonLaunchScreen", {lesson : item})} />
+        <Button
+          title={item}
+          onPress={() =>
+            props.nav.navigate("LessonLaunchScreen", { lesson: item })
+          }
+        />
       )}
     />
   );
 }
 
-function ChallengeComponent(props) {
-
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>{ props.note }</Text> 
-
-      <Text>{"\n\n\n\n"}</Text> 
-      
-      <Button title={"DONE, NEXT."} onPress={() => challengeCallback(props.nav)} /> 
-    </View>
-  );
-}
-
-
-//DATA COMPUTATION FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------
-
-function getInstrumentNames() {
-  var names = ["guitar", "piano"];
-  return names;
-}
-
-class ChallengeClock extends React.Component{
-
+class ChallengeClock extends React.Component {
   constructor(props) {
     super(props);
-    this.challengeCallback = this.challengeCallback.bind(this)
+    this.challengeCallback = this.challengeCallback.bind(this);
     this.state = {
       start: 0,
       isOn: false,
-      end: 0
+      end: 0,
     };
   }
 
-  componentDidMount(){
-    alert("mounnt entered")
+  componentDidMount() {
+    alert("mounnt entered");
 
-    if (this.state.isOn == false){
+    if (this.state.isOn == false) {
       this.setState({
         start: Date.now(),
         isOn: true,
-        end: this.state.end
-      })
+        end: this.state.end,
+      });
     }
   }
 
   //entered at mount due to state channge
-  componentDidUpdate(){
-    alert("update entered")
+  componentDidUpdate() {
+    alert("update entered");
 
-    //not entered at mount due to bool 
-    if (this.state.isOn == false){
-      alert(this.state.end - this.state.start)
+    //not entered at mount due to bool
+    if (this.state.isOn == false) {
+      alert(this.state.end - this.state.start);
       this.setState({
         start: Date.now(),
         isOn: true,
-        end: this.state.end
-      })
+        end: this.state.end,
+      });
     }
   }
 
@@ -206,28 +178,34 @@ class ChallengeClock extends React.Component{
     this.setState({
       start: this.state.start,
       isOn: false,
-      end: 77
-    })
+      end: 77,
+    });
 
-
-    
     //db.update()
-    nav.navigate("LessonChallengeScreen")
+    nav.navigate("LessonChallengeScreen");
   }
 
-  render (){
+  render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{  "hmm"}</Text> 
-  
-        <Text>{"\n\n\n\n"}</Text> 
-        
-        <Button title={"DONE, NEXT."} onPress={() => this.challengeCallback(this.props.nav)} /> 
+        <Text>{"hmm"}</Text>
+
+        <Text>{"\n\n\n\n"}</Text>
+
+        <Button
+          title={"DONE, NEXT."}
+          onPress={() => this.challengeCallback(this.props.nav)}
+        />
       </View>
     );
   }
+}
 
+//DATA COMPUTATION FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------
 
+function getInstrumentNames() {
+  var names = ["guitar", "piano"];
+  return names;
 }
 
 //STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -243,6 +221,3 @@ const styles1 = StyleSheet.create({
     height: 44,
   },
 });
-
-
-
