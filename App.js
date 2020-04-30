@@ -3,18 +3,16 @@ import * as React from "react";
 import { FlatList, Button, Text, View, StyleSheet } from "react-native";
 
 // You can import from local files
-import AssetExample from "./components/AssetExample";
 import { app_styles } from "./styles/styles.js"; //this me
-
+import HQ from "./HQ";
 // or any pure javascript modules available in npm
 import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-//const db = timeDB(); //constrcutr loads shit from disk
-//db.commit(instr,lesson,note,time)
-//db.save()
 const Stack = createStackNavigator();
+
+const HQI = new HQ(); 
 
 export default function App() {
   const [stateString, setStateString] = React.useState("inital");

@@ -7,7 +7,7 @@ export default class DB {
       this.visId = visId;
     }
   
-    getFullHistoryByInstrAndLesson(instrument,lesson) {
+    getHistoryByInstrAndLesson(instrument,lesson) {
         
         //TODO not sure how typed JS is, may need intermediate vars
 
