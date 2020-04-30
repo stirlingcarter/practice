@@ -86,7 +86,7 @@ function InstrumentScreen({ route, navigation }) {
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
-  //braini.getstats
+  //HQ.getStatsByInstr(instrument)
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text>
@@ -107,7 +107,7 @@ function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-  //brain.initializeLesson(instrument,lesson)
+  //HQ.initializeLesson(instrument,lesson)
 
   let note = new Note("A", 0, "whatever", "aM_pic.jpg");
   return <WholeAssChallenge note={note} nav={navigation} />;
@@ -162,7 +162,7 @@ class ChallengeCard extends React.Component {
     this.state = {
       //brain blast!!!
 
-      //brain.getNextNote
+      //HQ.getNextNote()
       note: new Note("A", 0, "whatever", "aM_pic.jpg"),
     };
   }
@@ -201,7 +201,7 @@ class WholeAssChallenge extends React.Component {
   }
 
   componentWillUnmount() {
-    //brain.closeLesson()
+    //HQ.saveLesson()
   }
   //entered at mount due to state channge
   componentDidUpdate() {
@@ -209,7 +209,7 @@ class WholeAssChallenge extends React.Component {
     if (this.state.isOn == false) {
       let diff = this.state.end - this.state.start;
       alert(diff);
-      //brain.update(diff, note)
+      //HQ.commit(diff)
 
       this.setState({
         start: Date.now(),

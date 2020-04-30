@@ -13,7 +13,7 @@ export default class HQ {
         this.lessonHistory = []; 
 
         //lesson configs
-        var noteChoosers = ["min_max","average","random"];
+        var notePickers = ["min_max","average","random"];
         var currentNoteChooser = 2;
         var noteChooserFuncs = [this.min_max,this.average,this.random];
         var window = 10 
@@ -22,14 +22,17 @@ export default class HQ {
         //per challenge
         this.note = "A";
         this.noteNum = 1;
-
         
+    }
 
+    initializeLesson(instrument,lesson) {
+        this.lessonHistory = DB.getFullHistoryByInstrAndLesson(instrument, lesson); 
+        
     }
   
     getNextNote() {
 
-       var picker = noteChooserFuncs[self.currentNoteChooser]; 
+        var picker = noteChooserFuncs[self.currentNoteChooser]; 
         return picker.next()
     }
   
@@ -41,14 +44,20 @@ export default class HQ {
         alert("diff did not meet criteria")
     }
 
-    isValid(diff) {
-       return true; 
-    }
-  
-    initializeLesson(instrument,lesson) {
-        this.lessonHistory = DB.getFullHistoryByLesson(); 
+    //can be called after any commit. 
+    saveLesson(){
         
     }
+
+    getStatsByInstr(instrument) {
+
+        return 1200; 
+    }
+
+    isValid(diff) {
+        return true; 
+     }
+
   }
 
   class Lesson {
