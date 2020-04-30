@@ -1,14 +1,6 @@
 import * as React from "react";
 
-import {
-  FlatList,
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  ProgressBarAndroid,
-  ProgressBarAndroidComponent,
-} from "react-native";
+import { FlatList, Button, Text, View, StyleSheet } from "react-native";
 
 // You can import from local files
 import AssetExample from "./components/AssetExample";
@@ -93,14 +85,18 @@ function InstrumentScreen({ route, navigation }) {
 
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
-
+  const { instrument } = route.params;
+  //braini.getstats
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text>
       <Button
         title={"start " + lesson}
         onPress={() =>
-          navigation.navigate("LessonChallengeScreen", { lesson: lesson })
+          navigation.navigate("LessonChallengeScreen", {
+            lesson: lesson,
+            instrument: instrument,
+          })
         }
       />
     </View>
@@ -109,20 +105,11 @@ function LessonLaunchScreen({ route, navigation }) {
 
 function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
+  const { instrument } = route.params;
 
-  var challenge_data = {
-    //db.getNext()
-    note: "A",
-    bpm: "0",
-    cri: "every instance",
-    visId: "neck_maj7_e_root",
-  };
+  //brain.initializeLesson(instrument,lesson)
 
-  var note = challenge_data["note"]; // A
-  var bpm = challenge_data["bpm"]; // 0
-  var cri = challenge_data["cri"]; // every voicing of x
-  var visId = challenge_data["visId"]; // the path of a pic, perhaps
-
+  let note = new Note("A", 0, "whatever", "aM_pic.jpg");
   return <WholeAssChallenge note={note} nav={navigation} />;
 }
 
@@ -168,19 +155,15 @@ class Note {
     return this.visId;
   }
 }
+
 class ChallengeCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //clock
+      //brain blast!!!
 
-      //brain blast
+      //brain.getNextNote
       note: new Note("A", 0, "whatever", "aM_pic.jpg"),
-
-      // note: brain.getNextNote
-      // bpm: props.bpm,
-      // cri: props.cri
-      // visId:
     };
   }
 
@@ -188,6 +171,9 @@ class ChallengeCard extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>{this.state.note.getNote()}</Text>
+        <Text>{this.state.note.getBpm()}</Text>
+        <Text>{this.state.note.getCri()}</Text>
+        <Text>{this.state.note.getVisId()}</Text>
       </View>
     );
   }
@@ -203,11 +189,6 @@ class WholeAssChallenge extends React.Component {
       start: 0,
       isOn: false,
       end: 0,
-
-      // note: brain.getNextNote
-      // bpm: props.bpm,
-      // cri: props.cri
-      // visId:
     };
   }
 
@@ -219,13 +200,16 @@ class WholeAssChallenge extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    //brain.closeLesson()
+  }
   //entered at mount due to state channge
   componentDidUpdate() {
     //not entered at mount due to bool
     if (this.state.isOn == false) {
       let diff = this.state.end - this.state.start;
       alert(diff);
-      //brain.update(diff)
+      //brain.update(diff, note)
 
       this.setState({
         start: Date.now(),
