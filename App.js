@@ -1,6 +1,14 @@
 import * as React from "react";
 
-import { FlatList, Button, Text, View, StyleSheet } from "react-native";
+import {
+  FlatList,
+  Button,
+  Text,
+  View,
+  StyleSheet,
+  ProgressBarAndroid,
+  ProgressBarAndroidComponent,
+} from "react-native";
 
 // You can import from local files
 import AssetExample from "./components/AssetExample";
@@ -115,7 +123,7 @@ function LessonChallengeScreen({ route, navigation }) {
   var cri = challenge_data["cri"]; // every voicing of x
   var visId = challenge_data["visId"]; // the path of a pic, perhaps
 
-  return <ChallengeClock note={note} nav={navigation} />;
+  return <WholeAssChallenge note={note} nav={navigation} />;
 }
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -136,36 +144,89 @@ function LessonPreviewsContainer(props) {
   );
 }
 
-class ChallengeClock extends React.Component {
+class Note {
+  constructor(note, bpm, cri, visId) {
+    this.note = note;
+    this.bpm = bpm;
+    this.cri = cri;
+    this.visId = visId;
+  }
+
+  getNote() {
+    return this.note;
+  }
+
+  getBpm() {
+    return this.bpm;
+  }
+
+  getCri() {
+    return this.cri;
+  }
+
+  getVisId() {
+    return this.visId;
+  }
+}
+class ChallengeCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      //clock
+
+      //brain blast
+      note: new Note("A", 0, "whatever", "aM_pic.jpg"),
+
+      // note: brain.getNextNote
+      // bpm: props.bpm,
+      // cri: props.cri
+      // visId:
+    };
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>{this.state.note.getNote()}</Text>
+      </View>
+    );
+  }
+}
+
+//  want this to be ininviisiible and cover whole screen TODO
+class WholeAssChallenge extends React.Component {
   constructor(props) {
     super(props);
     this.challengeCallback = this.challengeCallback.bind(this);
     this.state = {
+      //clock
       start: 0,
       isOn: false,
       end: 0,
+
+      // note: brain.getNextNote
+      // bpm: props.bpm,
+      // cri: props.cri
+      // visId:
     };
   }
 
   componentDidMount() {
-    alert("mounnt entered");
-
-    if (this.state.isOn == false) {
-      this.setState({
-        start: Date.now(),
-        isOn: true,
-        end: this.state.end,
-      });
-    }
+    this.setState({
+      start: Date.now(),
+      isOn: true,
+      end: this.state.end,
+    });
   }
 
   //entered at mount due to state channge
   componentDidUpdate() {
-    alert("update entered");
-
     //not entered at mount due to bool
     if (this.state.isOn == false) {
-      alert(this.state.end - this.state.start);
+      let diff = this.state.end - this.state.start;
+      alert(diff);
+      //brain.update(diff)
+
       this.setState({
         start: Date.now(),
         isOn: true,
@@ -176,19 +237,17 @@ class ChallengeClock extends React.Component {
 
   challengeCallback(nav) {
     this.setState({
-      start: this.state.start,
       isOn: false,
-      end: 77,
+      end: Date.now(),
     });
 
-    //db.update()
     nav.navigate("LessonChallengeScreen");
   }
 
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{"hmm"}</Text>
+        <ChallengeCard />
 
         <Text>{"\n\n\n\n"}</Text>
 
