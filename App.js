@@ -5,6 +5,8 @@ import { FlatList, Button, Text, View, StyleSheet } from "react-native";
 // You can import from local files
 import { app_styles } from "./styles/styles.js"; //this me
 import HQ from "./HQ";
+import Note from "./note";
+
 // or any pure javascript modules available in npm
 import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -48,7 +50,7 @@ export default function App() {
 //SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
-  var instrumentNames = getInstrumentNames();
+  var instrumentNames = HQI.getInstrumentNames();
 
   return (
     <View style={styles1.container}>
@@ -105,7 +107,7 @@ function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-  //HQ.initializeLesson(instrument,lesson)
+  HQI.initializeLesson(instrument,lesson)
 
   let note = new Note("A", 0, "whatever", "aM_pic.jpg");
   return <WholeAssChallenge note={note} nav={navigation} />;
@@ -129,39 +131,14 @@ function LessonPreviewsContainer(props) {
   );
 }
 
-class Note {
-  constructor(note, bpm, cri, visId) {
-    this.note = note;
-    this.bpm = bpm;
-    this.cri = cri;
-    this.visId = visId;
-  }
-
-  getNote() {
-    return this.note;
-  }
-
-  getBpm() {
-    return this.bpm;
-  }
-
-  getCri() {
-    return this.cri;
-  }
-
-  getVisId() {
-    return this.visId;
-  }
-}
-
 class ChallengeCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //brain blast!!!
 
-      //HQ.getNextNote()
-      note: new Note("A", 0, "whatever", "aM_pic.jpg"),
+    
+      note: HQI.getNextNote(),
     };
   }
 
@@ -240,13 +217,6 @@ class WholeAssChallenge extends React.Component {
       </View>
     );
   }
-}
-
-//DATA COMPUTATION FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------
-
-function getInstrumentNames() {
-  var names = ["guitar", "piano"];
-  return names;
 }
 
 //STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------

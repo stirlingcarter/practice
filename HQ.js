@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import DB from "./DB";
+import Note from "./note";
+
 import { DefaultTheme } from "react-native-paper";
 
 
@@ -10,15 +12,17 @@ export default class HQ {
     constructor() {
         
         this.initializeLesson = this.initializeLesson.bind(this);
-        this.commit = this.getNextNote.bind(this);
+        this.getNextNote = this.getNextNote.bind(this);
         this.commit = this.commit.bind(this);
-        this.commit = this.saveLesson.bind(this);
-        this.commit = this.getStatsByInstr.bind(this);
-        this.commit = this.isValid.bind(this);
+        this.saveLesson = this.saveLesson.bind(this);
+        this.getInstrumentNames = this.getInstrumentNames.bind(this);
+        this.cogetStatsByInstrmmit = this.getStatsByInstr.bind(this);
+        this.isValid = this.isValid.bind(this);
+
         
-        this.commit = this.max_min.bind(this);
-        this.commit = this.average.bind(this);
-        this.commit = this.random.bind(this);
+        this.max_min = this.max_min.bind(this);
+        this.average = this.average.bind(this);
+        this.random = this.random.bind(this);
 
 
 
@@ -31,16 +35,13 @@ export default class HQ {
 
         //lesson configs
         //Pickers are -functions- that return -notes- using their access to -lessonHistory-. 
-        var notePickers = ["min_max","average","random"];
-        var currentNotePicker = 2;
-        var notePickerFuncs = [this.max_min,this.average,this.random];
+        var strategies = ["max_min","average","random"];
+        var strategyId = 2;
         var window = 10 
         var groupsOf = 3;
 
         //per challenge
-        this.note = "A";
-        this.noteNum = 1;
-        
+        this.currentNote = this.getNextNote();        
     }
 
 
@@ -54,8 +55,8 @@ export default class HQ {
   
     getNextNote() {
 
-        var picker = notePickerFuncs[this.currentNotePicker]; 
-        return picker()
+        return this.getNextNoteByStrategy(this.strategyId); 
+        
     }
   
     commit(diff) {
@@ -74,6 +75,11 @@ export default class HQ {
             this.currentLesson,
             this.lessonHistory)
         
+    }
+
+    getInstrumentNames(){
+        var names = ["guitar", "piano"];
+        return names;
     }
 
     getStatsByInstr(instrument) {
@@ -95,11 +101,24 @@ export default class HQ {
     }
 
     random() {
-        return "B"
+
+        let newNote = new Note("BB", 0, "whatever", "aM_pic.jpg")
+        this.currentNote = newNote; 
+        
+        return newNote
+
     }
     //END PICKERS --------------------------------------------------------------------------
 
-
+    getNextNoteByStrategy(strategyId){
+        if (strategyId == 0){
+            return this.max_min()
+        }else if (strategyId == 1){
+            return this.average()
+        }else {
+            return this.random()
+        }
+    }
 
     
   }
