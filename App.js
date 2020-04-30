@@ -184,7 +184,7 @@ class WholeAssChallenge extends React.Component {
     if (this.state.isOn == false) {
       let diff = this.state.end - this.state.start;
       alert(diff);
-      //HQ.commit(diff)
+      HQI.commit(diff)
 
       this.setState({
         start: Date.now(),
