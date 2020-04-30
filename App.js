@@ -25,22 +25,22 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "landing" }}
+          options={{ title: "HomeScreen" }}
         />
         <Stack.Screen
           name="InstrumentScreen"
           component={InstrumentScreen}
-          options={{ title: "lessons" }}
+          options={{ title: "InstrumentScreen" }}
         />
         <Stack.Screen
           name="LessonLaunchScreen"
           component={LessonLaunchScreen}
-          options={{ title: "lesson launch" }}
+          options={{ title: "LessonLaunchScreen" }}
         />
         <Stack.Screen
           name="LessonChallengeScreen"
           component={LessonChallengeScreen}
-          options={{ title: "lesson challenge" }}
+          options={{ title: "LessonChallengeScreen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
