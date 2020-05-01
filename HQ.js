@@ -17,17 +17,16 @@ class HQ {
       this.getOrderedUniqueLessonNamesByInstr = this.getOrderedUniqueLessonNamesByInstr.bind(
         this
       );
-      this.getLessonDescr = this.getLessonDescr.bind(this);
+
+      this.getBpm = this.getBpm.bind(this);
+      this.getCri = this.getCri.bind(this);
+      this.getVisId = this.getVisId.bind(this);
       this.saveLesson = this.saveLesson.bind(this);
 
       this.max_min = this.max_min.bind(this);
       this.average = this.average.bind(this);
       this.random = this.random.bind(this);
 
-      this.DB = new DB();
-
-      //per lesson
-      this.cache = new LessonCache();
       //lesson configs
       //Pickers are -functions- that return -notes- using their access to -lessonHistory-.
       var strategies = ["max_min", "average", "random"];
@@ -48,10 +47,8 @@ class HQ {
     //does this ni and out.
 
     //FOR IN:
-    this.cache.mountLesson(instrument, uniqueLessonName);
+    LessonCache.mountLesson(instrument, uniqueLessonName);
   }
-
-  
 
   getNextNote() {
     return this.getNextNoteByStrategy(this.strategyId);
@@ -59,11 +56,11 @@ class HQ {
 
   commit(diff) {
     alert("time received by hq");
-    this.cache.commit(diff);
+    LessonCache.commit(diff);
   }
 
   saveLesson() {
-    this.cache.push();
+    LessonCache.push();
   }
 
   getInstrumentNames() {
@@ -80,8 +77,16 @@ class HQ {
     return 1200;
   }
 
-  getLessonDescr() {
-    return this.cache.getLessonDescr();
+  getBpm() {
+    return LessonCache.getBpm();
+  }
+
+  getCri() {
+    return LessonCache.getCri();
+  }
+
+  getVisId() {
+    return LessonCache.getVisId();
   }
 
   getNextNoteByStrategy(strategyId) {

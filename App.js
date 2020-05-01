@@ -14,8 +14,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
-
-
 export default function App() {
   const [stateString, setStateString] = React.useState("inital");
 
@@ -79,7 +77,11 @@ function InstrumentScreen({ route, navigation }) {
   return (
     <View style={styles1.container}>
       <Text>{instrument}</Text>
-      <LessonPreviewsContainer nav={navigation} lessons={lessons} instrument={instrument} />
+      <LessonPreviewsContainer
+        nav={navigation}
+        lessons={lessons}
+        instrument={instrument}
+      />
     </View>
   );
 }
@@ -88,11 +90,14 @@ function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-
   HQ.mountLesson(instrument, lesson);
   //HQ.getStatsByInstr(instrument)
   return (
-    <WholeAssLessonInfo instrument={instrument} nav={navigation} lesson={lesson}/>
+    <WholeAssLessonInfo
+      instrument={instrument}
+      nav={navigation}
+      lesson={lesson}
+    />
   );
 }
 
@@ -104,7 +109,7 @@ class WholeAssLessonInfo extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{HQ.getLessonDescr()}</Text>
+        <Text>{HQ.getCri()}</Text>
         <Button
           title={"start " + this.props.lesson}
           onPress={() =>
@@ -136,7 +141,10 @@ function LessonPreviewsContainer(props) {
         <Button
           title={item}
           onPress={() =>
-            props.nav.navigate("LessonLaunchScreen", { lesson: item, instrument: props.instrument})
+            props.nav.navigate("LessonLaunchScreen", {
+              lesson: item,
+              instrument: props.instrument,
+            })
           }
         />
       )}
@@ -158,9 +166,9 @@ class ChallengeCard extends React.Component {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>{this.state.note.getNote()}</Text>
-        <Text>{this.state.note.getBpm()}</Text>
-        <Text>{this.state.note.getCri()}</Text>
-        <Text>{this.state.note.getVisId()}</Text>
+        <Text>{HQ.getBpm()}</Text>
+        <Text>{HQ.getCri()}</Text>
+        <Text>{HQ.getVisId()}</Text>
       </View>
     );
   }
@@ -188,7 +196,6 @@ class WholeAssChallenge extends React.Component {
   }
 
   componentWillUnmount() {
-    
     HQ.saveLesson();
   }
   //entered at mount due to state channge
@@ -245,9 +252,5 @@ const styles1 = StyleSheet.create({
     height: 44,
   },
 });
-
-
-
-
 
 //SHOWING ONLY. THE EYES, THE FACE.

@@ -1,56 +1,120 @@
-export default class LessonCache {
+import DB from "./DB";
+
+class LessonCache {
   constructor() {
-    this.commit = this.commit.bind(this);
-    this.getLessonDescr = this.getLessonDescr.bind(this);
-    this.setSavedFlag = this.setSavedFlag.bind(this);
-    var cacheIsSaved = false;
-    this.isMounted = false;
-    this.command = "Play";
+    if (!LessonCache.instance) {
+      this.commit = this.commit.bind(this);
+      this.mountLesson = this.mountLesson.bind(this);
 
-    this.times = [];
+      this.getBpm = this.getBpm.bind(this);
+      this.getCri = this.getCri.bind(this);
+      this.getVisId = this.getVisId.bind(this);
 
-    this.uniqueLessonName = "0";
-    this.instrument = "0";
+      this.payload = {
+        //this payload represents a save file for a lessonn
+        //it is also the existence indicator for this lesson
+
+        //meta
+        uniqueLessonName: "", //shld be instrument unique
+        cri: "Play each minor7....",
+        visId: "sag/fsg/f/sgagrg.jpg",
+        bpm: 0,
+        instrument: "none",
+
+        //one source of truth for every strategy
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+
+        //sometimes a model needs its own cache for efficiency
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+      };
+
+      LessonCache.instance = this;
+    }
+    return LessonCache.instance;
   }
 
   mountLesson(instrument, uniqueLessonName) {
+    if (
+      !(
+        instrument == this.payload.instrument &&
+        uniqueLessonName == this.payload.uniqueLessonName
+      )
+    ) {
+      alert(
+        "mountng instr/name from " +
+          this.payload.instrument +
+          "/" +
+          this.payload.uniqueLessonName +
+          " to " +
+          instrument +
+          "/" +
+          uniqueLessonName
+      );
 
-    if (!this.isMounted || 
-      !(instrument == this.instrument && 
-      uniqueLessonName == this.uniqueLessonName))
-       {
-      this.instrument = instrument;
-      alert("mountng instr/name from " +
-      this.instrument + "/" +
-       this.uniqueLessonName +  " to " + 
-       instrument + "/" +
-       uniqueLessonName)
-
-      this.uniqueLessonName = uniqueLessonName;
-      this.isMounted = true;
+      Object.assign(
+        this.payload,
+        DB.getPayloadByInstrAndLesson(instrument, uniqueLessonName)
+      );
     }
   }
 
   push(diff) {
-    this.setSavedFlag(true);
-
     alert("cache received by DB");
-  }
-
-  setSavedFlag(booleo) {
-    this.isSaved = booleo;
   }
 
   commit(diff) {
     alert("time received by cache");
-    this.setSavedFlag(false);
   }
 
-  getLessonDescr() {
-    return "mounted value";
+  getBpm() {
+    //get these things from db dummy
+    //set them and return
+    return this.payload["bpm"];
   }
+
+  getCri() {
+    //get these things from db dummy
+    //set them and return
+    return this.payload["cri"];
+  }
+
+  getVisId() {
+    //get these things from db dummy
+    //set them and return
+    return this.payload["visId"];
+  }
+
+  //getMins
+  //getAverageByNote(note, window)
 }
 
 //CONTAINING ONLY. DUMPS WHEN TOLD TO. YES BOSS
 //DOESNT KNOW ABOUT PATHS.
 //ONLY KNOWS LESSON META AND OP
+
+const instance = new LessonCache();
+Object.freeze(instance);
+
+export default instance;

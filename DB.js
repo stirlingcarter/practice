@@ -1,28 +1,57 @@
-export default class DB {
-  constructor(note, bpm, cri, visId) {
-    this.note = note;
-    this.bpm = bpm;
-    this.cri = cri;
-    this.visId = visId;
+class DB {
+  constructor() {
+    if (!DB.instance) {
+      this.getPayloadByInstrAndLesson = this.getPayloadByInstrAndLesson.bind(
+        this
+      );
+
+      DB.instance = this;
+    }
+    return DB.instance;
   }
 
-  getHistoryByInstrAndLesson(instrument, lesson) {
+  getPayloadByInstrAndLesson(instrument, uniqueLessonName) {
     let dev = true;
     if (dev) {
-      return [
-        [1424],
-        [1543],
-        [6234],
-        [2346],
-        [2354],
-        [2542],
-        [6234],
-        [2345],
-        [2345],
-        [2345],
-        [2345],
-        [2345],
-      ];
+      return {
+        //this payload represents a save file for a lessonn
+        //it is also the existence indicator for this lesson
+
+        //meta
+        uniqueLessonName: uniqueLessonName, //shld be instrument unique
+        cri: "Play each minor7....",
+        visId: "sag/fsg/f/sgagrg.jpg",
+        bpm: 0,
+        instrument: instrument,
+
+        //one source of truth for every strategy
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+        times_A: [],
+
+        //sometimes a model needs its own cache for efficiency
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+        running_min_A: [],
+      };
     }
     //TODO not sure how typed JS is, may need intermediate vars
 
@@ -53,7 +82,9 @@ export default class DB {
   }
 }
 
+//saves LessonCaches. that's it.
 
+const instance = new DB();
+Object.freeze(instance);
 
-
-//saves LessonCaches. that's it. 
+export default instance;
