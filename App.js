@@ -5,7 +5,6 @@ import { FlatList, Button, Text, View, StyleSheet } from "react-native";
 // You can import from local files
 import { app_styles } from "./styles/styles.js"; //this me
 import HQ from "./HQ";
-import Note from "./note";
 
 // or any pure javascript modules available in npm
 import { Card } from "react-native-paper";
@@ -13,6 +12,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
+
+var HQI = HQ.getInstance();
 
 export default function App() {
   const [stateString, setStateString] = React.useState("inital");
@@ -48,7 +49,7 @@ export default function App() {
 //SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
-  var instrumentNames = HQ.getInstrumentNames();
+  var instrumentNames = HQI.getInstrumentNames();
 
   return (
     <View style={styles1.container}>
@@ -70,9 +71,7 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
-  //HQ.saveLesson()
-
-  var lessons = HQ.getOrderedUniqueLessonNamesByInstr(instrument);
+  var lessons = HQI.getOrderedUniqueLessonNamesByInstr(instrument);
 
   return (
     <View style={styles1.container}>
@@ -90,8 +89,8 @@ function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-  HQ.mountLesson(instrument, lesson);
-  //HQ.getStatsByInstr(instrument)
+  HQI.mountLesson(instrument, lesson);
+  //HQI.getStatsByInstr(instrument)
   return (
     <WholeAssLessonInfo
       instrument={instrument}
@@ -109,7 +108,7 @@ class WholeAssLessonInfo extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{HQ.getCri()}</Text>
+        <Text>{HQI.getCri()}</Text>
         <Button
           title={"start " + this.props.lesson}
           onPress={() =>
@@ -152,28 +151,6 @@ function LessonPreviewsContainer(props) {
   );
 }
 
-class ChallengeCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      //brain blast!!!
-
-      note: HQ.getNextNote(),
-    };
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{this.state.note.getNote()}</Text>
-        <Text>{HQ.getBpm()}</Text>
-        <Text>{HQ.getCri()}</Text>
-        <Text>{HQ.getVisId()}</Text>
-      </View>
-    );
-  }
-}
-
 //  want this to be ininviisiible and cover whole screen TODO
 class WholeAssChallenge extends React.Component {
   constructor(props) {
@@ -184,6 +161,7 @@ class WholeAssChallenge extends React.Component {
       start: 0,
       isOn: false,
       end: 0,
+      note: HQI.getNextNote(),
     };
   }
 
@@ -196,17 +174,18 @@ class WholeAssChallenge extends React.Component {
   }
 
   componentWillUnmount() {
-    HQ.saveLesson();
+    HQI.saveLesson();
   }
   //entered at mount due to state channge
   componentDidUpdate() {
     //not entered at mount due to bool
     if (this.state.isOn == false) {
       let diff = this.state.end - this.state.start;
-      alert(diff);
-      HQ.commit(diff);
+      //alert(diff);
+      HQI.commit(diff);
 
       this.setState({
+        note: HQI.getNextNote(),
         start: Date.now(),
         isOn: true,
         end: this.state.end,
@@ -226,12 +205,18 @@ class WholeAssChallenge extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ChallengeCard />
-
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>{this.state.note}</Text>
+          <Text>{HQI.getBpm()}</Text>
+          <Text>{HQI.getCri()}</Text>
+          <Text>{HQI.getVisId()}</Text>
+        </View>
         <Text>{"\n\n\n\n"}</Text>
 
         <Button
-          title={"DONE, NEXT."}
+          title={"NEXT"}
           onPress={() => this.challengeCallback(this.props.nav)}
         />
       </View>

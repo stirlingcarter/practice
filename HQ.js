@@ -1,46 +1,23 @@
 import * as React from "react";
 
 import DB from "./DB";
-import Note from "./note";
 
 import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
 
-class HQ {
-  constructor() {
-    if (!HQ.instance) {
-      this.mountLesson = this.mountLesson.bind(this);
-      this.getNextNote = this.getNextNote.bind(this);
-      this.commit = this.commit.bind(this);
-      this.getInstrumentNames = this.getInstrumentNames.bind(this);
-      this.getStatsByInstr = this.getStatsByInstr.bind(this);
-      this.getOrderedUniqueLessonNamesByInstr = this.getOrderedUniqueLessonNamesByInstr.bind(
-        this
-      );
+export default class HQ {
+  static instance = null;
 
-      this.getBpm = this.getBpm.bind(this);
-      this.getCri = this.getCri.bind(this);
-      this.getVisId = this.getVisId.bind(this);
-      this.saveLesson = this.saveLesson.bind(this);
+  currentNote = this.getNextNote();
 
-      this.max_min = this.max_min.bind(this);
-      this.average = this.average.bind(this);
-      this.random = this.random.bind(this);
-
-      //lesson configs
-      //Pickers are -functions- that return -notes- using their access to -lessonHistory-.
-      var strategies = ["max_min", "average", "random"];
-      var strategyId = 2;
-      var window = 10;
-      var groupsOf = 3;
-
-      //per challenge
-      this.currentNote = this.getNextNote();
-
-      HQ.instance = this;
+  strategies = ["max_min", "average", "random"];
+  strategyId = 2;
+  static getInstance() {
+    if (HQ.instance == null) {
+      HQ.instance = new HQ();
     }
 
-    return HQ.instance;
+    return this.instance;
   }
 
   mountLesson(instrument, uniqueLessonName) {
@@ -52,13 +29,14 @@ class HQ {
 
   getNextNote() {
     let next = this.getNextNoteByStrategy(this.strategyId);
+    //alert("about to set HQs current note to " + next);
     this.currentNote = next;
 
     return next;
   }
 
   commit(diff) {
-    alert("time received by hq for note " + this.currentNote.getNote());
+    alert("time received by hq for note " + this.currentNote);
     LessonCache.commit(diff, this.currentNote);
   }
 
@@ -102,6 +80,68 @@ class HQ {
     }
   }
 
+  getIntRep(note) {
+    if (note == "A") {
+      return 1;
+    } else if (note == "Bb") {
+      return 2;
+    } else if (note == "B") {
+      return 3;
+    } else if (note == "C") {
+      return 4;
+    } else if (note == "Db") {
+      return 5;
+    } else if (note == "D") {
+      return 6;
+    } else if (note == "Eb") {
+      return 7;
+    } else if (note == "E") {
+      return 8;
+    } else if (note == "F") {
+      return 9;
+    } else if (note == "Gb") {
+      return 10;
+    } else if (note == "G") {
+      return 11;
+    } else {
+      return 12;
+    }
+  }
+
+  getNoteRep(number) {
+    if (number == 1) {
+      return "A";
+    } else if (number == 2) {
+      return "Bb";
+    } else if (number == 3) {
+      return "B";
+    } else if (number == 4) {
+      return "C";
+    } else if (number == 5) {
+      return "Db";
+    } else if (number == 6) {
+      return "D";
+    } else if (number == 7) {
+      return "Eb";
+    } else if (number == 8) {
+      return "E";
+    } else if (number == 9) {
+      return "F";
+    } else if (number == 10) {
+      return "Gb";
+    } else if (number == 11) {
+      return "G";
+    } else {
+      return "Ab";
+    }
+  }
+
+  //put in 12
+  //get 1,2,3....12
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max)) + 1;
+  }
+
   //STRATS --------------------------------------------------------------------------
   max_min() {
     return "A";
@@ -112,17 +152,12 @@ class HQ {
   }
 
   random() {
-    let newNote = new Note("B", 0, "whatever", "aM_pic.jpg");
-    this.currentNote = newNote;
+    let newNote = this.getNoteRep(this.getRandomInt(12));
+    //alert("setting note to " + newNote.getNote())
 
     return newNote;
   }
   //END STRATS --------------------------------------------------------------------------
 }
-
-const instance = new HQ();
-Object.freeze(instance);
-
-export default instance;
 
 //THINKING ONLY. HOLDS ONLY A REF TO CACHE.
