@@ -10,45 +10,12 @@ class LessonCache {
       this.getCri = this.getCri.bind(this);
       this.getVisId = this.getVisId.bind(this);
 
-      this.payload = {
-        //this payload represents a save file for a lessonn
-        //it is also the existence indicator for this lesson
+      this.payload = {};
 
-        //meta
-        uniqueLessonName: "", //shld be instrument unique
-        cri: "Play each minor7....",
-        visId: "sag/fsg/f/sgagrg.jpg",
-        bpm: 0,
-        instrument: "none",
-
-        //one source of truth for every strategy
-        times_A: [],
-        times_Bb: [],
-        times_B: [],
-        times_C: [],
-        times_Db: [],
-        times_D: [],
-        times_Eb: [],
-        times_E: [],
-        times_F: [],
-        times_Gb: [],
-        times_G: [],
-        times_Ab: [],
-
-        //sometimes a model needs its own cache for efficiency
-        running_min_A: [],
-        running_min_Bb: [],
-        running_min_B: [],
-        running_min_C: [],
-        running_min_Db: [],
-        running_min_D: [],
-        running_min_Eb: [],
-        running_min_E: [],
-        running_min_F: [],
-        running_min_Gb: [],
-        running_min_G: [],
-        running_min_Ab: [],
-      };
+      Object.assign(
+        this.payload,
+        DB.getPayloadByInstrAndLesson("none", "none")
+      );
 
       LessonCache.instance = this;
     }

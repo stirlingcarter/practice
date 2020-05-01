@@ -82,9 +82,12 @@ class DB {
   }
 }
 
-//saves LessonCaches. that's it.
-
 const instance = new DB();
 Object.freeze(instance);
 
 export default instance;
+
+//should be called HARD DISK
+
+//HARD DISK.getPayloadByInstr
+//HARD DISK.SAVE
