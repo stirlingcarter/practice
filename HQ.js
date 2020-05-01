@@ -51,11 +51,14 @@ class HQ {
   }
 
   getNextNote() {
-    return this.getNextNoteByStrategy(this.strategyId);
+    let next = this.getNextNoteByStrategy(this.strategyId);
+    this.currentNote = next;
+
+    return next;
   }
 
   commit(diff) {
-    alert("time received by hq for note " + this.currentNote);
+    alert("time received by hq for note " + this.currentNote.getNote());
     LessonCache.commit(diff, this.currentNote);
   }
 
@@ -76,7 +79,7 @@ class HQ {
   getStatsByInstr(instrument) {
     return 1200;
   }
- 
+
   getBpm() {
     return LessonCache.getBpm();
   }
@@ -109,7 +112,7 @@ class HQ {
   }
 
   random() {
-    let newNote = new Note("BB", 0, "whatever", "aM_pic.jpg");
+    let newNote = new Note("B", 0, "whatever", "aM_pic.jpg");
     this.currentNote = newNote;
 
     return newNote;
