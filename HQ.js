@@ -29,7 +29,6 @@ export default class HQ {
 
   getNextNote() {
     let next = this.getNextNoteByStrategy(this.strategyId);
-    //alert("about to set HQs current note to " + next);
     this.currentNote = next;
 
     return next;

@@ -176,6 +176,16 @@ class WholeAssChallenge extends React.Component {
   componentWillUnmount() {
     HQI.saveLesson();
   }
+
+  challengeCallback(nav) {
+    this.setState({
+      isOn: false,
+      end: Date.now(),
+    });
+
+    nav.navigate("LessonChallengeScreen");
+  }
+
   //entered at mount due to state channge
   componentDidUpdate() {
     //not entered at mount due to bool
@@ -191,15 +201,6 @@ class WholeAssChallenge extends React.Component {
         end: this.state.end,
       });
     }
-  }
-
-  challengeCallback(nav) {
-    this.setState({
-      isOn: false,
-      end: Date.now(),
-    });
-
-    nav.navigate("LessonChallengeScreen");
   }
 
   render() {

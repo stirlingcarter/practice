@@ -20,6 +20,7 @@ class LessonCache {
     return LessonCache.instance;
   }
 
+  //HERES WHERE THE PAYLOAD IS ACTUALLY RETRIEVED
   mountLesson(instrument, uniqueLessonName) {
     if (
       !(
@@ -50,10 +51,17 @@ class LessonCache {
   }
 
   commit(diff, note) {
-    //alert("time received by cache");
+    //alert("time saved by cache");
+    //run the update methods
   }
 
-  //THIS GON GET FROM DISK
+  //critical data update
+  updateBasicTimes(diff, note) {}
+
+  //special model data updates
+  updateMAX_MIN_STRAT(diff, note) {}
+
+  //JUST FROM LOCAL MEMORY, ALL THIS JAZZ WILL LIVE NI MOUNT OR MEMBERS
   getPayloadByInstrAndLesson(instrument, uniqueLessonName) {
     let dev = true;
     if (dev) {
