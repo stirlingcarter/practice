@@ -14,8 +14,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
-const HQI = new HQ(); 
-
 export default function App() {
   const [stateString, setStateString] = React.useState("inital");
 
@@ -50,7 +48,7 @@ export default function App() {
 //SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
-  var instrumentNames = HQI.getInstrumentNames();
+  var instrumentNames = HQ.getInstrumentNames();
 
   return (
     <View style={styles1.container}>
@@ -72,8 +70,7 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
-  // load lessonIds from disk. for <insntrument>
-  var lessons = ["lesson1", "lesson2", "3"];
+  var lessons = HQ.getOrderedUniqueLessonNamesByInstr(instrument);
 
   return (
     <View style={styles1.container}>
@@ -86,31 +83,46 @@ function InstrumentScreen({ route, navigation }) {
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
+
+  HQ.mountLesson(instrument, lesson);
   //HQ.getStatsByInstr(instrument)
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>speed increase thus far: 7 MILLIOIN PERCENT</Text>
-      <Button
-        title={"start " + lesson}
-        onPress={() =>
-          navigation.navigate("LessonChallengeScreen", {
-            lesson: lesson,
-            instrument: instrument,
-          })
-        }
-      />
-    </View>
+    <WholeAssLessonInfo
+      instrument={instrument}
+      nav={navigation}
+      lesson={lesson}
+    />
   );
+}
+
+class WholeAssLessonInfo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>{HQ.getLessonDescr()}</Text>
+        <Button
+          title={"start " + this.props.lesson}
+          onPress={() =>
+            this.props.nav.navigate("LessonChallengeScreen", {
+              lesson: this.props.lesson,
+              instrument: this.props.instrument,
+            })
+          }
+        />
+      </View>
+    );
+  }
 }
 
 function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-  HQI.initializeLesson(instrument,lesson)
-
-  let note = new Note("A", 0, "whatever", "aM_pic.jpg");
-  return <WholeAssChallenge note={note} nav={navigation} />;
+  return <WholeAssChallenge nav={navigation} />;
 }
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -137,8 +149,7 @@ class ChallengeCard extends React.Component {
     this.state = {
       //brain blast!!!
 
-    
-      note: HQI.getNextNote(),
+      note: HQ.getNextNote(),
     };
   }
 
@@ -176,7 +187,7 @@ class WholeAssChallenge extends React.Component {
   }
 
   componentWillUnmount() {
-    //HQ.saveLesson()
+    HQ.saveLesson();
   }
   //entered at mount due to state channge
   componentDidUpdate() {
@@ -184,7 +195,7 @@ class WholeAssChallenge extends React.Component {
     if (this.state.isOn == false) {
       let diff = this.state.end - this.state.start;
       alert(diff);
-      HQI.commit(diff)
+      HQ.commit(diff);
 
       this.setState({
         start: Date.now(),

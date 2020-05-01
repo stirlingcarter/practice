@@ -7,14 +7,13 @@ notes by fret
 3. note - string
 4. string - note
 
-notes
-
 scales by note
 5. MAJOR - note - string
-5. MAJOR - string - note
-intervals
+6. MAJOR - string - note
 
-octaves
+intervals by note
+
+octaves 
 tritones
 5ths
 6ths
@@ -23,6 +22,15 @@ tritones
 m3rds
 7ths 
 
+MAJOR TRIADS
+FULL DIM
+
+DOM 7
+MAJ7
+MIN7
+HALF DIM
+#5#9
+#4 
 
 
 memorize
