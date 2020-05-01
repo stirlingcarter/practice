@@ -18,7 +18,6 @@ class HQ {
         this
       );
       this.getLessonDescr = this.getLessonDescr.bind(this);
-      this.setSavedFlag = this.setSavedFlag.bind(this);
       this.saveLesson = this.saveLesson.bind(this);
 
       this.max_min = this.max_min.bind(this);
@@ -29,7 +28,6 @@ class HQ {
 
       //per lesson
       this.cache = new LessonCache();
-      var cacheIsSaved = false;
       //lesson configs
       //Pickers are -functions- that return -notes- using their access to -lessonHistory-.
       var strategies = ["max_min", "average", "random"];
@@ -53,9 +51,7 @@ class HQ {
     this.cache.mountLesson(instrument, uniqueLessonName);
   }
 
-  setSavedFlag(booleo) {
-    this.isSaved = booleo;
-  }
+  
 
   getNextNote() {
     return this.getNextNoteByStrategy(this.strategyId);
@@ -68,7 +64,6 @@ class HQ {
 
   saveLesson() {
     this.cache.push();
-    this.setSavedFlag(true);
   }
 
   getInstrumentNames() {

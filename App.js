@@ -14,6 +14,8 @@ import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
+
+
 export default function App() {
   const [stateString, setStateString] = React.useState("inital");
 
@@ -70,12 +72,14 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
+  //HQ.saveLesson()
+
   var lessons = HQ.getOrderedUniqueLessonNamesByInstr(instrument);
 
   return (
     <View style={styles1.container}>
       <Text>{instrument}</Text>
-      <LessonPreviewsContainer nav={navigation} lessons={lessons} />
+      <LessonPreviewsContainer nav={navigation} lessons={lessons} instrument={instrument} />
     </View>
   );
 }
@@ -84,14 +88,11 @@ function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
+
   HQ.mountLesson(instrument, lesson);
   //HQ.getStatsByInstr(instrument)
   return (
-    <WholeAssLessonInfo
-      instrument={instrument}
-      nav={navigation}
-      lesson={lesson}
-    />
+    <WholeAssLessonInfo instrument={instrument} nav={navigation} lesson={lesson}/>
   );
 }
 
@@ -135,7 +136,7 @@ function LessonPreviewsContainer(props) {
         <Button
           title={item}
           onPress={() =>
-            props.nav.navigate("LessonLaunchScreen", { lesson: item })
+            props.nav.navigate("LessonLaunchScreen", { lesson: item, instrument: props.instrument})
           }
         />
       )}
@@ -187,6 +188,7 @@ class WholeAssChallenge extends React.Component {
   }
 
   componentWillUnmount() {
+    
     HQ.saveLesson();
   }
   //entered at mount due to state channge
@@ -243,3 +245,9 @@ const styles1 = StyleSheet.create({
     height: 44,
   },
 });
+
+
+
+
+
+//SHOWING ONLY. THE EYES, THE FACE.
