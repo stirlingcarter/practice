@@ -76,7 +76,7 @@ class HQ {
   getStatsByInstr(instrument) {
     return 1200;
   }
-
+ 
   getBpm() {
     return LessonCache.getBpm();
   }
