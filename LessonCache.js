@@ -23,31 +23,31 @@ class LessonCache {
 
         //one source of truth for every strategy
         times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
-        times_A: [],
+        times_Bb: [],
+        times_B: [],
+        times_C: [],
+        times_Db: [],
+        times_D: [],
+        times_Eb: [],
+        times_E: [],
+        times_F: [],
+        times_Gb: [],
+        times_G: [],
+        times_Ab: [],
 
         //sometimes a model needs its own cache for efficiency
         running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
-        running_min_A: [],
+        running_min_Bb: [],
+        running_min_B: [],
+        running_min_C: [],
+        running_min_Db: [],
+        running_min_D: [],
+        running_min_Eb: [],
+        running_min_E: [],
+        running_min_F: [],
+        running_min_Gb: [],
+        running_min_G: [],
+        running_min_Ab: [],
       };
 
       LessonCache.instance = this;
@@ -58,15 +58,15 @@ class LessonCache {
   mountLesson(instrument, uniqueLessonName) {
     if (
       !(
-        instrument == this.payload.instrument &&
-        uniqueLessonName == this.payload.uniqueLessonName
+        instrument == this.payload["instrument"] &&
+        uniqueLessonName == this.payload["uniqueLessonName"]
       )
     ) {
       alert(
         "mountng instr/name from " +
-          this.payload.instrument +
+          this.payload["instrument"] +
           "/" +
-          this.payload.uniqueLessonName +
+          this.payload["uniqueLessonName"] +
           " to " +
           instrument +
           "/" +
@@ -84,7 +84,7 @@ class LessonCache {
     alert("cache received by DB");
   }
 
-  commit(diff) {
+  commit(diff, note) {
     alert("time received by cache");
   }
 

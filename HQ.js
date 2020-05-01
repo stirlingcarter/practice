@@ -55,8 +55,8 @@ class HQ {
   }
 
   commit(diff) {
-    alert("time received by hq");
-    LessonCache.commit(diff);
+    alert("time received by hq for note " + this.currentNote);
+    LessonCache.commit(diff, this.currentNote);
   }
 
   saveLesson() {
