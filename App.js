@@ -41,6 +41,11 @@ export default function App() {
           component={LessonChallengeScreen}
           options={{ title: "LessonChallengeScreen" }}
         />
+        <Stack.Screen
+          name="AddLessonScreen"
+          component={AddLessonScreen}
+          options={{ title: "AddLessonScreen" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -100,6 +105,65 @@ function LessonLaunchScreen({ route, navigation }) {
   );
 }
 
+function AddLessonScreen({ navigation }) {
+  var instrumentNames = HQI.getInstrumentNames();
+
+  return (
+    <View style={styles1.container}>
+      <FlatList
+        data={instrumentNames}
+        renderItem={({ item }) => (
+          <Button
+            title={item}
+            onPress={() =>
+              navigation.navigate("InstrumentScreen", { instrument: item })
+            }
+          />
+        )}
+      />
+    </View>
+  );
+}
+
+function LessonChallengeScreen({ route, navigation }) {
+  const { lesson } = route.params;
+  const { instrument } = route.params;
+
+  return <WholeAssChallenge nav={navigation} />;
+}
+
+//COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function LessonPreviewsContainer(props) {
+  return (
+    <>
+      <Button
+        title={"Add Lesson"}
+        onPress={() =>
+          props.nav.navigate("AddLessonScreen", {
+            instrument: props.instrument,
+          })
+        }
+      />
+
+      <FlatList
+        data={props.lessons}
+        renderItem={({ item }) => (
+          <Button
+            title={item}
+            onPress={() =>
+              props.nav.navigate("LessonLaunchScreen", {
+                lesson: item,
+                instrument: props.instrument,
+              })
+            }
+          />
+        )}
+      />
+    </>
+  );
+}
+
 class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -121,34 +185,6 @@ class WholeAssLessonInfo extends React.Component {
       </View>
     );
   }
-}
-
-function LessonChallengeScreen({ route, navigation }) {
-  const { lesson } = route.params;
-  const { instrument } = route.params;
-
-  return <WholeAssChallenge nav={navigation} />;
-}
-
-//COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function LessonPreviewsContainer(props) {
-  return (
-    <FlatList
-      data={props.lessons}
-      renderItem={({ item }) => (
-        <Button
-          title={item}
-          onPress={() =>
-            props.nav.navigate("LessonLaunchScreen", {
-              lesson: item,
-              instrument: props.instrument,
-            })
-          }
-        />
-      )}
-    />
-  );
 }
 
 //  want this to be ininviisiible and cover whole screen TODO

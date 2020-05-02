@@ -5,6 +5,8 @@ import DB from "./DB";
 import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
 
+var LC = LessonCache.getInstance();
+
 export default class HQ {
   static instance = null;
 
@@ -24,7 +26,7 @@ export default class HQ {
     //does this ni and out.
 
     //FOR IN:
-    LessonCache.mountLesson(instrument, uniqueLessonName);
+    LC.mountLesson(instrument, uniqueLessonName);
   }
 
   getNextNote() {
@@ -36,11 +38,11 @@ export default class HQ {
 
   commit(diff) {
     alert("time received by hq for note " + this.currentNote);
-    LessonCache.commit(diff, this.currentNote);
+    LC.commit(diff, this.currentNote);
   }
 
   saveLesson() {
-    LessonCache.push();
+    LC.push();
   }
 
   getInstrumentNames() {
@@ -49,6 +51,12 @@ export default class HQ {
   }
 
   getOrderedUniqueLessonNamesByInstr(instrument) {
+    //FOR THE LESSON LIST
+    //SHOW USER LESSONS FIRST IN ALPHA THEN THE REST BY ORDER OF DOING
+
+    //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
+    //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
+
     var orderedUniqueLessonNames = ["less1", "less2", "less3"];
     return orderedUniqueLessonNames;
   }
@@ -58,15 +66,15 @@ export default class HQ {
   }
 
   getBpm() {
-    return LessonCache.getBpm();
+    return LC.getBpm();
   }
 
   getCri() {
-    return LessonCache.getCri();
+    return LC.getCri();
   }
 
   getVisId() {
-    return LessonCache.getVisId();
+    return LC.getVisId();
   }
 
   getNextNoteByStrategy(strategyId) {
