@@ -1,3 +1,5 @@
+import * as React from "react";
+
 async function retrieveItem(key) {
   try {
     const retrievedItem = await AsyncStorage.getItem(key);
@@ -31,7 +33,7 @@ export default class LessonCache {
     return this.instance;
   }
 
-  payload = this.getPayloadFromDisk("", "");
+  payload = {};
 
   //HERES WHERE THE PAYLOAD IS ACTUALLY RETRIEVED
   mountLesson(instrument, uniqueLessonName) {
@@ -52,10 +54,9 @@ export default class LessonCache {
           uniqueLessonName
       );
 
-      Object.assign(
-        this.payload,
-        this.getPayloadFromDisk(instrument, uniqueLessonName)
-      );
+      this.mountLessonFromDisk(instrument, uniqueLessonName);
+
+      //alert("aft: " + newPayload["instrument"])
     }
   }
 
@@ -177,19 +178,17 @@ export default class LessonCache {
   //this is what happens when a person clicks a lesson.
   //so assumption is this lesson already exists in mem.
 
-  getPayloadFromDisk(instrument, uniqueLessonName) {
-    var prefix = "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/";
-
-    var ans = {
+  async mountLessonFromDisk(instrument, uniqueLessonName) {
+    var nonePayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
 
       //metadata
       instrument: instrument,
       uniqueLessonName: uniqueLessonName, //shld be instrument unique
-      cri: "",
+      cri: "Unable to load this lesson",
       visId: "",
-      bpm: 0,
+      bpm: "",
 
       //one source of truth for every strategy
       times_A: [],
@@ -206,19 +205,20 @@ export default class LessonCache {
       times_Ab: [],
     };
 
-    Object.keys(ans).forEach(function (key) {
-      if (key != instrument && key != uniqueLessonName) {
-        retrieveItem(prefix + key)
-          .then((result) => {
-            ans[key] = result;
-          })
-          .catch((error) => {
-            ans[key] = "";
-          });
-      }
-    });
+    var payloadPath =
+      "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
 
-    return ans;
+    retrieveItem(payloadPath)
+      .then((result) => {
+        if (result == undefined) {
+          Object.assign(this.payload, nonePayload);
+        } else {
+          Object.assign(this.payload, result);
+        }
+      })
+      .catch((error) => {
+        Object.assign(this.payload, nonePayload);
+      });
   }
 
   // INSTRUMENT/LESSON/PAYLOAD.txt
