@@ -1,6 +1,16 @@
 import * as React from "react";
 
-import { FlatList, Button, Text, View, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  Keyboard,
+  ScrollView,
+  TextInput,
+  FlatList,
+  Button,
+  Text,
+  View,
+  StyleSheet,
+} from "react-native";
 
 // You can import from local files
 import { app_styles } from "./styles/styles.js"; //this me
@@ -106,23 +116,7 @@ function LessonLaunchScreen({ route, navigation }) {
 }
 
 function AddLessonScreen({ navigation }) {
-  var instrumentNames = HQI.getInstrumentNames();
-
-  return (
-    <View style={styles1.container}>
-      <FlatList
-        data={instrumentNames}
-        renderItem={({ item }) => (
-          <Button
-            title={item}
-            onPress={() =>
-              navigation.navigate("InstrumentScreen", { instrument: item })
-            }
-          />
-        )}
-      />
-    </View>
-  );
+  return <AddLessonComponent />;
 }
 
 function LessonChallengeScreen({ route, navigation }) {
@@ -133,6 +127,67 @@ function LessonChallengeScreen({ route, navigation }) {
 }
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class AddLessonComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { name: "", cri: "" };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleCriChange = this.handleCriChange.bind(this);
+  }
+
+  handleNameChange(name) {
+    this.setState({ name });
+  }
+
+  handleCriChange(cri) {
+    this.setState({ cri });
+  }
+
+  handleSubmit() {
+    alert("saving name to HQ as " + this.state.name);
+  }
+
+  render() {
+    return (
+      <View style={styles1.container}>
+        <ScrollView>
+          <View style={styles2.inputContainer}>
+            <TextInput
+              style={styles2.textInput}
+              onBlur={Keyboard.dismiss}
+              placeholder="Minor 7 root voicings"
+              maxLength={20}
+              value={this.state.name}
+              onChangeText={this.handleNameChange}
+            />
+            <TextInput
+              style={styles2.textInput}
+              onBlur={Keyboard.dismiss}
+              placeholder="Play every root voicing of <note>minor7"
+              maxLength={20}
+              value={this.state.cri}
+              onChangeText={this.handleCriChange}
+            />
+
+            <View style={styles2.inputContainer}>
+              <TouchableOpacity style={styles2.saveButton}>
+                <Text
+                  style={styles2.saveButtonText}
+                  onPress={this.handleSubmit}
+                >
+                  Save
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+}
 
 function LessonPreviewsContainer(props) {
   return (
@@ -272,6 +327,33 @@ const styles1 = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
+  },
+});
+
+const styles2 = StyleSheet.create({
+  inputContainer: {
+    paddingTop: 15,
+  },
+  textInput: {
+    borderColor: "#CCCCCC",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 50,
+    fontSize: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  saveButton: {
+    borderWidth: 1,
+    borderColor: "#007BFF",
+    backgroundColor: "#007BFF",
+    padding: 15,
+    margin: 5,
+  },
+  saveButtonText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    textAlign: "center",
   },
 });
 
