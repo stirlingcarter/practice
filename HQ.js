@@ -28,6 +28,12 @@ export default class HQ {
     //FOR IN:
     LC.mountLesson(instrument, uniqueLessonName);
   }
+  async mountLessonNames(instrument) {
+    //does this ni and out.
+
+    //FOR IN:
+    LC.mountLessonNames(instrument);
+  }
 
   getNextNote() {
     let next = this.getNextNoteByStrategy(this.strategyId);
@@ -57,8 +63,7 @@ export default class HQ {
     //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
     //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
 
-    var orderedUniqueLessonNames = ["less1", "less2", "less3"];
-    return orderedUniqueLessonNames;
+    return LC.getOrderedUniqueLessonNamesByInstr(instrument);
   }
 
   getStatsByInstr(instrument) {
@@ -85,6 +90,10 @@ export default class HQ {
     } else {
       return this.random();
     }
+  }
+
+  saveNewLesson(instrument, uniqueLessonName, cri) {
+    LC.saveNewLesson(instrument, uniqueLessonName, cri);
   }
 
   getIntRep(note) {

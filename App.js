@@ -86,16 +86,12 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
-  var lessons = HQI.getOrderedUniqueLessonNamesByInstr(instrument);
+  //alert(HQI.getOrderedUniqueLessonNamesByInstr(instrument))
 
   return (
     <View style={styles1.container}>
       <Text>{instrument}</Text>
-      <LessonPreviewsContainer
-        nav={navigation}
-        lessons={lessons}
-        instrument={instrument}
-      />
+      <LessonPreviewsContainer nav={navigation} instrument={instrument} />
     </View>
   );
 }
@@ -115,8 +111,10 @@ function LessonLaunchScreen({ route, navigation }) {
   );
 }
 
-function AddLessonScreen({ navigation }) {
-  return <AddLessonComponent />;
+function AddLessonScreen({ route, navigation }) {
+  const { instrument } = route.params;
+
+  return <AddLessonComponent instrument={instrument} />;
 }
 
 function LessonChallengeScreen({ route, navigation }) {
@@ -147,7 +145,7 @@ class AddLessonComponent extends React.Component {
   }
 
   handleSubmit() {
-    alert("saving name to HQ as " + this.state.name);
+    HQI.saveNewLesson(this.props.instrument, this.state.name, this.state.cri);
   }
 
   render() {
@@ -189,34 +187,51 @@ class AddLessonComponent extends React.Component {
   }
 }
 
-function LessonPreviewsContainer(props) {
-  return (
-    <>
-      <Button
-        title={"Add Lesson"}
-        onPress={() =>
-          props.nav.navigate("AddLessonScreen", {
-            instrument: props.instrument,
-          })
-        }
-      />
+class LessonPreviewsContainer extends React.Component {
+  constructor(props) {
+    super(props);
 
-      <FlatList
-        data={props.lessons}
-        renderItem={({ item }) => (
-          <Button
-            title={item}
-            onPress={() =>
-              props.nav.navigate("LessonLaunchScreen", {
-                lesson: item,
-                instrument: props.instrument,
-              })
-            }
-          />
-        )}
-      />
-    </>
-  );
+    this.state = { lessons: [] };
+
+    const getLessonNames = async () => {
+      const result = await HQI.mountLessonNames();
+      this.setState({
+        lessons: HQI.getOrderedUniqueLessonNamesByInstr(this.props.instrument),
+      });
+    };
+
+    getLessonNames();
+  }
+
+  render() {
+    return (
+      <>
+        <Button
+          title={"Add Lesson"}
+          onPress={() =>
+            this.props.nav.navigate("AddLessonScreen", {
+              instrument: this.props.instrument,
+            })
+          }
+        />
+
+        <FlatList
+          data={this.state.lessons}
+          renderItem={({ item }) => (
+            <Button
+              title={item}
+              onPress={() =>
+                this.props.nav.navigate("LessonLaunchScreen", {
+                  lesson: item,
+                  instrument: this.props.instrument,
+                })
+              }
+            />
+          )}
+        />
+      </>
+    );
+  }
 }
 
 class WholeAssLessonInfo extends React.Component {

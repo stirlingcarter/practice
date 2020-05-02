@@ -1,6 +1,9 @@
 import * as React from "react";
+import { TouchableHighlightBase } from "react-native";
 
 async function retrieveItem(key) {
+  //alert("gettinig for " + key)
+
   try {
     const retrievedItem = await AsyncStorage.getItem(key);
     const item = JSON.parse(retrievedItem);
@@ -12,6 +15,7 @@ async function retrieveItem(key) {
 }
 
 async function storeItem(key, item) {
+  alert("savinig for " + key);
   try {
     //we want to wait for the Promise returned by AsyncStorage.setItem()
     //to be resolved to the actual value before returning the value
@@ -34,8 +38,8 @@ export default class LessonCache {
   }
 
   payload = {};
+  lessonNames = [];
 
-  //HERES WHERE THE PAYLOAD IS ACTUALLY RETRIEVED
   mountLesson(instrument, uniqueLessonName) {
     if (
       !(
@@ -55,9 +59,11 @@ export default class LessonCache {
       );
 
       this.mountLessonFromDisk(instrument, uniqueLessonName);
-
-      //alert("aft: " + newPayload["instrument"])
     }
+  }
+
+  mountLessonNames(instrument, callback) {
+    this.mountLessonNamesFromDisk(instrument, callback);
   }
 
   push(diff) {
@@ -219,6 +225,65 @@ export default class LessonCache {
       .catch((error) => {
         Object.assign(this.payload, nonePayload);
       });
+  }
+
+  async mountLessonNamesFromDisk(instrument) {
+    var payloadPath = instrument + "/meta/lessons";
+    var def = ["defaultLesson1"];
+
+    retrieveItem(payloadPath)
+      .then((result) => {
+        if (result == undefined) {
+          Object.assign(this.lessonNames, def);
+        } else {
+          Object.assign(this.lessonNames, result);
+        }
+      })
+      .catch((error) => {
+        Object.assign(this.lessonNames, def);
+      });
+  }
+
+  saveNewLesson(instrument, uniqueLessonName, cri) {
+    var blankPayload = {
+      //this payload represents a save file for a "lessonn
+      //it is also the existence indicator for this lesson
+
+      //metadata
+      instrument: instrument,
+      uniqueLessonName: uniqueLessonName, //shld be instrument unique
+      cri: cri,
+      visId: "",
+      bpm: "",
+
+      //one source of truth for every strategy
+      times_A: [],
+      times_Bb: [],
+      times_B: [],
+      times_C: [],
+      times_Db: [],
+      times_D: [],
+      times_Eb: [],
+      times_E: [],
+      times_F: [],
+      times_Gb: [],
+      times_G: [],
+      times_Ab: [],
+    };
+
+    var payloadPath =
+      "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
+
+    //alert("saving name to HQ");
+    storeItem(payloadPath, blankPayload);
+
+    var path = instrument + "/meta/lessons";
+    this.lessonNames.push(uniqueLessonName);
+    storeItem(path, this.lessonNames);
+  }
+
+  getOrderedUniqueLessonNamesByInstr(instrument) {
+    return this.lessonNames;
   }
 
   // INSTRUMENT/LESSON/PAYLOAD.txt
