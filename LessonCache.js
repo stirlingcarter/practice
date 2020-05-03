@@ -1,11 +1,32 @@
 import * as React from "react";
 import { TouchableHighlightBase } from "react-native";
+import { AsyncStorage } from "react-native";
+
+// _storeData = async () => {
+//   try {
+//     await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+//   } catch (error) {
+//     // Error saving data
+//   }
+// };
+
+// _retrieveData = async () => {
+//   try {
+//     const value = await AsyncStorage.getItem('TASKS');
+//     if (value !== null) {
+//       // We have data!!
+//       alert(value);
+//     }
+//   } catch (error) {
+//     alert("nada")      }
+// };
 
 async function retrieveItem(key) {
-  //alert("gettinig for " + key)
+  // alert("gettinig for " + key)
 
   try {
     const retrievedItem = await AsyncStorage.getItem(key);
+    alert(JSON.parse(retrievedItem))
     const item = JSON.parse(retrievedItem);
     return item;
   } catch (error) {
@@ -15,7 +36,7 @@ async function retrieveItem(key) {
 }
 
 async function storeItem(key, item) {
-  alert("savinig for " + key);
+  //alert("savinig for " + key);
   try {
     //we want to wait for the Promise returned by AsyncStorage.setItem()
     //to be resolved to the actual value before returning the value
@@ -61,7 +82,9 @@ export default class LessonCache {
       this.mountLessonFromDisk(instrument, uniqueLessonName);
     }
   }
-
+  unmountAnyLessonNames() {
+    this.lessonNames = [];
+  }
   mountLessonNames(instrument, callback) {
     this.mountLessonNamesFromDisk(instrument, callback);
   }
@@ -244,7 +267,7 @@ export default class LessonCache {
       });
   }
 
-  saveNewLesson(instrument, uniqueLessonName, cri) {
+  async saveNewLesson(instrument, uniqueLessonName, cri) {
     var blankPayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -279,7 +302,15 @@ export default class LessonCache {
 
     var path = instrument + "/meta/lessons";
     this.lessonNames.push(uniqueLessonName);
-    storeItem(path, this.lessonNames);
+
+    //alert(this.lessonNames)
+    storeItem(path, this.lessonNames).then(retrieveItem())
+  }
+
+  async getLessonNamesByInstrument(instrument) {
+    var path = instrument + "/meta/lessons";
+    let lessons = await retrieveItem(path);
+    return lessons;
   }
 
   getOrderedUniqueLessonNamesByInstr(instrument) {

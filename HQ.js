@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import DB from "./DB";
+import { AsyncStorage } from "react-native";
 
 import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
@@ -22,18 +23,27 @@ export default class HQ {
     return this.instance;
   }
 
+  async getLessonNamesByInstrument(instrument) {
+    var lessons = await LC.getLessonNamesByInstrument(instrument);
+
+    return lessons;
+  }
+
   mountLesson(instrument, uniqueLessonName) {
     //does this ni and out.
 
     //FOR IN:
     LC.mountLesson(instrument, uniqueLessonName);
   }
-  
+  unmountAnyLessonNames() {
+    LC.unmountAnyLessonNames();
+  }
+
   async mountLessonNames(instrument) {
     //does this ni and out.
 
     //FOR IN:
-    LC.mountLessonNames(instrument);
+    return LC.mountLessonNames(instrument);
   }
 
   getNextNote() {
@@ -93,8 +103,8 @@ export default class HQ {
     }
   }
 
-  saveNewLesson(instrument, uniqueLessonName, cri) {
-    LC.saveNewLesson(instrument, uniqueLessonName, cri);
+  async saveNewLesson(instrument, uniqueLessonName, cri) {
+    await LC.saveNewLesson(instrument, uniqueLessonName, cri);
   }
 
   getIntRep(note) {

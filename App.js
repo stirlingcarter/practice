@@ -20,7 +20,7 @@ import HQ from "./HQ";
 import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { AsyncStorage } from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -87,8 +87,6 @@ function HomeScreen({ navigation }) {
 function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
-  //alert(HQI.getOrderedUniqueLessonNamesByInstr(instrument))
-
   return (
     <View style={styles1.container}>
       <Text>{instrument}</Text>
@@ -147,8 +145,18 @@ class AddLessonComponent extends React.Component {
   }
 
   handleSubmit() {
-    HQI.saveNewLesson(this.props.instrument, this.state.name, this.state.cri);
-    this.props.cb()
+    const save = async () => {
+      try {
+        await HQI.saveNewLesson(
+          this.props.instrument,
+          this.state.name,
+          this.state.cri
+        );
+        await this.props.cb();
+      } catch (error) {}
+    };
+
+    save();
   }
 
   render() {
@@ -194,42 +202,31 @@ class LessonPreviewsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.getLessonNames = this.getLessonNames.bind(this);
-    this.callback = this.callback.bind(this);
 
     this.state = { lessons: [] };
-
-   
-
-
-    this.getLessonNames();
-
-
-
-
   }
 
-  async getLessonNames () {
-    const result = await HQI.mountLessonNames();
+  componentDidMount() {
+    this.getLessonNames();
+  }
+
+  async getLessonNames() {
+    var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
+
     this.setState({
-      lessons: HQI.getOrderedUniqueLessonNamesByInstr(this.props.instrument),
-    });}
-
-
-    callback () {
-      alert("wof")
-      this.getLessonNames();
-    }
+      lessons: lessons,
+    });
+  }
 
   render() {
     return (
       <>
-
         <Button
           title={"Add Lesson"}
           onPress={() =>
             this.props.nav.navigate("AddLessonScreen", {
               instrument: this.props.instrument,
-              cb : this.callback
+              cb: this.getLessonNames,
             })
           }
         />
