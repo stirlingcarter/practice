@@ -26,7 +26,7 @@ async function retrieveItem(key) {
 
   try {
     const retrievedItem = await AsyncStorage.getItem(key);
-    alert(JSON.parse(retrievedItem))
+    //alert(JSON.parse(retrievedItem));
     const item = JSON.parse(retrievedItem);
     return item;
   } catch (error) {
@@ -301,15 +301,20 @@ export default class LessonCache {
     storeItem(payloadPath, blankPayload);
 
     var path = instrument + "/meta/lessons";
+
+    this.lessonNames = await this.getLessonNamesByInstrument(instrument);
     this.lessonNames.push(uniqueLessonName);
 
     //alert(this.lessonNames)
-    storeItem(path, this.lessonNames).then(retrieveItem())
+    storeItem(path, this.lessonNames).then((this.lessonNames = []));
   }
 
   async getLessonNamesByInstrument(instrument) {
     var path = instrument + "/meta/lessons";
     let lessons = await retrieveItem(path);
+    if (lessons == null) {
+      return [];
+    }
     return lessons;
   }
 
