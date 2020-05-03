@@ -35,6 +35,18 @@ async function retrieveItem(key) {
   return;
 }
 
+async function destroyItem(key) {
+  // alert("gettinig for " + key)
+
+  try {
+    await AsyncStorage.removeItem(key);
+    const retrievedItem = await AsyncStorage.getItem(key);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 async function storeItem(key, item) {
   //alert("savinig for " + key);
   try {
@@ -114,11 +126,21 @@ export default class LessonCache {
     alert(this.payload[timeArrayKey]);
   }
 
-  //critical data update
-  updateBasicTimes(diff, note) {}
+  async deleteLesson(instrument, uniqueLessonName, cb) {
+    var payloadPath =
+      "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
 
-  //special model data updates
-  updateMAX_MIN_STRAT(diff, note) {}
+    destroyItem(payloadPath);
+
+    var path = instrument + "/meta/lessons";
+
+    this.lessonNames = await this.getLessonNamesByInstrument(instrument);
+
+    this.lessonNames = this.lessonNames.filter((e) => e !== uniqueLessonName);
+
+    await storeItem(path, this.lessonNames);
+    cb();
+  }
 
   getBpm() {
     //get these things from db dummy

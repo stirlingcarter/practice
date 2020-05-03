@@ -10,17 +10,20 @@ import {
   Text,
   View,
   StyleSheet,
+  TouchableHighlight,
 } from "react-native";
 
 // You can import from local files
 import { app_styles } from "./styles/styles.js"; //this me
 import HQ from "./HQ";
+import { render } from "react-dom";
 
 // or any pure javascript modules available in npm
 import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
+import Swipeable from "react-native-swipeable-row";
 
 const Stack = createStackNavigator();
 
@@ -90,7 +93,7 @@ function InstrumentScreen({ route, navigation }) {
   return (
     <View style={styles1.container}>
       <Text>{instrument}</Text>
-      <LessonPreviewsContainer nav={navigation} instrument={instrument} />
+      <BetterLessonPreviewsContainer nav={navigation} instrument={instrument} />
     </View>
   );
 }
@@ -250,6 +253,108 @@ class LessonPreviewsContainer extends React.Component {
   }
 }
 
+class BetterLessonPreviewsContainer extends React.Component {
+  constructor(props) {
+    super(props); //this.props.num = 1;
+
+    this.getLessonNames = this.getLessonNames.bind(this);
+
+    this.state = { lessons: [], currentlyOpenSwipeable: null };
+  }
+
+  componentDidMount() {
+    this.getLessonNames();
+  }
+
+  async getLessonNames() {
+    var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
+    this.setState({
+      lessons: lessons,
+    });
+  }
+
+  render() {
+    const itemProps = {
+      onOpen: (event, gestureState, swipeable) => {
+        if (
+          this.state.currentlyOpenSwipeable &&
+          this.state.currentlyOpenSwipeable !== swipeable
+        ) {
+          this.state.currentlyOpenSwipeable.recenter();
+        }
+
+        this.setState({ currentlyOpenSwipeable: swipeable });
+      },
+      onClose: () => this.setState({ currentlyOpenSwipeable: null }),
+    };
+    //this.num = 1;
+    //const data = this.state.lessons.map( x => { this.getMap(x)})
+
+    const leftContent = <Text>Pull to activate</Text>;
+
+    const rightButtons = [
+      <TouchableHighlight>
+        <Button
+          title={"Delete                                      "}
+          style="position: absolute; left: 0;"
+          onPress={() => (t = 3)}
+        />
+      </TouchableHighlight>,
+    ];
+    return (
+      <>
+        <Button
+          title={"Add Lesson"}
+          onPress={() =>
+            this.props.nav.navigate("AddLessonScreen", {
+              instrument: this.props.instrument,
+              cb: this.getLessonNames,
+            })
+          }
+        />
+
+        <FlatList
+          data={this.state.lessons}
+          renderItem={({ item }) => (
+            <Swipeable
+              rightButtons={[
+                <TouchableOpacity
+                  onPress={async () => {
+                    await HQI.deleteLesson(
+                      this.props.instrument,
+                      item,
+                      this.getLessonNames
+                    );
+                  }}
+                  style={[
+                    styles3.rightSwipeItem,
+                    { backgroundColor: "lightseagreen" },
+                  ]}
+                >
+                  <Text>Delete</Text>
+                </TouchableOpacity>,
+              ]}
+              onRightButtonsOpenRelease={itemProps.onOpen}
+              onRightButtonsCloseRelease={itemProps.onClose}
+            >
+              <View style={[styles3.listItem, { backgroundColor: "salmon" }]}>
+                <Button
+                  title={item}
+                  onPress={() =>
+                    this.props.nav.navigate("LessonLaunchScreen", {
+                      lesson: item,
+                      instrument: this.props.instrument,
+                    })
+                  }
+                />
+              </View>
+            </Swipeable>
+          )}
+        />
+      </>
+    );
+  }
+}
 class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -389,3 +494,25 @@ const styles2 = StyleSheet.create({
 });
 
 //SHOWING ONLY. THE EYES, THE FACE.
+const styles3 = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,
+  },
+  listItem: {
+    height: 75,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  leftSwipeItem: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingRight: 20,
+  },
+  rightSwipeItem: {
+    flex: 1,
+    justifyContent: "center",
+    paddingLeft: 20,
+  },
+});

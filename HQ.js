@@ -57,6 +57,10 @@ export default class HQ {
     LC.commit(diff, this.currentNote);
   }
 
+  async deleteLesson(instrument, uniqueLessonName, cb) {
+    await LC.deleteLesson(instrument, uniqueLessonName, cb);
+  }
+
   saveLesson() {
     LC.push();
   }
