@@ -21,6 +21,7 @@ import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
+
 const Stack = createStackNavigator();
 
 var HQI = HQ.getInstance();
@@ -113,8 +114,9 @@ function LessonLaunchScreen({ route, navigation }) {
 
 function AddLessonScreen({ route, navigation }) {
   const { instrument } = route.params;
+  const { cb } = route.params;
 
-  return <AddLessonComponent instrument={instrument} />;
+  return <AddLessonComponent instrument={instrument} cb={cb} />;
 }
 
 function LessonChallengeScreen({ route, navigation }) {
@@ -146,6 +148,7 @@ class AddLessonComponent extends React.Component {
 
   handleSubmit() {
     HQI.saveNewLesson(this.props.instrument, this.state.name, this.state.cri);
+    this.props.cb()
   }
 
   render() {
@@ -190,27 +193,43 @@ class AddLessonComponent extends React.Component {
 class LessonPreviewsContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.getLessonNames = this.getLessonNames.bind(this);
+    this.callback = this.callback.bind(this);
 
     this.state = { lessons: [] };
 
-    const getLessonNames = async () => {
-      const result = await HQI.mountLessonNames();
-      this.setState({
-        lessons: HQI.getOrderedUniqueLessonNamesByInstr(this.props.instrument),
-      });
-    };
+   
 
-    getLessonNames();
+
+    this.getLessonNames();
+
+
+
+
   }
+
+  async getLessonNames () {
+    const result = await HQI.mountLessonNames();
+    this.setState({
+      lessons: HQI.getOrderedUniqueLessonNamesByInstr(this.props.instrument),
+    });}
+
+
+    callback () {
+      alert("wof")
+      this.getLessonNames();
+    }
 
   render() {
     return (
       <>
+
         <Button
           title={"Add Lesson"}
           onPress={() =>
             this.props.nav.navigate("AddLessonScreen", {
               instrument: this.props.instrument,
+              cb : this.callback
             })
           }
         />
