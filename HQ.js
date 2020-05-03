@@ -54,7 +54,6 @@ export default class HQ {
   }
 
   commit(diff) {
-    alert("time received by hq for note " + this.currentNote);
     LC.commit(diff, this.currentNote);
   }
 

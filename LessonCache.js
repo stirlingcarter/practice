@@ -89,13 +89,29 @@ export default class LessonCache {
     this.mountLessonNamesFromDisk(instrument, callback);
   }
 
-  push(diff) {
-    alert("cache received by DB");
+  push() {
+    var payloadPath =
+      "lessonPayloads/" +
+      this.payload["instrument"] +
+      "/" +
+      this.payload["uniqueLessonName"] +
+      "/payload";
+    storeItem(payloadPath, this.payload).then(alert("payload rec. by async"));
   }
 
   commit(diff, note) {
-    //alert("time saved by cache");
-    //run the update methods
+    let timeArrayKey = "times_" + note;
+
+    //this.payload[timeArrayKey].push(diff)
+
+    // if (Array.isArray(this.payload[timeArrayKey])){
+    //   this.payload[timeArrayKey] = [diff]
+    //   alert(this.payload[timeArrayKey]);
+    // }
+
+    this.payload[timeArrayKey].push(diff);
+
+    alert(this.payload[timeArrayKey]);
   }
 
   //critical data update
