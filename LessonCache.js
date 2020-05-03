@@ -307,6 +307,7 @@ export default class LessonCache {
 
     //alert(this.lessonNames)
     storeItem(path, this.lessonNames).then((this.lessonNames = []));
+    alert("saved");
   }
 
   async getLessonNamesByInstrument(instrument) {

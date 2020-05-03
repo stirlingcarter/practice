@@ -168,7 +168,7 @@ class AddLessonComponent extends React.Component {
               style={styles2.textInput}
               onBlur={Keyboard.dismiss}
               placeholder="Minor 7 root voicings"
-              maxLength={20}
+              maxLength={200}
               value={this.state.name}
               onChangeText={this.handleNameChange}
             />
@@ -176,7 +176,7 @@ class AddLessonComponent extends React.Component {
               style={styles2.textInput}
               onBlur={Keyboard.dismiss}
               placeholder="Play every root voicing of <note>minor7"
-              maxLength={20}
+              maxLength={200}
               value={this.state.cri}
               onChangeText={this.handleCriChange}
             />
