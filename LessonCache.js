@@ -123,7 +123,7 @@ export default class LessonCache {
 
     this.payload[timeArrayKey].push(diff);
 
-    alert(this.payload[timeArrayKey]);
+    //alert(this.payload[timeArrayKey]);
   }
 
   async deleteLesson(instrument, uniqueLessonName, cb) {
@@ -158,6 +158,54 @@ export default class LessonCache {
     //get these things from db dummy
     //set them and return
     return this.payload["visId"];
+  }
+
+  getIntRepWithSlowestAve(window) {
+    let keys = [
+      "times_A",
+      "times_Bb",
+      "times_B",
+      "times_C",
+      "times_Db",
+      "times_D",
+      "times_Eb",
+      "times_E",
+      "times_F",
+      "times_Gb",
+      "times_G",
+      "times_Ab",
+    ];
+    let averages = [];
+    keys.forEach((key) => {
+      let ave = 0;
+      let len = this.payload[key].length;
+      for (let i = 0; i < window && i < len; i++) {
+        let index = len - 1 - i;
+        ave += this.payload[key][index];
+      }
+
+      let d = window;
+      if (len < window) {
+        d = len;
+      }
+
+      averages.push(ave / d);
+    });
+    //alert(averages)
+
+    let ind = 0;
+    let max = averages[0];
+    for (let i = 1; i < 12; i++) {
+      if (averages[i] > max) {
+        ind = i;
+        max = averages[i];
+      } else if (isNaN(averages[i])) {
+        // alert(i)
+        return i + 1;
+      }
+    }
+
+    return ind + 1;
   }
 
   //getMins

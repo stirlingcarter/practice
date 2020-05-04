@@ -14,7 +14,7 @@ export default class HQ {
   currentNote = this.getNextNote();
 
   strategies = ["max_min", "average", "random"];
-  strategyId = 2;
+  strategyId = 1;
   static getInstance() {
     if (HQ.instance == null) {
       HQ.instance = new HQ();
@@ -178,7 +178,7 @@ export default class HQ {
   }
 
   average() {
-    return "B";
+    return this.getNoteRep(LC.getIntRepWithSlowestAve(10));
   }
 
   random() {
