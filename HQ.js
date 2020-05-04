@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import DB from "./DB";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, TouchableHighlightBase } from "react-native";
 
 import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
@@ -13,6 +13,7 @@ export default class HQ {
 
   currentNote = this.getNextNote();
 
+  prevNote = 13;
   strategies = ["max_min", "average", "random"];
   strategyId = 1;
   static getInstance() {
@@ -178,11 +179,23 @@ export default class HQ {
   }
 
   average() {
-    return this.getNoteRep(LC.getIntRepWithSlowestAve(10));
+    let next = LC.getIntRepWithSlowestAve(10);
+    if (next != this.prevNote) {
+      this.prevNote = next;
+      return this.getNoteRep(next);
+    } else {
+      return this.random();
+    }
   }
 
   random() {
     let newNote = this.getNoteRep(this.getRandomInt(12));
+
+    while (newNote == this.prevNote) {
+      newNote = this.getNoteRep(this.getRandomInt(12));
+    }
+
+    this.prevNote = newNote;
     //alert("setting note to " + newNote.getNote())
 
     return newNote;
