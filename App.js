@@ -314,67 +314,72 @@ class BetterLessonPreviewsContainer extends React.Component {
     ];
     return (
       <>
-        <View style={noteStyle.instrumentScreenBackground}>
-          <Text
-            onPress={() =>
-              this.props.nav.navigate("AddLessonScreen", {
-                instrument: this.props.instrument,
-                cb: this.getLessonNames,
-              })
-            }
-            style={noteStyle.saveButton3}
-          >
-            {this.props.instrument}
-          </Text>
-          <Text
-            onPress={() =>
-              this.props.nav.navigate("AddLessonScreen", {
-                instrument: this.props.instrument,
-                cb: this.getLessonNames,
-              })
-            }
-            style={noteStyle.saveButton4}
-          >
-            {"tap here to add lessons.\n"}
-          </Text>
+        <SafeAreaView>
+          <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
+            <Text
+              onPress={() =>
+                this.props.nav.navigate("AddLessonScreen", {
+                  instrument: this.props.instrument,
+                  cb: this.getLessonNames,
+                })
+              }
+              style={noteStyle.saveButton3}
+            >
+              {this.props.instrument}
+            </Text>
+            <Text
+              onPress={() =>
+                this.props.nav.navigate("AddLessonScreen", {
+                  instrument: this.props.instrument,
+                  cb: this.getLessonNames,
+                })
+              }
+              style={noteStyle.saveButton4}
+            >
+              {"tap here to add lessons.\n"}
+            </Text>
 
-          <FlatList
-            data={this.state.lessons}
-            renderItem={({ item }) => (
-              <Swipeable
-                rightButtons={[
-                  <TouchableOpacity
-                    onPress={async () => {
-                      await HQI.deleteLesson(
-                        this.props.instrument,
-                        item,
-                        this.getLessonNames
-                      );
-                    }}
-                    style={[styles3.rightSwipeItem, { backgroundColor: "red" }]}
-                  >
-                    <Text></Text>
-                  </TouchableOpacity>,
-                ]}
-                onRightButtonsOpenRelease={itemProps.onOpen}
-                onRightButtonsCloseRelease={itemProps.onClose}
-              >
-                <Text
-                  onPress={() =>
-                    this.props.nav.navigate("LessonLaunchScreen", {
-                      lesson: item,
-                      instrument: this.props.instrument,
-                    })
-                  }
-                  style={noteStyle.lessonOption}
+            <FlatList
+              data={this.state.lessons}
+              renderItem={({ item }) => (
+                <Swipeable
+                  rightButtons={[
+                    <TouchableOpacity
+                      onPress={async () => {
+                        await HQI.deleteLesson(
+                          this.props.instrument,
+                          item,
+                          this.getLessonNames
+                        );
+                      }}
+                      style={[
+                        styles3.rightSwipeItem,
+                        { backgroundColor: "red" },
+                      ]}
+                    >
+                      <Text></Text>
+                    </TouchableOpacity>,
+                  ]}
+                  onRightButtonsOpenRelease={itemProps.onOpen}
+                  onRightButtonsCloseRelease={itemProps.onClose}
                 >
-                  {item}
-                </Text>
-              </Swipeable>
-            )}
-          />
-          <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
-        </View>
+                  <Text
+                    onPress={() =>
+                      this.props.nav.navigate("LessonLaunchScreen", {
+                        lesson: item,
+                        instrument: this.props.instrument,
+                      })
+                    }
+                    style={noteStyle.lessonOption}
+                  >
+                    {item}
+                  </Text>
+                </Swipeable>
+              )}
+            />
+            <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
+          </ScrollView>
+        </SafeAreaView>
       </>
     );
   }
@@ -416,9 +421,10 @@ class WholeAssLessonInfo extends React.Component {
               })
             }
           >
-            {"START"}
+            {"\n\n\nSTART"}
           </Text>
         </ScrollView>
+        <Text style={noteStyle.lessonInfoScreenSpacer}>{"\n"}</Text>
       </SafeAreaView>
     );
   }
@@ -558,6 +564,15 @@ const noteStyle = StyleSheet.create({
     fontSize: 25,
     fontStyle: "italic",
     fontWeight: "bold",
+  },
+  lessonInfoScreenSpacer: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 300,
   },
 
   instrumentNames: {
