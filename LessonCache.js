@@ -80,16 +80,16 @@ export default class LessonCache {
         uniqueLessonName == this.payload["uniqueLessonName"]
       )
     ) {
-      alert(
-        "mountng instr/name from " +
-          this.payload["instrument"] +
-          "/" +
-          this.payload["uniqueLessonName"] +
-          " to " +
-          instrument +
-          "/" +
-          uniqueLessonName
-      );
+      // alert(
+      //   "mountng instr/name from " +
+      //     this.payload["instrument"] +
+      //     "/" +
+      //     this.payload["uniqueLessonName"] +
+      //     " to " +
+      //     instrument +
+      //     "/" +
+      //     uniqueLessonName
+      // );
 
       this.mountLessonFromDisk(instrument, uniqueLessonName);
     }
@@ -108,7 +108,7 @@ export default class LessonCache {
       "/" +
       this.payload["uniqueLessonName"] +
       "/payload";
-    storeItem(payloadPath, this.payload).then(alert("payload rec. by async"));
+    storeItem(payloadPath, this.payload);
   }
 
   commit(diff, note) {
