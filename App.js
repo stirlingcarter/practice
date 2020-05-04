@@ -71,18 +71,34 @@ function HomeScreen({ navigation }) {
   var instrumentNames = HQI.getInstrumentNames();
 
   return (
-    <View style={styles1.container}>
+    <View>
+      <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
+
       <FlatList
         data={instrumentNames}
         renderItem={({ item }) => (
-          <Button
-            title={item}
-            onPress={() =>
-              navigation.navigate("InstrumentScreen", { instrument: item })
-            }
-          />
+          <>
+            <Text
+              onPress={() =>
+                navigation.navigate("InstrumentScreen", { instrument: item })
+              }
+              style={noteStyle.instrumentNames}
+            >
+              {item + "\n"}
+            </Text>
+            <Text
+              onPress={() =>
+                navigation.navigate("InstrumentScreen", { instrument: item })
+              }
+              style={noteStyle.homescreenSpacer2}
+            >
+              {"\n"}
+            </Text>
+          </>
         )}
       />
+
+      <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
     </View>
   );
 }
@@ -91,8 +107,7 @@ function InstrumentScreen({ route, navigation }) {
   const { instrument } = route.params;
 
   return (
-    <View style={styles1.container}>
-      <Text>{instrument}</Text>
+    <View>
       <BetterLessonPreviewsContainer nav={navigation} instrument={instrument} />
     </View>
   );
@@ -164,36 +179,35 @@ class AddLessonComponent extends React.Component {
 
   render() {
     return (
-      <View style={styles1.container}>
+      <View>
         <ScrollView>
-          <View style={styles2.inputContainer}>
+          <View>
             <TextInput
-              style={styles2.textInput}
+              style={noteStyle.saveButton}
               onBlur={Keyboard.dismiss}
-              placeholder="Minor 7 root voicings"
+              placeholder="Title"
               maxLength={200}
               value={this.state.name}
               onChangeText={this.handleNameChange}
             />
+            <Text style={noteStyle.saveScreenSpacer}>{"\n"}</Text>
             <TextInput
-              style={styles2.textInput}
+              style={noteStyle.saveButton5}
               onBlur={Keyboard.dismiss}
-              placeholder="Play every root voicing of <note>minor7"
-              maxLength={200}
+              placeholder="Description"
+              numberOfLines={2}
+              multiline={true}
               value={this.state.cri}
               onChangeText={this.handleCriChange}
             />
 
-            <View style={styles2.inputContainer}>
-              <TouchableOpacity style={styles2.saveButton}>
-                <Text
-                  style={styles2.saveButtonText}
-                  onPress={this.handleSubmit}
-                >
-                  Save
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Text
+              style={noteStyle.saveLessonButton}
+              onPress={this.handleSubmit}
+              onChangeText={this.handleNameChange}
+            >
+              {"save"}
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -303,54 +317,69 @@ class BetterLessonPreviewsContainer extends React.Component {
     ];
     return (
       <>
-        <Button
-          title={"Add Lesson"}
-          onPress={() =>
-            this.props.nav.navigate("AddLessonScreen", {
-              instrument: this.props.instrument,
-              cb: this.getLessonNames,
-            })
-          }
-        />
+        <View>
+          <Text
+            onPress={() =>
+              this.props.nav.navigate("AddLessonScreen", {
+                instrument: this.props.instrument,
+                cb: this.getLessonNames,
+              })
+            }
+            style={noteStyle.saveButton3}
+          >
+            {this.props.instrument}
+          </Text>
+          <Text
+            onPress={() =>
+              this.props.nav.navigate("AddLessonScreen", {
+                instrument: this.props.instrument,
+                cb: this.getLessonNames,
+              })
+            }
+            style={noteStyle.saveButton4}
+          >
+            {"tap here to add lessons.\n"}
+          </Text>
 
-        <FlatList
-          data={this.state.lessons}
-          renderItem={({ item }) => (
-            <Swipeable
-              rightButtons={[
-                <TouchableOpacity
-                  onPress={async () => {
-                    await HQI.deleteLesson(
-                      this.props.instrument,
-                      item,
-                      this.getLessonNames
-                    );
-                  }}
-                  style={[
-                    styles3.rightSwipeItem,
-                    { backgroundColor: "lightseagreen" },
-                  ]}
-                >
-                  <Text>Delete</Text>
-                </TouchableOpacity>,
-              ]}
-              onRightButtonsOpenRelease={itemProps.onOpen}
-              onRightButtonsCloseRelease={itemProps.onClose}
-            >
-              <View style={[styles3.listItem, { backgroundColor: "salmon" }]}>
-                <Button
-                  title={item}
+          <FlatList
+            data={this.state.lessons}
+            renderItem={({ item }) => (
+              <Swipeable
+                rightButtons={[
+                  <TouchableOpacity
+                    onPress={async () => {
+                      await HQI.deleteLesson(
+                        this.props.instrument,
+                        item,
+                        this.getLessonNames
+                      );
+                    }}
+                    style={[
+                      styles3.rightSwipeItem,
+                      { backgroundColor: "black" },
+                    ]}
+                  >
+                    <Text>Delete</Text>
+                  </TouchableOpacity>,
+                ]}
+                onRightButtonsOpenRelease={itemProps.onOpen}
+                onRightButtonsCloseRelease={itemProps.onClose}
+              >
+                <Text
                   onPress={() =>
                     this.props.nav.navigate("LessonLaunchScreen", {
                       lesson: item,
                       instrument: this.props.instrument,
                     })
                   }
-                />
-              </View>
-            </Swipeable>
-          )}
-        />
+                  style={noteStyle.lessonOption}
+                >
+                  {item}
+                </Text>
+              </Swipeable>
+            )}
+          />
+        </View>
       </>
     );
   }
@@ -432,27 +461,134 @@ class WholeAssChallenge extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>{this.state.note}</Text>
-          <Text>{HQI.getBpm()}</Text>
-          <Text>{HQI.getCri()}</Text>
-          <Text>{HQI.getVisId()}</Text>
+      <View>
+        <View>
+          <Text>{"\n\n\n\n\n\n\n"}</Text>
+          <Text
+            onPress={() => this.challengeCallback(this.props.nav)}
+            style={noteStyle.saveButton}
+          >
+            {this.state.note}
+          </Text>
+          {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
         </View>
         <Text>{"\n\n\n\n"}</Text>
-
-        <Button
-          title={"NEXT"}
-          onPress={() => this.challengeCallback(this.props.nav)}
-        />
       </View>
     );
   }
 }
 
 //STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const noteStyle = StyleSheet.create({
+  saveButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 170,
+  },
+
+  saveButton2: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#98FB98",
+    fontSize: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+
+  saveButton3: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#98FB98",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  saveButton4: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#98FB98",
+    fontSize: 12,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  saveButton5: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 20,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 200,
+    color: "#000000",
+    flexDirection: "column",
+  },
+
+  saveScreenSpacer: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+
+  instrumentNames: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+
+  homescreenSpacer2: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 12,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 80,
+  },
+
+  lessonOption: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 110,
+  },
+
+  homeScreenSpacer: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 90,
+  },
+
+  saveLessonButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 180,
+  },
+});
+
+//LEFTOVER 3RD PARTY STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const styles1 = StyleSheet.create({
   container: {
@@ -468,7 +604,9 @@ const styles1 = StyleSheet.create({
 
 const styles2 = StyleSheet.create({
   inputContainer: {
+    backgroundColor: "#000000",
     paddingTop: 15,
+    paddingBottom: 25,
   },
   textInput: {
     borderColor: "#CCCCCC",
@@ -514,5 +652,36 @@ const styles3 = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingLeft: 20,
+  },
+});
+
+const styles4 = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    alignItems: "stretch",
+  },
+  title: {
+    fontSize: 20,
+    color: "#fff",
+  },
+  item1: {
+    backgroundColor: "orange",
+    flex: 1,
+    height: 200,
+    fontSize: 50,
+  },
+  item2: {
+    backgroundColor: "purple",
+    flex: 1,
+  },
+  item3: {
+    backgroundColor: "yellow",
+    flex: 1,
+  },
+  item4: {
+    backgroundColor: "red",
+    flex: 1,
   },
 });
