@@ -30,11 +30,11 @@ export default class HQ {
     return lessons;
   }
 
-  async mountLesson(instrument, uniqueLessonName) {
+  async mountLesson(instrument, uniqueLessonName, cb) {
     //does this ni and out.
 
     //FOR IN:
-    await LC.mountLesson(instrument, uniqueLessonName);
+    await LC.mountLesson(instrument, uniqueLessonName, cb);
   }
   unmountAnyLessonNames() {
     LC.unmountAnyLessonNames();

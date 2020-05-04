@@ -72,7 +72,7 @@ function HomeScreen({ navigation }) {
   var instrumentNames = HQI.getInstrumentNames();
 
   return (
-    <View style = {noteStyle.homeScreenBackground}>
+    <View style={noteStyle.homeScreenBackground}>
       <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
 
       <FlatList
@@ -117,7 +117,6 @@ function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
 
-  HQI.mountLesson(instrument, lesson);
   //HQI.getStatsByInstr(instrument)
   return (
     <WholeAssLessonInfo
@@ -304,8 +303,6 @@ class BetterLessonPreviewsContainer extends React.Component {
     //this.num = 1;
     //const data = this.state.lessons.map( x => { this.getMap(x)})
 
-    const leftContent = <Text>Pull to activate</Text>;
-
     const rightButtons = [
       <TouchableHighlight>
         <Button
@@ -354,10 +351,7 @@ class BetterLessonPreviewsContainer extends React.Component {
                         this.getLessonNames
                       );
                     }}
-                    style={[
-                      styles3.rightSwipeItem,
-                      { backgroundColor: "red" },
-                    ]}
+                    style={[styles3.rightSwipeItem, { backgroundColor: "red" }]}
                   >
                     <Text></Text>
                   </TouchableOpacity>,
@@ -379,8 +373,7 @@ class BetterLessonPreviewsContainer extends React.Component {
               </Swipeable>
             )}
           />
-                      <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
-
+          <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
         </View>
       </>
     );
@@ -389,28 +382,44 @@ class BetterLessonPreviewsContainer extends React.Component {
 class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
+    this.getCri = this.getCri.bind(this);
+    this.state = {
+      cri: "def",
+    };
 
+    HQI.mountLesson(this.props.instrument, this.props.lesson, this.getCri);
+  }
+  componentDidMount() {
+    this.getCri();
+  }
+
+  async getCri() {
+    // alert(HQI.getCri())
+    this.setState({
+      cri: HQI.getCri(),
+    });
   }
 
   render() {
-   
     return (
-        <SafeAreaView>
-      <ScrollView snapToStart={false} style = {noteStyle.scrollStyle}>
-        <Text style={noteStyle.cri} >{HQI.getCri()}</Text>
-        
-        <Text style={noteStyle.startButton}
-          title={"start " + this.props.lesson}
-          onPress={() =>
-            this.props.nav.navigate("LessonChallengeScreen", {
-              lesson: this.props.lesson,
-              instrument: this.props.instrument,
-            })
-          }
-        >{"START"}</Text></ScrollView>
-        </SafeAreaView>
-        
-        
+      <SafeAreaView>
+        <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
+          <Text style={noteStyle.cri}>{this.state.cri}</Text>
+
+          <Text
+            style={noteStyle.startButton}
+            title={"start " + this.props.lesson}
+            onPress={() =>
+              this.props.nav.navigate("LessonChallengeScreen", {
+                lesson: this.props.lesson,
+                instrument: this.props.instrument,
+              })
+            }
+          >
+            {"START"}
+          </Text>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -470,14 +479,14 @@ class WholeAssChallenge extends React.Component {
   render() {
     return (
       <View style={noteStyle.challengeScreenBackground}>
-          <Text>{"\n\n\n\n\n\n\n"}</Text>
-          <Text
-            onPress={() => this.challengeCallback(this.props.nav)}
-            style={noteStyle.challengeButton}
-          >
-            {this.state.note}
-          </Text>
-          {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
+        <Text>{"\n\n\n\n\n\n\n"}</Text>
+        <Text
+          onPress={() => this.challengeCallback(this.props.nav)}
+          style={noteStyle.challengeButton}
+        >
+          {this.state.note}
+        </Text>
+        {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
       </View>
     );
   }
@@ -610,31 +619,21 @@ const noteStyle = StyleSheet.create({
     height: 500,
   },
   instrumentScreenBackground: {
-
     backgroundColor: "#FFEBCD",
-
   },
   homeScreenBackground: {
-
     backgroundColor: "#FFEBCD",
-
   },
   saveScreenBackground: {
-
     backgroundColor: "#FFEBCD",
-
   },
   lessonInfoScreenBackground: {
-
     backgroundColor: "#FFEBCD",
-    height: 5000
-
+    height: 5000,
   },
   challengeScreenBackground: {
-
     backgroundColor: "#FFEBCD",
-    height : 2000
-
+    height: 2000,
   },
   challengeButton: {
     textAlignVertical: "center",
@@ -652,11 +651,9 @@ const noteStyle = StyleSheet.create({
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
-
   },
   scrollStyle: {
     backgroundColor: "#FFEBCD",
-    
   },
 });
 

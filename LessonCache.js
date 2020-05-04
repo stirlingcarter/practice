@@ -73,7 +73,7 @@ export default class LessonCache {
   payload = {};
   lessonNames = [];
 
-  async mountLesson(instrument, uniqueLessonName) {
+  async mountLesson(instrument, uniqueLessonName, cb) {
     if (
       !(
         instrument == this.payload["instrument"] &&
@@ -91,7 +91,7 @@ export default class LessonCache {
       //     uniqueLessonName
       // );
 
-      await this.mountLessonFromDisk(instrument, uniqueLessonName);
+      await this.mountLessonFromDisk(instrument, uniqueLessonName, cb);
     }
   }
   unmountAnyLessonNames() {
@@ -293,7 +293,7 @@ export default class LessonCache {
   //this is what happens when a person clicks a lesson.
   //so assumption is this lesson already exists in mem.
 
-  async mountLessonFromDisk(instrument, uniqueLessonName) {
+  async mountLessonFromDisk(instrument, uniqueLessonName, cb) {
     var nonePayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -329,6 +329,7 @@ export default class LessonCache {
           Object.assign(this.payload, nonePayload);
         } else {
           Object.assign(this.payload, result);
+          cb();
         }
       })
       .catch((error) => {
