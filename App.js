@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  SafeAreaView,
   TextInput,
   FlatList,
   Button,
@@ -71,7 +72,7 @@ function HomeScreen({ navigation }) {
   var instrumentNames = HQI.getInstrumentNames();
 
   return (
-    <View>
+    <View style = {noteStyle.homeScreenBackground}>
       <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
 
       <FlatList
@@ -112,7 +113,6 @@ function InstrumentScreen({ route, navigation }) {
     </View>
   );
 }
-
 function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrument } = route.params;
@@ -179,7 +179,7 @@ class AddLessonComponent extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={noteStyle.saveScreenBackground}>
         <ScrollView>
           <View>
             <TextInput
@@ -317,7 +317,7 @@ class BetterLessonPreviewsContainer extends React.Component {
     ];
     return (
       <>
-        <View>
+        <View style={noteStyle.instrumentScreenBackground}>
           <Text
             onPress={() =>
               this.props.nav.navigate("AddLessonScreen", {
@@ -356,10 +356,10 @@ class BetterLessonPreviewsContainer extends React.Component {
                     }}
                     style={[
                       styles3.rightSwipeItem,
-                      { backgroundColor: "black" },
+                      { backgroundColor: "red" },
                     ]}
                   >
-                    <Text>Delete</Text>
+                    <Text></Text>
                   </TouchableOpacity>,
                 ]}
                 onRightButtonsOpenRelease={itemProps.onOpen}
@@ -379,6 +379,8 @@ class BetterLessonPreviewsContainer extends React.Component {
               </Swipeable>
             )}
           />
+                      <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
+
         </View>
       </>
     );
@@ -387,13 +389,17 @@ class BetterLessonPreviewsContainer extends React.Component {
 class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
+
   }
 
   render() {
+   
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{HQI.getCri()}</Text>
-        <Button
+        <SafeAreaView>
+      <ScrollView snapToStart={false} style = {noteStyle.scrollStyle}>
+        <Text style={noteStyle.cri} >{HQI.getCri()}</Text>
+        
+        <Text style={noteStyle.startButton}
           title={"start " + this.props.lesson}
           onPress={() =>
             this.props.nav.navigate("LessonChallengeScreen", {
@@ -401,8 +407,10 @@ class WholeAssLessonInfo extends React.Component {
               instrument: this.props.instrument,
             })
           }
-        />
-      </View>
+        >{"START"}</Text></ScrollView>
+        </SafeAreaView>
+        
+        
     );
   }
 }
@@ -461,18 +469,15 @@ class WholeAssChallenge extends React.Component {
 
   render() {
     return (
-      <View>
-        <View>
+      <View style={noteStyle.challengeScreenBackground}>
           <Text>{"\n\n\n\n\n\n\n"}</Text>
           <Text
             onPress={() => this.challengeCallback(this.props.nav)}
-            style={noteStyle.saveButton}
+            style={noteStyle.challengeButton}
           >
             {this.state.note}
           </Text>
           {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
-        </View>
-        <Text>{"\n\n\n\n"}</Text>
       </View>
     );
   }
@@ -490,7 +495,15 @@ const noteStyle = StyleSheet.create({
     fontWeight: "bold",
     height: 170,
   },
-
+  startButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 300,
+  },
   saveButton2: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -586,6 +599,65 @@ const noteStyle = StyleSheet.create({
     fontWeight: "bold",
     height: 180,
   },
+
+  instrumentScreenSpacer: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 500,
+  },
+  instrumentScreenBackground: {
+
+    backgroundColor: "#FFEBCD",
+
+  },
+  homeScreenBackground: {
+
+    backgroundColor: "#FFEBCD",
+
+  },
+  saveScreenBackground: {
+
+    backgroundColor: "#FFEBCD",
+
+  },
+  lessonInfoScreenBackground: {
+
+    backgroundColor: "#FFEBCD",
+    height: 5000
+
+  },
+  challengeScreenBackground: {
+
+    backgroundColor: "#FFEBCD",
+    height : 2000
+
+  },
+  challengeButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#FFEBCD",
+    fontSize: 250,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+
+  cri: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    backgroundColor: "#FFEBCD",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+
+  },
+  scrollStyle: {
+    backgroundColor: "#FFEBCD",
+    
+  },
 });
 
 //LEFTOVER 3RD PARTY STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -651,7 +723,7 @@ const styles3 = StyleSheet.create({
   rightSwipeItem: {
     flex: 1,
     justifyContent: "center",
-    paddingLeft: 20,
+    paddingLeft: 0,
   },
 });
 

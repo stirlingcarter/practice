@@ -73,7 +73,7 @@ export default class LessonCache {
   payload = {};
   lessonNames = [];
 
-  mountLesson(instrument, uniqueLessonName) {
+  async mountLesson(instrument, uniqueLessonName) {
     if (
       !(
         instrument == this.payload["instrument"] &&
@@ -91,7 +91,7 @@ export default class LessonCache {
       //     uniqueLessonName
       // );
 
-      this.mountLessonFromDisk(instrument, uniqueLessonName);
+      await this.mountLessonFromDisk(instrument, uniqueLessonName);
     }
   }
   unmountAnyLessonNames() {
