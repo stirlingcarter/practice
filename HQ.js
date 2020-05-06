@@ -30,6 +30,12 @@ export default class HQ {
     return lessons;
   }
 
+  async getLessonNamesByInstrument(instrument) {
+    var lessons = await LC.getLessonNamesByInstrument(instrument);
+
+    return lessons;
+  }
+
   async mountLesson(instrument, uniqueLessonName, cb) {
     //does this ni and out.
 
