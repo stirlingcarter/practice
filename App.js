@@ -316,6 +316,7 @@ class BetterLessonPreviewsContainer extends React.Component {
       <>
         <SafeAreaView>
           <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
+          <SafeAreaView style={{flex: 1}}>
             <Text
               onPress={() =>
                 this.props.nav.navigate("AddLessonScreen", {
@@ -366,7 +367,7 @@ class BetterLessonPreviewsContainer extends React.Component {
                   <Text
                     onPress={() =>
                       this.props.nav.navigate("LessonLaunchScreen", {
-                        lesson: item,
+                        lesson: {item},
                         instrument: this.props.instrument,
                       })
                     }
@@ -376,8 +377,10 @@ class BetterLessonPreviewsContainer extends React.Component {
                   </Text>
                 </Swipeable>
               )}
+              keyExtractor={(item, index) => index.toString()}
             />
             <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
+            </SafeAreaView>
           </ScrollView>
         </SafeAreaView>
       </>
