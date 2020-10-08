@@ -271,58 +271,16 @@ class BetterLessonPreviewsContainer extends React.Component {
     super(props); //this.props.num = 1;
 
     this.getLessonNames = this.getLessonNames.bind(this);
-    this.getPresets = this.getPresets.bind(this);
 
     this.state = { lessons: [], currentlyOpenSwipeable: null };
   }
 
   componentDidMount() {
     this.getLessonNames();
-    this.getPresets();
-  }
-
-  async getPresets(lessons) {
-    var presets = {
-      Lesson1: {
-        instrument: "guitar",
-        uniqueName: "a",
-        cri: "a",
-      },
-      Lesson2: {
-        instrument: "piano",
-        uniqueName: "b",
-        cri: "a",
-      },
-      Lesson2: {
-        instrument: "piano",
-        uniqueName: "c",
-        cri: "a",
-      },
-    };
-
-    const save = async (instr, name, cri) => {
-      if (!lessons.includes(name) && this.props.instrument == instr) {
-        try {
-          await HQI.saveNewLesson(instr, name, cri);
-        } catch (error) {}
-      }
-    };
-
-    for (let i = 1; i < Object.keys(presets).length + 1; i++) {
-      let key = "Lesson" + i;
-      await save(
-        presets[key]["instrument"],
-        presets[key]["uniqueName"],
-        presets[key]["cri"]
-      );
-    }
   }
 
   async getLessonNames() {
     var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
-
-    var response = await this.getPresets(lessons);
-
     this.setState({
       lessons: lessons,
     });
