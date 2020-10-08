@@ -418,6 +418,7 @@ class BetterLessonPreviewsContainer extends React.Component {
                   </Text>
                 </Swipeable>
               )}
+              keyExtractor={(item, index) => index.toString()}
             />
             <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
           </ScrollView>
