@@ -1,25 +1,6 @@
 import * as React from "react";
-import { TouchableHighlightBase } from "react-native";
 import { AsyncStorage } from "react-native";
 
-// _storeData = async () => {
-//   try {
-//     await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-//   } catch (error) {
-//     // Error saving data
-//   }
-// };
-
-// _retrieveData = async () => {
-//   try {
-//     const value = await AsyncStorage.getItem('TASKS');
-//     if (value !== null) {
-//       // We have data!!
-//       alert(value);
-//     }
-//   } catch (error) {
-//     alert("nada")      }
-// };
 
 async function retrieveItem(key) {
   // alert("gettinig for " + key)

@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import DB from "./DB";
 import { AsyncStorage, TouchableHighlightBase } from "react-native";
 
 import { DefaultTheme } from "react-native-paper";
