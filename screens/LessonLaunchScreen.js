@@ -1,5 +1,5 @@
 import * as React from "react";
-import { WholeAssLessonInfo } from "../components/WholeAssLessonInfo";
+import { WholeAssLessonInfo } from "../components/LessonInfoComponent";
 
 export function LessonLaunchScreen({ route, navigation }) {
   const { lesson } = route.params;

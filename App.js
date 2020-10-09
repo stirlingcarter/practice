@@ -1,10 +1,8 @@
 import * as React from "react";
 
 
-// You can import from local files
 import HQ from "./HQ";
 
-// or any pure javascript modules available in npm
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { LessonChallengeScreen } from "./screens/LessonChallengeScreen";
@@ -18,7 +16,6 @@ const Stack = createStackNavigator();
 export var HQI = HQ.getInstance();
 
 export default function App() {
-  const [stateString, setStateString] = React.useState("inital");
 
   return (
     <NavigationContainer>

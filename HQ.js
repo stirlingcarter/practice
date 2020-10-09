@@ -1,8 +1,3 @@
-import * as React from "react";
-
-import { AsyncStorage, TouchableHighlightBase } from "react-native";
-
-import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
 
 var LC = LessonCache.getInstance();
