@@ -9,8 +9,8 @@ import {
   Text,
   View
 } from "react-native";
-import { HQI } from "./App";
-import { allTheStyles } from "./allTheStyles.js"
+import { HQI } from "../App";
+import { allTheStyles } from "../styles/allTheStyles.js"
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
 export class AddLessonComponent extends React.Component {

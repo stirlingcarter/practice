@@ -1,7 +1,7 @@
 import * as React from "react";
-import { HQI } from "./App";
+import { HQI } from "../App";
 import {View, Text, FlatList} from "react-native" ;
-import { allTheStyles } from "./allTheStyles.js"
+import { allTheStyles } from "../styles/allTheStyles.js"
 
 export function HomeScreen({ navigation }) {
   var instrumentNames = HQI.getInstrumentNames();

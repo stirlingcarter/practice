@@ -1,5 +1,5 @@
 import * as React from "react";
-import { WholeAssChallenge } from "./WholeAssChallenge";
+import { WholeAssChallenge } from "../components/WholeAssChallenge";
 
 export function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;

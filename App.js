@@ -11,13 +11,13 @@ import { Card } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
-import { LessonChallengeScreen } from "./LessonChallengeScreen";
-import { HomeScreen } from "./HomeScreen";
-import { InstrumentScreen } from "./InstrumentScreen";
-import { LessonLaunchScreen } from "./LessonLaunchScreen";
-import { AddLessonScreen } from "./AddLessonScreen";
-import { allTheStyles } from "./allTheStyles";
-import { styles5 } from "./styles5";
+import { LessonChallengeScreen } from "./screens/LessonChallengeScreen";
+import { HomeScreen } from "./screens/HomeScreen";
+import { InstrumentScreen } from "./screens/InstrumentScreen";
+import { LessonLaunchScreen } from "./screens/LessonLaunchScreen";
+import { AddLessonScreen } from "./screens/AddLessonScreen";
+import { allTheStyles } from "./styles/allTheStyles";
+import { styles5 } from "./styles/styles5";
 
 const Stack = createStackNavigator();
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { AddLessonComponent } from "./AddLessonComponent";
+import { AddLessonComponent } from "../components/AddLessonComponent";
 
 export function AddLessonScreen({ route, navigation }) {
   const { instrument } = route.params;

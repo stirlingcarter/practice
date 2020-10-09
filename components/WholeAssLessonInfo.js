@@ -6,8 +6,8 @@ import {
 
   Text
 } from "react-native";
-import { HQI } from "./App";
-import { allTheStyles } from "./allTheStyles.js"
+import { HQI } from "../App";
+import { allTheStyles } from "../styles/allTheStyles.js"
 
 export class WholeAssLessonInfo extends React.Component {
   constructor(props) {

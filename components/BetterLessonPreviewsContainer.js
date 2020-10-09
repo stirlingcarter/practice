@@ -11,9 +11,9 @@ import {
   TouchableHighlight
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
-import { HQI } from "./App";
-import { allTheStyles } from "./allTheStyles.js"
-import { styles5 } from "./styles5.js"
+import { HQI } from "../App";
+import { allTheStyles } from "../styles/allTheStyles.js"
+import { styles5 } from "../styles/styles5.js"
 
 export class BetterLessonPreviewsContainer extends React.Component {
   constructor(props) {
