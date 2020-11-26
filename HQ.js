@@ -24,11 +24,6 @@ export default class HQ {
     return lessons;
   }
 
-  async getLessonNamesByInstrument(instrument) {
-    var lessons = await LC.getLessonNamesByInstrument(instrument);
-
-    return lessons;
-  }
 
   async mountLesson(instrument, uniqueLessonName, cb) {
     //does this ni and out.
@@ -36,15 +31,17 @@ export default class HQ {
     //FOR IN:
     await LC.mountLesson(instrument, uniqueLessonName, cb);
   }
-  unmountAnyLessonNames() {
-    LC.unmountAnyLessonNames();
-  }
+
 
   async mountLessonNames(instrument) {
     //does this ni and out.
 
     //FOR IN:
     return LC.mountLessonNames(instrument);
+  }
+
+  unmountAnyLessonNames() {
+    LC.unmountAnyLessonNames();
   }
 
   getNextNote() {
@@ -58,12 +55,12 @@ export default class HQ {
     LC.commit(diff, this.currentNote);
   }
 
-  async deleteLesson(instrument, uniqueLessonName, cb) {
-    await LC.deleteLesson(instrument, uniqueLessonName, cb);
-  }
-
   saveLesson() {
     LC.push();
+  }
+
+  async deleteLesson(instrument, uniqueLessonName, cb) {
+    await LC.deleteLesson(instrument, uniqueLessonName, cb);
   }
 
   getInstrumentNames() {
@@ -71,13 +68,9 @@ export default class HQ {
     return names;
   }
 
+  //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
+  //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
   getOrderedUniqueLessonNamesByInstr(instrument) {
-    //FOR THE LESSON LIST
-    //SHOW USER LESSONS FIRST IN ALPHA THEN THE REST BY ORDER OF DOING
-
-    //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
-    //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
-
     return LC.getOrderedUniqueLessonNamesByInstr(instrument);
   }
 
@@ -107,8 +100,20 @@ export default class HQ {
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri) {
-    await LC.saveNewLesson(instrument, uniqueLessonName, cri);
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants) {
+
+    if (variants == null){
+      await LC.saveNewLesson(instrument, uniqueLessonName, cri, []);
+    }else{
+      v = variants.split(", ")
+      var i;
+      for (i = 0; i < v.length; i++) { 
+        v[i] = v[i].trim()
+      }
+  
+      await LC.saveNewLesson(instrument, uniqueLessonName, cri, v);
+    }
+
   }
 
   getIntRep(note) {
@@ -173,7 +178,9 @@ export default class HQ {
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
 
-  //STRATS --------------------------------------------------------------------------
+  /*BEGIN STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */
   max_min() {
     return "A";
   }
@@ -200,7 +207,7 @@ export default class HQ {
 
     return newNote;
   }
-  //END STRATS --------------------------------------------------------------------------
 }
-
-//THINKING ONLY. HOLDS ONLY A REF TO CACHE.
+  /*END STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */

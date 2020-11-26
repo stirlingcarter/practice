@@ -7,7 +7,7 @@ import { HQI } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 
 //  want this to be ininviisiible and cover whole screen TODO
-export class WholeAssChallenge extends React.Component {
+export class ChallengeComponent extends React.Component {
   constructor(props) {
     super(props);
     this.challengeCallback = this.challengeCallback.bind(this);

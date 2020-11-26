@@ -15,7 +15,7 @@ import { HQI } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 
-export class BetterLessonPreviewsContainer extends React.Component {
+export class LessonPreviewComponent extends React.Component {
   constructor(props) {
     super(props); //this.props.num = 1;
 

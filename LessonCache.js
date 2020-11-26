@@ -334,7 +334,8 @@ export default class LessonCache {
       });
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri) {
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants) {
+    alert("savinig...")
     var blankPayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -360,6 +361,47 @@ export default class LessonCache {
       times_G: [],
       times_Ab: [],
     };
+
+    if (variants.length > 0){
+      var variantPayloadsContainer = {
+      
+      }
+  
+      for (v in variants) {
+        variantPayloadsContainer[v] = {
+          times_A: [],
+          times_Bb: [],
+          times_B: [],
+          times_C: [],
+          times_Db: [],
+          times_D: [],
+          times_Eb: [],
+          times_E: [],
+          times_F: [],
+          times_Gb: [],
+          times_G: [],
+          times_Ab: []
+        }
+      }
+  
+      
+      blankPayload = {
+        //this payload represents a save file for a "lessonn
+        //it is also the existence indicator for this lesson
+  
+        //metadata
+        instrument: instrument,
+        uniqueLessonName: uniqueLessonName, //shld be instrument unique
+        cri: cri,
+        visId: "",
+        bpm: "",
+  
+        //one source of truth for every strategy
+        variantPayloadsContainer: variantPayloadsContainer
+      };
+    } 
+    
+    
 
     var payloadPath =
       "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
