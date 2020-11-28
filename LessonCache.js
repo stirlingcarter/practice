@@ -28,11 +28,6 @@ async function destroyItem(key) {
 }
 
 async function storeItem(key, item) {
-  try {
-    alert(this.payload);
-  } catch (error) {
-    console.log(error.message);
-  }
 
   
   try {
@@ -78,7 +73,6 @@ export default class LessonCache {
       // );
 
       await this.mountLessonFromDisk(instrument, uniqueLessonName, cb);
-      alert(Object.keys(this.payload))
     }
   }
   unmountAnyLessonNames() {
@@ -168,8 +162,7 @@ export default class LessonCache {
 
   getSlowestNote(window) {
     let keys = Object.keys(this.payload)
-    //let keys = ["A"]
-    //return this.getRandomNote()
+
     keys = this.remove(keys,"instrument")
     keys = this.remove(keys,"uniqueLessonName")
     keys = this.remove(keys,"cri")
@@ -178,17 +171,18 @@ export default class LessonCache {
 
     let maxAverage = 0
     let maxKey = keys[0]
-
     for (let i = 0; i < keys.length; i++){
       note = keys[i]
       windowedAverage = this.getAverage(window,note)
-      if (windowedAverage == 0){
+      if (isNaN(windowedAverage)){
         return note
       }else{
+
         if (windowedAverage > maxAverage){
           maxAverage = windowedAverage
           maxKey = note
         }
+
       }
     }
 

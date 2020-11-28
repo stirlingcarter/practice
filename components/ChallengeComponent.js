@@ -61,6 +61,14 @@ export class ChallengeComponent extends React.Component {
   }
 
   render() {
+    let args = this.state.note.split("$")
+    let challenge = ""
+    for (let i = 0; i < args.length; i++){
+      challenge += args[i]
+      challenge += " "
+    }
+
+
     return (
       <View style={allTheStyles.challengeScreenBackground}>
         <Text>{"\n\n\n\n\n\n\n"}</Text>
@@ -68,7 +76,7 @@ export class ChallengeComponent extends React.Component {
           onPress={() => this.challengeCallback(this.props.nav)}
           style={allTheStyles.challengeButton}
         >
-          {this.state.note}
+          {challenge}
         </Text>
 
       </View>

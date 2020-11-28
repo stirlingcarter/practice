@@ -148,13 +148,13 @@ export const allTheStyles = StyleSheet.create({
   },
   challengeScreenBackground: {
     backgroundColor: "#FFEBCD",
-    height: 2000,
+    height: 2000
   },
   challengeButton: {
     textAlignVertical: "center",
     textAlign: "center",
     backgroundColor: "#FFEBCD",
-    fontSize: 250,
+    fontSize: 50,
     fontStyle: "italic",
     fontWeight: "bold",
   },
