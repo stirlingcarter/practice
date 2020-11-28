@@ -28,7 +28,13 @@ async function destroyItem(key) {
 }
 
 async function storeItem(key, item) {
-  //alert("savinig for " + key);
+  try {
+    alert(this.payload);
+  } catch (error) {
+    console.log(error.message);
+  }
+
+  
   try {
     //we want to wait for the Promise returned by AsyncStorage.setItem()
     //to be resolved to the actual value before returning the value
@@ -94,7 +100,7 @@ export default class LessonCache {
 
   commit(diff, note) {
 
-    alert(this.payload["uniqueLessonName"])
+    
 
     this.payload[note].push(diff);
 
@@ -291,6 +297,7 @@ export default class LessonCache {
   //so assumption is this lesson already exists in mem.
 
   async mountLessonFromDisk(instrument, uniqueLessonName, cb) {
+    
     var nonePayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -323,8 +330,10 @@ export default class LessonCache {
     retrieveItem(payloadPath)
       .then((result) => {
         if (result == undefined) {
+          this.payload = {}
           Object.assign(this.payload, nonePayload);
         } else {
+          this.payload = {}
           Object.assign(this.payload, result);
           cb();
         }
@@ -332,6 +341,7 @@ export default class LessonCache {
       .catch((error) => {
         Object.assign(this.payload, nonePayload);
       });
+    
       
   }
 
@@ -405,7 +415,6 @@ export default class LessonCache {
 
     //alert(this.lessonNames)
     storeItem(path, this.lessonNames).then((this.lessonNames = []));
-    alert(Object.keys(blankPayload));
   }
 
   async getLessonNamesByInstrument(instrument) {
