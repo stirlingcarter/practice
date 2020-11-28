@@ -11,11 +11,7 @@ import {
 } from "react-native";
 import { HQI } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
+
 
 
 
@@ -24,11 +20,13 @@ export class AddLessonComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { name: "", cri: "" , type: ""};
+    this.state = { name: "", cri: ""};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCriChange = this.handleCriChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
+    this.handleVariants2Change = this.handleVariants2Change.bind(this);
+
   }
 
   handleNameChange(name) {
@@ -43,15 +41,23 @@ export class AddLessonComponent extends React.Component {
     this.setState({ variants });
   }
 
+  handleVariants2Change(variants2) {
+    this.setState({ variants2 });
+  }
+
+
   handleSubmit() {
     const save = async () => {
+
+      
       
       try {
         await HQI.saveNewLesson(
           this.props.instrument,
           this.state.name,
           this.state.cri,
-          this.state.variants
+          this.state.variants,
+          this.state.variants2
         );
         await this.props.cb();
       } catch (error) { }
@@ -89,6 +95,14 @@ export class AddLessonComponent extends React.Component {
               multiline={true}
               value={this.state.variants}
               onChangeText={this.handleVariantsChange} />
+              <TextInput
+              style={allTheStyles.saveButton5}
+              onBlur={Keyboard.dismiss}
+              placeholder="Any more variants? (0th,1st,2nd,3rd)"
+              numberOfLines={2}
+              multiline={true}
+              value={this.state.variants2}
+              onChangeText={this.handleVariants2Change} />
             <Text
               style={allTheStyles.saveLessonButton}
               onPress={this.handleSubmit}

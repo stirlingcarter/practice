@@ -48,9 +48,11 @@ export class ChallengeComponent extends React.Component {
       let diff = this.state.end - this.state.start;
       //alert(diff);
       HQI.commit(diff);
+      
+      
 
       this.setState({
-        note: HQI.getNextNote(),
+        note: HQI.getNextNote(), //this is where the refreshing happens, but it can happen all at once up there^ 
         start: Date.now(),
         isOn: true,
         end: this.state.end,

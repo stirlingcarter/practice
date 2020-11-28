@@ -10,6 +10,7 @@ export default class HQ {
   prevNote = 13;
   strategies = ["max_min", "average", "random"];
   strategyId = 1;
+
   static getInstance() {
     if (HQ.instance == null) {
       HQ.instance = new HQ();
@@ -45,6 +46,7 @@ export default class HQ {
   }
 
   getNextNote() {
+
     let next = this.getNextNoteByStrategy(this.strategyId);
     this.currentNote = next;
 
@@ -100,19 +102,33 @@ export default class HQ {
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri, variants) {
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2) {
 
-    if (variants == null){
-      await LC.saveNewLesson(instrument, uniqueLessonName, cri, []);
-    }else{
-      v = variants.split(", ")
+    v = []
+    v2 = []
+
+    if (variants != null){
+      v = variants.split(",")
       var i;
       for (i = 0; i < v.length; i++) { 
         v[i] = v[i].trim()
       }
-  
-      await LC.saveNewLesson(instrument, uniqueLessonName, cri, v);
     }
+    if (variants2 != null){
+      v2 = variants2.split(",")
+      var i;
+      for (i = 0; i < v2.length; i++) { 
+        v2[i] = v2[i].trim()
+      }
+    }
+
+
+
+
+
+
+    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2);
+    
 
   }
 
@@ -186,21 +202,22 @@ export default class HQ {
   }
 
   average() {
-    let next = LC.getIntRepWithSlowestAve(10);
+    let next = LC.getSlowestNote(10);
     if (next != this.prevNote) {
       this.prevNote = next;
-      return this.getNoteRep(next);
+      return next;
     } else {
       return this.random();
     }
   }
 
   random() {
-    let newNote = this.getNoteRep(this.getRandomInt(12));
+    let newNote = LC.getRandomNote();
 
-    while (newNote == this.prevNote) {
-      newNote = this.getNoteRep(this.getRandomInt(12));
-    }
+
+    // while (newNote == this.prevNote) {
+    //   newNote = LC.getRandomNote();
+    // }
 
     this.prevNote = newNote;
     //alert("setting note to " + newNote.getNote())
