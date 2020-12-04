@@ -1,9 +1,3 @@
-import * as React from "react";
-
-import DB from "./DB";
-import { AsyncStorage, TouchableHighlightBase } from "react-native";
-
-import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
 
 var LC = LessonCache.getInstance();
@@ -16,6 +10,7 @@ export default class HQ {
   prevNote = 13;
   strategies = ["max_min", "average", "random"];
   strategyId = 1;
+
   static getInstance() {
     if (HQ.instance == null) {
       HQ.instance = new HQ();
@@ -30,11 +25,6 @@ export default class HQ {
     return lessons;
   }
 
-  async getLessonNamesByInstrument(instrument) {
-    var lessons = await LC.getLessonNamesByInstrument(instrument);
-
-    return lessons;
-  }
 
   async mountLesson(instrument, uniqueLessonName, cb) {
     //does this ni and out.
@@ -42,9 +32,7 @@ export default class HQ {
     //FOR IN:
     await LC.mountLesson(instrument, uniqueLessonName, cb);
   }
-  unmountAnyLessonNames() {
-    LC.unmountAnyLessonNames();
-  }
+
 
   async mountLessonNames(instrument) {
     //does this ni and out.
@@ -53,7 +41,12 @@ export default class HQ {
     return LC.mountLessonNames(instrument);
   }
 
+  unmountAnyLessonNames() {
+    LC.unmountAnyLessonNames();
+  }
+
   getNextNote() {
+
     let next = this.getNextNoteByStrategy(this.strategyId);
     this.currentNote = next;
 
@@ -64,12 +57,12 @@ export default class HQ {
     LC.commit(diff, this.currentNote);
   }
 
-  async deleteLesson(instrument, uniqueLessonName, cb) {
-    await LC.deleteLesson(instrument, uniqueLessonName, cb);
-  }
-
   saveLesson() {
     LC.push();
+  }
+
+  async deleteLesson(instrument, uniqueLessonName, cb) {
+    await LC.deleteLesson(instrument, uniqueLessonName, cb);
   }
 
   getInstrumentNames() {
@@ -77,13 +70,9 @@ export default class HQ {
     return names;
   }
 
+  //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
+  //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
   getOrderedUniqueLessonNamesByInstr(instrument) {
-    //FOR THE LESSON LIST
-    //SHOW USER LESSONS FIRST IN ALPHA THEN THE REST BY ORDER OF DOING
-
-    //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
-    //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
-
     return LC.getOrderedUniqueLessonNamesByInstr(instrument);
   }
 
@@ -113,8 +102,34 @@ export default class HQ {
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri) {
-    await LC.saveNewLesson(instrument, uniqueLessonName, cri);
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2) {
+
+    v = []
+    v2 = []
+
+    if (variants != null){
+      v = variants.split(",")
+      var i;
+      for (i = 0; i < v.length; i++) { 
+        v[i] = v[i].trim()
+      }
+    }
+    if (variants2 != null){
+      v2 = variants2.split(",")
+      var i;
+      for (i = 0; i < v2.length; i++) { 
+        v2[i] = v2[i].trim()
+      }
+    }
+
+
+
+
+
+
+    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2);
+    
+
   }
 
   getIntRep(note) {
@@ -179,34 +194,37 @@ export default class HQ {
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
 
-  //STRATS --------------------------------------------------------------------------
+  /*BEGIN STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */
   max_min() {
     return "A";
   }
 
   average() {
-    let next = LC.getIntRepWithSlowestAve(10);
+    let next = LC.getSlowestNote(10);
     if (next != this.prevNote) {
       this.prevNote = next;
-      return this.getNoteRep(next);
+      return next;
     } else {
       return this.random();
     }
   }
 
   random() {
-    let newNote = this.getNoteRep(this.getRandomInt(12));
+    let newNote = LC.getRandomNote();
 
-    while (newNote == this.prevNote) {
-      newNote = this.getNoteRep(this.getRandomInt(12));
-    }
+
+    // while (newNote == this.prevNote) {
+    //   newNote = LC.getRandomNote();
+    // }
 
     this.prevNote = newNote;
     //alert("setting note to " + newNote.getNote())
 
     return newNote;
   }
-  //END STRATS --------------------------------------------------------------------------
 }
-
-//THINKING ONLY. HOLDS ONLY A REF TO CACHE.
+  /*END STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */

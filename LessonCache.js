@@ -1,25 +1,5 @@
-import * as React from "react";
-import { TouchableHighlightBase } from "react-native";
 import { AsyncStorage } from "react-native";
 
-// _storeData = async () => {
-//   try {
-//     await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-//   } catch (error) {
-//     // Error saving data
-//   }
-// };
-
-// _retrieveData = async () => {
-//   try {
-//     const value = await AsyncStorage.getItem('TASKS');
-//     if (value !== null) {
-//       // We have data!!
-//       alert(value);
-//     }
-//   } catch (error) {
-//     alert("nada")      }
-// };
 
 async function retrieveItem(key) {
   // alert("gettinig for " + key)
@@ -48,7 +28,8 @@ async function destroyItem(key) {
 }
 
 async function storeItem(key, item) {
-  //alert("savinig for " + key);
+
+  
   try {
     //we want to wait for the Promise returned by AsyncStorage.setItem()
     //to be resolved to the actual value before returning the value
@@ -112,18 +93,11 @@ export default class LessonCache {
   }
 
   commit(diff, note) {
-    let timeArrayKey = "times_" + note;
 
-    //this.payload[timeArrayKey].push(diff)
+    
 
-    // if (Array.isArray(this.payload[timeArrayKey])){
-    //   this.payload[timeArrayKey] = [diff]
-    //   alert(this.payload[timeArrayKey]);
-    // }
+    this.payload[note].push(diff);
 
-    this.payload[timeArrayKey].push(diff);
-
-    //alert(this.payload[timeArrayKey]);
   }
 
   async deleteLesson(instrument, uniqueLessonName, cb) {
@@ -160,52 +134,75 @@ export default class LessonCache {
     return this.payload["visId"];
   }
 
-  getIntRepWithSlowestAve(window) {
-    let keys = [
-      "times_A",
-      "times_Bb",
-      "times_B",
-      "times_C",
-      "times_Db",
-      "times_D",
-      "times_Eb",
-      "times_E",
-      "times_F",
-      "times_Gb",
-      "times_G",
-      "times_Ab",
-    ];
-    let averages = [];
-    keys.forEach((key) => {
-      let ave = 0;
-      let len = this.payload[key].length;
-      for (let i = 0; i < window && i < len; i++) {
-        let index = len - 1 - i;
-        ave += this.payload[key][index];
-      }
+  getAverage(window,key){
+    let ave = 0;
+    let len = this.payload[key].length;
+    for (let i = 0; i < window && i < len; i++) {
+      let index = len - 1 - i;
+      ave += this.payload[key][index];
+    }
 
-      let d = window;
-      if (len < window) {
-        d = len;
-      }
+    let d = window;
+    if (len < window) {
+      d = len;
+    }
 
-      averages.push(ave / d);
-    });
-    //alert(averages)
+    return (ave / d);
 
-    let ind = 0;
-    let max = averages[0];
-    for (let i = 1; i < 12; i++) {
-      if (averages[i] > max) {
-        ind = i;
-        max = averages[i];
-      } else if (isNaN(averages[i])) {
-        // alert(i)
-        return i + 1;
+  }
+
+  remove(arr,item) {
+    var index = arr.indexOf(item);
+    if (index !== -1) {
+      arr.splice(index, 1);
+    }
+
+    return arr;
+}
+
+  getSlowestNote(window) {
+    let keys = Object.keys(this.payload)
+
+    keys = this.remove(keys,"instrument")
+    keys = this.remove(keys,"uniqueLessonName")
+    keys = this.remove(keys,"cri")
+    keys = this.remove(keys,"visId")
+    keys = this.remove(keys,"bpm")
+
+    let maxAverage = 0
+    let maxKey = keys[0]
+    for (let i = 0; i < keys.length; i++){
+      note = keys[i]
+      windowedAverage = this.getAverage(window,note)
+      if (isNaN(windowedAverage)){
+        return note
+      }else{
+
+        if (windowedAverage > maxAverage){
+          maxAverage = windowedAverage
+          maxKey = note
+        }
+
       }
     }
 
-    return ind + 1;
+    return maxKey
+
+  }
+
+  getRandomNote() {
+    let keys = Object.keys(this.payload)
+
+    keys = this.remove(keys,"instrument")
+    keys = this.remove(keys,"uniqueLessonName")
+    keys = this.remove(keys,"cri")
+    keys = this.remove(keys,"visId")
+    keys = this.remove(keys,"bpm")
+
+    //keys.length == 12
+    //get 0,1,2,3....11
+    return keys[Math.floor(Math.random() * Math.floor(keys.length))]
+    
   }
 
   //getMins
@@ -294,6 +291,7 @@ export default class LessonCache {
   //so assumption is this lesson already exists in mem.
 
   async mountLessonFromDisk(instrument, uniqueLessonName, cb) {
+    
     var nonePayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -306,18 +304,18 @@ export default class LessonCache {
       bpm: "",
 
       //one source of truth for every strategy
-      times_A: [],
-      times_Bb: [],
-      times_B: [],
-      times_C: [],
-      times_Db: [],
-      times_D: [],
-      times_Eb: [],
-      times_E: [],
-      times_F: [],
-      times_Gb: [],
-      times_G: [],
-      times_Ab: [],
+      A: [],
+      Bb: [],
+      B: [],
+      C: [],
+      Db: [],
+      D: [],
+      Eb: [],
+      E: [],
+      F: [],
+      Gb: [],
+      G: [],
+      Ab: [],
     };
 
     var payloadPath =
@@ -326,8 +324,10 @@ export default class LessonCache {
     retrieveItem(payloadPath)
       .then((result) => {
         if (result == undefined) {
+          this.payload = {}
           Object.assign(this.payload, nonePayload);
         } else {
+          this.payload = {}
           Object.assign(this.payload, result);
           cb();
         }
@@ -335,6 +335,8 @@ export default class LessonCache {
       .catch((error) => {
         Object.assign(this.payload, nonePayload);
       });
+    
+      
   }
 
   async mountLessonNamesFromDisk(instrument) {
@@ -354,7 +356,29 @@ export default class LessonCache {
       });
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri) {
+  getCombinedVariants(v, v2){
+    if (v.length == 0 && v2.length == 0){
+      return []
+    }else if (v.length != 0 && v2.length == 0){
+      return v
+    }else if (v.length == 0 && v2.length != 0){
+      return v2
+    }else{
+      variants = []
+      for (i = 0; i < v.length; i++) { 
+        for (k = 0; k < v2.length; k++) { 
+          variants.push(v[i] + "$" + v2[k])
+        }
+      }
+      return variants
+    }
+  }
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2) {
+
+    let combinedVariants = this.getCombinedVariants(variants,variants2)
+    let notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"]
+    let keys = this.getCombinedVariants(notes,combinedVariants)
+
     var blankPayload = {
       //this payload represents a save file for a "lessonn
       //it is also the existence indicator for this lesson
@@ -365,21 +389,12 @@ export default class LessonCache {
       cri: cri,
       visId: "",
       bpm: "",
-
-      //one source of truth for every strategy
-      times_A: [],
-      times_Bb: [],
-      times_B: [],
-      times_C: [],
-      times_Db: [],
-      times_D: [],
-      times_Eb: [],
-      times_E: [],
-      times_F: [],
-      times_Gb: [],
-      times_G: [],
-      times_Ab: [],
     };
+
+
+    for (i in keys) {
+      blankPayload[keys[i]] = []
+    }
 
     var payloadPath =
       "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
@@ -394,7 +409,6 @@ export default class LessonCache {
 
     //alert(this.lessonNames)
     storeItem(path, this.lessonNames).then((this.lessonNames = []));
-    alert("saved");
   }
 
   async getLessonNamesByInstrument(instrument) {
