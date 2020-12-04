@@ -46,6 +46,16 @@ export class WholeAssLessonInfo extends React.Component {
           >
             {"\n\n\nSTART"}
           </Text>
+          <Text
+            style={allTheStyles.startButton}
+            title={"start " + this.props.lesson}
+            onPress={() => this.props.nav.navigate("LessonStatsScreen", {
+              lesson: this.props.lesson,
+              instrument: this.props.instrument,
+            })}
+          >
+            {"\n\n\nSTATS"}
+          </Text>
         </ScrollView>
         <Text style={allTheStyles.lessonInfoScreenSpacer}>{"\n"}</Text>
       </SafeAreaView>
