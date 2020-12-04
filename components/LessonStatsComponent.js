@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import { HQI } from "../App";
 import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 
@@ -34,19 +35,18 @@ export class LessonStatsComponent extends React.Component {
 
   render() {
 
-    const sampleData = [
+    const notesData = [
       {
         x: 1,
-        y: 12,
-        label: "A"
+        y: 1
       },
       {
         x: 2,
-        y: 5
+        y: 2
       },
       {
         x: 3,
-        y: 5
+        y: 3
       },
       {
         x: 4,
@@ -54,53 +54,119 @@ export class LessonStatsComponent extends React.Component {
       },
       {
         x: 5,
-        y: 7
+        y: 5
       },
       {
         x: 6,
-        y: 1
+        y: 6
       },
       {
         x: 7,
-        y: 3
+        y: 7
       },
       {
         x: 8,
-        y: 4
+        y: 8
       },
       {
         x: 9,
-        y: 10
+        y: 9
       },
       {
         x: 10,
-        y: 2
+        y: 10
       },
       {
         x: 11,
-        y: 9 
+        y: 11
       },
       {
         x: 12,
-        y: 7
+        y: 12
+      }
+    ]
+
+    const variantData = [
+      {
+        x: 1,
+        y: 3
+      },
+      {
+        x: 2,
+        y: 10
+      },
+      {
+        x: 3,
+        y: 3
+      },
+      {
+        x: 4,
+        y: 8
+      },
+    ]
+
+    const variant2Data = [
+      {
+        x: 1,
+        y: 19
+      },
+      {
+        x: 2,
+        y: 30
+      },
+      {
+        x: 3,
+        y: 22
+      },
+      {
+        x: 4,
+        y: 28
+      },
+      {
+        x: 5,
+        y: 10
       }
     ]
 
     return (
-      <View>
+      <ScrollView>
 
       <VictoryChart polar
       theme={VictoryTheme.material}
       labels={["first", "second", "third"]}
       
       >
-      <VictoryArea data={sampleData}/>
+      <VictoryArea data={notesData}/>
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]}/>
       </VictoryChart>
 
-      </View>
+      <VictoryChart polar
+      theme={VictoryTheme.material}
+      labels={["first", "second", "third"]}
+      
+      >
+      <VictoryArea data={variant2Data}/>
+      <VictoryPolarAxis
+      labelPlacement="vertical"
+      tickValues={["Maj7", "Min7", "Dom7", "Dim7", "Half Dim7"]}/>
+      </VictoryChart>
+
+      <VictoryChart polar
+      theme={VictoryTheme.material}
+      labels={["first", "second", "third"]}
+      
+      >
+      <VictoryArea data={variantData}/>
+      <VictoryPolarAxis
+      labelPlacement="vertical"
+      tickValues={["", "Right Hand"," ","Left Hand"]}/>
+      </VictoryChart>
+
+
+
+      </ScrollView>
     
     );
   }
