@@ -47,8 +47,8 @@ export class LessonStatsComponent extends React.Component {
       return 100 
     }
     let diffFromGoal = (x - goal) / 1000
-
-    return 100 - (16.4317 * Math.sqrt(diffFromGoal))
+    let ret = 100 - (16.4317 * Math.sqrt(diffFromGoal))
+    return (ret > 0 ? ret : 10)
   }
 
   render() {
@@ -78,7 +78,7 @@ export class LessonStatsComponent extends React.Component {
       adjustedAveragesByCategory.push(adjustedList)
     }
 
-    
+
     
 
       

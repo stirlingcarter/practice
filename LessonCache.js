@@ -239,11 +239,6 @@ export default class LessonCache {
 
     }
 
-
-
-
-
-
     //now you have nameSets = [(A,Bb,B....Ab), (maj7,min7....dim7), (left,right)] 
     //now, make the sets ordered. These sets will be the basis for param. order from here on out.
     //each set member needs a corresponding average time 
@@ -276,6 +271,10 @@ export default class LessonCache {
     return res
 
   }
+
+
+
+
 
   //given a list of keys
   //given a matching str A, maj7, etc
