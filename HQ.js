@@ -94,6 +94,11 @@ export default class HQ {
     return names;
   }
 
+  getLessonGoal() {
+    
+    return LC.getLessonGoal();
+  }
+
   //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
   //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
   getOrderedUniqueLessonNamesByInstr(instrument) {
@@ -126,7 +131,7 @@ export default class HQ {
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2) {
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2, goal) {
 
     v = []
     v2 = []
@@ -146,12 +151,7 @@ export default class HQ {
       }
     }
 
-
-
-
-
-
-    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2);
+    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2, goal);
     
 
   }

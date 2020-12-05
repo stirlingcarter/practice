@@ -9,7 +9,8 @@ import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 
-const DOMAIN = {y:[0,10]}
+const DOMAIN = {y:[0,100]}
+const LIMIT = 30 * 1000
 
 //  want this to be ininviisiible and cover whole screen TODO
 export class LessonStatsComponent extends React.Component {
@@ -35,12 +36,19 @@ export class LessonStatsComponent extends React.Component {
   }
 
   f(x){
+
+    let goal = HQI.getLessonGoal() * 1000 
+
     //approach 100 as x approaches  0
     //approach 0 as x approaches inf  
-    if (x > 10000 || x == 0){
-      return 1
+    if (x == 0 || x > LIMIT){
+      return 10
+    } if (x <= goal){
+      return 100 
     }
-    return 10 - x/1000
+    let diffFromGoal = (x - goal) / 1000
+
+    return 100 - (16.4317 * Math.sqrt(diffFromGoal))
   }
 
   render() {
@@ -69,6 +77,8 @@ export class LessonStatsComponent extends React.Component {
       }
       adjustedAveragesByCategory.push(adjustedList)
     }
+
+    
     
 
       

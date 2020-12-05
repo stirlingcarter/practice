@@ -26,7 +26,8 @@ export class AddLessonComponent extends React.Component {
     this.handleCriChange = this.handleCriChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
-    
+    this.handleGoalChange = this.handleGoalChange.bind(this);
+
 
   }
 
@@ -53,18 +54,22 @@ export class AddLessonComponent extends React.Component {
   }
 
 
+  handleGoalChange(goal) {
+    this.setState({ goal });
+  }
+
+
   handleSubmit() {
     const save = async () => {
 
-      
-      
       try {
         await HQI.saveNewLesson(
           this.props.instrument,
           this.state.name,
           this.state.cri,
           this.state.variants,
-          this.state.variants2
+          this.state.variants2,
+          this.state.goal
         );
         await this.props.cb();
       } catch (error) { }
@@ -112,6 +117,14 @@ export class AddLessonComponent extends React.Component {
               multiline={true}
               value={this.state.variants2}
               onChangeText={this.handleVariants2Change} />
+                            <TextInput
+              style={allTheStyles.saveButton5}
+              onBlur={Keyboard.dismiss}
+              placeholder="Your goal time for this exercise in seconds"
+              numberOfLines={2}
+              multiline={true}
+              value={this.state.goal}
+              onChangeText={this.handleGoalChange} />
             <Text
               style={allTheStyles.saveLessonButton}
               onPress={this.handleSubmit}

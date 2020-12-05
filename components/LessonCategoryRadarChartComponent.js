@@ -8,8 +8,8 @@ import { HQI } from "../App";
 import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-
-const DOMAIN = {y:[0,10]}
+const DOMAIN_Y_BOUND = 100
+const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
 
 
 //  want this to be ininviisiible and cover whole screen TODO
@@ -35,12 +35,16 @@ export class LessonCategoryRadarChartComponent extends React.Component {
   componentDidUpdate() {
   }
 
-  f(x){
-    //approach 100 as x approaches  0
-    //approach 0 as x approaches inf  
-  }
 
   render() {
+
+    let color = "mediumspringgreen"
+    for(var i = 0; i < this.props.variants.length; i++) {
+      if (this.props.variants[i] < 100){
+        color = "black"
+        break; 
+      }
+    }
 
     //variants: [1,2,3,4,5,6,7,8,9,10,11,12], or [1,2,3], or [1,2] or whatever f(x)'d already
     //names: (a,ab,b,c,db......) (right hand)
@@ -69,7 +73,7 @@ export class LessonCategoryRadarChartComponent extends React.Component {
       <VictoryChart polar
             domain={DOMAIN}
       theme={VictoryTheme.material}>
-      <VictoryArea data={variantData}/>
+      <VictoryArea style={{ data: { fill: color} }} data={variantData}/>
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["", this.props.names[0]," ","  "]}/>
@@ -101,7 +105,7 @@ export class LessonCategoryRadarChartComponent extends React.Component {
       <VictoryChart polar
             domain={DOMAIN}
       theme={VictoryTheme.material}>
-      <VictoryArea data={variantData}/>
+      <VictoryArea style={{ data: { fill: color }} } data={variantData}/>
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["", this.props.names[0]," ",this.props.names[1]]}/>
@@ -124,15 +128,19 @@ export class LessonCategoryRadarChartComponent extends React.Component {
         variantData.push(tmp)
       }
 
-
       return (
         <VictoryChart polar
               domain={DOMAIN}
-        theme={VictoryTheme.material}>
-        <VictoryArea data={variantData}/>
+        theme={VictoryTheme.material}
+        
+        >
+          
+        <VictoryArea style={{ data: { fill: color} }} data={variantData}
+        />
         <VictoryPolarAxis
         labelPlacement="vertical"
-        tickValues={this.props.names}/>
+        tickValues={this.props.names}
+        />
         </VictoryChart>
         );
 

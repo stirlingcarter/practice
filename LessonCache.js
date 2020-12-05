@@ -1,3 +1,4 @@
+import thisTimeValue from "es-abstract/2015/thisTimeValue";
 import { AsyncStorage } from "react-native";
 
 
@@ -161,14 +162,20 @@ export default class LessonCache {
     return arr;
 }
 
-  getSlowestNote(window) {
-    let keys = Object.keys(this.payload)
-
+  getJustChallengeKeys(keys){
     keys = this.remove(keys,"instrument")
     keys = this.remove(keys,"uniqueLessonName")
     keys = this.remove(keys,"cri")
     keys = this.remove(keys,"visId")
     keys = this.remove(keys,"bpm")
+    keys = this.remove(keys,"goal")
+    return keys
+  }
+
+  getSlowestNote(window) {
+    let keys = Object.keys(this.payload)
+
+    keys = this.getJustChallengeKeys(keys)
 
     let maxAverage = 0
     let maxKey = keys[0]
@@ -191,7 +198,9 @@ export default class LessonCache {
 
   }
 
-
+  getLessonGoal() {
+    return this.payload["goal"];
+  }
 
     //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
   //              [5,2,6,7,3],
@@ -204,14 +213,8 @@ export default class LessonCache {
     //make a set of the non meta keys - A$maj7$left
     let keys = Object.keys(this.payload)
 
-    keys = this.remove(keys,"instrument")
-    keys = this.remove(keys,"uniqueLessonName")
-    keys = this.remove(keys,"cri")
-    keys = this.remove(keys,"visId")
-    keys = this.remove(keys,"bpm")
+    keys = this.getJustChallengeKeys(keys)
 
-    
- 
     //make n+1 sets, n = number of $
     let n = keys[0].split("$").length
     let nameSets = []
@@ -306,11 +309,9 @@ export default class LessonCache {
   getRandomNote() {
     let keys = Object.keys(this.payload)
 
-    keys = this.remove(keys,"instrument")
-    keys = this.remove(keys,"uniqueLessonName")
-    keys = this.remove(keys,"cri")
-    keys = this.remove(keys,"visId")
-    keys = this.remove(keys,"bpm")
+    keys = this.getJustChallengeKeys(keys)
+
+
 
     //keys.length == 12
     //get 0,1,2,3....11
@@ -486,7 +487,7 @@ export default class LessonCache {
       return variants
     }
   }
-  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2) {
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2, goal) {
 
     let combinedVariants = this.getCombinedVariants(variants,variants2)
     let notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"]
@@ -502,6 +503,7 @@ export default class LessonCache {
       cri: cri,
       visId: "",
       bpm: "",
+      goal: goal
     };
 
 
