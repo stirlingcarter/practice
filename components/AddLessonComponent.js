@@ -39,7 +39,9 @@ export class AddLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    this.setState({ variants });
+    if (variants.replace(/\s/g, '').length) {
+      this.setState({ variants });
+        }
   }
 
   handleVariants2Change(variants2) {
