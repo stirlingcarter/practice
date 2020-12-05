@@ -63,7 +63,9 @@ export class AddLessonComponent extends React.Component {
       } catch (error) { }
     };
 
-    save();
+    save().then(
+      this.props.nav.navigate("InstrumentScreen", { instrument: this.props.instrument })
+    )
   }
 
   render() {

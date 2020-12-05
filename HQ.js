@@ -56,6 +56,30 @@ export default class HQ {
   commit(diff) {
     LC.commit(diff, this.currentNote);
   }
+    //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+    //              [5,2,6,7,3],
+    //              [1,6]],[[a,b,c....g],
+    //              [maj7,m7...d7],
+    //              [left,right]]]
+  getAveragesByCategory(){
+
+
+    //make a set of the non meta keys - A$maj7$left
+    //make n+1 sets, n = number of $
+    //divide each member into proper sets
+    //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set. 
+    //now, make the sets ordered. These sets will be the basis for param. order from here on out.
+    //each set member needs a corresponding average time 
+    //what is the av for A? 
+    //have a getter that gets you all the keys with A from the master set. 
+    //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
+    
+    return LC.getAveragesByCategory();
+
+
+
+
+  }
 
   saveLesson() {
     LC.push();
