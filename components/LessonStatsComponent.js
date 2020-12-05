@@ -33,7 +33,14 @@ export class LessonStatsComponent extends React.Component {
   componentDidUpdate() {
   }
 
+  f(x){
+    //approach 100 as x approaches  0
+    //approach 0 as x approaches inf  
+  }
+
   render() {
+
+    
 
     const notesData = [
       {
@@ -128,15 +135,46 @@ export class LessonStatsComponent extends React.Component {
       }
     ]
 
-    // dynamiically need to get tick values 
+
+
+
+
+    // ONE in HQ: 
+
+
+    //make a set of the non meta keys - A$maj7$left
+    //make n+1 sets, n = number of $
+    //divide each member into proper sets
+    //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set 
+    //each set member needs a corresponding average time 
+    //what is the av for A? 
+    //have a getter that gets you all the keys with A from the master set. 
+    //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10. 
+
+
+    // TWO
+
+    //HQI.getAverages returns -> { 0 : [2,6,3,6,4,7,6,4,8,2,6,7]
+    //              1: [5,2,6,7,3]
+    //              2: [1,6]}
+    //each value will get f(x)'d to do a value conversion;
+    //and then transformed to meet the variantData pattern. 
+
+
+
+
+    // THREE 
+    // create a component that given [1,4] returns the right formattnig if its just 2. use that instead of more conditoinals
+
+  
+    // just three condiitoinals here based on how many lists are returned from HQI.getAverages
 
     // if there is one variant:
-    // if there are two:
+    // if there are two variants:
     //    -return both 
     // else:
     //    -return the one variant 
 
-    // 
 
 
 
