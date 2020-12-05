@@ -93,7 +93,7 @@ export class LessonStatsComponent extends React.Component {
       },
       {
         x: 2,
-        y: 10
+        y: 4
       },
       {
         x: 3,
@@ -101,7 +101,7 @@ export class LessonStatsComponent extends React.Component {
       },
       {
         x: 4,
-        y: 8
+        y: 1
       },
     ]
 
@@ -128,10 +128,26 @@ export class LessonStatsComponent extends React.Component {
       }
     ]
 
+    // dynamiically need to get tick values 
+
+    // if there is one variant:
+    // if there are two:
+    //    -return both 
+    // else:
+    //    -return the one variant 
+
+    // 
+
+
+
     return (
       <ScrollView>
 
       <VictoryChart polar
+      animate={{
+        duration: 2000,
+        easing: "bounce"
+      }}
       theme={VictoryTheme.material}
       labels={["first", "second", "third"]}
       
@@ -140,6 +156,7 @@ export class LessonStatsComponent extends React.Component {
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]}/>
+            
       </VictoryChart>
 
       <VictoryChart polar
@@ -151,9 +168,13 @@ export class LessonStatsComponent extends React.Component {
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["Maj7", "Min7", "Dom7", "Dim7", "Half Dim7"]}/>
+            
+      
       </VictoryChart>
 
       <VictoryChart polar
+            domain={{y:[0,6]}}
+
       theme={VictoryTheme.material}
       labels={["first", "second", "third"]}
       
@@ -162,6 +183,7 @@ export class LessonStatsComponent extends React.Component {
       <VictoryPolarAxis
       labelPlacement="vertical"
       tickValues={["", "Right Hand"," ","Left Hand"]}/>
+
       </VictoryChart>
 
 
