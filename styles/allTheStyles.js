@@ -4,7 +4,6 @@ export const allTheStyles = StyleSheet.create({
   saveButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -13,7 +12,6 @@ export const allTheStyles = StyleSheet.create({
   startButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -48,7 +46,6 @@ export const allTheStyles = StyleSheet.create({
     flexShrink: 1,
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 20,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -60,7 +57,6 @@ export const allTheStyles = StyleSheet.create({
   saveScreenSpacer: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 25,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -68,7 +64,6 @@ export const allTheStyles = StyleSheet.create({
   lessonInfoScreenSpacer: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 25,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -78,7 +73,6 @@ export const allTheStyles = StyleSheet.create({
   instrumentNames: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 89,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -87,7 +81,6 @@ export const allTheStyles = StyleSheet.create({
   homescreenSpacer2: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 12,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -97,7 +90,6 @@ export const allTheStyles = StyleSheet.create({
   lessonOption: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 89,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -107,7 +99,6 @@ export const allTheStyles = StyleSheet.create({
   homeScreenSpacer: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 25,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -117,7 +108,6 @@ export const allTheStyles = StyleSheet.create({
   saveLessonButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -127,33 +117,29 @@ export const allTheStyles = StyleSheet.create({
   instrumentScreenSpacer: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
+  
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
     height: 500,
   },
   instrumentScreenBackground: {
-    backgroundColor: "#FFEBCD",
+   
   },
   homeScreenBackground: {
-    backgroundColor: "#FFEBCD",
+    
   },
   saveScreenBackground: {
-    backgroundColor: "#FFEBCD",
   },
   lessonInfoScreenBackground: {
-    backgroundColor: "#FFEBCD",
     height: 5000,
   },
   challengeScreenBackground: {
-    backgroundColor: "#FFEBCD",
     height: 2000
   },
   challengeButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#FFEBCD",
     fontSize: 50,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -162,12 +148,10 @@ export const allTheStyles = StyleSheet.create({
   cri: {
     textAlignVertical: "center",
     textAlign: "auto",
-    backgroundColor: "#FFEBCD",
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
   },
   scrollStyle: {
-    backgroundColor: "#FFEBCD",
   },
 });
