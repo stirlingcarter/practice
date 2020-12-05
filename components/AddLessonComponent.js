@@ -26,6 +26,7 @@ export class AddLessonComponent extends React.Component {
     this.handleCriChange = this.handleCriChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
+    
 
   }
 
@@ -42,7 +43,11 @@ export class AddLessonComponent extends React.Component {
   }
 
   handleVariants2Change(variants2) {
-    this.setState({ variants2 });
+
+    if (variants2.replace(/\s/g, '').length) {
+      this.setState({ variants2 });
+        }
+    
   }
 
 
