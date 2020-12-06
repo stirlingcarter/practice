@@ -94,6 +94,11 @@ export default class HQ {
     return names;
   }
 
+getHistoricalAveragesByCatMember(names){
+    return LC.getHistoricalAveragesByCatMember(names);
+
+  }
+
   getLessonGoal() {
     
     return LC.getLessonGoal();

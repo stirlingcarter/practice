@@ -1,6 +1,7 @@
 import thisTimeValue from "es-abstract/2015/thisTimeValue";
 import { AsyncStorage } from "react-native";
 
+RANDOM_FIRST_RUN = true
 
 async function retrieveItem(key) {
   // alert("gettinig for " + key)
@@ -172,11 +173,29 @@ export default class LessonCache {
     return keys
   }
 
+  getEmptyKeys(keys){
+    let emptyKeys = []
+    for (let i = 0; i < keys.length; i++){
+      windowedAverage = this.getAverage(window,keys[i])
+      if (windowedAverage == 0){
+        emptyKeys.push(keys[i])
+      }
+    }
+    return emptyKeys
+  }
+
   getSlowestNote(window) {
     let keys = Object.keys(this.payload)
 
     keys = this.getJustChallengeKeys(keys)
 
+    if (RANDOM_FIRST_RUN){
+      let emptyKeys = this.getEmptyKeys(keys)
+      if (emptyKeys.length > 0){
+        return emptyKeys[Math.floor(Math.random() * emptyKeys.length)]
+      }
+  }
+    
     //if there are any keys with 0, return a randoom one. 
     //else do the followinig.
 
@@ -188,7 +207,6 @@ export default class LessonCache {
       if (windowedAverage == 0){
         return note
       }else{
-
         if (windowedAverage > maxAverage){
           maxAverage = windowedAverage
           maxKey = note
@@ -203,6 +221,67 @@ export default class LessonCache {
 
   getLessonGoal() {
     return this.payload["goal"];
+  }
+
+  getHistoricalAveragesByCatMember(names){
+
+    let keys = Object.keys(this.payload)
+    keys = this.getJustChallengeKeys(keys)
+
+    let res = []
+    for (let i = 0; i < names.length; i++){
+
+      let matchingKeys = this.getAllMatchingKeys(keys,names[i]) // A, or Bb 
+
+      let allTimesForCatMember = []
+      for (let k = 0; k < matchingKeys.length; k++){
+        if (this.payload[matchingKeys[k]].length == 0){
+          allTimesForCatMember.push([])
+        }else{
+          let arrayCopy = JSON.parse(JSON.stringify(this.payload[matchingKeys[k]])); 
+        
+          allTimesForCatMember.push(arrayCopy)
+        }
+      }
+      res.push(this.interleaveArrays(allTimesForCatMember))
+    }
+    return res
+  }
+
+
+  //arrays: these will all initerleave inito one array tho 
+  // [
+  //   [8,7,5,3] 
+  //   [5,2]
+  //   []
+  //   [23,14,10,7,6,4,3]
+  //   ....
+  // ]
+  //output:
+  //[8,5,23,7,2,14,5,10,3,7,6,4,3]
+
+  interleaveArrays(arrays){
+
+    let l = arrays.length
+    let res = []
+    
+    let done = false
+
+    let i = 0
+    while (!done && i < 100){
+      let done = true
+      for (let i = 0; i < l; i++){
+        if (arrays[i].length > 0){
+          done = false
+          res.push(arrays[i].shift())
+        }
+      }
+      i += 1
+    }
+
+
+    return res
+
   }
 
     //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],

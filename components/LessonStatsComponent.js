@@ -8,6 +8,7 @@ import { HQI } from "../App";
 import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
+import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
 
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
@@ -88,17 +89,21 @@ export class LessonStatsComponent extends React.Component {
         <ScrollView>
   
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
-  
+        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
+
         </ScrollView>
       
       );
     }else if (adjustedAveragesByCategory.length == 2){
+
 
       return (
         <ScrollView>
   
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]} names={namesByCategory[0]}/>
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]} names={namesByCategory[1]}/>
+        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
+        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
 
         </ScrollView>
 
@@ -113,6 +118,10 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]}  names={namesByCategory[1]}/>
         <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[2]}  names={namesByCategory[2]}/>
+        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
+        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
+        <LessonCategoryLineChartComponent names={namesByCategory[2]}/>
+
 
         </ScrollView>
 
