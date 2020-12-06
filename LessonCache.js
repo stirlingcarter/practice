@@ -177,6 +177,9 @@ export default class LessonCache {
 
     keys = this.getJustChallengeKeys(keys)
 
+    //if there are any keys with 0, return a randoom one. 
+    //else do the followinig.
+
     let maxAverage = 0
     let maxKey = keys[0]
     for (let i = 0; i < keys.length; i++){
@@ -250,11 +253,16 @@ export default class LessonCache {
 
       for (let k = 0; k < nameSetListVersion[i].length; k++){
         let matchingKeys = this.getAllMatchingKeys(keys, nameSetListVersion[i][k]) // A maj7 left A min7 left A maj7 right A min7 right
+        let divisor = matchingKeys.length 
         let sum = 0
         for (let j = 0; j < matchingKeys.length; j++){
-          sum += this.getAverage(10,matchingKeys[j])
+          let addand = this.getAverage(10,matchingKeys[j])
+          if (addand == 0){
+            divisor -= 1 // not counting this for the amount of averages being averaged
+          }
+          sum += addand
         }
-        avg = sum / matchingKeys.length
+        avg = sum / divisor
         tmp.push(avg)
       }
 
