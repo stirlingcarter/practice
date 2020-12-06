@@ -39,12 +39,12 @@ export class LessonCategoryLineChartComponent extends React.Component {
     if (historicalTimes.length == 0){
       let res = []
       res.push({ x: 0, y: 0 })
-      res.push({ x: DOMAIN_X_BOUND, y: 88 })
+      res.push({ x: DOMAIN_X_BOUND, y: 1 })
       return res
     } else if (historicalTimes.length == 1){
       let res = []
-      res.push({ x: 0, y: historicalTimes[0] + 1 })
-      res.push({ x: DOMAIN_X_BOUND, y: historicalTimes[0] })
+      res.push({ x: 0, y: historicalTimes[0]/1000 + 1 })
+      res.push({ x: DOMAIN_X_BOUND, y: historicalTimes[0]/1000 })
       return res
     }
     let res = []
@@ -81,7 +81,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
     return(
     <VictoryGroup
       color={color}
-      labels={({ datum }) => `${catMember}`}
+      labels={({ datum }) => `${catMember}: ${datum.y}`}
       labelComponent={
         <VictoryTooltip
           style={{ fontSize: 10 }}
@@ -115,7 +115,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
     const fields = []
     for (let i = 0; i < this.props.names.length; i++) {
-      let color = COLORS[i]
+      let color = COLORS[i%12]
       fields.push(this.getOneGroupElement(historicalAveragesByCatMember[i],this.props.names[i],color));
     }
 

@@ -138,6 +138,10 @@ getHistoricalAveragesByCatMember(names){
 
   async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2, goal) {
 
+    if (goal == null || isNaN(goal) || goal <= 0){
+      goal = 1
+    }
+
     v = []
     v2 = []
 
