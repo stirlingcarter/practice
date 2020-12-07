@@ -23,12 +23,10 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
   componentDidMount() {
     this.setState({
-
     });
   }
 
   componentWillUnmount() {
-
   }
 
   //entered at mount due to state channge
@@ -37,13 +35,10 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
   getCoords(historicalTimes){
     if (historicalTimes.length == 0){
-      let res = []
-      res.push({ x: 0, y: 0 })
-      res.push({ x: DOMAIN_X_BOUND, y: 1 })
-      return res
+      return []
     } else if (historicalTimes.length == 1){
       let res = []
-      res.push({ x: 0, y: historicalTimes[0]/1000 + 1 })
+      res.push({ x: 0, y: historicalTimes[0]/1000  })
       res.push({ x: DOMAIN_X_BOUND, y: historicalTimes[0]/1000 })
       return res
     }

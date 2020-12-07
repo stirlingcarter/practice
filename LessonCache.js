@@ -150,7 +150,9 @@ export default class LessonCache {
       d = len;
     }
 
-    return (isNaN(ave / d) ? 0 : (ave / d));
+    let ans = ave/d
+
+    return (isNaN(ans) ? 0 : ans);
 
   }
 
@@ -173,12 +175,15 @@ export default class LessonCache {
     return keys
   }
 
-  getEmptyKeys(keys){
+  getEmptyKeys(window, keys){
     let emptyKeys = []
     for (let i = 0; i < keys.length; i++){
-      windowedAverage = this.getAverage(window,keys[i])
+      let note = keys[i]
+      let windowedAverage = this.getAverage(window,note)
+
       if (windowedAverage == 0){
-        emptyKeys.push(keys[i])
+        emptyKeys.push(note)
+
       }
     }
     return emptyKeys
@@ -190,20 +195,20 @@ export default class LessonCache {
     keys = this.getJustChallengeKeys(keys)
 
     if (RANDOM_FIRST_RUN){
-      let emptyKeys = this.getEmptyKeys(keys)
+      let emptyKeys = this.getEmptyKeys(window,keys)
       if (emptyKeys.length > 0){
         return emptyKeys[Math.floor(Math.random() * emptyKeys.length)]
       }
-  }
-    
+    }
+      
     //if there are any keys with 0, return a randoom one. 
     //else do the followinig.
 
     let maxAverage = 0
     let maxKey = keys[0]
     for (let i = 0; i < keys.length; i++){
-      note = keys[i]
-      windowedAverage = this.getAverage(window,note)
+      let note = keys[i]
+      let windowedAverage = this.getAverage(window,note)
       if (windowedAverage == 0){
         return note
       }else{
