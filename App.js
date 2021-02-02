@@ -10,6 +10,7 @@ import { HomeScreen } from "./screens/HomeScreen";
 import { InstrumentScreen } from "./screens/InstrumentScreen";
 import { LessonLaunchScreen } from "./screens/LessonLaunchScreen";
 import { AddLessonScreen } from "./screens/AddLessonScreen";
+import { LessonStatsScreen } from "./screens/LessonStatsScreen";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,11 @@ export default function App() {
           name="AddLessonScreen"
           component={AddLessonScreen}
           options={{ title: "AddLessonScreen" }}
+        />
+        <Stack.Screen
+          name="LessonStatsScreen"
+          component={LessonStatsScreen}
+          options={{ title: "LessonStatsScreen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

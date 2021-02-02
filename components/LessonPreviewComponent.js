@@ -42,7 +42,7 @@ export class LessonPreviewComponent extends React.Component {
         uniqueName: "b",
         cri: "a",
       },
-      Lesson2: {
+      Lesson3: {
         instrument: "piano",
         uniqueName: "c",
         cri: "a",
@@ -57,14 +57,18 @@ export class LessonPreviewComponent extends React.Component {
       }
     };
 
-    for (let i = 1; i < Object.keys(presets).length + 1; i++) {
-      let key = "Lesson" + i;
-      await save(
-        presets[key]["instrument"],
-        presets[key]["uniqueName"],
-        presets[key]["cri"]
-      );
-    }
+
+    // reloads presets iif any are deleted, could be used for a reload presets button
+    // for (let i = 1; i < Object.keys(presets).length + 1; i++) {
+    //   let key = "Lesson" + i;
+    //   await save(
+    //     presets[key]["instrument"],
+    //     presets[key]["uniqueName"],
+    //     presets[key]["cri"]
+    //   );
+    // }
+
+
   }
 
   async getLessonNames() {
