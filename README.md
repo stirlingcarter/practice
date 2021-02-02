@@ -4,7 +4,7 @@ Leveraging statistics and user design principles, this app listens to guitarists
 
 # Examples
 
-### Users can compare their speed for each of the 12 notes
+### Users can compare their speed for, as an example, each of the 12 notes
 ![Screenshot](full.png?)
 ### ... or for any hypothetical category they choose
 ![Screenshot](triangle.png?raw=true)
