@@ -4,3 +4,4 @@ Leveraging statistics and user design principles, this app listens to guitarists
 
 ![alt text](https://github.com/stirlingcarter/practice/blob/master/assets/Pics/green.jpg?raw=true)
 ![Screenshot](assets/Pics/green.jpg)
+[My image](stirlingcarter.github.com/practice/assets/Pics/green.png)
