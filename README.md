@@ -2,6 +2,13 @@
 
 Leveraging statistics and user design principles, this app listens to guitarists and visualizes key performance data. Drills are data-driven to optimize growth.
 
-![alt text](https://github.com/stirlingcarter/practice/blob/master/assets/Pics/green.jpg?raw=true)
-![Screenshot](green.png?raw=true)
-[My image](stirlingcarter.github.com/practice/assets/Pics/green.png)
+# Examples
+
+### Users can compare their speed for each of the 12 notes
+![Screenshot](full.png?raw=true)
+### ... or for any hypothetical category they choose
+![Screenshot](triangle.png?raw=true)
+### Users can tell when they've reached their goal time for a particular exercise
+![Screenshot](green.png?)
+### ...and visualize their learning rate
+![Screenshot](graph.png?raw=true)
