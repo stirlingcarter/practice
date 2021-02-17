@@ -41,7 +41,7 @@ export default function App() {
           component={HomeScreen}
           options={{ title: "HomeScreen" }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="InstrumentScreen"
           component={InstrumentScreen}
           options={{ title: "InstrumentScreen" }}
@@ -60,7 +60,7 @@ export default function App() {
           name="AddLessonScreen"
           component={AddLessonScreen}
           options={{ title: "AddLessonScreen" }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -69,476 +69,450 @@ export default function App() {
 //SCREENS -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function HomeScreen({ navigation }) {
-  var instrumentNames = HQI.getInstrumentNames();
+  // var instrumentNames = HQI.getInstrumentNames();
 
   return (
     <View style={noteStyle.homeScreenBackground}>
-      <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
-
-      <FlatList
-        data={instrumentNames}
-        renderItem={({ item }) => (
-          <>
-            <Text
-              onPress={() =>
-                navigation.navigate("InstrumentScreen", { instrument: item })
-              }
-              style={noteStyle.instrumentNames}
-            >
-              {item + "\n"}
-            </Text>
-            <Text
-              onPress={() =>
-                navigation.navigate("InstrumentScreen", { instrument: item })
-              }
-              style={noteStyle.homescreenSpacer2}
-            >
-              {"\n"}
-            </Text>
-          </>
-        )}
-      />
-
-      <Text style={noteStyle.homeScreenSpacer}>{"\n"}</Text>
+<Text>sup</Text>
     </View>
   );
 }
 
-function InstrumentScreen({ route, navigation }) {
-  const { instrument } = route.params;
+// // function InstrumentScreen({ route, navigation }) {
+// //   const { instrument } = route.params;
 
-  return (
-    <View>
-      <BetterLessonPreviewsContainer nav={navigation} instrument={instrument} />
-    </View>
-  );
-}
-function LessonLaunchScreen({ route, navigation }) {
-  const { lesson } = route.params;
-  const { instrument } = route.params;
+// //   return (
+// //     <View>
+// //       <BetterLessonPreviewsContainer nav={navigation} instrument={instrument} />
+// //     </View>
+// //   );
+// // }
+// // function LessonLaunchScreen({ route, navigation }) {
+// //   const { lesson } = route.params;
+// //   const { instrument } = route.params;
 
-  //HQI.getStatsByInstr(instrument)
-  return (
-    <WholeAssLessonInfo
-      instrument={instrument}
-      nav={navigation}
-      lesson={lesson}
-    />
-  );
-}
+// //   //HQI.getStatsByInstr(instrument)
+// //   return (
+// //     <WholeAssLessonInfo
+// //       instrument={instrument}
+// //       nav={navigation}
+// //       lesson={lesson}
+// //     />
+// //   );
+// // }
 
-function AddLessonScreen({ route, navigation }) {
-  const { instrument } = route.params;
-  const { cb } = route.params;
+// // function AddLessonScreen({ route, navigation }) {
+// //   const { instrument } = route.params;
+// //   const { cb } = route.params;
 
-  return <AddLessonComponent instrument={instrument} cb={cb} />;
-}
+// //   return <AddLessonComponent instrument={instrument} cb={cb} />;
+// // }
 
-function LessonChallengeScreen({ route, navigation }) {
-  const { lesson } = route.params;
-  const { instrument } = route.params;
+// // function LessonChallengeScreen({ route, navigation }) {
+// //   const { lesson } = route.params;
+// //   const { instrument } = route.params;
 
-  return <WholeAssChallenge nav={navigation} />;
-}
+// //   return <WholeAssChallenge nav={navigation} />;
+// // }
 
-//COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
+// //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-class AddLessonComponent extends React.Component {
-  constructor(props) {
-    super(props);
+// class AddLessonComponent extends React.Component {
+//   constructor(props) {
+//     super(props);
 
-    this.state = { name: "", cri: "" };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleCriChange = this.handleCriChange.bind(this);
-  }
+//     this.state = { name: "", cri: "" };
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//     this.handleNameChange = this.handleNameChange.bind(this);
+//     this.handleCriChange = this.handleCriChange.bind(this);
+//   }
 
-  handleNameChange(name) {
-    this.setState({ name });
-  }
+//   handleNameChange(name) {
+//     this.setState({ name });
+//   }
 
-  handleCriChange(cri) {
-    this.setState({ cri });
-  }
+//   handleCriChange(cri) {
+//     this.setState({ cri });
+//   }
 
-  handleSubmit() {
-    const save = async () => {
-      try {
-        await HQI.saveNewLesson(
-          this.props.instrument,
-          this.state.name,
-          this.state.cri
-        );
-        await this.props.cb();
-      } catch (error) {}
-    };
+//   handleSubmit() {
+//     const save = async () => {
+//       try {
+//         await HQI.saveNewLesson(
+//           this.props.instrument,
+//           this.state.name,
+//           this.state.cri
+//         );
+//         await this.props.cb();
+//       } catch (error) {}
+//     };
 
-    save();
-  }
+//     save();
+//   }
 
-  render() {
-    return (
-      <View style={noteStyle.saveScreenBackground}>
-        <ScrollView>
-          <View>
-            <TextInput
-              style={noteStyle.saveButton}
-              onBlur={Keyboard.dismiss}
-              placeholder="Title"
-              maxLength={200}
-              value={this.state.name}
-              onChangeText={this.handleNameChange}
-            />
-            <Text style={noteStyle.saveScreenSpacer}>{"\n"}</Text>
-            <TextInput
-              style={noteStyle.saveButton5}
-              onBlur={Keyboard.dismiss}
-              placeholder="Description"
-              numberOfLines={2}
-              multiline={true}
-              value={this.state.cri}
-              onChangeText={this.handleCriChange}
-            />
+//   render() {
+//     return (
+//       <View style={noteStyle.saveScreenBackground}>
+//         <ScrollView>
+//           <View>
+//             <TextInput
+//               style={noteStyle.saveButton}
+//               onBlur={Keyboard.dismiss}
+//               placeholder="Title"
+//               maxLength={200}
+//               value={this.state.name}
+//               onChangeText={this.handleNameChange}
+//             />
+//             <Text style={noteStyle.saveScreenSpacer}>{"\n"}</Text>
+//             <TextInput
+//               style={noteStyle.saveButton5}
+//               onBlur={Keyboard.dismiss}
+//               placeholder="Description"
+//               numberOfLines={2}
+//               multiline={true}
+//               value={this.state.cri}
+//               onChangeText={this.handleCriChange}
+//             />
 
-            <Text
-              style={noteStyle.saveLessonButton}
-              onPress={this.handleSubmit}
-              onChangeText={this.handleNameChange}
-            >
-              {"save"}
-            </Text>
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
-}
+//             <Text
+//               style={noteStyle.saveLessonButton}
+//               onPress={this.handleSubmit}
+//               onChangeText={this.handleNameChange}
+//             >
+//               {"save"}
+//             </Text>
+//           </View>
+//         </ScrollView>
+//       </View>
+//     );
+//   }
+// }
 
-class LessonPreviewsContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getLessonNames = this.getLessonNames.bind(this);
+// class LessonPreviewsContainer extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.getLessonNames = this.getLessonNames.bind(this);
 
-    this.state = { lessons: [] };
-  }
+//     this.state = { lessons: [] };
+//   }
 
-  componentDidMount() {
-    this.getLessonNames();
-  }
+//   componentDidMount() {
+//     this.getLessonNames();
+//   }
 
-  async getLessonNames() {
-    var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
+//   async getLessonNames() {
+//     var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
 
-    this.setState({
-      lessons: lessons,
-    });
-  }
+//     this.setState({
+//       lessons: lessons,
+//     });
+//   }
 
-  render() {
-    return (
-      <>
-        <Button
-          title={"Add Lesson"}
-          onPress={() =>
-            this.props.nav.navigate("AddLessonScreen", {
-              instrument: this.props.instrument,
-              cb: this.getLessonNames,
-            })
-          }
-        />
+//   render() {
+//     return (
+//       <>
+//         <Button
+//           title={"Add Lesson"}
+//           onPress={() =>
+//             this.props.nav.navigate("AddLessonScreen", {
+//               instrument: this.props.instrument,
+//               cb: this.getLessonNames,
+//             })
+//           }
+//         />
 
-        <FlatList
-          data={this.state.lessons}
-          renderItem={({ item }) => (
-            <Button
-              title={item}
-              onPress={() =>
-                this.props.nav.navigate("LessonLaunchScreen", {
-                  lesson: item,
-                  instrument: this.props.instrument,
-                })
-              }
-            />
-          )}
-        />
-      </>
-    );
-  }
-}
+//         <FlatList
+//           data={this.state.lessons}
+//           renderItem={({ item }) => (
+//             <Button
+//               title={item}
+//               onPress={() =>
+//                 this.props.nav.navigate("LessonLaunchScreen", {
+//                   lesson: item,
+//                   instrument: this.props.instrument,
+//                 })
+//               }
+//             />
+//           )}
+//         />
+//       </>
+//     );
+//   }
+// }
 
-class BetterLessonPreviewsContainer extends React.Component {
-  constructor(props) {
-    super(props); //this.props.num = 1;
+// class BetterLessonPreviewsContainer extends React.Component {
+//   constructor(props) {
+//     super(props); //this.props.num = 1;
 
-    this.getLessonNames = this.getLessonNames.bind(this);
-    this.getPresets = this.getPresets.bind(this);
+//     this.getLessonNames = this.getLessonNames.bind(this);
+//     this.getPresets = this.getPresets.bind(this);
 
-    this.state = { lessons: [], currentlyOpenSwipeable: null };
-  }
+//     this.state = { lessons: [], currentlyOpenSwipeable: null };
+//   }
 
-  componentDidMount() {
-    this.getLessonNames();
-    this.getPresets();
-  }
+//   componentDidMount() {
+//     this.getLessonNames();
+//     this.getPresets();
+//   }
 
-  async getPresets(lessons) {
-    var presets = {
-      Lesson1: {
-        instrument: "guitar",
-        uniqueName: "a",
-        cri: "a",
-      },
-      Lesson2: {
-        instrument: "piano",
-        uniqueName: "b",
-        cri: "a",
-      },
-      Lesson2: {
-        instrument: "piano",
-        uniqueName: "c",
-        cri: "a",
-      },
-    };
+//   async getPresets(lessons) {
+//     var presets = {
+//       Lesson1: {
+//         instrument: "guitar",
+//         uniqueName: "a",
+//         cri: "a",
+//       },
+//       Lesson2: {
+//         instrument: "piano",
+//         uniqueName: "b",
+//         cri: "a",
+//       },
+//       Lesson2: {
+//         instrument: "piano",
+//         uniqueName: "c",
+//         cri: "a",
+//       },
+//     };
 
-    const save = async (instr, name, cri) => {
-      if (!lessons.includes(name) && this.props.instrument == instr) {
-        try {
-          await HQI.saveNewLesson(instr, name, cri);
-        } catch (error) {}
-      }
-    };
+//     const save = async (instr, name, cri) => {
+//       if (!lessons.includes(name) && this.props.instrument == instr) {
+//         try {
+//           await HQI.saveNewLesson(instr, name, cri);
+//         } catch (error) {}
+//       }
+//     };
 
-    for (let i = 1; i < Object.keys(presets).length + 1; i++) {
-      let key = "Lesson" + i;
-      await save(
-        presets[key]["instrument"],
-        presets[key]["uniqueName"],
-        presets[key]["cri"]
-      );
-    }
-  }
+//     for (let i = 1; i < Object.keys(presets).length + 1; i++) {
+//       let key = "Lesson" + i;
+//       await save(
+//         presets[key]["instrument"],
+//         presets[key]["uniqueName"],
+//         presets[key]["cri"]
+//       );
+//     }
+//   }
 
-  async getLessonNames() {
-    var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
+//   async getLessonNames() {
+//     var lessons = await HQI.getLessonNamesByInstrument(this.props.instrument);
 
-    var response = await this.getPresets(lessons);
+//     var response = await this.getPresets(lessons);
 
-    this.setState({
-      lessons: lessons,
-    });
-  }
+//     this.setState({
+//       lessons: lessons,
+//     });
+//   }
 
-  render() {
-    const itemProps = {
-      onOpen: (event, gestureState, swipeable) => {
-        if (
-          this.state.currentlyOpenSwipeable &&
-          this.state.currentlyOpenSwipeable !== swipeable
-        ) {
-          this.state.currentlyOpenSwipeable.recenter();
-        }
+//   render() {
+//     const itemProps = {
+//       onOpen: (event, gestureState, swipeable) => {
+//         if (
+//           this.state.currentlyOpenSwipeable &&
+//           this.state.currentlyOpenSwipeable !== swipeable
+//         ) {
+//           this.state.currentlyOpenSwipeable.recenter();
+//         }
 
-        this.setState({ currentlyOpenSwipeable: swipeable });
-      },
-      onClose: () => this.setState({ currentlyOpenSwipeable: null }),
-    };
-    //this.num = 1;
-    //const data = this.state.lessons.map( x => { this.getMap(x)})
+//         this.setState({ currentlyOpenSwipeable: swipeable });
+//       },
+//       onClose: () => this.setState({ currentlyOpenSwipeable: null }),
+//     };
+//     //this.num = 1;
+//     //const data = this.state.lessons.map( x => { this.getMap(x)})
 
-    const rightButtons = [
-      <TouchableHighlight>
-        <Button
-          title={"Delete                                      "}
-          style="position: absolute; left: 0;"
-          onPress={() => (t = 3)}
-        />
-      </TouchableHighlight>,
-    ];
-    return (
-      <>
-        <SafeAreaView>
-          <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
-            <Text
-              onPress={() =>
-                this.props.nav.navigate("AddLessonScreen", {
-                  instrument: this.props.instrument,
-                  cb: this.getLessonNames,
-                })
-              }
-              style={noteStyle.saveButton3}
-            >
-              {this.props.instrument}
-            </Text>
-            <Text
-              onPress={() =>
-                this.props.nav.navigate("AddLessonScreen", {
-                  instrument: this.props.instrument,
-                  cb: this.getLessonNames,
-                })
-              }
-              style={noteStyle.saveButton4}
-            >
-              {"tap here to add lessons.\n"}
-            </Text>
+//     const rightButtons = [
+//       <TouchableHighlight>
+//         <Button
+//           title={"Delete                                      "}
+//           style="position: absolute; left: 0;"
+//           onPress={() => (t = 3)}
+//         />
+//       </TouchableHighlight>,
+//     ];
+//     return (
+//       <>
+//         <SafeAreaView>
+//           <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
+//             <Text
+//               onPress={() =>
+//                 this.props.nav.navigate("AddLessonScreen", {
+//                   instrument: this.props.instrument,
+//                   cb: this.getLessonNames,
+//                 })
+//               }
+//               style={noteStyle.saveButton3}
+//             >
+//               {this.props.instrument}
+//             </Text>
+//             <Text
+//               onPress={() =>
+//                 this.props.nav.navigate("AddLessonScreen", {
+//                   instrument: this.props.instrument,
+//                   cb: this.getLessonNames,
+//                 })
+//               }
+//               style={noteStyle.saveButton4}
+//             >
+//               {"tap here to add lessons.\n"}
+//             </Text>
 
-            <FlatList
-              data={this.state.lessons}
-              renderItem={({ item }) => (
-                <Swipeable
-                  rightButtons={[
-                    <TouchableOpacity
-                      onPress={async () => {
-                        await HQI.deleteLesson(
-                          this.props.instrument,
-                          item,
-                          this.getLessonNames
-                        );
-                      }}
-                      style={[
-                        styles3.rightSwipeItem,
-                        { backgroundColor: "red" },
-                      ]}
-                    >
-                      <Text></Text>
-                    </TouchableOpacity>,
-                  ]}
-                  onRightButtonsOpenRelease={itemProps.onOpen}
-                  onRightButtonsCloseRelease={itemProps.onClose}
-                >
-                  <Text
-                    onPress={() =>
-                      this.props.nav.navigate("LessonLaunchScreen", {
-                        lesson: item,
-                        instrument: this.props.instrument,
-                      })
-                    }
-                    style={noteStyle.lessonOption}
-                  >
-                    {item}
-                  </Text>
-                </Swipeable>
-              )}
-            />
-            <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
-          </ScrollView>
-        </SafeAreaView>
-      </>
-    );
-  }
-}
-class WholeAssLessonInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getCri = this.getCri.bind(this);
-    this.state = {
-      cri: "def",
-    };
+//             <FlatList
+//               data={this.state.lessons}
+//               renderItem={({ item }) => (
+//                 <Swipeable
+//                   rightButtons={[
+//                     <TouchableOpacity
+//                       onPress={async () => {
+//                         await HQI.deleteLesson(
+//                           this.props.instrument,
+//                           item,
+//                           this.getLessonNames
+//                         );
+//                       }}
+//                       style={[
+//                         styles3.rightSwipeItem,
+//                         { backgroundColor: "red" },
+//                       ]}
+//                     >
+//                       <Text></Text>
+//                     </TouchableOpacity>,
+//                   ]}
+//                   onRightButtonsOpenRelease={itemProps.onOpen}
+//                   onRightButtonsCloseRelease={itemProps.onClose}
+//                 >
+//                   <Text
+//                     onPress={() =>
+//                       this.props.nav.navigate("LessonLaunchScreen", {
+//                         lesson: item,
+//                         instrument: this.props.instrument,
+//                       })
+//                     }
+//                     style={noteStyle.lessonOption}
+//                   >
+//                     {item}
+//                   </Text>
+//                 </Swipeable>
+//               )}
+//             />
+//             <Text style={noteStyle.instrumentScreenSpacer}>{"\n"}</Text>
+//           </ScrollView>
+//         </SafeAreaView>
+//       </>
+//     );
+//   }
+// }
+// class WholeAssLessonInfo extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.getCri = this.getCri.bind(this);
+//     this.state = {
+//       cri: "def",
+//     };
 
-    HQI.mountLesson(this.props.instrument, this.props.lesson, this.getCri);
-  }
-  componentDidMount() {
-    this.getCri();
-  }
+//     HQI.mountLesson(this.props.instrument, this.props.lesson, this.getCri);
+//   }
+//   componentDidMount() {
+//     this.getCri();
+//   }
 
-  async getCri() {
-    // alert(HQI.getCri())
-    this.setState({
-      cri: HQI.getCri(),
-    });
-  }
+//   async getCri() {
+//     // alert(HQI.getCri())
+//     this.setState({
+//       cri: HQI.getCri(),
+//     });
+//   }
 
-  render() {
-    return (
-      <SafeAreaView>
-        <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
-          <Text style={noteStyle.cri}>{this.state.cri}</Text>
+//   render() {
+//     return (
+//       <SafeAreaView>
+//         <ScrollView snapToStart={false} style={noteStyle.scrollStyle}>
+//           <Text style={noteStyle.cri}>{this.state.cri}</Text>
 
-          <Text
-            style={noteStyle.startButton}
-            title={"start " + this.props.lesson}
-            onPress={() =>
-              this.props.nav.navigate("LessonChallengeScreen", {
-                lesson: this.props.lesson,
-                instrument: this.props.instrument,
-              })
-            }
-          >
-            {"\n\n\nSTART"}
-          </Text>
-        </ScrollView>
-        <Text style={noteStyle.lessonInfoScreenSpacer}>{"\n"}</Text>
-      </SafeAreaView>
-    );
-  }
-}
+//           <Text
+//             style={noteStyle.startButton}
+//             title={"start " + this.props.lesson}
+//             onPress={() =>
+//               this.props.nav.navigate("LessonChallengeScreen", {
+//                 lesson: this.props.lesson,
+//                 instrument: this.props.instrument,
+//               })
+//             }
+//           >
+//             {"\n\n\nSTART"}
+//           </Text>
+//         </ScrollView>
+//         <Text style={noteStyle.lessonInfoScreenSpacer}>{"\n"}</Text>
+//       </SafeAreaView>
+//     );
+//   }
+// }
 
-//  want this to be ininviisiible and cover whole screen TODO
-class WholeAssChallenge extends React.Component {
-  constructor(props) {
-    super(props);
-    this.challengeCallback = this.challengeCallback.bind(this);
-    this.state = {
-      //clock
-      start: 0,
-      isOn: false,
-      end: 0,
-      note: HQI.getNextNote(),
-    };
-  }
+// //  want this to be ininviisiible and cover whole screen TODO
+// class WholeAssChallenge extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.challengeCallback = this.challengeCallback.bind(this);
+//     this.state = {
+//       //clock
+//       start: 0,
+//       isOn: false,
+//       end: 0,
+//       note: HQI.getNextNote(),
+//     };
+//   }
 
-  componentDidMount() {
-    this.setState({
-      start: Date.now(),
-      isOn: true,
-      end: this.state.end,
-    });
-  }
+//   componentDidMount() {
+//     this.setState({
+//       start: Date.now(),
+//       isOn: true,
+//       end: this.state.end,
+//     });
+//   }
 
-  componentWillUnmount() {
-    HQI.saveLesson();
-  }
+//   componentWillUnmount() {
+//     HQI.saveLesson();
+//   }
 
-  challengeCallback(nav) {
-    this.setState({
-      isOn: false,
-      end: Date.now(),
-    });
+//   challengeCallback(nav) {
+//     this.setState({
+//       isOn: false,
+//       end: Date.now(),
+//     });
 
-    nav.navigate("LessonChallengeScreen");
-  }
+//     nav.navigate("LessonChallengeScreen");
+//   }
 
-  //entered at mount due to state channge
-  componentDidUpdate() {
-    //not entered at mount due to bool
-    if (this.state.isOn == false) {
-      let diff = this.state.end - this.state.start;
-      //alert(diff);
-      HQI.commit(diff);
+//   //entered at mount due to state channge
+//   componentDidUpdate() {
+//     //not entered at mount due to bool
+//     if (this.state.isOn == false) {
+//       let diff = this.state.end - this.state.start;
+//       //alert(diff);
+//       HQI.commit(diff);
 
-      this.setState({
-        note: HQI.getNextNote(),
-        start: Date.now(),
-        isOn: true,
-        end: this.state.end,
-      });
-    }
-  }
+//       this.setState({
+//         note: HQI.getNextNote(),
+//         start: Date.now(),
+//         isOn: true,
+//         end: this.state.end,
+//       });
+//     }
+//   }
 
-  render() {
-    return (
-      <View style={noteStyle.challengeScreenBackground}>
-        <Text>{"\n\n\n\n\n\n\n"}</Text>
-        <Text
-          onPress={() => this.challengeCallback(this.props.nav)}
-          style={noteStyle.challengeButton}
-        >
-          {this.state.note}
-        </Text>
-        {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
-      </View>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <View style={noteStyle.challengeScreenBackground}>
+//         <Text>{"\n\n\n\n\n\n\n"}</Text>
+//         <Text
+//           onPress={() => this.challengeCallback(this.props.nav)}
+//           style={noteStyle.challengeButton}
+//         >
+//           {this.state.note}
+//         </Text>
+//         {/* <Text onPress={() => this.challengeCallback(this.props.nav)} style = {noteStyle.saveButton2} >{"TAP SCREEN WHEN DONE"}</Text> */}
+//       </View>
+//     );
+//   }
+// }
 
 //STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
