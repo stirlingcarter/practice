@@ -1,7 +1,8 @@
 import * as React from "react";
 import {
   Text,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 import { HQI } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
@@ -70,15 +71,15 @@ export class ChallengeComponent extends React.Component {
 
 
     return (
-      <View style={allTheStyles.challengeScreenBackground}>
+      <View onTouchStart={() => this.challengeCallback(this.props.nav)}
+      style={{ width: '100%', height: '100%' }}>
         <Text>{"\n\n\n\n\n\n\n"}</Text>
         <Text
-          onPress={() => this.challengeCallback(this.props.nav)}
+       
           style={allTheStyles.challengeButton}
         >
           {challenge}
         </Text>
-
       </View>
     );
   }
