@@ -73,10 +73,16 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={noteStyle.homeScreenBackground}>
-<Text>sup</Text>
+<Text>{getNumber()}</Text>
     </View>
   );
 }
+
+//FUNCTIONS
+function getNumber(){
+  return 8
+}
+
 
 // // function InstrumentScreen({ route, navigation }) {
 // //   const { instrument } = route.params;
