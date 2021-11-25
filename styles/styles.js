@@ -20,6 +20,15 @@ export const asset_example_styles = StyleSheet.create({
   },
 });
 
+export const graphStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f7f7',
+  },
+});
+
 export const app_styles = StyleSheet.create({
   container: {
     flex: 1,

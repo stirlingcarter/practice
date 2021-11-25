@@ -1,9 +1,3 @@
-import * as React from "react";
-
-import DB from "./DB";
-import { AsyncStorage, TouchableHighlightBase } from "react-native";
-
-import { DefaultTheme } from "react-native-paper";
 import LessonCache from "./LessonCache";
 
 var LC = LessonCache.getInstance();
@@ -16,6 +10,7 @@ export default class HQ {
   prevNote = 13;
   strategies = ["max_min", "average", "random"];
   strategyId = 1;
+
   static getInstance() {
     if (HQ.instance == null) {
       HQ.instance = new HQ();
@@ -30,11 +25,6 @@ export default class HQ {
     return lessons;
   }
 
-  async getLessonNamesByInstrument(instrument) {
-    var lessons = await LC.getLessonNamesByInstrument(instrument);
-
-    return lessons;
-  }
 
   async mountLesson(instrument, uniqueLessonName, cb) {
     //does this ni and out.
@@ -42,9 +32,7 @@ export default class HQ {
     //FOR IN:
     await LC.mountLesson(instrument, uniqueLessonName, cb);
   }
-  unmountAnyLessonNames() {
-    LC.unmountAnyLessonNames();
-  }
+
 
   async mountLessonNames(instrument) {
     //does this ni and out.
@@ -53,7 +41,12 @@ export default class HQ {
     return LC.mountLessonNames(instrument);
   }
 
+  unmountAnyLessonNames() {
+    LC.unmountAnyLessonNames();
+  }
+
   getNextNote() {
+
     let next = this.getNextNoteByStrategy(this.strategyId);
     this.currentNote = next;
 
@@ -63,13 +56,37 @@ export default class HQ {
   commit(diff) {
     LC.commit(diff, this.currentNote);
   }
+    //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+    //              [5,2,6,7,3],
+    //              [1,6]],[[a,b,c....g],
+    //              [maj7,m7...d7],
+    //              [left,right]]]
+  getAveragesByCategory(){
 
-  async deleteLesson(instrument, uniqueLessonName, cb) {
-    await LC.deleteLesson(instrument, uniqueLessonName, cb);
+
+    //make a set of the non meta keys - A$maj7$left
+    //make n+1 sets, n = number of $
+    //divide each member into proper sets
+    //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set. 
+    //now, make the sets ordered. These sets will be the basis for param. order from here on out.
+    //each set member needs a corresponding average time 
+    //what is the av for A? 
+    //have a getter that gets you all the keys with A from the master set. 
+    //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
+    
+    return LC.getAveragesByCategory();
+
+
+
+
   }
 
   saveLesson() {
     LC.push();
+  }
+
+  async deleteLesson(instrument, uniqueLessonName, cb) {
+    await LC.deleteLesson(instrument, uniqueLessonName, cb);
   }
 
   getInstrumentNames() {
@@ -77,13 +94,19 @@ export default class HQ {
     return names;
   }
 
+getHistoricalAveragesByCatMember(names){
+    return LC.getHistoricalAveragesByCatMember(names);
+
+  }
+
+  getLessonGoal() {
+    
+    return LC.getLessonGoal();
+  }
+
+  //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
+  //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
   getOrderedUniqueLessonNamesByInstr(instrument) {
-    //FOR THE LESSON LIST
-    //SHOW USER LESSONS FIRST IN ALPHA THEN THE REST BY ORDER OF DOING
-
-    //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
-    //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
-
     return LC.getOrderedUniqueLessonNamesByInstr(instrument);
   }
 
@@ -113,8 +136,33 @@ export default class HQ {
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri) {
-    await LC.saveNewLesson(instrument, uniqueLessonName, cri);
+  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2, goal) {
+
+    if (goal == null || isNaN(goal) || goal <= 0){
+      goal = 1
+    }
+
+    v = []
+    v2 = []
+
+    if (variants != null){
+      v = variants.split(",")
+      var i;
+      for (i = 0; i < v.length; i++) { 
+        v[i] = v[i].trim()
+      }
+    }
+    if (variants2 != null){
+      v2 = variants2.split(",")
+      var i;
+      for (i = 0; i < v2.length; i++) { 
+        v2[i] = v2[i].trim()
+      }
+    }
+
+    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2, goal);
+    
+
   }
 
   getIntRep(note) {
@@ -179,34 +227,37 @@ export default class HQ {
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
 
-  //STRATS --------------------------------------------------------------------------
+  /*BEGIN STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */
   max_min() {
     return "A";
   }
 
   average() {
-    let next = LC.getIntRepWithSlowestAve(10);
+    let next = LC.getSlowestNote(10);
     if (next != this.prevNote) {
       this.prevNote = next;
-      return this.getNoteRep(next);
+      return next;
     } else {
       return this.random();
     }
   }
 
   random() {
-    let newNote = this.getNoteRep(this.getRandomInt(12));
+    let newNote = LC.getRandomNote();
 
-    while (newNote == this.prevNote) {
-      newNote = this.getNoteRep(this.getRandomInt(12));
-    }
+
+    // while (newNote == this.prevNote) {
+    //   newNote = LC.getRandomNote();
+    // }
 
     this.prevNote = newNote;
     //alert("setting note to " + newNote.getNote())
 
     return newNote;
   }
-  //END STRATS --------------------------------------------------------------------------
 }
-
-//THINKING ONLY. HOLDS ONLY A REF TO CACHE.
+  /*END STRATS --------------------------------------------------------------------------
+  Collection of functions that implement the note choosing strategies. 
+  */
