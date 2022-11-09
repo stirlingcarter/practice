@@ -26,7 +26,7 @@
     "react-dom": "^18.0.0",
     "react-fretboard": "^0.0.12",
     "react-is": "^16.13.1",
-    "react-native": "0.69.6",
+    "react-native": "^0.68.0",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-paper": "3.6.0",
     "react-native-pathjs-charts": "^0.0.34",
