@@ -17,7 +17,8 @@
       ]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stirlingcarter.snack-b6315657-2bd7-4ab8-99d9-52d2be36a4b5"
     }
   }
 }
