@@ -13,28 +13,15 @@ export class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
 
-    this.open = this.open.bind(this);
-
     this.getCri = this.getCri.bind(this);
     this.state = {
-      cri: "def",
-      loading: "false"
+      cri: "def"
     };
 
     HQI.mountLesson(this.props.instrument, this.props.lesson, this.getCri);
   }
   async componentDidMount() {
     this.getCri();
-    if (this.state.loading === "true"){
-
-      await this.props.nav.navigate("LessonStatsScreen", {
-        lesson: this.props.lesson,
-        instrument: this.props.instrument,
-      })
-    
-  }
-
-
   }
 
   componentWillUnmount() {
@@ -48,37 +35,6 @@ export class WholeAssLessonInfo extends React.Component {
     });
   }
 
-  //entered at mount due to state channge
-  componentDidUpdate() {
-    if (this.state.loading === "true"){
-
-      this.props.nav.navigate("LessonStatsScreen", {
-        lesson: this.props.lesson,
-        instrument: this.props.instrument,
-      })
-    
-  }
-
-  }
-
-
-  async open(){
-
-
-    
-    const load = async () => {
-
-      try {
-          await this.setState({loading: "true"})
-          this.forceUpdate()
-        ;
-        await this.props.cb();
-      } catch (error) { }
-    };
-
-    load()
-
-  }
 
   render() {
 
@@ -106,7 +62,10 @@ export class WholeAssLessonInfo extends React.Component {
           <Text
             style={allTheStyles.startButton}
             title={"start " + this.props.lesson}
-            onPress={() => this.open()}
+            onPress={() => this.props.nav.navigate("LessonStatsScreen", {
+              lesson: this.props.lesson,
+              instrument: this.props.instrument,
+            })}
           >
             {"\n\n\nSTATS"}
           </Text>
