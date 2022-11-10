@@ -1,48 +1,13 @@
 import thisTimeValue from "es-abstract/2015/thisTimeValue";
-import { AsyncStorage } from "react-native";
 
 RANDOM_FIRST_RUN = true
+import LessonRepository from "./LessonRepository";
 
-async function retrieveItem(key) {
-  // alert("gettinig for " + key)
+var lessonRepository = LessonRepository.getInstance();
 
-  try {
-    const retrievedItem = await AsyncStorage.getItem(key);
-    //alert(JSON.parse(retrievedItem));
-    const item = JSON.parse(retrievedItem);
-    return item;
-  } catch (error) {
-    console.log(error.message);
-  }
-  return;
-}
-
-async function destroyItem(key) {
-  // alert("gettinig for " + key)
-
-  try {
-    await AsyncStorage.removeItem(key);
-    const retrievedItem = await AsyncStorage.getItem(key);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-async function storeItem(key, item) {
-
-  
-  try {
-    //we want to wait for the Promise returned by AsyncStorage.setItem()
-    //to be resolved to the actual value before returning the value
-    var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-    return jsonOfItem;
-  } catch (error) {
-    console.log(error.message);
-  }
-}
 
 export default class LessonCache {
+
   static instance = null;
 
   static getInstance() {
@@ -91,7 +56,7 @@ export default class LessonCache {
       "/" +
       this.payload["uniqueLessonName"] +
       "/payload";
-    storeItem(payloadPath, this.payload);
+    lessonRepository.save(payloadPath, this.payload);
   }
 
   commit(diff, note) {
@@ -106,7 +71,7 @@ export default class LessonCache {
     var payloadPath =
       "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
 
-    destroyItem(payloadPath);
+    lessonRepository.deleteLessonById(payloadPath);
 
     var path = instrument + "/meta/lessons";
 
@@ -114,10 +79,11 @@ export default class LessonCache {
 
     this.lessonNames = this.lessonNames.filter((e) => e !== uniqueLessonName);
 
-    await storeItem(path, this.lessonNames);
+    await lessonRepository.save(path, this.lessonNames);
     cb();
   }
 
+  //TODO why tf are there getters in the cache layer
   getBpm() {
     //get these things from db dummy
     //set them and return
@@ -526,7 +492,7 @@ export default class LessonCache {
     var payloadPath =
       "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
 
-    retrieveItem(payloadPath)
+    lessonRepository.getLessonById(payloadPath)
       .then((result) => {
         if (result == undefined) {
           this.payload = {}
@@ -548,7 +514,7 @@ export default class LessonCache {
     var payloadPath = instrument + "/meta/lessons";
     var def = ["defaultLesson1"];
 
-    retrieveItem(payloadPath)
+    lessonRepository.getLessonById(payloadPath)
       .then((result) => {
         if (result == undefined) {
           Object.assign(this.lessonNames, def);
@@ -606,7 +572,7 @@ export default class LessonCache {
       "lessonPayloads/" + instrument + "/" + uniqueLessonName + "/payload";
 
     //alert("saving name to HQ");
-    storeItem(payloadPath, blankPayload);
+    lessonRepository.save(payloadPath, blankPayload);
 
     var path = instrument + "/meta/lessons";
 
@@ -614,12 +580,12 @@ export default class LessonCache {
     this.lessonNames.push(uniqueLessonName);
 
     //alert(this.lessonNames)
-    storeItem(path, this.lessonNames).then((this.lessonNames = []));
+    lessonRepository.save(path, this.lessonNames).then((this.lessonNames = []));
   }
 
   async getLessonNamesByInstrument(instrument) {
     var path = instrument + "/meta/lessons";
-    let lessons = await retrieveItem(path);
+    let lessons = await lessonRepository.getLessonById(path);
     if (lessons == null) {
       return [];
     }

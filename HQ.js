@@ -1,4 +1,4 @@
-import LessonCache from "./LessonCache";
+import LessonCache from "./models/LessonCache";
 
 var LC = LessonCache.getInstance();
 
@@ -90,7 +90,7 @@ export default class HQ {
   }
 
   getInstrumentNames() {
-    var names = ["guitar", "piano"];
+    var names = ["guitarr", "piano"];
     return names;
   }
 

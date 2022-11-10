@@ -2,6 +2,7 @@ import * as React from "react";
 
 
 import HQ from "./HQ";
+import LessonRepository from "./models/LessonRepository";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
