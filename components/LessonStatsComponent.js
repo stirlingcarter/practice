@@ -82,16 +82,12 @@ export class LessonStatsComponent extends React.Component {
     }
 
 
-    
-
-      
-
     if (adjustedAveragesByVariant.length == 1){
       return (
         <ScrollView>
   
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
 
         </ScrollView>
       
@@ -104,8 +100,8 @@ export class LessonStatsComponent extends React.Component {
   
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0]}/>
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
 
         </ScrollView>
 
@@ -120,9 +116,9 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]}  namesOfVariants={namesOfVariants[1]}/>
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[2]}  namesOfVariants={namesOfVariants[2]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]}/>
-        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]} lesson={this.props.lesson}/>
 
 
         </ScrollView>

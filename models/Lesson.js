@@ -14,22 +14,8 @@ export default class Lesson {
     dataset = {
 
 
-        //{A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]},
-        //  {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
-
-
-        // A: [], // A: [{"A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]},...],
-        // Bb: [],
-        // B: [],
-        // C: [],
-        // Db: [],
-        // D: [],
-        // Eb: [],
-        // E: [],
-        // F: [],
-        // Gb: [],
-        // G: [],
-        // Ab: []
+        // {A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]},
+        // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
 
     }
 
@@ -73,5 +59,54 @@ export default class Lesson {
             return variants
         }
     }
+
+    getInstrumentName(){
+        return this.instrumentName
+    }
+
+    getTimesByVHash(vHash){
+        return this.copyOf(this.dataset[vHash])
+    }
+
+    isEmpty(vHash){
+        return this.dataset[vHash].length > 0
+    }
+
+    getVHashes(){
+        return this.copyOf(this.vHashes)
+    }
+
+    getGoal(){
+        return this.goal
+    }
+
+    getCriteria(){
+        return this.criteria
+    }
+
+    registerTime(diff, vHash){
+        this.dataset[vHash].push[diff]
+    }
+
+    getLengthOfVHashTimes(vHash){
+        return this.dataset[vHash].length
+    }
+
+    getSpecificTime(vHash, index){
+        return this.dataset[vHash][index]
+    }
+
+    getDataset(){
+        return this.copyOf(this.dataset)
+    }
+
+    getName(){
+        return this.name;
+    }
+
+    copyOf(o){
+        return JSON.parse(JSON.stringify(o))
+    }
+
 
 }

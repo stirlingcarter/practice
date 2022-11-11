@@ -104,13 +104,13 @@ export class LessonCategoryLineChartComponent extends React.Component {
     //   [23,14,10,7,6,4,3]
     //   ....
     // ]
-    let historicalAveragesByCatMember = statService.getHistoricalAveragesByCatMember(this.props.namesOfVariants)
+    let historicalAveragesByVariant = statService.getHistoricalAveragesByVariant(this.props.namesOfVariants, this.props.lesson)
 
 
     const fields = []
     for (let i = 0; i < this.props.namesOfVariants.length; i++) {
       let color = COLORS[i % 12]
-      fields.push(this.getOneGroupElement(historicalAveragesByCatMember[i], this.props.namesOfVariants[i], color));
+      fields.push(this.getOneGroupElement(historicalAveragesByVariant[i], this.props.namesOfVariants[i], color));
     }
 
     return (

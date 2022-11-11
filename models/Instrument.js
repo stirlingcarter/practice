@@ -7,4 +7,16 @@ export default class Instrument {
         this.name = name
     }
 
+    getName(){
+        return this.name
+    }
+
+    getLessonNames(){
+        return this.lessonNames
+    }
+
+    addLesson(lessonName){
+        this.lessonNames.push(lessonName)
+    }
+
 }

@@ -2,7 +2,7 @@ import StatService from "./StatService";
 import LessonRepository from "../repositories/LessonRepository";
 import InputParser from "./InputParser";
 
-var LC = StatService.getInstance();
+var statService = StatService.getInstance();
 var lessonRepository = LessonRepository.getInstance(); 
 
 export default class ChallengeService {
@@ -23,7 +23,7 @@ export default class ChallengeService {
   }
 
   async getLessonNamesByInstrument(instrument) {
-    var lessons = await LC.getLessonNamesByInstrument(instrument);
+    var lessons = await statService.getLessonNamesByInstrument(instrument);
 
     return lessons;
   }
@@ -38,7 +38,7 @@ export default class ChallengeService {
   }
 
   commit(diff) {
-    LC.commit(diff, this.currentNote);
+    statService.commit(diff, this.currentNote);
   }
     //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
     //              [5,2,6,7,3],
@@ -58,7 +58,7 @@ export default class ChallengeService {
     //have a getter that gets you all the keys with A from the master set. 
     //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
     
-    return LC.getAveragesByCategory();
+    return statService.getAveragesByVariant();
 
 
 
@@ -66,7 +66,7 @@ export default class ChallengeService {
   }
 
   saveLesson() {
-    LC.push();
+    statService.push();
   }
 
   getInstrumentNames() {
@@ -75,36 +75,10 @@ export default class ChallengeService {
   }
 
 getHistoricalAveragesByCatMember(names){
-    return LC.getHistoricalAveragesByCatMember(names);
+    return statService.getHistoricalAveragesByCatMember(names);
 
   }
 
-  getLessonGoal() {
-    
-    return LC.getLessonGoal();
-  }
-
-  //LOAD ANY PAYLOADS THAT EXIST ON DISK (USER CREATED LESSONS, INITIATED LESSONS)
-  //LOAD ANY TEMPLATES (BAKED IN LESSONS THAT HAVEN'T BEEN PLAYED YET)
-  getOrderedUniqueLessonNamesByInstr(instrument) {
-    return LC.getOrderedUniqueLessonNamesByInstr(instrument);
-  }
-
-  getStatsByInstr(instrument) {
-    return 1200;
-  }
-
-  getBpm() {
-    return LC.getBpm();
-  }
-
-  getCri() {
-    return LC.getCri();
-  }
-
-  getVisId() {
-    return LC.getVisId();
-  }
 
   getNextNoteByStrategy(strategyId) {
     if (strategyId == 0) {
@@ -122,7 +96,7 @@ getHistoricalAveragesByCatMember(names){
     await lessonRepository.save(lesson)
 
     instrument = instrumentRepository.getInstrumentByName(instrumentName)
-    instrument.addLesson(lesson.getId())
+    instrument.addLesson(lesson.getName())
     await InstrumentRepository.save(instrument)
     
   }
@@ -198,7 +172,7 @@ getHistoricalAveragesByCatMember(names){
   }
 
   average() {
-    let next = LC.getSlowestNote(10);
+    let next = statService.getSlowestNote(10);
     if (next != this.prevNote) {
       this.prevNote = next;
       return next;
@@ -208,11 +182,11 @@ getHistoricalAveragesByCatMember(names){
   }
 
   random() {
-    let newNote = LC.getRandomNote();
+    let newNote = statService.getRandomNote();
 
 
     // while (newNote == this.prevNote) {
-    //   newNote = LC.getRandomNote();
+    //   newNote = statService.getRandomNote();
     // }
 
     this.prevNote = newNote;
