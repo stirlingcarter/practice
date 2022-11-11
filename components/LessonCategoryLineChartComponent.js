@@ -1,17 +1,19 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  StyleSheet
+  View
 } from "react-native";
-import { VictoryChart, VictoryTheme, VictoryLine, VictoryScatter, VictoryGroup, VictoryLabel, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryGroup, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
+import StatService from "../services/StatService";
 
 // const DOMAIN_Y_BOUND = 100
 // const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
 const DOMAIN_X_BOUND = 100
 const COLORS = ["pink", "blue", "purple", "orange", "red", "green", "violet", "navy", "magenta", "tomato", "gold", "darkgreen"]
-//  want this to be ininviisiible and cover whole screen TODO
+
+const statService = StatService.getInstance()
+
+
 export class LessonCategoryLineChartComponent extends React.Component {
 
   constructor(props) {
@@ -58,24 +60,25 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
     const subtitles = []
     for (let i = 0; i < namesOfVariants.length; i++) {
-      subtitles.push(this.getOneSubtitle(namesOfVariants[i], COLORS[i]))
+      let variant = namesOfVariants[i]
+      subtitles.push(this.getOneSubtitle(variant, COLORS[i]))
     }
     return subtitles
 
 
   }
 
-  getOneSubtitle(name, color) {
+  getOneSubtitle(variant, color) {
     return (
-      <Text style={{ color: color }}>{name}</Text>
+      <Text style={{ color: color }}>{variant}</Text>
     )
   }
 
-  getOneGroupElement(times, catMember, color) {
+  getOneGroupElement(times, variant, color) {
     return (
       <VictoryGroup
         color={color}
-        labels={({ datum }) => `${catMember}: ${datum.y}`}
+        labels={({ datum }) => `${variant}: ${datum.y}`}
         labelComponent={
           <VictoryTooltip
             style={{ fontSize: 10 }}
@@ -93,17 +96,8 @@ export class LessonCategoryLineChartComponent extends React.Component {
     )
   }
 
-  //this.props.namesOfVariants- [a,b,c....g]
-
   render() {
 
-    // [
-    //   [8,7,5,3] this is a whole interleaved array tho
-    //   [5,2]
-    //   []
-    //   [23,14,10,7,6,4,3]
-    //   ....
-    // ]
     let historicalAveragesByVariant = statService.getHistoricalAveragesByVariant(this.props.namesOfVariants, this.props.lesson)
 
 

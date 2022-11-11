@@ -4,17 +4,17 @@ import {
   SafeAreaView,
   Text
 } from "react-native";
-import Lesson from "../models/Lesson";
 import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 
-lessonRepository = LessonRepository.getInstance();
+const lessonRepository = LessonRepository.getInstance();
 
 export class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      lesson: new Lesson()
+      lesson: null
     };
 
   }

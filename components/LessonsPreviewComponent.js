@@ -4,9 +4,7 @@ import {
   ScrollView,
   SafeAreaView,
   FlatList,
-  Button,
-  Text,
-  TouchableHighlight
+  Text
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
 import InstrumentRepository from "../repositories/InstrumentRepository";
@@ -14,7 +12,8 @@ import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 
-instrumentRepository = InstrumentRepository.getInstance()
+const instrumentRepository = InstrumentRepository.getInstance()
+const lessonRepository = LessonRepository.getInstance()
 
 export class LessonsPreviewComponent extends React.Component {
   constructor(props) {
@@ -64,7 +63,7 @@ export class LessonsPreviewComponent extends React.Component {
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("AddLessonScreen", {
-                instrument: this.props.instrumentName,
+                instrumentName: this.props.instrumentName,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.saveButton4}

@@ -1,11 +1,11 @@
 import { MMKVLoader } from "react-native-mmkv-storage";
 import LessonRepository from "./LessonRepository";
 
-lessonRepository = LessonRepository.getInstance();
+
+const lessonRepository = LessonRepository.getInstance();
 
 export default class InstrumentRepository {
 
-    //TODO when this is rebuilt we should put a layer beneath in case we make more repositories 
     static instance = null;
 
     storage = null;
@@ -27,9 +27,9 @@ export default class InstrumentRepository {
         return names
     }
 
-    async getInstrumentByName(name) {
+    async getInstrumentByName(instrumentName) {
         try {
-            let retrievedItem = await this.storage.getStringAsync(name)
+            let retrievedItem = await this.storage.getStringAsync(instrumentName)
             const item = JSON.parse(retrievedItem);
             return item;
         } catch (error) {
@@ -46,7 +46,7 @@ export default class InstrumentRepository {
         try {
             this.storage.removeItem(instrument.getName());
             for (const ln of instrument.getLessonNames()) {
-                LessonRepository.delete(ln, instrument.getName())
+                lessonRepository.delete(ln, instrument.getName())
             }
         } catch (error) {
             console.log(error.message);

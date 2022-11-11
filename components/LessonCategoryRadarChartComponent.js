@@ -1,17 +1,13 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  StyleSheet
+  View
 } from "react-native";
-import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 
 const DOMAIN_Y_BOUND = 100
-const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
+const DOMAIN = { y: [0, DOMAIN_Y_BOUND] }
 
-
-//  want this to be ininviisiible and cover whole screen TODO
 export class LessonCategoryRadarChartComponent extends React.Component {
 
   constructor(props) {
@@ -38,16 +34,16 @@ export class LessonCategoryRadarChartComponent extends React.Component {
   render() {
 
     let color = "mediumspringgreen"
-    for(var i = 0; i < this.props.averages.length; i++) {
-      if (this.props.averages[i] < 100){
+    for (var i = 0; i < this.props.averages.length; i++) {
+      if (this.props.averages[i] < 100) {
         color = "black"
-        break; 
+        break;
       }
     }
 
     //averages: [1,2,3,4,5,6,7,8,9,10,11,12], or [1,2,3], or [1,2] or whatever f(x)'d already
     //namesOfVariants: (a,ab,b,c,db......) (right hand)
-    if (this.props.averages.length == 1){
+    if (this.props.averages.length == 1) {
 
       let averagesData = [
         {
@@ -69,22 +65,22 @@ export class LessonCategoryRadarChartComponent extends React.Component {
       ]
 
       return (
-      <VictoryChart polar
-            domain={DOMAIN}
-      theme={VictoryTheme.material}>
-      <VictoryArea style={{ data: { fill: color} }} data={averagesData}/>
-      <VictoryPolarAxis
-      labelPlacement="vertical"
-      tickValues={["", this.props.namesOfVariants[0]," ","  "]}/>
-      </VictoryChart>
+        <VictoryChart polar
+          domain={DOMAIN}
+          theme={VictoryTheme.material}>
+          <VictoryArea style={{ data: { fill: color } }} data={averagesData} />
+          <VictoryPolarAxis
+            labelPlacement="vertical"
+            tickValues={["", this.props.namesOfVariants[0], " ", "  "]} />
+        </VictoryChart>
       );
 
-    } else if (this.props.averages.length == 2){
+    } else if (this.props.averages.length == 2) {
 
       let averagesData = [
         {
           x: 1,
-          y: DOMAIN["y"][1]/3
+          y: DOMAIN["y"][1] / 3
         },
         {
           x: 2,
@@ -92,7 +88,7 @@ export class LessonCategoryRadarChartComponent extends React.Component {
         },
         {
           x: 3,
-          y: DOMAIN["y"][1]/3
+          y: DOMAIN["y"][1] / 3
         },
         {
           x: 4,
@@ -101,26 +97,27 @@ export class LessonCategoryRadarChartComponent extends React.Component {
       ]
 
       return (
-      <VictoryChart polar
-            domain={DOMAIN}
-      theme={VictoryTheme.material}>
-      <VictoryArea style={{ data: { fill: color }} } data={averagesData}/>
-      <VictoryPolarAxis
-      labelPlacement="vertical"
-      tickValues={["", this.props.namesOfVariants[0]," ",this.props.namesOfVariants[1]]}/>
-      </VictoryChart>
+        <VictoryChart polar
+          domain={DOMAIN}
+          theme={VictoryTheme.material}>
+          <VictoryArea style={{ data: { fill: color } }} data={averagesData} />
+          <VictoryPolarAxis
+            labelPlacement="vertical"
+            tickValues={["", this.props.namesOfVariants[0], " ", this.props.namesOfVariants[1]]} />
+        </VictoryChart>
       );
 
-    } else if (this.props.averages.length > 2){
+    } else if (this.props.averages.length > 2) {
 
 
 
       let averagesData = [
 
       ]
-      for (let i = 0; i < this.props.namesOfVariants.length; i++){
+
+      for (let i = 0; i < this.props.namesOfVariants.length; i++) {
         let tmp = {
-          x: i+1,
+          x: i + 1,
           y: this.props.averages[i]
         }
 
@@ -129,35 +126,23 @@ export class LessonCategoryRadarChartComponent extends React.Component {
 
       return (
         <VictoryChart polar
-              domain={DOMAIN}
-        theme={VictoryTheme.material}
-        
+          domain={DOMAIN}
+          theme={VictoryTheme.material}
         >
-          
-        <VictoryArea style={{ data: { fill: color} }} data={averagesData}
-        />
-        <VictoryPolarAxis
-        labelPlacement="vertical"
-        tickValues={this.props.namesOfVariants}
-        />
+          <VictoryArea style={{ data: { fill: color } }} data={averagesData}
+          />
+          <VictoryPolarAxis
+            labelPlacement="vertical"
+            tickValues={this.props.namesOfVariants}
+          />
         </VictoryChart>
-        );
-
-
-
-
-
-
-
+      );
 
     } else {
 
       return (<View><Text>nothin</Text></View>)
 
     }
-
-    
-
 
   }
 }

@@ -9,10 +9,11 @@ import {
 import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InputParser from "../services/InputParser.js"
-lessonRepository = LessonRepository.getInstance()
 
-//COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
+const lessonRepository = LessonRepository.getInstance()
+
 export class AddLessonComponent extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -57,13 +58,13 @@ export class AddLessonComponent extends React.Component {
 
       await lessonRepository.save(
         new Lesson(
-          this.state.name, 
-          this.state.criteria, 
-          this.props.instrumentName, 
-          InputParser.parseGoalFromStringInput(this.state.goal), 
-          InputParser.parseVariantsFromStringInput(this.state.variants), 
+          this.state.name,
+          this.state.criteria,
+          this.props.instrumentName,
+          InputParser.parseGoalFromStringInput(this.state.goal),
+          InputParser.parseVariantsFromStringInput(this.state.variants),
           InputParser.parseVariantsFromStringInput(this.state.variants2)
-      ))
+        ))
 
       let instrument = instrumentRepository.getInstrumentByName(instrumentName)
       instrument.addLesson(lesson.getName())
@@ -76,7 +77,6 @@ export class AddLessonComponent extends React.Component {
   }
 
   render() {
-
 
     return (
       <View style={allTheStyles.saveScreenBackground}>

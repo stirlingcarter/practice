@@ -7,7 +7,7 @@ export function InstrumentScreen({ route, navigation }) {
 
   return (
     <View>
-      <LessonsPreviewComponent nav={navigation} instrumentName ={instrumentName} />
+      <LessonsPreviewComponent nav={navigation} instrumentName={instrumentName} />
     </View>
   );
 }

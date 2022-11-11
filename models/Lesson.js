@@ -13,15 +13,11 @@ export default class Lesson {
 
     // historical times for each *variant* (e.x. A$DOM$LH) 
     dataset = {
-
-
         // {A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]},
         // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
-
     }
 
-    constructor(name, criteria, instrumentName, goal, v, v2){
-            
+    constructor(name, criteria, instrumentName, goal, v, v2){ 
         this.name=name
         this.criteria=criteria
         this.instrumentName=instrumentName
@@ -31,7 +27,6 @@ export default class Lesson {
         this.populateDatasetWithVariants()
         this.vHashes = Object.keys(this.dataset)
         
-
     }
 
     populateDatasetWithVariants(){

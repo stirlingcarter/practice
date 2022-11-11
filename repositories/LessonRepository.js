@@ -1,13 +1,11 @@
 import { MMKVLoader } from "react-native-mmkv-storage";
 import InstrumentRepository from "./InstrumentRepository";
 
-instrumentRepository = InstrumentRepository.getInstance();
+const instrumentRepository = InstrumentRepository.getInstance();
 
 export default class LessonRepository {
 
-  //TODO when this is rebuilt we should put a layer beneath in case we make more repositories 
   static instance = null;
-
   storage = null;
 
   static getInstance() {
@@ -18,17 +16,12 @@ export default class LessonRepository {
         .withInstanceID("Lessons")
         .initialize();
     }
-
     return this.instance;
   }
 
-
-  async getLessonByNameAndInstrumentName(name, instrumentName) {
-    // alert("gettinig for " + key)
-
+  async getLessonByNameAndInstrumentName(lessonName, instrumentName) {
     try {
-      let retrievedItem = await this.storage.getStringAsync(instrumentName+name)
-      //alert(JSON.parse(retrievedItem));
+      let retrievedItem = await this.storage.getStringAsync(instrumentName + lessonName)
       const item = JSON.parse(retrievedItem);
       return item;
     } catch (error) {
@@ -39,7 +32,7 @@ export default class LessonRepository {
 
   delete(lessonName, instrumentName) {
     try {
-      this.storage.removeItem(instrumentName+lessonName);
+      this.storage.removeItem(instrumentName + lessonName);
       let instrument = instrumentRepository.getInstrumentByName(instrumentName)
       instrument.removeLesson(lessonName)
       instrumentRepository.save(instrument)
@@ -49,13 +42,16 @@ export default class LessonRepository {
   }
 
   async save(lesson) {
-    let instrumentName = lesson.getInstrumentName()
+    let instrument = instrumentRepository.getInstrumentByName(lesson.getInstrumentName())
+    instrument.addLessonName(lesson.getName())
+
     try {
-      await storage.setStringAsync(instrumentName + lesson.getName(), JSON.stringify(lesson));
+      await instrumentRepository.save(instrument)
+      await storage.setStringAsync(lesson.getInstrumentName() + lesson.getName(), JSON.stringify(lesson));
     } catch (error) {
       console.log(error.message);
     }
-    return
+    return null;
   }
 
 }

@@ -5,5 +5,5 @@ export function LessonStatsScreen({ route, navigation }) {
   const { lesson } = route.params;
   const { instrumentName } = route.params;
 
-  return <LessonStatsComponent nav={navigation} />;
+  return <LessonStatsComponent nav={navigation} lesson={lesson} instrumentName={instrumentName} />;
 }

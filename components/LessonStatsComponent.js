@@ -1,11 +1,9 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  StyleSheet
+  View
 } from "react-native";
 import { ChallengeService } from "../services/AnalService"
-import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
@@ -13,13 +11,12 @@ import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLi
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
 
-challengeService = ChallengeService.getInstance()
+const challengeService = ChallengeService.getInstance()
 
-//  want this to be ininviisiible and cover whole screen TODO
 export class LessonStatsComponent extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props); 
     this.state = {
     };
   }
@@ -60,17 +57,17 @@ export class LessonStatsComponent extends React.Component {
     let namesOfVariants = response[1]
 
     //challengeService.getAveragesByVariant returns -> [
-      //            [
-        //          [2,6,3,6,4,7,6,4,8,2,6,7],
+    //            [
+    //              [2,6,3,6,4,7,6,4,8,2,6,7],
     //              [5,2,6,7,3],
     //              [1,6]
-  //                ],
-  //                [
+    //             ],
+    //             [
     //              [a,b,c....g],
     //              [maj7,m7...d7],
     //              [left,right]
-  //                ]
-//                                ]
+    //             ]
+    //            ]
 
     let adjustedAveragesByVariant = []
     for (let i = 0; i < averagesByVariant.length; i++){

@@ -1,9 +1,6 @@
 import StatService from "./StatService";
-import LessonRepository from "../repositories/LessonRepository";
-import InputParser from "./InputParser";
 
-var statService = StatService.getInstance();
-var lessonRepository = LessonRepository.getInstance(); 
+const statService = StatService.getInstance();
 
 export default class ChallengeService {
   static instance = null;
@@ -22,21 +19,19 @@ export default class ChallengeService {
     return this.instance;
   }
 
-  getNextVHash() {
-
-    let nextVHash = this.getNextVHashByStrategy(this.strategyId);
+  getNextVHash(lesson) {
+    let nextVHash = this.getNextVHashByStrategy(this.strategyId, lesson);
     this.currentVHash = nextVHash;
-
     return nextVHash;
   }
 
-  getNextVHashByStrategy(strategyId) {
+  getNextVHashByStrategy(strategyId, lesson) {
     if (strategyId == 0) {
-      return this.max_min();
+      return this.max_min(lesson);
     } else if (strategyId == 1) {
-      return this.average();
+      return this.average(lesson);
     } else {
-      return this.random();
+      return this.random(lesson);
     }
   }
 
@@ -49,34 +44,29 @@ export default class ChallengeService {
   /*BEGIN STRATS --------------------------------------------------------------------------
   Collection of functions that implement the vHash choosing strategies. 
   */
-  max_min() {
+  max_min(lesson) {
     return "A";
   }
 
-  average() {
-    let next = statService.getSlowestVHash(10, lesson);
-    if (next != this.prevVHash) {
-      this.prevVHash = next;
-      return next;
+  average(lesson) {
+    let nextVHash = statService.getSlowestVHash(10, lesson);
+    if (nextVHash != this.prevVHash) {
+      this.prevVHash = nextVHash;
+      return nextVHash;
     } else {
       return this.random();
     }
   }
 
-  random() {
-    let newVHash = statService.getRandomVHash();
-
-
+  random(lesson) {
+    let newVHash = statService.getRandomVHash(lesson);
     // while (newNote == this.prevNote) {
     //   newNote = statService.getRandomNote();
     // }
-
     this.prevVHash = newVHash;
-    //alert("setting note to " + newNote.getNote())
-
     return newVHash;
   }
 }
   /*END STRATS --------------------------------------------------------------------------
-  Collection of functions that implement the vHash choosing strategies. 
-  */
+Collection of functions that implement the vHash choosing strategies. 
+*/

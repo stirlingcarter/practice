@@ -1,10 +1,5 @@
-import thisTimeValue from "es-abstract/2015/thisTimeValue";
-
 RANDOM_FIRST_RUN = true
-import LessonRepository from "../repositories/LessonRepository";
 import Util from "."
-var lessonRepository = LessonRepository.getInstance();
-
 
 export default class StatService {
 
@@ -18,39 +13,35 @@ export default class StatService {
     return this.instance;
   }
 
-  payload = {};
   lessonNames = [];
 
-  
-  getWindowedAvg(window, vHash, lesson){
-
-    return lesson.isEmpty(vHash) ? 0 : Util.arrayAvg(lesson.getWindowOfTimes(vHash,window))
-
+  getWindowedAvg(window, vHash, lesson) {
+    return lesson.isEmpty(vHash) ? 0 : Util.arrayAvg(lesson.getWindowOfTimes(vHash, window))
   }
 
 
   getSlowestVHash(window, lesson) {
     let vHashes = lesson.getVHashes()
 
-    if (RANDOM_FIRST_RUN){
+    if (RANDOM_FIRST_RUN) {
       let unvisitedVHashes = lesson.getVHashes.filter(vHash => lesson.isEmpty(vHash))
-      if (unvisitedVHashes.length > 0){
+      if (unvisitedVHashes.length > 0) {
         return unvisitedVHashes[Math.floor(Math.random() * unvisitedVHashes.length)]
       }
     }
-      
+
     //if there are any keys with 0, return a randoom one. 
     //else do the followinig.
 
     let maxAverage = 0
     let maxVHash = vHashes[0]
-    for (let i = 0; i < vHashes.length; i++){
+    for (let i = 0; i < vHashes.length; i++) {
       let vHash = vHashes[i]
-      let windowedAverage = this.getWindowedAvg(window,vHash,lesson)
-      if (windowedAverage == 0){
+      let windowedAverage = this.getWindowedAvg(window, vHash, lesson)
+      if (windowedAverage == 0) {
         return vHash
-      }else{
-        if (windowedAverage > maxAverage){
+      } else {
+        if (windowedAverage > maxAverage) {
           maxAverage = windowedAverage
           maxVHash = vHash
         }
@@ -62,21 +53,21 @@ export default class StatService {
 
   }
 
-  getHistoricalAveragesByVariant(variantNames, lesson){
+  getHistoricalAveragesByVariant(variantNames, lesson) {
 
     let vHashes = lesson.getVHashes()
 
     let res = []
-    for (let i = 0; i < variantNames.length; i++){
+    for (let i = 0; i < variantNames.length; i++) {
 
       let vHashesContainingVariant = Util.getAllVHashesContainingVariant(vHashes, variantNames[i]) // A, or Bb 
 
       let variantTimes = []
-      for (let k = 0; k < vHashesContainingVariant.length; k++){
+      for (let k = 0; k < vHashesContainingVariant.length; k++) {
         let currentVHash = vHashesContainingVariant[k]
-        if (lesson.isEmpty(currentVHash)){
+        if (lesson.isEmpty(currentVHash)) {
           variantTimes.push([])
-        }else{
+        } else {
           variantTimes.push(lesson.getTimesByVHash(currentVHash))
         }
       }
@@ -97,46 +88,40 @@ export default class StatService {
   //output:
   //[8,5,23,7,2,14,5,10,3,7,6,4,3]
 
-  interleaveArrays(arrays){
-
+  interleaveArrays(arrays) {
     let l = arrays.length
     let res = []
-    
     let done = false
-
     let i = 0
-    while (!done && i < 100){
+    while (!done && i < 100) {
       let done = true
-      for (let i = 0; i < l; i++){
-        if (arrays[i].length > 0){
+      for (let i = 0; i < l; i++) {
+        if (arrays[i].length > 0) {
           done = false
           res.push(arrays[i].shift())
         }
       }
       i += 1
     }
-
-
     return res
-
   }
 
-    // returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+  // returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
   //              [5,2,6,7,3],
   //              [1,6]],[[a,b,c....g],
   //              [maj7,m7...d7],
   //              [left,right]]]
 
-      //make a set of the non meta keys - A$maj7$left
-    //make n+1 sets, n = number of $
-    //divide each member into proper sets
-    //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set. 
-    //now, make the sets ordered. These sets will be the basis for param. order from here on out.
-    //each set member needs a corresponding average time 
-    //what is the av for A? 
-    //have a getter that gets you all the keys with A from the master set. 
-    //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
-  getAveragesByVariant(lesson){
+  //make a set of the non meta keys - A$maj7$left
+  //make n+1 sets, n = number of $
+  //divide each member into proper sets
+  //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set. 
+  //now, make the sets ordered. These sets will be the basis for param. order from here on out.
+  //each set member needs a corresponding average time 
+  //what is the av for A? 
+  //have a getter that gets you all the keys with A from the master set. 
+  //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
+  getAveragesByVariant(lesson) {
 
 
     //make a set of the non meta keys - A$maj7$left
@@ -152,11 +137,11 @@ export default class StatService {
 
     let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => getAverageForVariant(variant)))
 
-    
+
 
     //have a getter that gets you all the keys with A from the master set. 
     //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
- 
+
     let res = []
     res.push(averagesOfVariants)
     res.push(namesOfVariants)
@@ -165,15 +150,15 @@ export default class StatService {
 
   }
 
-  getAverageForVariant(variant, lesson){
+  getAverageForVariant(variant, lesson) {
     let matchingVHashes = Util.getAllVHashesContainingVariant(vHashes, variant) // A maj7 left A min7 left A maj7 right A min7 right
-    return matchingVHashes.map(vHash => this.getWindowedAvg(10,vHash,lesson)).filter(avg => avg > 0).sum()
+    return matchingVHashes.map(vHash => this.getWindowedAvg(10, vHash, lesson)).filter(avg => avg > 0).sum()
   }
-  
+
 
   getRandomVHash(lesson) {
     let vHashes = lesson.getVHashes()
-    return vHashes[Math.floor(Math.random()*vHashes.length)]
+    return vHashes[Math.floor(Math.random() * vHashes.length)]
   }
 
 

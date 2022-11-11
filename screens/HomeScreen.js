@@ -3,7 +3,7 @@ import { View, Text, FlatList } from "react-native";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InstrumentRepository from "../repositories/InstrumentRepository";
 
-instrumentRepository = InstrumentRepository.getInstance()
+const instrumentRepository = InstrumentRepository.getInstance()
 
 export function HomeScreen({ navigation }) {
   var instrumentNames = instrumentRepository.getAllInstrumentNames();
