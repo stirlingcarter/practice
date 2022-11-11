@@ -9,7 +9,6 @@ import {
   TouchableHighlight
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
-import { HQI } from "../App";
 import InstrumentRepository from "../repositories/InstrumentRepository";
 import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"

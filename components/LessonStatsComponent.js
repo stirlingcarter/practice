@@ -55,11 +55,11 @@ export class LessonStatsComponent extends React.Component {
   }
 
   render() {
-    let response = challengeService.getAveragesByCategory(this.props.lesson)
-    let averagesByCategory = response[0]
-    let namesByCategory = response[1]
+    let response = challengeService.getAveragesByVariant(this.props.lesson)
+    let averagesByVariant = response[0]
+    let namesOfVariants = response[1]
 
-    //challengeService.getAveragesByCategory returns -> [
+    //challengeService.getAveragesByVariant returns -> [
       //            [
         //          [2,6,3,6,4,7,6,4,8,2,6,7],
     //              [5,2,6,7,3],
@@ -72,13 +72,13 @@ export class LessonStatsComponent extends React.Component {
   //                ]
 //                                ]
 
-    let adjustedAveragesByCategory = []
-    for (let i = 0; i < averagesByCategory.length; i++){
+    let adjustedAveragesByVariant = []
+    for (let i = 0; i < averagesByVariant.length; i++){
       let adjustedList = []
-      for (let k = 0; k < averagesByCategory[i].length; k++){
-        adjustedList.push(this.f(averagesByCategory[i][k]))
+      for (let k = 0; k < averagesByVariant[i].length; k++){
+        adjustedList.push(this.f(averagesByVariant[i][k]))
       }
-      adjustedAveragesByCategory.push(adjustedList)
+      adjustedAveragesByVariant.push(adjustedList)
     }
 
 
@@ -86,43 +86,43 @@ export class LessonStatsComponent extends React.Component {
 
       
 
-    if (adjustedAveragesByCategory.length == 1){
+    if (adjustedAveragesByVariant.length == 1){
       return (
         <ScrollView>
   
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
 
         </ScrollView>
       
       );
-    }else if (adjustedAveragesByCategory.length == 2){
+    }else if (adjustedAveragesByVariant.length == 2){
 
 
       return (
         <ScrollView>
   
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]} names={namesByCategory[0]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]} names={namesByCategory[1]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]}/>
 
         </ScrollView>
 
       
       );
-    }else if (adjustedAveragesByCategory.length == 3){
+    }else if (adjustedAveragesByVariant.length == 3){
 
       return (
 
         <ScrollView>
   
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]}  names={namesByCategory[1]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[2]}  names={namesByCategory[2]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[2]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]}  namesOfVariants={namesOfVariants[1]}/>
+        <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[2]}  namesOfVariants={namesOfVariants[2]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]}/>
+        <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]}/>
 
 
         </ScrollView>

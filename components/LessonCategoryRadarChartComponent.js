@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet
 } from "react-native";
-import { HQI } from "../App";
 import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 
