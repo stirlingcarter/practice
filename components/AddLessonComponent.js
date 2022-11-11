@@ -60,19 +60,19 @@ export class AddLessonComponent extends React.Component {
         new Lesson(
           this.state.name,
           this.state.criteria,
-          this.props.instrumentName,
+          this.props.groupName,
           InputParser.parseGoalFromStringInput(this.state.goal),
           InputParser.parseVariantsFromStringInput(this.state.variants),
           InputParser.parseVariantsFromStringInput(this.state.variants2)
         ))
 
-      let instrument = instrumentRepository.getInstrumentByName(instrumentName)
-      instrument.addLesson(lesson.getName())
-      await InstrumentRepository.save(instrument)
+      let group = groupRepository.getGroupByName(groupName)
+      group.addLesson(lesson.getName())
+      await groupRepository.save(group)
     };
 
     save().then(
-      this.props.nav.navigate("InstrumentScreen", { instrumentName: this.props.instrumentName })
+      this.props.nav.navigate("groupScreen", { groupName: this.props.groupName })
     )
   }
 

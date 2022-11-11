@@ -161,5 +161,5 @@ export default class StatService {
   }
 
 
-  // INSTRUMENT/LESSON/PAYLOAD.txt
+  //GROUP/LESSON/PAYLOAD.txt
 }

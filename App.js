@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { LessonChallengeScreen } from "./screens/LessonChallengeScreen";
 import { HomeScreen } from "./screens/HomeScreen";
-import { InstrumentScreen } from "./screens/InstrumentScreen";
+import { GroupScreen } from "./screens/GroupScreen";
 import { LessonLaunchScreen } from "./screens/LessonLaunchScreen";
 import { AddLessonScreen } from "./screens/AddLessonScreen";
 import { LessonStatsScreen } from "./screens/LessonStatsScreen";
@@ -22,9 +22,9 @@ export default function App() {
           options={{ title: "HomeScreen" }}
         />
         <Stack.Screen
-          name="InstrumentScreen"
-          component={InstrumentScreen}
-          options={{ title: "InstrumentScreen" }}
+          name="GroupScreen"
+          component={GroupScreen}
+          options={{ title: "GroupScreen" }}
         />
         <Stack.Screen
           name="LessonLaunchScreen"

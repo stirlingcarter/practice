@@ -3,7 +3,7 @@ import { ChallengeComponent } from "../components/ChallengeComponent";
 
 export function LessonChallengeScreen({ route, navigation }) {
   const { lesson } = route.params;
-  const { instrumentName } = route.params;
+  const { groupName } = route.params;
 
-  return <ChallengeComponent nav={navigation} lesson={lesson} instrumentName={instrumentName} />;
+  return <ChallengeComponent nav={navigation} lesson={lesson} groupName={groupName} />;
 }

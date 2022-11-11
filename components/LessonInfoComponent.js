@@ -19,7 +19,7 @@ export class WholeAssLessonInfo extends React.Component {
 
   }
   async componentDidMount() {
-    let l = await lessonRepository.getLessonByNameAndInstrumentName(this.props.lessonName, this.props.instrumentName)
+    let l = await lessonRepository.getLessonByNameAndGnstrumentName(this.props.lessonName, this.props.groupName)
     this.setState({
       lesson: l
     });
@@ -41,7 +41,7 @@ export class WholeAssLessonInfo extends React.Component {
             title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonChallengeScreen", {
               lesson: this.state.lesson,
-              instrumentName: this.props.instrumentName,
+              groupName: this.props.groupName,
             })}
           >
             {"\n\n\nSTART"}
@@ -51,7 +51,7 @@ export class WholeAssLessonInfo extends React.Component {
             title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonStatsScreen", {
               lesson: this.state.lesson,
-              instrumentName: this.props.instrumentName,
+              groupName: this.props.groupName,
             })}
           >
             {"\n\n\nSTATS"}

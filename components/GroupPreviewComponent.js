@@ -7,31 +7,40 @@ import {
   Text
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
-import InstrumentRepository from "../repositories/InstrumentRepository";
+import GroupRepository from "../repositories/GroupRepository";
 import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 
-const instrumentRepository = InstrumentRepository.getInstance()
+const groupRepository = GroupRepository.getInstance()
 const lessonRepository = LessonRepository.getInstance()
 
-export class LessonsPreviewComponent extends React.Component {
+export class GroupPreviewComponent extends React.Component {
   constructor(props) {
     super(props); //this.props.num = 1;
 
     this.getLessonNames = this.getLessonNames.bind(this);
+    this.getGroupNames = this.getGroupNames.bind(this);
 
-    this.state = { lessonNames: [], currentlyOpenSwipeable: null };
+    this.state = { lessonNames: [], groupNames: [], currentlyOpenSwipeable: null };
   }
 
   componentDidMount() {
-    this.getLessonNames();
+    this.getLessonNames()
+    this.getGroupNames()
   }
 
-  async getLessonNames() {
-    var names = await instrumentRepository.getInstrumentByName(this.props.instrumentName).getLessonNames();
+  getLessonNames() {
+    var names = groupRepository.getGroupByName(this.props.groupName).getLessonNames();
     this.setState({
       lessonNames: names,
+    });
+  }
+
+  getGroupNames() {
+    var names = groupRepository.getGroupByName(this.props.groupName).getGroupNames();
+    this.setState({
+      groupNames: names,
     });
   }
 
@@ -54,22 +63,61 @@ export class LessonsPreviewComponent extends React.Component {
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
             <Text
               onPress={() => this.props.nav.navigate("AddLessonScreen", {
-                instrumentName: this.props.instrumentName,
+                groupName: this.props.groupName,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.saveButton3}
             >
-              {this.props.instrumentName}
+              {this.props.groupName}
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("AddLessonScreen", {
-                instrumentName: this.props.instrumentName,
+                groupName: this.props.groupName,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.saveButton4}
             >
               {"tap here to add lessons.\n"}
             </Text>
+
+            {/* GROUPS */}
+
+            <FlatList
+              data={this.state.groupNames}
+              renderItem={({ item }) => (
+                <Swipeable
+                  rightButtons={[
+                    <TouchableOpacity
+                      onPress={async () => {
+                        groupRepository.delete(
+                          item,
+                          this.props.groupName
+                        );
+                        this.getGroupNames()
+                      }}
+                      style={[
+                        styles5.rightSwipeItem,
+                        { backgroundColor: "red" },
+                      ]}
+                    >
+                      <Text></Text>
+                    </TouchableOpacity>,
+                  ]}
+                  onRightButtonsOpenRelease={itemProps.onOpen}
+                  onRightButtonsCloseRelease={itemProps.onClose}
+                >
+                  <Text
+                    onPress={() => this.props.nav.navigate("GroupScreen",
+                      { groupName: item })}
+                    style={allTheStyles.groupOption}
+                  >
+                    {item}
+                  </Text>
+                </Swipeable>
+              )}
+              keyExtractor={(item, index) => index.toString()} />
+
+            {/* LESSONS */}
 
             <FlatList
               data={this.state.lessonNames}
@@ -80,7 +128,7 @@ export class LessonsPreviewComponent extends React.Component {
                       onPress={async () => {
                         await lessonRepository.delete(
                           item,
-                          this.props.instrumentName
+                          this.props.groupName
                         );
                         this.getLessonNames()
                       }}
@@ -98,16 +146,18 @@ export class LessonsPreviewComponent extends React.Component {
                   <Text
                     onPress={() => this.props.nav.navigate("LessonLaunchScreen", {
                       lessonName: item,
-                      instrumentName: this.props.instrumentName,
+                      groupName: this.props.groupName,
                     })}
-                    style={allTheStyles.lessonOption}
+                    style={allTheStyles.groupOption}
                   >
                     {item}
                   </Text>
                 </Swipeable>
               )}
               keyExtractor={(item, index) => index.toString()} />
-            <Text style={allTheStyles.instrumentScreenSpacer}>{"\n"}</Text>
+
+
+            <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
           </ScrollView>
         </SafeAreaView>
       </>

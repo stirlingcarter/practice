@@ -1,14 +1,14 @@
 import { MMKV } from "react-native-mmkv";
-import instrumentRepository from "./InstrumentRepository.js";
+import groupRepository from "./GroupRepository.js";
 
 const storage = new MMKV({
   id: "Lessons"
 })
 
 export default {
-  getLessonByNameAndInstrumentName(lessonName, instrumentName) {
+  getLessonByNameAndGroupName(lessonName, groupName) {
     try {
-      let retrievedItem = this.storage.getString(instrumentName + lessonName)
+      let retrievedItem = this.storage.getString(groupName + lessonName)
       const item = JSON.parse(retrievedItem);
       return item;
     } catch (error) {
@@ -16,23 +16,23 @@ export default {
     }
     return null;
   },
-  delete(lessonName, instrumentName) {
+  delete(lessonName, groupName) {
     try {
-      this.storage.delete(instrumentName + lessonName);
-      let instrument = instrumentRepository.getInstrumentByName(instrumentName)
-      instrument.removeLesson(lessonName)
-      instrumentRepository.save(instrument)
+      this.storage.delete(groupName + lessonName);
+      let group = groupRepository.getGroupByName(groupName)
+      group.removeLesson(lessonName)
+      groupRepository.save(group)
     } catch (error) {
       console.log(error.message);
     }
   },
   save(lesson) {
-    let instrument = instrumentRepository.getInstrumentByName(lesson.getInstrumentName())
-    instrument.addLessonName(lesson.getName())
+    let group = groupRepository.getGroupByName(lesson.getGroupName())
+    group.addLessonName(lesson.getName())
 
     try {
-      instrumentRepository.save(instrument)
-      storage.set(lesson.getInstrumentName() + lesson.getName(), JSON.stringify(lesson));
+      groupRepository.save(group)
+      storage.set(lesson.getGroupName() + lesson.getName(), JSON.stringify(lesson));
     } catch (error) {
       console.log(error.message);
     }

@@ -1,29 +1,27 @@
 import * as React from "react";
 import { View, Text, FlatList } from "react-native";
 import { allTheStyles } from "../styles/allTheStyles.js"
-import InstrumentRepository from "../repositories/InstrumentRepository";
-
-const instrumentRepository = InstrumentRepository.getInstance()
+import groupRepository from "../repositories/GroupRepository";
 
 export function HomeScreen({ navigation }) {
-  var instrumentNames = instrumentRepository.getAllInstrumentNames();
-
+  var headGroup = groupRepository.getHeadGroup()
+  let groupNames = headGroup.getGroupNames()
   return (
     <View style={allTheStyles.homeScreenBackground}>
       <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
       <FlatList
-        data={instrumentNames}
+        data={groupNames}
         renderItem={({ item }) => (
           <>
             <Text
-              onPress={() => navigation.navigate("InstrumentScreen", { instrumentName: item })}
-              style={allTheStyles.instrumentNames}
+              onPress={() => navigation.navigate("GroupScreen", { groupName: item })}
+              style={allTheStyles.groupNames}
             >
               {item + "\n"}
             </Text>
             <Text
-              onPress={() => navigation.navigate("InstrumentScreen", { instrumentName: item })}
+              onPress={() => navigation.navigate("GroupScreen", { groupName: item })}
               style={allTheStyles.homescreenSpacer2}
             >
               {"\n"}

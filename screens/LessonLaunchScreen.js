@@ -3,11 +3,11 @@ import { WholeAssLessonInfo } from "../components/LessonInfoComponent";
 
 export function LessonLaunchScreen({ route, navigation }) {
   const { lessonName } = route.params;
-  const { instrumentName } = route.params;
+  const { groupName } = route.params;
 
   return (
     <WholeAssLessonInfo
-      instrumentName={instrumentName}
+      groupName={groupName}
       nav={navigation}
       lessonName={lessonName} />
   );

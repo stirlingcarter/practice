@@ -5,7 +5,7 @@ export default class Lesson {
 
     name = ''
     criteria = ''
-    instrumentName = ''
+    groupName = ''
     goal = 2
     v = [] //variants, e,g, [maj7, min7]
     v2 = []
@@ -17,10 +17,10 @@ export default class Lesson {
         // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
     }
 
-    constructor(name, criteria, instrumentName, goal, v, v2){ 
+    constructor(name, criteria, groupName, goal, v, v2){ 
         this.name=name
         this.criteria=criteria
-        this.instrumentName=instrumentName
+        this.groupName=groupName
         this.goal=goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
@@ -55,8 +55,8 @@ export default class Lesson {
         }
     }
 
-    getInstrumentName(){
-        return this.instrumentName
+    getGroupName(){
+        return this.groupName
     }
 
     getTimesByVHash(vHash){

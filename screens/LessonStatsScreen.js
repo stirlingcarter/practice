@@ -3,7 +3,7 @@ import { LessonStatsComponent } from "../components/LessonStatsComponent";
 
 export function LessonStatsScreen({ route, navigation }) {
   const { lesson } = route.params;
-  const { instrumentName } = route.params;
+  const { groupName } = route.params;
 
-  return <LessonStatsComponent nav={navigation} lesson={lesson} instrumentName={instrumentName} />;
+  return <LessonStatsComponent nav={navigation} lesson={lesson} groupName={groupName} />;
 }
