@@ -15,7 +15,7 @@ export default class Instrument {
         return this.lessonNames
     }
 
-    addLesson(lessonName){
+    addLessonName(lessonName){
         this.lessonNames.push(lessonName)
     }
 

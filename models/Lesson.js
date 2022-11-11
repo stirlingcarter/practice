@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import Util from '../services/Util';
 
 export default class Lesson {
 
@@ -35,10 +36,9 @@ export default class Lesson {
 
     populateDatasetWithVariants(){
         let combinedVariants = this.getCombinedVariants()
-        let notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"]
-        let keys = this.getCombinedVariants(notes,combinedVariants)
-        for (index in keys) { // key : A$maj7$LH
-            dataset[keys[index]] = []
+        let vHashes = this.getCombinedVariants(Util.NOTES,combinedVariants)
+        for (const vHash of vHashes) { // vHash : A$maj7$LH
+            dataset[vHash] = []
         }
     }
 
@@ -65,7 +65,7 @@ export default class Lesson {
     }
 
     getTimesByVHash(vHash){
-        return this.copyOf(this.dataset[vHash])
+        return Util.copyOf(this.dataset[vHash])
     }
 
     isEmpty(vHash){
@@ -73,7 +73,7 @@ export default class Lesson {
     }
 
     getVHashes(){
-        return this.copyOf(this.vHashes)
+        return Util.copyOf(this.vHashes)
     }
 
     getGoal(){
@@ -88,7 +88,7 @@ export default class Lesson {
         this.dataset[vHash].push[diff]
     }
 
-    getLengthOfVHashTimes(vHash){
+    totalTimes(vHash){
         return this.dataset[vHash].length
     }
 
@@ -97,16 +97,22 @@ export default class Lesson {
     }
 
     getDataset(){
-        return this.copyOf(this.dataset)
+        return Util.copyOf(this.dataset)
     }
 
     getName(){
         return this.name;
     }
 
-    copyOf(o){
-        return JSON.parse(JSON.stringify(o))
+    getWindowOfTimes(vHash, window) {
+        let ans = []
+        let i = this.totalTimes(vHash)-1
+        let w = window
+        while (i > -1 && w > 0){
+            ans.unShift(this.getSpecificTime())//add to beginning lol
+            i--
+            w--
+        }
+        return ans
     }
-
-
 }

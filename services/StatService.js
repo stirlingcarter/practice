@@ -22,22 +22,9 @@ export default class StatService {
   lessonNames = [];
 
   
-  getAverage(window, vHash, lesson){
-    let avg = 0;
-    let len = lesson.getLengthOfVHashTimes(vHash)
-    for (let i = 0; i < window && i < len; i++) {
-      let index = len - 1 - i;
-      avg += lesson.getSpecificTime(vHash, index);
-    }
+  getWindowedAvg(window, vHash, lesson){
 
-    let d = window;
-    if (len < window) {
-      d = len;
-    }
-
-    let ans = avg/d
-
-    return (isNaN(ans) ? 0 : ans);
+    return lesson.isEmpty(vHash) ? 0 : Util.arrayAvg(lesson.getWindowOfTimes(vHash,window))
 
   }
 
@@ -59,7 +46,7 @@ export default class StatService {
     let maxVHash = vHashes[0]
     for (let i = 0; i < vHashes.length; i++){
       let vHash = vHashes[i]
-      let windowedAverage = this.getAverage(window,vHash)
+      let windowedAverage = this.getWindowedAvg(window,vHash,lesson)
       if (windowedAverage == 0){
         return vHash
       }else{
@@ -134,11 +121,21 @@ export default class StatService {
 
   }
 
-    //HQI.getAverages returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+    // returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
   //              [5,2,6,7,3],
   //              [1,6]],[[a,b,c....g],
   //              [maj7,m7...d7],
   //              [left,right]]]
+
+      //make a set of the non meta keys - A$maj7$left
+    //make n+1 sets, n = number of $
+    //divide each member into proper sets
+    //now you have (A,Bb,B....Ab), (maj7,min7....dim7), (left,right), and a master set. 
+    //now, make the sets ordered. These sets will be the basis for param. order from here on out.
+    //each set member needs a corresponding average time 
+    //what is the av for A? 
+    //have a getter that gets you all the keys with A from the master set. 
+    //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
   getAveragesByVariant(lesson){
 
 
@@ -153,27 +150,9 @@ export default class StatService {
     //each set member needs a corresponding average time 
     //what is the av for A? 
 
-    let averagesOfVariants = []
-    for (let i = 0; i < namesOfVariants.length; i++){
-      let variantGroupAverages = []
+    let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => getAverageForVariant(variant)))
 
-      for (let k = 0; k < namesOfVariants[i].length; k++){
-        let matchingVHashes = Util.getAllVHashesContainingVariant(vHashes, namesOfVariants[i][k]) // A maj7 left A min7 left A maj7 right A min7 right
-        let divisor = matchingVHashes.length 
-        let sum = 0
-        for (let j = 0; j < matchingVHashes.length; j++){
-          let addand = this.getAverage(10,matchingVHashes[j])
-          if (addand == 0){
-            divisor -= 1 // not counting this for the amount of averages being averaged
-          }
-          sum += addand
-        }
-        avg = sum / divisor
-        variantGroupAverages.push(avg)
-      }
-
-      averagesOfVariants.push(variantGroupAverages)
-    }
+    
 
     //have a getter that gets you all the keys with A from the master set. 
     //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
@@ -186,8 +165,14 @@ export default class StatService {
 
   }
 
-  getRandomNote(lesson) {
-    let vHashes = lesson.getVHashes()[Math.floor(Math.random()*items.length)]
+  getAverageForVariant(variant, lesson){
+    let matchingVHashes = Util.getAllVHashesContainingVariant(vHashes, variant) // A maj7 left A min7 left A maj7 right A min7 right
+    return matchingVHashes.map(vHash => this.getWindowedAvg(10,vHash,lesson)).filter(avg => avg > 0).sum()
+  }
+  
+
+  getRandomVHash(lesson) {
+    let vHashes = lesson.getVHashes()
     return vHashes[Math.floor(Math.random()*vHashes.length)]
   }
 
