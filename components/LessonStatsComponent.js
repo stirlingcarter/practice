@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet
 } from "react-native";
-import { HQI } from "../App";
+import { ChallengeService } from "../services/AnalService"
 import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
@@ -12,6 +12,8 @@ import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLi
 
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
+
+challengeService = ChallengeService.getInstance()
 
 //  want this to be ininviisiible and cover whole screen TODO
 export class LessonStatsComponent extends React.Component {
@@ -38,7 +40,7 @@ export class LessonStatsComponent extends React.Component {
 
   f(x){
 
-    let goal = HQI.getLessonGoal() * 1000 
+    let goal = this.props.lesson.getGoal() * 1000 
 
     //approach 100 as x approaches  0
     //approach 0 as x approaches inf  
@@ -53,11 +55,11 @@ export class LessonStatsComponent extends React.Component {
   }
 
   render() {
-    let response = HQI.getAveragesByCategory()
+    let response = challengeService.getAveragesByCategory(this.props.lesson)
     let averagesByCategory = response[0]
     let namesByCategory = response[1]
 
-    //HQI.getAverages returns -> [
+    //challengeService.getAveragesByCategory returns -> [
       //            [
         //          [2,6,3,6,4,7,6,4,8,2,6,7],
     //              [5,2,6,7,3],

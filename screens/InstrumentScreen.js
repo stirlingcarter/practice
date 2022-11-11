@@ -1,13 +1,13 @@
 import * as React from "react";
 import { View } from "react-native";
-import { LessonPreviewComponent } from "../components/LessonPreviewComponent";
+import { LessonsPreviewComponent } from "../components/LessonsPreviewComponent";
 
 export function InstrumentScreen({ route, navigation }) {
-  const { instrument } = route.params;
+  const { instrumentName } = route.params;
 
   return (
     <View>
-      <LessonPreviewComponent nav={navigation} instrument={instrument} />
+      <LessonsPreviewComponent nav={navigation} instrumentName ={instrumentName} />
     </View>
   );
 }

@@ -1,10 +1,12 @@
 import * as React from "react";
-import { HQI } from "../App";
-import {View, Text, FlatList} from "react-native" ;
+import { View, Text, FlatList } from "react-native";
 import { allTheStyles } from "../styles/allTheStyles.js"
+import InstrumentRepository from "../repositories/InstrumentRepository";
+
+instrumentRepository = InstrumentRepository.getInstance()
 
 export function HomeScreen({ navigation }) {
-  var instrumentNames = HQI.getInstrumentNames();
+  var instrumentNames = instrumentRepository.getAllInstrumentNames();
 
   return (
     <View style={allTheStyles.homeScreenBackground}>
@@ -15,13 +17,13 @@ export function HomeScreen({ navigation }) {
         renderItem={({ item }) => (
           <>
             <Text
-              onPress={() => navigation.navigate("InstrumentScreen", { instrument: item })}
+              onPress={() => navigation.navigate("InstrumentScreen", { instrumentName: item })}
               style={allTheStyles.instrumentNames}
             >
               {item + "\n"}
             </Text>
             <Text
-              onPress={() => navigation.navigate("InstrumentScreen", { instrument: item })}
+              onPress={() => navigation.navigate("InstrumentScreen", { instrumentName: item })}
               style={allTheStyles.homescreenSpacer2}
             >
               {"\n"}

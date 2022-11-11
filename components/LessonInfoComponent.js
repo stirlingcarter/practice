@@ -2,69 +2,56 @@ import * as React from "react";
 import {
   ScrollView,
   SafeAreaView,
-
-
   Text
 } from "react-native";
-import { HQI } from "../App";
+import Lesson from "../models/Lesson";
+import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
+
+lessonRepository = LessonRepository.getInstance();
 
 export class WholeAssLessonInfo extends React.Component {
   constructor(props) {
     super(props);
-
-    this.getCri = this.getCri.bind(this);
     this.state = {
-      cri: "def"
+      lesson: new Lesson()
     };
 
-    HQI.mountLesson(this.props.instrument, this.props.lesson, this.getCri);
   }
   async componentDidMount() {
-    this.getCri();
+    let l = await lessonRepository.getLessonByNameAndInstrumentName(this.props.lessonName, this.props.instrumentName)
+    this.setState({
+      lesson: l
+    });
   }
 
   componentWillUnmount() {
 
   }
 
-  async getCri() {
-    // alert(HQI.getCri())
-    this.setState({
-      cri: HQI.getCri(),
-    });
-  }
-
-
   render() {
-
-    // if (this.state.loading == "true"){
-    //   return (
-    //     <Text>{this.state.loading}</Text>
-    //   )
-    // }
 
     return (
       <SafeAreaView>
         <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
-          <Text style={allTheStyles.cri}>{this.state.cri}</Text>
+          <Text style={allTheStyles.cri}>{this.state.lesson.getCriteria()}</Text>
 
           <Text
             style={allTheStyles.startButton}
-            title={"start " + this.props.lesson}
+            title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonChallengeScreen", {
-              lesson: this.props.lesson,
-              instrument: this.props.instrument,
+              lesson: this.state.lesson,
+              instrumentName: this.props.instrumentName,
             })}
           >
             {"\n\n\nSTART"}
           </Text>
           <Text
             style={allTheStyles.startButton}
-            title={"start " + this.props.lesson}
+            title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonStatsScreen", {
-              lesson: this.props.lesson,
-              instrument: this.props.instrument,
+              lesson: this.state.lesson,
+              instrumentName: this.props.instrumentName,
             })}
           >
             {"\n\n\nSTATS"}

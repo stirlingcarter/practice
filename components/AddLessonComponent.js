@@ -2,32 +2,27 @@ import * as React from "react";
 import {
   Keyboard,
   ScrollView,
-
   TextInput,
-
-
   Text,
   View
 } from "react-native";
-import { HQI } from "../App";
+import LessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
-
-
-
+import InputParser from "../services/InputParser.js"
+lessonRepository = LessonRepository.getInstance()
 
 //COMPONENTS --------------------------------------------------------------------------------------------------------------------------------------------------------
 export class AddLessonComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { name: "", cri: ""};
+    this.state = { name: "", criteria: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleCriChange = this.handleCriChange.bind(this);
+    this.handleCriChange = this.handleCriteriaChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
     this.handleGoalChange = this.handleGoalChange.bind(this);
-
 
   }
 
@@ -35,22 +30,20 @@ export class AddLessonComponent extends React.Component {
     this.setState({ name });
   }
 
-  handleCriChange(cri) {
-    this.setState({ cri });
+  handleCriteriaChange(criteria) {
+    this.setState({ criteria });
   }
 
   handleVariantsChange(variants) {
     if (variants.replace(/\s/g, '').length) {
       this.setState({ variants });
-        }
+    }
   }
 
   handleVariants2Change(variants2) {
-
     if (variants2.replace(/\s/g, '').length) {
       this.setState({ variants2 });
-        }
-    
+    }
   }
 
 
@@ -62,21 +55,23 @@ export class AddLessonComponent extends React.Component {
   handleSubmit() {
     const save = async () => {
 
-      try {
-        await HQI.saveNewLesson(
-          this.props.instrument,
-          this.state.name,
-          this.state.cri,
-          this.state.variants,
-          this.state.variants2,
-          this.state.goal
-        );
-        await this.props.cb();
-      } catch (error) { }
+      await lessonRepository.save(
+        new Lesson(
+          this.state.name, 
+          this.state.criteria, 
+          this.props.instrumentName, 
+          InputParser.parseGoalFromStringInput(this.state.goal), 
+          InputParser.parseVariantsFromStringInput(this.state.variants), 
+          InputParser.parseVariantsFromStringInput(this.state.variants2)
+      ))
+
+      let instrument = instrumentRepository.getInstrumentByName(instrumentName)
+      instrument.addLesson(lesson.getName())
+      await InstrumentRepository.save(instrument)
     };
 
     save().then(
-      this.props.nav.navigate("InstrumentScreen", { instrument: this.props.instrument })
+      this.props.nav.navigate("InstrumentScreen", { instrumentName: this.props.instrumentName })
     )
   }
 
@@ -101,8 +96,8 @@ export class AddLessonComponent extends React.Component {
               placeholder="Description"
               numberOfLines={2}
               multiline={true}
-              value={this.state.cri}
-              onChangeText={this.handleCriChange} />
+              value={this.state.criteria}
+              onChangeText={this.handleCriteriaChange} />
             <TextInput
               style={allTheStyles.saveButton5}
               onBlur={Keyboard.dismiss}
@@ -111,7 +106,7 @@ export class AddLessonComponent extends React.Component {
               multiline={true}
               value={this.state.variants}
               onChangeText={this.handleVariantsChange} />
-              <TextInput
+            <TextInput
               style={allTheStyles.saveButton5}
               onBlur={Keyboard.dismiss}
               placeholder="Any more variants? (0th,1st,2nd,3rd)"
@@ -119,7 +114,7 @@ export class AddLessonComponent extends React.Component {
               multiline={true}
               value={this.state.variants2}
               onChangeText={this.handleVariants2Change} />
-                            <TextInput
+            <TextInput
               style={allTheStyles.saveButton5}
               onBlur={Keyboard.dismiss}
               placeholder="Your goal time for this exercise in seconds"

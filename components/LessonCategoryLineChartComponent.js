@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet
 } from "react-native";
-import { HQI } from "../App";
 import { VictoryChart, VictoryTheme, VictoryLine, VictoryScatter, VictoryGroup, VictoryLabel, VictoryVoronoiContainer, VictoryTooltip  } from "victory-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -55,11 +54,11 @@ export class LessonCategoryLineChartComponent extends React.Component {
     return res
   }
 
-  getColoredSubtitles(names){
+  getColoredSubtitles(namesOfVariants){
 
     const subtitles = []
-    for (let i = 0; i < names.length; i++){
-      subtitles.push(this.getOneSubtitle(names[i],COLORS[i]))
+    for (let i = 0; i < namesOfVariants.length; i++){
+      subtitles.push(this.getOneSubtitle(namesOfVariants[i],COLORS[i]))
     }
     return subtitles
       
@@ -94,7 +93,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
     )
   }
 
-//this.props.names- [a,b,c....g]
+//this.props.namesOfVariants- [a,b,c....g]
 
   render() {
 
@@ -105,13 +104,13 @@ export class LessonCategoryLineChartComponent extends React.Component {
     //   [23,14,10,7,6,4,3]
     //   ....
   // ]
-    let historicalAveragesByCatMember = HQI.getHistoricalAveragesByCatMember(this.props.names)
+    let historicalAveragesByCatMember = statService.getHistoricalAveragesByCatMember(this.props.namesOfVariants)
     
 
     const fields = []
-    for (let i = 0; i < this.props.names.length; i++) {
+    for (let i = 0; i < this.props.namesOfVariants.length; i++) {
       let color = COLORS[i%12]
-      fields.push(this.getOneGroupElement(historicalAveragesByCatMember[i],this.props.names[i],color));
+      fields.push(this.getOneGroupElement(historicalAveragesByCatMember[i],this.props.namesOfVariants[i],color));
     }
 
     return(
@@ -121,7 +120,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
       >
           {fields}
    </VictoryChart>
-   {this.getColoredSubtitles(this.props.names)}</View>
+   {this.getColoredSubtitles(this.props.namesOfVariants)}</View>
 
     )
 

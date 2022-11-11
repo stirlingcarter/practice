@@ -1,8 +1,11 @@
-import LessonCache from "./models/LessonCache";
+import StatService from "./StatService";
+import LessonRepository from "../repositories/LessonRepository";
+import InputParser from "./InputParser";
 
-var LC = LessonCache.getInstance();
+var LC = StatService.getInstance();
+var lessonRepository = LessonRepository.getInstance(); 
 
-export default class HQ {
+export default class ChallengeService {
   static instance = null;
 
   currentNote = this.getNextNote();
@@ -12,8 +15,8 @@ export default class HQ {
   strategyId = 1;
 
   static getInstance() {
-    if (HQ.instance == null) {
-      HQ.instance = new HQ();
+    if (ChallengeService.instance == null) {
+      ChallengeService.instance = new ChallengeService();
     }
 
     return this.instance;
@@ -25,25 +28,6 @@ export default class HQ {
     return lessons;
   }
 
-
-  async mountLesson(instrument, uniqueLessonName, cb) {
-    //does this ni and out.
-
-    //FOR IN:
-    await LC.mountLesson(instrument, uniqueLessonName, cb);
-  }
-
-
-  async mountLessonNames(instrument) {
-    //does this ni and out.
-
-    //FOR IN:
-    return LC.mountLessonNames(instrument);
-  }
-
-  unmountAnyLessonNames() {
-    LC.unmountAnyLessonNames();
-  }
 
   getNextNote() {
 
@@ -61,7 +45,7 @@ export default class HQ {
     //              [1,6]],[[a,b,c....g],
     //              [maj7,m7...d7],
     //              [left,right]]]
-  getAveragesByCategory(){
+  getAveragesByVariant(){
 
 
     //make a set of the non meta keys - A$maj7$left
@@ -83,10 +67,6 @@ export default class HQ {
 
   saveLesson() {
     LC.push();
-  }
-
-  async deleteLesson(instrument, uniqueLessonName, cb) {
-    await LC.deleteLesson(instrument, uniqueLessonName, cb);
   }
 
   getInstrumentNames() {
@@ -136,34 +116,17 @@ getHistoricalAveragesByCatMember(names){
     }
   }
 
-  async saveNewLesson(instrument, uniqueLessonName, cri, variants, variants2, goal) {
+  async saveNewLesson(instrumentName, title, criteria, v, v2, goal) {
 
-    if (goal == null || isNaN(goal) || goal <= 0){
-      goal = 1
-    }
+    lesson = new Lesson(title, criteria, instrumentName, goal, v, v2)
+    await lessonRepository.save(lesson)
 
-    v = []
-    v2 = []
-
-    if (variants != null){
-      v = variants.split(",")
-      var i;
-      for (i = 0; i < v.length; i++) { 
-        v[i] = v[i].trim()
-      }
-    }
-    if (variants2 != null){
-      v2 = variants2.split(",")
-      var i;
-      for (i = 0; i < v2.length; i++) { 
-        v2[i] = v2[i].trim()
-      }
-    }
-
-    await LC.saveNewLesson(instrument, uniqueLessonName, cri, v, v2, goal);
+    instrument = instrumentRepository.getInstrumentByName(instrumentName)
+    instrument.addLesson(lesson.getId())
+    await InstrumentRepository.save(instrument)
     
-
   }
+
 
   getIntRep(note) {
     if (note == "A") {
