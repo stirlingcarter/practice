@@ -3,7 +3,7 @@ import {
   Text,
   View
 } from "react-native";
-import { ChallengeService } from "../services/AnalService"
+import { ChallengeService } from "../services/ChallengeService"
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";

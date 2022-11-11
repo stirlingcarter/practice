@@ -1,22 +1,24 @@
+
+import Util from "../services/Util"
+
 export default class Instrument {
 
     name = ''
     lessonNames = []
 
-    constructor(name){
+    constructor(name) {
         this.name = name
     }
 
-    getName(){
+    getName() {
         return this.name
     }
 
-    getLessonNames(){
-        return this.lessonNames
+    getLessonNames() {
+        return Util.copyOf(this.lessonNames)
     }
 
-    addLessonName(lessonName){
+    addLessonName(lessonName) {
         this.lessonNames.push(lessonName)
     }
 
-}

@@ -1,5 +1,4 @@
 RANDOM_FIRST_RUN = true
-import Util from "."
 
 export default class StatService {
 
