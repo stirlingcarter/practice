@@ -1,6 +1,6 @@
 import { MMKV } from "react-native-mmkv";
 import lessonRepository from "./LessonRepository.js";
-import Util from "../services/Util"
+import Constants from "../constant/Constants"
 
 const storage = new MMKV({
     id: "Groups"
@@ -11,7 +11,7 @@ export default {
         return storage.getAllKeys();
     },
     getHeadGroup() { 
-        return this.getGroupByName(Util.HEAD_GROUP_NAME)
+        return this.getGroupByName(Constants.HEAD_GROUP_NAME)
     },
     getGroupByName(groupName) {
         try {

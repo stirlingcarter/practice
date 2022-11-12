@@ -10,7 +10,7 @@ import Swipeable from "react-native-swipeable-row";
 import GroupRepository from "../repositories/GroupRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
-import Util from "../services/Util"
+import Constants from "../constant/Constants"
 
 const groupRepository = GroupRepository.getInstance()
 
@@ -28,7 +28,7 @@ export class HomeScreenComponent extends React.Component {
   }
 
   getGroupNames() {
-    var names = groupRepository.getGroupByName(Util.HEAD_GROUP_NAME).getGroupNames();
+    var names = groupRepository.getGroupByName(Constants.HEAD_GROUP_NAME).getGroupNames();
     this.setState({
       groupNames: names,
     });
@@ -53,16 +53,16 @@ export class HomeScreenComponent extends React.Component {
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: Util.HEAD_GROUP_NAME,
+                groupName: Constants.HEAD_GROUP_NAME,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.saveButton3}
             >
-              {Util.HEAD_GROUP_NAME}
+              {Constants.HEAD_GROUP_NAME}
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: Util.HEAD_GROUP_NAME,
+                groupName: Constants.HEAD_GROUP_NAME,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.saveButton4}
@@ -81,7 +81,7 @@ export class HomeScreenComponent extends React.Component {
                       onPress={() => {
                         groupRepository.delete(
                           item,
-                          Util.HEAD_GROUP_NAME
+                          Constants.HEAD_GROUP_NAME
                         );
                         this.getGroupNames()
                       }}

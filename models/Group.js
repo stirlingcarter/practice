@@ -1,4 +1,5 @@
 import Util from '../services/Util';
+import Constants from '../constant/Constants';
 
 export default class Group {
 
@@ -12,7 +13,7 @@ export default class Group {
         this.name = name
         this.description = description
         this.lessonNames = lessonNames
-        if (name = Util.HEAD_GROUP_NAME){
+        if (name = Constants.HEAD_GROUP_NAME){
             lessonNames = []
         }
         this.groupNames = groupNames

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import Util from '../services/Util';
+import Constants from '../constant/Constants';
 
 export default class Lesson {
 
@@ -33,7 +34,7 @@ export default class Lesson {
 
     populateDatasetWithVariants(){
         let combinedVariants = this.getCombinedVariants()
-        let vHashes = this.getCombinedVariants(Util.NOTES,combinedVariants)
+        let vHashes = this.getCombinedVariants(Constants.NOTES,combinedVariants)
         for (const vHash of vHashes) { // vHash : A$maj7$LH
             dataset[vHash] = []
         }

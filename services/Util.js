@@ -4,10 +4,6 @@ export default class Util {
         return JSON.parse(JSON.stringify(o))
     }
 
-    static HEAD_GROUP_NAME = "Instruments"
-
-    static NOTES = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]
-
     static getNamesOfVariantsFromVHashes(vHashes) {
         //make n+1 sets, n = number of $
         let n = vHashes[0].split("$").length
