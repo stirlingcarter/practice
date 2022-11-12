@@ -10,6 +10,7 @@ export default class Lesson {
     v = [] //variants, e,g, [maj7, min7]
     v2 = []
     vHashes = []
+    level = 0
 
     // historical times for each *variant* (e.x. A$DOM$LH) 
     dataset = {
@@ -17,13 +18,14 @@ export default class Lesson {
         // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
     }
 
-    constructor(name, criteria, groupName, goal, v, v2){ 
+    constructor(name, criteria, groupName, goal, v, v2, level){ 
         this.name=name
         this.criteria=criteria
         this.groupName=groupName
         this.goal=goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
+        this.level = level
         this.populateDatasetWithVariants()
         this.vHashes = Object.keys(this.dataset)
         
@@ -57,6 +59,10 @@ export default class Lesson {
 
     getGroupName(){
         return this.groupName
+    }
+
+    getLevel(){
+        return this.level
     }
 
     getTimesByVHash(vHash){

@@ -17,7 +17,7 @@ const lessonRepository = LessonRepository.getInstance()
 
 export class GroupPreviewComponent extends React.Component {
   constructor(props) {
-    super(props); //this.props.num = 1;
+    super(props); 
 
     this.getLessonNames = this.getLessonNames.bind(this);
     this.getGroupNames = this.getGroupNames.bind(this);
@@ -61,8 +61,11 @@ export class GroupPreviewComponent extends React.Component {
       <>
         <SafeAreaView>
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
+
+            {/* Group Title */}
+
             <Text
-              onPress={() => this.props.nav.navigate("AddLessonScreen", {
+              onPress={() => this.props.nav.navigate("GroupStatsScreen", {
                 groupName: this.props.groupName,
                 cb: this.getLessonNames,
               })}
@@ -71,13 +74,53 @@ export class GroupPreviewComponent extends React.Component {
               {this.props.groupName}
             </Text>
             <Text
-              onPress={() => this.props.nav.navigate("AddLessonScreen", {
+              onPress={() => this.props.nav.navigate("GroupStatsScreen", {
                 groupName: this.props.groupName,
                 cb: this.getLessonNames,
               })}
-              style={allTheStyles.saveButton4}
+              style={allTheStyles.goToStatsButton}// < color
             >
-              {"tap here to add lessons.\n"}
+              {"tap here to go to stats for " + this.props.groupName + ".\n"}
+            </Text>
+
+            {/* Add lesson */}
+
+            <Text
+              onPress={() => this.props.nav.navigate("LessonSourceScreen", {
+                groupName: this.props.groupName,
+                cb: this.getLessonNames,
+              })}
+              style={allTheStyles.saveButton3}
+            >
+              {"Add lesson"}
+            </Text>
+            <Text
+              onPress={() => this.props.nav.navigate("LessonSourceScreen", {
+                groupName: this.props.groupName,
+                cb: this.getLessonNames,
+              })}
+              style={allTheStyles.addLessonButton} // < color
+            >
+            </Text>
+
+            {/* Add group */}
+
+            <Text
+              onPress={() => this.props.nav.navigate("AddGroupScreen", {
+                groupName: this.props.groupName,
+                cb: this.getGroupNames,
+              })}
+              style={allTheStyles.saveButton3}
+            >
+              {"Add group"}
+            </Text>
+            <Text
+              onPress={() => this.props.nav.navigate("AddGroupScreen", {
+                groupName: this.props.groupName,
+                cb: this.getGroupNames,
+              })}
+              style={allTheStyles.addGroupButton}// < color
+            >
             </Text>
 
             {/* GROUPS */}
@@ -109,7 +152,7 @@ export class GroupPreviewComponent extends React.Component {
                   <Text
                     onPress={() => this.props.nav.navigate("GroupScreen",
                       { groupName: item })}
-                    style={allTheStyles.groupOption}
+                    style={allTheStyles.openGroup}
                   >
                     {item}
                   </Text>
@@ -148,7 +191,7 @@ export class GroupPreviewComponent extends React.Component {
                       lessonName: item,
                       groupName: this.props.groupName,
                     })}
-                    style={allTheStyles.groupOption}
+                    style={allTheStyles.openLesson}
                   >
                     {item}
                   </Text>

@@ -9,7 +9,7 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 
 const lessonRepository = LessonRepository.getInstance();
 
-export class WholeAssLessonInfo extends React.Component {
+export class LessonLaunchComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,11 +19,11 @@ export class WholeAssLessonInfo extends React.Component {
 
   }
   async componentDidMount() {
-    let l = await lessonRepository.getLessonByNameAndGnstrumentName(this.props.lessonName, this.props.groupName)
+    let l = lessonRepository.getLessonByNameAndGroupName(this.props.lessonName, this.props.groupName)
     this.setState({
       lesson: l
     });
-  }
+  } 
 
   componentWillUnmount() {
 

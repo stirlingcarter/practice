@@ -3,12 +3,11 @@ import {
   Text,
   View
 } from "react-native";
-import LessonRepository from "../repositories/LessonRepository";
+import lessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { Util } from "../services/Util.js"
 import ChallengeService from "../services/ChallengeService";
 
-const lessonRepository = LessonRepository.getInstance();
 const challengeService = ChallengeService.getInstance()
 
 export class ChallengeComponent extends React.Component {

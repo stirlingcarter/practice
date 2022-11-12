@@ -6,13 +6,12 @@ import {
   Text,
   View
 } from "react-native";
-import LessonRepository from "../repositories/LessonRepository";
+import lessonRepository from "../repositories/LessonRepository";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InputParser from "../services/InputParser.js"
+import groupRepository from "../repositories/GroupRepository";
 
-const lessonRepository = LessonRepository.getInstance()
-
-export class AddLessonComponent extends React.Component {
+export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
     super(props);
@@ -54,25 +53,27 @@ export class AddLessonComponent extends React.Component {
 
 
   handleSubmit() {
-    const save = async () => {
+    const save = () => {
 
-      await lessonRepository.save(
+      let parentLevel = groupRepository.getGroupByName(this.props.groupName).getLevel()
+      lessonRepository.save(
         new Lesson(
           this.state.name,
           this.state.criteria,
           this.props.groupName,
           InputParser.parseGoalFromStringInput(this.state.goal),
           InputParser.parseVariantsFromStringInput(this.state.variants),
-          InputParser.parseVariantsFromStringInput(this.state.variants2)
+          InputParser.parseVariantsFromStringInput(this.state.variants2),
+          parentLevel + 1
         ))
 
       let group = groupRepository.getGroupByName(groupName)
-      group.addLesson(lesson.getName())
-      await groupRepository.save(group)
+      group.addLessonName(lesson.getName())
+      groupRepository.save(group)
     };
 
     save().then(
-      this.props.nav.navigate("groupScreen", { groupName: this.props.groupName })
+      this.props.nav.navigate("GroupScreen", { groupName: this.props.groupName })
     )
   }
 

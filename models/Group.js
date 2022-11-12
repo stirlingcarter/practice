@@ -3,12 +3,14 @@ import Util from '../services/Util';
 export default class Group {
 
     name = ''
+    description = ''
     lessonNames = []
     groupNames = []
     level = 0
 
-    constructor(name, lessonNames, groupNames, level){
+    constructor(name, description, lessonNames, groupNames, level){
         this.name = name
+        this.description = description
         this.lessonNames = lessonNames
         if (name = Util.HEAD_GROUP_NAME){
             lessonNames = []

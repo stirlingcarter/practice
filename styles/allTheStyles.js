@@ -25,11 +25,34 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
   },
-
   saveButton3: {
     textAlignVertical: "top",
     textAlign: "center",
     backgroundColor: "#98FB98",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  goToStatsButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#0f5e9c",
+    fontSize: 12,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  addGroupButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#1ca3ec",
+    fontSize: 12,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  addLessonButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#2389da",
     fontSize: 89,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -70,7 +93,7 @@ export const allTheStyles = StyleSheet.create({
     height: 300,
   },
 
-  instrumentNames: {
+  groupNames: {
     textAlignVertical: "top",
     textAlign: "center",
     fontSize: 89,
@@ -87,7 +110,7 @@ export const allTheStyles = StyleSheet.create({
     height: 80,
   },
 
-  lessonOption: {
+  groupOption: {
     textAlignVertical: "top",
     textAlign: "center",
     fontSize: 89,
@@ -95,7 +118,24 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 110,
   },
-
+  openLesson: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    backgroundColor: "#74ccf4",
+    height: 110,
+  },
+  openGroup: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    fontSize: 89,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    backgroundColor: "#5abcd8",
+    height: 110,
+  },
   homeScreenSpacer: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -114,7 +154,7 @@ export const allTheStyles = StyleSheet.create({
     height: 180,
   },
 
-  instrumentScreenSpacer: {
+  groupScreenSpacer: {
     textAlignVertical: "center",
     textAlign: "center",
   
@@ -123,7 +163,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 500,
   },
-  instrumentScreenBackground: {
+  groupScreenBackground: {
    
   },
   homeScreenBackground: {

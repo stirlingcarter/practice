@@ -1,12 +1,12 @@
 import * as React from "react";
-import { WholeAssLessonInfo } from "../components/LessonInfoComponent";
+import { LessonLaunchComponent } from "../components/LessonLaunchComponent";
 
 export function LessonLaunchScreen({ route, navigation }) {
   const { lessonName } = route.params;
   const { groupName } = route.params;
 
   return (
-    <WholeAssLessonInfo
+    <LessonLaunchComponent
       groupName={groupName}
       nav={navigation}
       lessonName={lessonName} />
