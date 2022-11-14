@@ -9,18 +9,18 @@ import {
 import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InputParser from "../services/InputParser.js"
-import groupRepository from "../App";
+import { groupRepository } from "../App";
 import Path from "../services/Path";
-
+import Lesson from "../models/Lesson";
 export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state = { name: "", criteria: "" };
+    this.state = {  };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleCriChange = this.handleCriteriaChange.bind(this);
+    this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
     this.handleGoalChange = this.handleGoalChange.bind(this);
@@ -54,29 +54,23 @@ export class AddCustomLessonComponent extends React.Component {
 
 
   handleSubmit() {
-    const save = () => {
+    
+    let lesson = new Lesson(
+      this.state.name,
+      this.state.criteria,
+      InputParser.parseGoalFromStringInput(this.state.goal),
+      InputParser.parseVariantsFromStringInput(this.state.variants),
+      InputParser.parseVariantsFromStringInput(this.state.variants2),
+      {},
+      Path.plus(this.props.path, this.state.name)) 
+    lessonRepository.save(lesson)
 
-      let parentLevel = groupRepository.getGroupByPath(this.props.groupPath).getLevel()
-      lessonRepository.save(
-        new Lesson(
-          this.state.name,
-          this.state.criteria,
-          this.props.groupName,
-          InputParser.parseGoalFromStringInput(this.state.goal),
-          InputParser.parseVariantsFromStringInput(this.state.variants),
-          InputParser.parseVariantsFromStringInput(this.state.variants2),
-          parentLevel + 1,
-          Path.plus(this.props.path, this.state.name)
-        ))
-
-      let group = groupRepository.getGroupByPath(groupName)
-      group.addLessonName(lesson.getName())
-      groupRepository.save(group)
-    };
-
-    save().then(
-      this.props.nav.navigate("GroupScreen", { groupName: this.props.groupName })
-    )
+    let group = groupRepository.getGroupByPath(this.props.path)
+    group.addLessonName(lesson.getName())
+    groupRepository.save(group)
+    this.props.cb()
+    this.props.nav.navigate("GroupScreen", { path: this.props.path})
+    
   }
 
   render() {
@@ -96,7 +90,7 @@ export class AddCustomLessonComponent extends React.Component {
             <TextInput
               style={allTheStyles.saveButton5}
               onBlur={Keyboard.dismiss}
-              placeholder="Description"
+              placeholder="Criteria"
               numberOfLines={2}
               multiline={true}
               value={this.state.criteria}

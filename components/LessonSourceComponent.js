@@ -27,7 +27,8 @@ export class LessonSourceComponent extends React.Component {
         <Text
           style={allTheStyles.challengeButton}
           onPress={() => this.props.nav.navigate("AddLessonFromTemplateScreen", {
-            path: this.props.path
+            path: this.props.path,
+            cb: this.props.cb
           })}
         >
           {"Template"}
@@ -37,6 +38,7 @@ export class LessonSourceComponent extends React.Component {
           style={allTheStyles.challengeButton}
           onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
             path: this.props.path,
+            cb: this.props.cb
           })}
         >
           {"Custom"}
@@ -45,7 +47,8 @@ export class LessonSourceComponent extends React.Component {
         <Text
           style={allTheStyles.challengeButton}
           onPress={() => this.props.nav.navigate("ScanLeadsheetScreen", {
-            path: this.props.path
+            path: this.props.path,
+            cb: this.props.cb
           })}
         >
           {"Scan leadsheet"}

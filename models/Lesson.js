@@ -18,100 +18,124 @@ export default class Lesson {
         // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
     }
 
-    constructor(name, criteria, goal, v, v2, path){ 
-        this.name=name
-        this.criteria=criteria
-        this.goal=goal
+    constructor(name, criteria, goal, v, v2, dataset, path) {
+        this.name = name
+        this.criteria = criteria
+        this.goal = goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
-        this.populateDatasetWithVariants()
-        this.vHashes = Object.keys(this.dataset)
+        this.vHashes = Object.keys(dataset)
+        if (dataset == undefined || this.vHashes.length === 0) {
+            this.dataset = this.getPopulatedDatasetWithVariants()
+        }
         this.path = path
     }
 
-    populateDatasetWithVariants(){
-        let combinedVariants = this.getCombinedVariants()
-        let vHashes = this.getCombinedVariants(Constants.NOTES,combinedVariants)
+    getPopulatedDatasetWithVariants() {
+        let combinedVariants = this.getCombinedVariants(this.v, this.v2)
+        let vHashes = this.getCombinedVariants(Constants.NOTES, combinedVariants)
         for (const vHash of vHashes) { // vHash : A$maj7$LH
-            dataset[vHash] = []
+            this.dataset[vHash] = []
         }
     }
 
-    getCombinedVariants(){
-        if (this.v.length == 0 && this.v2.length == 0){
+    getCombinedVariants(v, v2) {
+        if (v.length == 0 && v2.length == 0) {
             return []
-        }else if (this.v.length != 0 && this.v2.length == 0){
-            return this.v
-        }else if (this.v.length == 0 && this.v2.length != 0){
-            return this.v2
-        }else{
+        } else if (v.length != 0 && v2.length == 0) {
+            return v
+        } else if (v.length == 0 && v2.length != 0) {
+            return v2
+        } else {
             variants = []
-            for (i = 0; i < this.v.length; i++) { 
-            for (k = 0; k < this.v2.length; k++) { 
-                variants.push(this.v[i] + "$" + this.v2[k])
-            }
+            for (i = 0; i < v.length; i++) {
+                for (k = 0; k < v2.length; k++) {
+                    variants.push(v[i] + "$" + v2[k])
+                }
             }
             return variants
         }
     }
 
-    getGroupName(){
+    getGroupName() {
         return this.groupName
     }
 
-    getTimesByVHash(vHash){
+    getTimesByVHash(vHash) {
         return Util.copyOf(this.dataset[vHash])
     }
 
-    isEmpty(vHash){
+    isEmpty(vHash) {
         return this.dataset[vHash].length > 0
     }
 
-    getVHashes(){
+    getVHashes() {
         return Util.copyOf(this.vHashes)
     }
 
-    getPath(){
+    getPath() {
         return this.path
     }
 
-    getGoal(){
+    getGoal() {
         return this.goal
     }
 
-    getCriteria(){
+    getCriteria() {
         return this.criteria
     }
 
-    registerTime(diff, vHash){
+    registerTime(diff, vHash) {
         this.dataset[vHash].push[diff]
     }
 
-    totalTimes(vHash){
+    totalTimes(vHash) {
         return this.dataset[vHash].length
     }
 
-    getSpecificTime(vHash, index){
+    getSpecificTime(vHash, index) {
         return this.dataset[vHash][index]
     }
 
-    getDataset(){
+    getDataset() {
         return Util.copyOf(this.dataset)
     }
 
-    getName(){
+    getName() {
         return this.name;
     }
 
     getWindowOfTimes(vHash, window) {
         let ans = []
-        let i = this.totalTimes(vHash)-1
+        let i = this.totalTimes(vHash) - 1
         let w = window
-        while (i > -1 && w > 0){
+        while (i > -1 && w > 0) {
             ans.unShift(this.getSpecificTime())//add to beginning lol
-            i--
-            w--
+            i -= 1
+            w -= 1
         }
         return ans
+    }
+
+    static fromJSONStringified(lessonString) {
+        let lessonDict = JSON.parse(lessonString)
+
+        let name = lessonDict['name']
+        let criteria = lessonDict['criteria']
+        let goal = lessonDict['goal']
+        let v = lessonDict['v']
+        let v2 = lessonDict['v2']
+        let path = lessonDict['path']
+        let dataset = lessonDict['dataset']
+
+        return new Lesson(
+            name == undefined ? '' : name,
+            criteria == undefined ? '' : criteria,
+            goal == undefined ? this.goal : goal,
+            v == undefined ? [] : v,
+            v2 == undefined ? [] : v2,
+            dataset == undefined ? {} : dataset,
+            path == undefined ? '' : path
+        )
     }
 }

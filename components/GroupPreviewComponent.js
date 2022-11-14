@@ -30,7 +30,8 @@ export class GroupPreviewComponent extends React.Component {
   }
 
   getLessonNames() {
-    var names = groupRepository.getGroupByPath(this.props.path).getLessonNames();
+    let group = groupRepository.getGroupByPath(this.props.path)
+    var names = group.getLessonNames();
     this.setState({
       lessonNames: names,
     });
@@ -137,7 +138,7 @@ export class GroupPreviewComponent extends React.Component {
                 >
                   <Text
                     onPress={() => this.props.nav.navigate("GroupScreen",
-                      { groupName: item })}
+                      { path: item })}
                     style={allTheStyles.openGroup}
                   >
                     {item}

@@ -52,7 +52,7 @@ export class AddGroupComponent extends React.Component {
             this.props.nav.navigate("HomeScreen")
 
         }else {
-            this.props.nav.navigate("GroupScreen", { groupName: this.props.groupName })
+            this.props.nav.navigate("GroupScreen", { path: this.props.path })
         }
         
     }

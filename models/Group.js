@@ -61,7 +61,7 @@ export default class Group {
 
         let name = groupDict['name']
         let description = groupDict['description']
-        let lessonNames = groupDict['namelessonNames']
+        let lessonNames = groupDict['lessonNames']
         let groupNames = groupDict['groupNames']
         let path = groupDict['path']
 

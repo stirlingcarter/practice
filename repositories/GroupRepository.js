@@ -13,7 +13,7 @@ export default class GroupRepository {
         this.storage = new MMKV({
             id: "Groups"
         })
-        this.storage.clearAll()
+
 
     }
 
@@ -34,7 +34,7 @@ export default class GroupRepository {
             let group = Group.fromJSONStringified(retrievedItem)
             return group;
         } catch (error) {
-            console.log(error.message);
+            alert(error.message);
             return error.message
         }
         

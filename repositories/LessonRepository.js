@@ -1,6 +1,7 @@
 import { MMKV } from "react-native-mmkv";
-import groupRepository from "../App";
+import { groupRepository } from "../App";
 import Path from "../services/Path";
+import Lesson from "../models/Lesson";
 
 export default class LessonRepository {
 
@@ -15,7 +16,7 @@ export default class LessonRepository {
   getLessonByPath(lessonPath) {
     try {
       let retrievedItem = this.storage.getString(lessonPath)
-      const item = JSON.parse(retrievedItem);
+      const item = Lesson.fromJSONStringified(retrievedItem);
       return item;
     } catch (error) {
       console.log(error.message);
@@ -38,12 +39,12 @@ export default class LessonRepository {
     let path = lesson.getPath()
     let group = groupRepository.getGroupByPath(Path.up(path))
     group.addLessonName(lesson.getName())
-
+  
     try {
       groupRepository.save(group)
-      this.storage.set(lesson.getPath(), JSON.stringify(lesson));
+      this.storage.set(path, JSON.stringify(lesson));
     } catch (error) {
-      console.log(error.message);
+      alert(error.message);
     }
     return null;
   }
