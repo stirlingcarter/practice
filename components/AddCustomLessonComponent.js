@@ -65,9 +65,7 @@ export class AddCustomLessonComponent extends React.Component {
       Path.plus(this.props.path, this.state.name)) 
     lessonRepository.save(lesson)
 
-    let group = groupRepository.getGroupByPath(this.props.path)
-    group.addLessonName(lesson.getName())
-    groupRepository.save(group)
+  
     this.props.cb()
     this.props.nav.navigate("GroupScreen", { path: this.props.path})
     

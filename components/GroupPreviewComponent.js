@@ -123,7 +123,6 @@ export class GroupPreviewComponent extends React.Component {
                         groupRepository.deleteByPath(
                           Path.plus(this.props.path, item)
                         );
-                        this.getGroupNames()
                       }}
                       style={[
                         styles5.rightSwipeItem,
