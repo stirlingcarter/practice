@@ -6,12 +6,11 @@ import {
     Text,
     View
 } from "react-native";
-import LessonRepository from "../repositories/LessonRepository";
+import { groupRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-
-const lessonRepository = LessonRepository.getInstance()
-
-export class AddCustomLessonComponent extends React.Component {
+import Group from "../models/Group";
+import Constants from "../constant/Constants";
+export class AddGroupComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -32,23 +31,27 @@ export class AddCustomLessonComponent extends React.Component {
     }
 
     handleSubmit() {
-        const save = () => {
-            let parentGroup = groupRepository.getGroupByName(this.props.groupName)
-            groupRepository.save(
-                new Group(
-                    this.state.name,
-                    this.state.description,
-                    [],
-                    [],
-                    parentGroup.getLevel() + 1
-                ))
-            parentGroup.addGroupName(this.state.name)
-            groupRepository.save(parentGroup)
-        };
+        let parentGroup = groupRepository.getGroupByName(this.props.groupName)
+        groupRepository.save(
+            new Group(
+                this.state.name,
+                this.state.description,
+                [],
+                [],
+                parentGroup.getLevel() + 1
+            ))
+        parentGroup.addGroupName(this.state.name)
+        groupRepository.save(parentGroup)
+        
 
-        save().then(
+        this.props.cb()
+        if (parentGroup.getName() == Constants.HEAD_GROUP_NAME){
+            this.props.nav.navigate("HomeScreen")
+
+        }else {
             this.props.nav.navigate("GroupScreen", { groupName: this.props.groupName })
-        )
+        }
+        
     }
 
     render() {
@@ -71,7 +74,7 @@ export class AddCustomLessonComponent extends React.Component {
                             onBlur={Keyboard.dismiss}
                             placeholder="Group description"
                             maxLength={200}
-                            value={this.state.name}
+                            value={this.state.description}
                             onChangeText={this.handleDescriptionChange} />
                         <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
 

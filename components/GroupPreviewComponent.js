@@ -7,13 +7,10 @@ import {
   Text
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
-import GroupRepository from "../repositories/GroupRepository";
-import LessonRepository from "../repositories/LessonRepository";
+import { groupRepository } from "../App";
+import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
-
-const groupRepository = GroupRepository.getInstance()
-const lessonRepository = LessonRepository.getInstance()
 
 export class GroupPreviewComponent extends React.Component {
   constructor(props) {

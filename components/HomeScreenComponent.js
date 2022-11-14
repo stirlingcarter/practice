@@ -7,12 +7,10 @@ import {
   Text
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
-import GroupRepository from "../repositories/GroupRepository";
+import { groupRepository }from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 import Constants from "../constant/Constants"
-
-const groupRepository = GroupRepository.getInstance()
 
 export class HomeScreenComponent extends React.Component {
   constructor(props) {
@@ -29,6 +27,7 @@ export class HomeScreenComponent extends React.Component {
 
   getGroupNames() {
     var names = groupRepository.getGroupByName(Constants.HEAD_GROUP_NAME).getGroupNames();
+    alert(names)
     this.setState({
       groupNames: names,
     });
@@ -46,7 +45,6 @@ export class HomeScreenComponent extends React.Component {
       },
       onClose: () => this.setState({ currentlyOpenSwipeable: null }),
     };
-
     return (
       <>
         <SafeAreaView>
@@ -79,9 +77,8 @@ export class HomeScreenComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        groupRepository.delete(
-                          item,
-                          Constants.HEAD_GROUP_NAME
+                        groupRepository.deleteByName(
+                          item
                         );
                         this.getGroupNames()
                       }}

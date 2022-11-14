@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScanLeadSheetComponent } from "../components/ScanLeadSheetComponent";
+import { ScanLeadsheetComponent } from "../components/ScanLeadsheetComponent";
 
 export function ScanLeadsheetScreen({ route, navigation }) {
   const { groupName } = route.params;

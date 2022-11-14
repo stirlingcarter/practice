@@ -29,6 +29,6 @@ export class IntroComponent extends React.Component {
 
     render() {
         return (<View><Text onPress={() => this.props.nav.navigate("HomeScreen", {
-        })}>tap to enter</Text></View>)
+        })}>Practice</Text></View>)
     }
 }

@@ -3,21 +3,13 @@ import StatService from "./StatService";
 const statService = StatService.getInstance();
 
 export default class ChallengeService {
-  static instance = null;
 
-  currentVHash = this.getNextVHash();
+  currentVHash = "na"
+  prevVHash = 13
+  strategies = ["max_min", "average", "random"]
+  strategyId = 1
 
-  prevVHash = 13;
-  strategies = ["max_min", "average", "random"];
-  strategyId = 1;
-
-  static getInstance() {
-    if (ChallengeService.instance == null) {
-      ChallengeService.instance = new ChallengeService();
-    }
-
-    return this.instance;
-  }
+  constructor(){}
 
   getNextVHash(lesson) {
     let nextVHash = this.getNextVHashByStrategy(this.strategyId, lesson);
@@ -54,7 +46,7 @@ export default class ChallengeService {
       this.prevVHash = nextVHash;
       return nextVHash;
     } else {
-      return this.random();
+      return this.random(lesson);
     }
   }
 

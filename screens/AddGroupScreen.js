@@ -6,5 +6,5 @@ export function AddGroupScreen({ route, navigation }) {
   const { groupName } = route.params;
   const { cb } = route.params;
 
-  return <AddGroupComponent groupName={groupName} cb={cb} nav={navigation}/>;
+  return <AddGroupComponent nav={navigation} groupName={groupName} cb={cb} />;
 }

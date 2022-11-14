@@ -15,6 +15,21 @@ import { AddLessonFromTemplateScreen } from "./screens/AddLessonFromTemplateScre
 import { AddGroupScreen } from "./screens/AddGroupScreen";
 import { ScanLeadsheetScreen } from "./screens/ScanLeadsheetScreen";
 import { LessonSourceScreen } from "./screens/LessonSourceScreen";
+import ChallengeService from "./services/ChallengeService";
+import GroupRepository from "./repositories/GroupRepository";
+import LessonRepository from "./repositories/LessonRepository";
+
+import LifecycleManager from "./services/LifecycleManager";
+
+const PROD = "production"
+const LOCAL = "production"
+const PROFILE = PROD
+
+export const lessonRepository = new LessonRepository()
+export const groupRepository = new GroupRepository()
+const lifecycleManager = new LifecycleManager()
+
+const challengeService = new ChallengeService()
 
 const Stack = createStackNavigator();
 
@@ -77,11 +92,6 @@ export default function App() {
           name="ScanLeadsheetScreen"
           component={ScanLeadsheetScreen}
           options={{ title: "ScanLeadsheetScreen" }}
-        />
-        <Stack.Screen
-          name="LessonStatsScreen"
-          component={LessonStatsScreen}
-          options={{ title: "LessonStatsScreen" }}
         />
         <Stack.Screen
           name="LessonSourceScreen"

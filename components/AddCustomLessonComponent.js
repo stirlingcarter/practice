@@ -6,10 +6,10 @@ import {
   Text,
   View
 } from "react-native";
-import lessonRepository from "../repositories/LessonRepository";
+import lessonRepository from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InputParser from "../services/InputParser.js"
-import groupRepository from "../repositories/GroupRepository";
+import groupRepository from "../App";
 
 export class AddCustomLessonComponent extends React.Component {
 

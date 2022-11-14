@@ -1,21 +1,18 @@
-import { MMKV } from "react-native-mmkv";
-import lessonRepository from "./LessonRepository.js";
+import { lessonRepository } from "./LocalLessonRepository";
 import Constants from "../constant/Constants"
 
-const storage = new MMKV({
-    id: "Groups"
-})
+const storage = {}
 
 export default {
     getAllGroupNames() {
-        return storage.getAllKeys();
+        return Object.keys(storage);
     },
     getHeadGroup() { 
         return this.getGroupByName(Constants.HEAD_GROUP_NAME)
     },
     getGroupByName(groupName) {
         try {
-            let retrievedItem = this.storage.getString(groupName)
+            let retrievedItem = storage[groupName]
             const item = JSON.parse(retrievedItem);
             return item;
         } catch (error) {
@@ -28,7 +25,7 @@ export default {
     },
     deleteGroup(group) {
         try {
-            this.storage.delete(group.getName());
+            delete  storage[group.getName()]
             for (const ln of group.getLessonNames()) {
                 lessonRepository.delete(ln, group.getName())
             }
@@ -39,7 +36,7 @@ export default {
     },
     save(group) {
         try {
-            storage.set(group.getName(), JSON.stringify(group));
+            storage[group.getName()] = JSON.stringify(group);
         } catch (error) {
             console.log(error.message);
         }

@@ -3,15 +3,13 @@ import {
   Text,
   View
 } from "react-native";
-import { ChallengeService } from "../services/ChallengeService"
+import challengeService from "../App"
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
 
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
-
-const challengeService = ChallengeService.getInstance()
 
 export class LessonStatsComponent extends React.Component {
 

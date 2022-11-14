@@ -4,10 +4,8 @@ import {
   SafeAreaView,
   Text
 } from "react-native";
-import LessonRepository from "../repositories/LessonRepository";
+import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-
-const lessonRepository = LessonRepository.getInstance();
 
 export class LessonLaunchComponent extends React.Component {
   constructor(props) {

@@ -3,12 +3,12 @@ import {
   Text,
   View
 } from "react-native";
-import lessonRepository from "../repositories/LessonRepository";
+import { lessonRepository} from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { Util } from "../services/Util.js"
-import ChallengeService from "../services/ChallengeService";
+import challengeService from "../App";
 
-const challengeService = ChallengeService.getInstance()
+
 
 export class ChallengeComponent extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export class ChallengeComponent extends React.Component {
     this.lesson.registerTime(diff, this.state.vHash)
     lessonRepository.save(this.lesson)
     this.setState({
-      vHash: analService.getNextVHash(this.lesson), 
+      vHash: challengeService.getNextVHash(this.lesson), 
       start: Date.now()
     });
 
