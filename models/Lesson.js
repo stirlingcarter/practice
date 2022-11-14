@@ -31,7 +31,7 @@ export default class Lesson {
         this.path = path
     }
 
-    setVHashes(vHashes){
+    setVHashes(vHashes) {
         this.vHashes = vHashes
     }
 
@@ -72,7 +72,7 @@ export default class Lesson {
     }
 
     isEmpty(vHash) {
-        return this.dataset[vHash].length > 0
+        return this.dataset[vHash] == undefined || this.dataset[vHash].length == 0
     }
 
     getVHashes() {
@@ -115,15 +115,8 @@ export default class Lesson {
     }
 
     getWindowOfTimes(vHash, window) {
-        let ans = []
-        let i = this.totalTimes(vHash) - 1
-        let w = window
-        while (i > -1 && w > 0) {
-            ans.unShift(this.getSpecificTime())//add to beginning lol
-            i -= 1
-            w -= 1
-        }
-        return ans
+
+        return this.getDataset() == undefined || this.getDataset()[vHash] == undefined ? [] : this.getDataset()[vHash].slice(window * (-1))
     }
 
     static fromJSONStringified(lessonString) {
@@ -146,7 +139,7 @@ export default class Lesson {
             dataset == undefined ? {} : dataset,
             path == undefined ? '' : path
         )
-        if (vHashes != undefined){
+        if (vHashes != undefined) {
             l.setVHashes(vHashes)
         }
         return l

@@ -1,6 +1,7 @@
 RANDOM_FIRST_RUN = true
 import Util from "./Util";
 import {sum } from "./Util"
+import Lesson from "../models/Lesson";
 export default class StatService {
 
   lessonNames = [];
@@ -98,7 +99,8 @@ export default class StatService {
 
   // returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
   //              [5,2,6,7,3],
-  //              [1,6]],[[a,b,c....g],
+  //              [1,6]],
+  //              [[a,b,c....g],
   //              [maj7,m7...d7],
   //              [left,right]]]
 
@@ -117,16 +119,19 @@ export default class StatService {
     //make a set of the non meta keys - A$maj7$left
     let vHashes = lesson.getVHashes()
 
-
     let namesOfVariants = Util.getNamesOfVariantsFromVHashes(vHashes)
 
     //now you have nameSets = [(A,Bb,B....Ab), (maj7,min7....dim7), (left,right)] 
     //now, make the sets ordered. These sets will be the basis for param. order from here on out.
     //each set member needs a corresponding average time 
     //what is the av for A? 
-
+    alert(JSON.stringify(namesOfVariants))
     let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => this.getAverageForVariant(variant, lesson)))
-
+    
+    let inner = namesOfVariants[0]
+    
+    alert(JSON.stringify(averagesOfVariants))
+    alert(JSON.stringify(lesson))
 
 
     //have a getter that gets you all the keys with A from the master set. 
@@ -142,7 +147,14 @@ export default class StatService {
 
   getAverageForVariant(variant, lesson) {
     let matchingVHashes = Util.getAllVHashesContainingVariant(lesson.getVHashes(), variant) // A maj7 left A min7 left A maj7 right A min7 right
-    return matchingVHashes.length == 0 ? [] : matchingVHashes.map(vHash => this.getWindowedAvg(10, vHash, lesson)).filter(avg => avg > 0).reduce(sum, 0);
+    let sum = 0
+    // alert(JSON.stringify(lesson))
+    // alert(JSON.stringify(matchingVHashes))
+    for (vHash of matchingVHashes){
+      sum += lesson.getDataset()[vHash] == undefined ? 0 : this.getWindowedAvg(10, vHash, lesson)
+    }
+    return sum/matchingVHashes.length
+
   }
 
 

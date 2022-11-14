@@ -53,6 +53,7 @@ export class LessonStatsComponent extends React.Component {
     let response = statService.getAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]
     let namesOfVariants = response[1]
+    
 
     //challengeService.getAveragesByVariant returns -> [
     //            [

@@ -1,16 +1,27 @@
 
-export function sum(accumulator, a) {
-    return accumulator + a;
-}
+// export function sum(accumulator, a) {
+//     return accumulator + a;
+// }
 
 
 export default class Util {
+
+    static sum(arr){
+        sum = 0
+        for (n of arr){
+            sum += n
+        }
+        return sum
+    }
 
     static copyOf(o) {
         return JSON.parse(JSON.stringify(o))
     }
 
     static getNamesOfVariantsFromVHashes(vHashes) {
+        if (!vHashes[0].includes("$")){
+            return [vHashes]
+        }
         //make n+1 sets, n = number of $
         let n = vHashes[0].split("$").length
         let variantSets = []
@@ -73,7 +84,7 @@ export default class Util {
     }
 
     static arrayAvg(arr){
-        return arr.length < 1 ? 0 : array.reduce((a, b) => a + b) / arr.length;
+        return arr.length < 1 ? 0 : arr.reduce((a, b) => a + b) / arr.length;
     }
 
     static getIntRep(note) {

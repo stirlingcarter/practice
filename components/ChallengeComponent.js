@@ -37,7 +37,7 @@ export class ChallengeComponent extends React.Component {
     let end = Date.now()
     let diff = end - this.state.start;
     this.lesson.registerTime(diff, this.state.vHash)
-
+    // alert(JSON.stringify(this.lesson.getDataset()))        
 
     lessonRepository.save(this.lesson)
     this.setState({
