@@ -16,6 +16,8 @@ import { AddGroupScreen } from "./screens/AddGroupScreen";
 import { ScanLeadsheetScreen } from "./screens/ScanLeadsheetScreen";
 import { LessonSourceScreen } from "./screens/LessonSourceScreen";
 import ChallengeService from "./services/ChallengeService";
+import StatService from "./services/StatService";
+
 import GroupRepository from "./repositories/GroupRepository";
 import LessonRepository from "./repositories/LessonRepository";
 
@@ -29,7 +31,9 @@ export const lessonRepository = new LessonRepository()
 export const groupRepository = new GroupRepository()
 const lifecycleManager = new LifecycleManager()
 
-const challengeService = new ChallengeService()
+export const challengeService = new ChallengeService()
+export const statService = new StatService()
+
 
 const Stack = createStackNavigator();
 

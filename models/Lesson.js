@@ -24,19 +24,25 @@ export default class Lesson {
         this.goal = goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
-        this.vHashes = Object.keys(dataset)
-        if (dataset == undefined || this.vHashes.length === 0) {
+        if (!Object.keys(this.dataset).length > 0) {
             this.dataset = this.getPopulatedDatasetWithVariants()
+            this.vHashes = Object.keys(this.dataset)
         }
         this.path = path
     }
 
+    setVHashes(vHashes){
+        this.vHashes = vHashes
+    }
+
     getPopulatedDatasetWithVariants() {
+        let ans = {}
         let combinedVariants = this.getCombinedVariants(this.v, this.v2)
         let vHashes = this.getCombinedVariants(Constants.NOTES, combinedVariants)
         for (const vHash of vHashes) { // vHash : A$maj7$LH
-            this.dataset[vHash] = []
+            ans[vHash] = []
         }
+        return ans
     }
 
     getCombinedVariants(v, v2) {
@@ -70,6 +76,9 @@ export default class Lesson {
     }
 
     getVHashes() {
+        // if (Object.keys(this.vHashes).length < 1){
+        //     this.pop
+        // }
         return Util.copyOf(this.vHashes)
     }
 
@@ -86,7 +95,11 @@ export default class Lesson {
     }
 
     registerTime(diff, vHash) {
-        this.dataset[vHash].push[diff]
+        alert("diff: " + diff + "; vhash: " + vHash)
+        alert('lesson before rt' + JSON.stringify(this.dataset))
+
+        this.dataset[vHash].push(diff)
+        alert('lesson after rt' + JSON.stringify(this.dataset))
     }
 
     totalTimes(vHash) {
@@ -127,8 +140,8 @@ export default class Lesson {
         let v2 = lessonDict['v2']
         let path = lessonDict['path']
         let dataset = lessonDict['dataset']
-
-        return new Lesson(
+        let vHashes = lessonDict['vHashes']
+        let l = new Lesson(
             name == undefined ? '' : name,
             criteria == undefined ? '' : criteria,
             goal == undefined ? this.goal : goal,
@@ -137,5 +150,10 @@ export default class Lesson {
             dataset == undefined ? {} : dataset,
             path == undefined ? '' : path
         )
+        if (vHashes != undefined){
+            l.setVHashes(vHashes)
+            alert(vHashes)
+        }
+        return l
     }
 }

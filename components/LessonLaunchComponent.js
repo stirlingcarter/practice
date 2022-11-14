@@ -10,14 +10,13 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 export class LessonLaunchComponent extends React.Component {
   constructor(props) {
     super(props);
+    this.lesson = lessonRepository.getLessonByPath(this.props.path)
 
-    this.state = {
-      lesson: null
-    };
+  
 
   }
   async componentDidMount() {
-    let l = lessonRepository.getLessonByNameAndGroupName(this.props.lessonName, this.props.groupName)
+    let l = lessonRepository.getLessonByPath(this.props.path)
     this.setState({
       lesson: l
     });
@@ -32,14 +31,14 @@ export class LessonLaunchComponent extends React.Component {
     return (
       <SafeAreaView>
         <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
-          <Text style={allTheStyles.cri}>{this.state.lesson.getCriteria()}</Text>
+          <Text style={allTheStyles.cri}>{this.lesson.getCriteria()}</Text>
 
           <Text
             style={allTheStyles.startButton}
             title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonChallengeScreen", {
-              lesson: this.state.lesson,
-              groupName: this.props.groupName,
+              lesson: this.lesson,
+              groupName: this.props.path,
             })}
           >
             {"\n\n\nSTART"}
@@ -48,8 +47,8 @@ export class LessonLaunchComponent extends React.Component {
             style={allTheStyles.startButton}
             title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonStatsScreen", {
-              lesson: this.state.lesson,
-              groupName: this.props.groupName,
+              lesson: this.lesson,
+              path: this.props.path,
             })}
           >
             {"\n\n\nSTATS"}

@@ -175,7 +175,7 @@ export class GroupPreviewComponent extends React.Component {
                   <Text
                     onPress={() => this.props.nav.navigate("LessonLaunchScreen", {
                       lessonName: item,
-                      groupName: this.props.groupName,
+                      path: Path.plus(this.props.path, item),
                     })}
                     style={allTheStyles.openLesson}
                   >

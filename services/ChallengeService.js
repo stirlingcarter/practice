@@ -1,6 +1,4 @@
-import StatService from "./StatService";
-
-const statService = StatService.getInstance();
+import { statService } from "../App";
 
 export default class ChallengeService {
 

@@ -1,16 +1,6 @@
 RANDOM_FIRST_RUN = true
-
+import Util from "./Util";
 export default class StatService {
-
-  static instance = null;
-
-  static getInstance() {
-    if (StatService.instance == null) {
-      StatService.instance = new StatService();
-    }
-
-    return this.instance;
-  }
 
   lessonNames = [];
 
@@ -23,7 +13,7 @@ export default class StatService {
     let vHashes = lesson.getVHashes()
 
     if (RANDOM_FIRST_RUN) {
-      let unvisitedVHashes = lesson.getVHashes.filter(vHash => lesson.isEmpty(vHash))
+      let unvisitedVHashes = lesson.getVHashes().filter(vHash => lesson.isEmpty(vHash))
       if (unvisitedVHashes.length > 0) {
         return unvisitedVHashes[Math.floor(Math.random() * unvisitedVHashes.length)]
       }

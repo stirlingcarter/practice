@@ -4,14 +4,12 @@ import {
   View
 } from "react-native";
 import { VictoryChart, VictoryLine, VictoryScatter, VictoryGroup, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
-import StatService from "../services/StatService";
+import { statService } from "../App";
 
 // const DOMAIN_Y_BOUND = 100
 // const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
 const DOMAIN_X_BOUND = 100
 const COLORS = ["pink", "blue", "purple", "orange", "red", "green", "violet", "navy", "magenta", "tomato", "gold", "darkgreen"]
-
-const statService = StatService.getInstance()
 
 
 export class LessonCategoryLineChartComponent extends React.Component {

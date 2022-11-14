@@ -5,8 +5,8 @@ import {
 } from "react-native";
 import { lessonRepository} from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-import { Util } from "../services/Util.js"
-import challengeService from "../App";
+import Util from "../services/Util.js"
+import { challengeService } from "../App";
 
 
 
@@ -37,6 +37,8 @@ export class ChallengeComponent extends React.Component {
     let end = Date.now()
     let diff = end - this.state.start;
     this.lesson.registerTime(diff, this.state.vHash)
+
+
     lessonRepository.save(this.lesson)
     this.setState({
       vHash: challengeService.getNextVHash(this.lesson), 
@@ -54,7 +56,7 @@ export class ChallengeComponent extends React.Component {
         <Text
           style={allTheStyles.challengeButton}
         >
-          {Util.vHashToName(this.vHash)}
+          {Util.vHashToName(this.state.vHash)}
         </Text>
       </View>
     );
