@@ -28,7 +28,7 @@ export default class LessonRepository {
     try {
       this.storage.delete(lessonPath);
       let group = groupRepository.getGroupByPath(Path.up(lessonPath))
-      group.removeLesson(Path.currentDir(lessonPath))
+      group.removeChildLessonByName(Path.currentDir(lessonPath))
       groupRepository.save(group)
     } catch (error) {
       console.log(error.message);

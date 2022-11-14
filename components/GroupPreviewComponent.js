@@ -119,10 +119,11 @@ export class GroupPreviewComponent extends React.Component {
                 <Swipeable
                   rightButtons={[
                     <TouchableOpacity
-                      onPress={async () => {
+                      onPress={ () => {
                         groupRepository.deleteByPath(
                           Path.plus(this.props.path, item)
                         );
+                        this.getGroupNames()
                       }}
                       style={[
                         styles5.rightSwipeItem,
@@ -154,10 +155,9 @@ export class GroupPreviewComponent extends React.Component {
                 <Swipeable
                   rightButtons={[
                     <TouchableOpacity
-                      onPress={async () => {
-                        await lessonRepository.delete(
-                          item,
-                          this.props.groupName
+                      onPress={ () => {
+                        lessonRepository.deleteByPath(
+                          Path.plus(this.props.path, item)
                         );
                         this.getLessonNames()
                       }}

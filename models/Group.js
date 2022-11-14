@@ -55,6 +55,10 @@ export default class Group {
         this.groupNames = this.groupNames.filter(name => name !== groupName)
     }
 
+    removeChildLessonByName(lessonName){
+        this.lessonNames = this.lessonNames.filter(name => name !== lessonName)
+    }
+
     static fromJSONStringified(groupString){
 
         let groupDict = JSON.parse(groupString)
