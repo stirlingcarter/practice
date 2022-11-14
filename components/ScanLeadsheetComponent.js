@@ -10,7 +10,7 @@ const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
 
 
-export class ScanLeadSheetComponent extends React.Component {
+export class ScanLeadsheetComponent extends React.Component {
 
   constructor(props) {
     super(props); 

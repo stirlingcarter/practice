@@ -49,15 +49,12 @@ export class HomeScreenComponent extends React.Component {
       <>
         <SafeAreaView>
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
-            <Text
-              onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                path: Constants.HEAD_GROUP_PATH,
-                cb: this.getGroupNames,
-              })}
-              style={allTheStyles.saveButton3}
+          <Text
+              style={allTheStyles.groupScreenTitle}
             >
-              {Constants.HEAD_GROUP_NAME}
+              {Path.currentDir(this.props.path)}
             </Text>
+
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
                 path: Constants.HEAD_GROUP_PATH,
@@ -95,7 +92,7 @@ export class HomeScreenComponent extends React.Component {
                 >
                   <Text
                     onPress={() => this.props.nav.navigate("GroupScreen",
-                      { groupName: item, path: this.props.path})}
+                      { groupName: item, path: Path.plus(this.props.path, item)})}
                     style={allTheStyles.groupOption}
                   >
                     {item}

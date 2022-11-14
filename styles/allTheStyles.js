@@ -29,11 +29,20 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     backgroundColor: "#98FB98",
-    fontSize: 89,
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  goToStatsButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#2389da",
+    fontSize: 12,
     fontStyle: "italic",
     fontWeight: "bold",
   },
-  goToStatsButton: {
+  groupScreenPathHeader: {
     textAlignVertical: "top",
     textAlign: "center",
     backgroundColor: "#0f5e9c",
@@ -56,6 +65,25 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 89,
     fontStyle: "italic",
     fontWeight: "bold",
+  },
+  groupScreenTitle: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#2389da",
+    fontSize: 74,
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
+  enterButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor: "#2389da",
+    fontSize: 74,
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
+  addLessonOrGroupRow: {
+    flexDirection:"row"
   },
   saveButton4: {
     textAlignVertical: "top",

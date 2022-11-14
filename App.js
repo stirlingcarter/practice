@@ -37,7 +37,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="IntroScreen">
+      <Stack.Navigator initialRouteName="IntroScreen"   screenOptions={{
+    headerShown: false,
+    cardStyle: {
+      backgroundColor: '#2389da'
+  }
+  }}>
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}

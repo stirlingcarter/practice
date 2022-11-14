@@ -10,11 +10,9 @@ export function HomeScreen({ navigation }) {
   const groupNames = headGroup.getGroupNames()
   return (
     <View style={allTheStyles.homeScreenBackground}>
-      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
       <HomeScreenComponent  nav={navigation} groupNames={groupNames} path={path}></HomeScreenComponent>
 
-      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
     </View>
   );
 }

@@ -4,7 +4,8 @@ import {
   ScrollView,
   SafeAreaView,
   FlatList,
-  Text
+  Text,
+  View
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
 import { groupRepository } from "../App";
@@ -63,13 +64,14 @@ export class GroupPreviewComponent extends React.Component {
             {/* Group Title */}
 
             <Text
-              onPress={() => this.props.nav.navigate("GroupStatsScreen", {
-                path: this.props.path,
-                cb: this.getLessonNames,
-              })}
-              style={allTheStyles.saveButton3}
+              style={allTheStyles.groupScreenPathHeader}
             >
-              {this.props.groupName}
+              {this.props.path}
+            </Text>
+            <Text
+              style={allTheStyles.groupScreenTitle}
+            >
+              {Path.currentDir(this.props.path)}
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("GroupStatsScreen", {
@@ -78,9 +80,9 @@ export class GroupPreviewComponent extends React.Component {
               })}
               style={allTheStyles.goToStatsButton}// < color
             >
-              {"tap here to go to stats for " + this.props.groupName + ".\n"}
+              {"tap here to go to stats for " + Path.currentDir(this.props.path) + ".\n"}
             </Text>
-
+            <View style={allTheStyles.addLessonOrGroupRow}>
             {/* Add lesson */}
 
             <Text
@@ -92,14 +94,7 @@ export class GroupPreviewComponent extends React.Component {
             >
               {"Add lesson"}
             </Text>
-            <Text
-              onPress={() => this.props.nav.navigate("LessonSourceScreen", {
-                path: this.props.path,
-                cb: this.getLessonNames,
-              })}
-              style={allTheStyles.addLessonButton} // < color
-            >
-            </Text>
+
 
             {/* Add group */}
 
@@ -112,14 +107,8 @@ export class GroupPreviewComponent extends React.Component {
             >
               {"Add group"}
             </Text>
-            <Text
-              onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                path: this.props.path,
-                cb: this.getGroupNames,
-              })}
-              style={allTheStyles.addGroupButton}// < color
-            >
-            </Text>
+
+            </View  >
 
             {/* GROUPS */}
 

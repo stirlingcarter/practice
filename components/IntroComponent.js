@@ -3,7 +3,7 @@ import {
     Text,
     View
 } from "react-native";
-
+import { allTheStyles } from "../styles/allTheStyles";
 export class IntroComponent extends React.Component {
 
     constructor(props) {
@@ -28,7 +28,7 @@ export class IntroComponent extends React.Component {
 
 
     render() {
-        return (<View><Text onPress={() => this.props.nav.navigate("HomeScreen", {
+        return (<View><Text style={allTheStyles.enterButton} onPress={() => this.props.nav.navigate("HomeScreen", {
         })}>Practice</Text></View>)
     }
 }
