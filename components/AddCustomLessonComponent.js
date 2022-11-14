@@ -6,10 +6,11 @@ import {
   Text,
   View
 } from "react-native";
-import lessonRepository from "../App";
+import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import InputParser from "../services/InputParser.js"
 import groupRepository from "../App";
+import Path from "../services/Path";
 
 export class AddCustomLessonComponent extends React.Component {
 
@@ -55,7 +56,7 @@ export class AddCustomLessonComponent extends React.Component {
   handleSubmit() {
     const save = () => {
 
-      let parentLevel = groupRepository.getGroupByName(this.props.groupName).getLevel()
+      let parentLevel = groupRepository.getGroupByPath(this.props.groupPath).getLevel()
       lessonRepository.save(
         new Lesson(
           this.state.name,
@@ -64,10 +65,11 @@ export class AddCustomLessonComponent extends React.Component {
           InputParser.parseGoalFromStringInput(this.state.goal),
           InputParser.parseVariantsFromStringInput(this.state.variants),
           InputParser.parseVariantsFromStringInput(this.state.variants2),
-          parentLevel + 1
+          parentLevel + 1,
+          Path.plus(this.props.path, this.state.name)
         ))
 
-      let group = groupRepository.getGroupByName(groupName)
+      let group = groupRepository.getGroupByPath(groupName)
       group.addLessonName(lesson.getName())
       groupRepository.save(group)
     };

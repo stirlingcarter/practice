@@ -3,11 +3,11 @@ import { View } from "react-native";
 import { GroupPreviewComponent } from "../components/GroupPreviewComponent";
 
 export function GroupScreen({ route, navigation }) {
-  const { groupName } = route.params;
+  const { path } = route.params;
 
   return (
     <View>
-      <GroupPreviewComponent nav={navigation} groupName={groupName} />
+      <GroupPreviewComponent nav={navigation} path={path} />
     </View>
   );
 }

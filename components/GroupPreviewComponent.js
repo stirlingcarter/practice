@@ -11,6 +11,7 @@ import { groupRepository } from "../App";
 import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
+import Path from "../services/Path";
 
 export class GroupPreviewComponent extends React.Component {
   constructor(props) {
@@ -28,14 +29,14 @@ export class GroupPreviewComponent extends React.Component {
   }
 
   getLessonNames() {
-    var names = groupRepository.getGroupByName(this.props.groupName).getLessonNames();
+    var names = groupRepository.getGroupByPath(this.props.path).getLessonNames();
     this.setState({
       lessonNames: names,
     });
   }
 
   getGroupNames() {
-    var names = groupRepository.getGroupByName(this.props.groupName).getGroupNames();
+    var names = groupRepository.getGroupByPath(this.props.path).getGroupNames();
     this.setState({
       groupNames: names,
     });
@@ -63,7 +64,7 @@ export class GroupPreviewComponent extends React.Component {
 
             <Text
               onPress={() => this.props.nav.navigate("GroupStatsScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.saveButton3}
@@ -72,7 +73,7 @@ export class GroupPreviewComponent extends React.Component {
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("GroupStatsScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.goToStatsButton}// < color
@@ -84,7 +85,7 @@ export class GroupPreviewComponent extends React.Component {
 
             <Text
               onPress={() => this.props.nav.navigate("LessonSourceScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.saveButton3}
@@ -93,7 +94,7 @@ export class GroupPreviewComponent extends React.Component {
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("LessonSourceScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getLessonNames,
               })}
               style={allTheStyles.addLessonButton} // < color
@@ -104,7 +105,7 @@ export class GroupPreviewComponent extends React.Component {
 
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.saveButton3}
@@ -113,7 +114,7 @@ export class GroupPreviewComponent extends React.Component {
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: this.props.groupName,
+                path: this.props.path,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.addGroupButton}// < color
@@ -129,9 +130,8 @@ export class GroupPreviewComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={async () => {
-                        groupRepository.delete(
-                          item,
-                          this.props.groupName
+                        groupRepository.deleteByPath(
+                          Path.plus(this.props.path, item)
                         );
                         this.getGroupNames()
                       }}

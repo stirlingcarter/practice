@@ -11,7 +11,7 @@ export default class LifecycleManager {
 
     initGroupTreeIfNonExistent () {
         if (groupRepository.getHeadGroup() == undefined){
-            groupRepository.save(new Group(Constants.HEAD_GROUP_NAME), 'root', permanent top level group', [], [], 0)
+            groupRepository.save(new Group(Constants.HEAD_GROUP_NAME, 'permanent top level group', [], [], Constants.HEAD_GROUP_PATH))
         }
     }
 

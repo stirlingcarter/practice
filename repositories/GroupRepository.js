@@ -2,26 +2,32 @@ import { MMKV } from "react-native-mmkv";
 import { lessonRepository } from "../App";
 import Constants from "../constant/Constants"
 import Group from "../models/Group";
-
+import Util from "../services/Util";
+import Path from "../services/Path";
 
 export default class GroupRepository {
 
     storage = null
+
     constructor() {
         this.storage = new MMKV({
             id: "Groups"
         })
+        this.storage.clearAll()
 
     }
+
     getAllGroupNames() {
-        return storage.getAllKeys();
+        return this.storage.getAllKeys().filter(key => Path.currentDir(key));
     }
+
     getHeadGroup() {
-        return this.getGroupByName(Constants.HEAD_GROUP_NAME)
+        return this.getGroupByPath(Constants.HEAD_GROUP_PATH)
     }
-    getGroupByName(groupName) {
+
+    getGroupByPath(groupPath) {
         try {
-            let retrievedItem = this.storage.getString(groupName)
+            let retrievedItem = this.storage.getString(groupPath)
             if (retrievedItem == undefined){
                 return null;
             }
@@ -33,44 +39,49 @@ export default class GroupRepository {
         }
         
     }
-    getLessonNamesByGroupName(name) {
-        return this.getGroupByName(name).getLessonNames()
+    
+    getLessonNamesByGroupPath(path) {
+        return this.getGroupByPath(path).getLessonNames()
     }
+
     delete(group) {
         try {
-            this.storage.delete(group.getName());
-            for (const ln of group.getLessonNames()) {
-                lessonRepository.delete(ln, group.getName())
-            }
-            
-
+            this.storage.delete(group.getPath());
+            this.patchNeighbors(group)
         } catch (error) {
-            console.log(error.message);
+            alert("error deletuing group: " + error.message);
         }
         return null
     }
-    deleteByName(groupName) {
-        let group = this.getGroupByName(groupName)
-        let parentGroup = this.getGroupByName(group.getParentName())
-        parentGroup.removeChildGroupByName(groupName)
+
+    patchNeighbors(group){
+        for (const ln of group.getLessonNames()) {
+            lessonRepository.deleteByPath(Path.plus(group.getPath(), ln))
+        }
+        for (const gn of group.getGroupNames()) {
+            lessonRepository.deleteByPath(Path.plus(group.getPath(), gn))
+        }
+        let parentGroup = this.getGroupByPath(Path.up(group.getPath()))
+        parentGroup.removeChildGroupByName(group.getName())
         this.save(parentGroup)
+    }
+
+    deleteByPath(groupPath) {
+        let group = this.getGroupByPath(groupPath)
+        alert(JSON.stringify(group))
         try {
-            this.storage.delete(groupName);
-            if (group.getLessonNames() != undefined){
-                for (const ln of group.getLessonNames()) {
-                    lessonRepository.delete(ln, group.getName())
-                }
-            }
+            this.delete(group)
         } catch (error) {
             alert(error.message);
         }
-        alert("deleted" + groupName)
+        alert("deleted " + groupPath)
 
-        return null
     }
+
     save(group) {
+        alert(JSON.stringify(group))
         try {
-            this.storage.set(group.getName(), JSON.stringify(group));
+            this.storage.set(group.getPath(), JSON.stringify(group));
         } catch (error) {
             alert("error saving group: " + error.message)
         }

@@ -1,5 +1,6 @@
 import { MMKV } from "react-native-mmkv";
 import groupRepository from "../App";
+import Path from "../services/Path";
 
 export default class LessonRepository {
 
@@ -11,9 +12,9 @@ export default class LessonRepository {
 
   }
 
-  getLessonByNameAndGroupName(lessonName, groupName) {
+  getLessonByPath(lessonPath) {
     try {
-      let retrievedItem = storage.getString(groupName + lessonName)
+      let retrievedItem = this.storage.getString(lessonPath)
       const item = JSON.parse(retrievedItem);
       return item;
     } catch (error) {
@@ -22,11 +23,11 @@ export default class LessonRepository {
     return null;
   }
 
-  delete(lessonName, groupName) {
+  deleteByPath(lessonPath) {
     try {
-      storage.delete(groupName + lessonName);
-      let group = groupRepository.getGroupByName(groupName)
-      group.removeLesson(lessonName)
+      this.storage.delete(lessonPath);
+      let group = groupRepository.getGroupByPath(Path.up(lessonPath))
+      group.removeLesson(Path.currentDir(lessonPath))
       groupRepository.save(group)
     } catch (error) {
       console.log(error.message);
@@ -34,12 +35,13 @@ export default class LessonRepository {
   }
 
   save(lesson) {
-    let group = groupRepository.getGroupByName(lesson.getGroupName())
+    let path = lesson.getPath()
+    let group = groupRepository.getGroupByPath(Path.up(path))
     group.addLessonName(lesson.getName())
 
     try {
       groupRepository.save(group)
-      storage.set(lesson.getGroupName() + lesson.getName(), JSON.stringify(lesson));
+      this.storage.set(lesson.getPath(), JSON.stringify(lesson));
     } catch (error) {
       console.log(error.message);
     }

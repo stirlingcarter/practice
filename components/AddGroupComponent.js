@@ -10,6 +10,9 @@ import { groupRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import Group from "../models/Group";
 import Constants from "../constant/Constants";
+import Util from "../services/Util";
+import Path from "../services/Path";
+
 export class AddGroupComponent extends React.Component {
 
     constructor(props) {
@@ -31,14 +34,14 @@ export class AddGroupComponent extends React.Component {
     }
 
     handleSubmit() {
-        let parentGroup = groupRepository.getGroupByName(this.props.groupName)
+        let parentGroup = groupRepository.getGroupByPath(this.props.path)
         groupRepository.save(
             new Group(
                 this.state.name,
                 this.state.description,
                 [],
                 [],
-                parentGroup.getLevel() + 1
+                Path.plus(this.props.path, this.state.name)
             ))
         parentGroup.addGroupName(this.state.name)
         groupRepository.save(parentGroup)

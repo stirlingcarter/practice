@@ -11,6 +11,7 @@ import { groupRepository }from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 import Constants from "../constant/Constants"
+import Path from "../services/Path";
 
 export class HomeScreenComponent extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ export class HomeScreenComponent extends React.Component {
   }
 
   getGroupNames() {
-    var names = groupRepository.getGroupByName(Constants.HEAD_GROUP_NAME).getGroupNames();
+    var names = groupRepository.getGroupByPath(Constants.HEAD_GROUP_PATH).getGroupNames();
     alert(names)
     this.setState({
       groupNames: names,
@@ -51,7 +52,7 @@ export class HomeScreenComponent extends React.Component {
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: Constants.HEAD_GROUP_NAME,
+                path: Constants.HEAD_GROUP_PATH,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.saveButton3}
@@ -60,7 +61,7 @@ export class HomeScreenComponent extends React.Component {
             </Text>
             <Text
               onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                groupName: Constants.HEAD_GROUP_NAME,
+                path: Constants.HEAD_GROUP_PATH,
                 cb: this.getGroupNames,
               })}
               style={allTheStyles.saveButton4}
@@ -77,8 +78,8 @@ export class HomeScreenComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        groupRepository.deleteByName(
-                          item
+                        groupRepository.deleteByPath(
+                          Path.plus(this.props.path, item)
                         );
                         this.getGroupNames()
                       }}
