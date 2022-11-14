@@ -95,11 +95,7 @@ export default class Lesson {
     }
 
     registerTime(diff, vHash) {
-        alert("diff: " + diff + "; vhash: " + vHash)
-        alert('lesson before rt' + JSON.stringify(this.dataset))
-
         this.dataset[vHash].push(diff)
-        alert('lesson after rt' + JSON.stringify(this.dataset))
     }
 
     totalTimes(vHash) {
@@ -152,7 +148,6 @@ export default class Lesson {
         )
         if (vHashes != undefined){
             l.setVHashes(vHashes)
-            alert(vHashes)
         }
         return l
     }

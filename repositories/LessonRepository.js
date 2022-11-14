@@ -36,12 +36,9 @@ export default class LessonRepository {
   }
 
   save(lesson) {
-    let path = lesson.getPath()
-    let group = groupRepository.getGroupByPath(Path.up(path))
-    group.addLessonName(lesson.getName())
+
     try {
-      groupRepository.save(group)
-      this.storage.set(path, JSON.stringify(lesson));
+      this.storage.set(lesson.getPath(), JSON.stringify(lesson));
     } catch (error) {
       alert(error.message);
     }

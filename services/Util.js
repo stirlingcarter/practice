@@ -1,3 +1,9 @@
+
+export function sum(accumulator, a) {
+    return accumulator + a;
+}
+
+
 export default class Util {
 
     static copyOf(o) {

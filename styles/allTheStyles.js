@@ -49,6 +49,15 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 12,
     fontStyle: "italic",
     fontWeight: "bold",
+    marginBottom: 40
+  },
+  backButton: {
+    textAlignVertical: "top",
+    textAlign: "left",
+    backgroundColor: "#0f5e9c",
+    fontSize: 33,
+    fontStyle: "italic",
+    fontWeight: "bold"
   },
   addGroupButton: {
     textAlignVertical: "top",

@@ -9,7 +9,6 @@ export function LessonSourceScreen({ route, navigation }) {
 
     return (
         <View style={allTheStyles.homeScreenBackground}>
-            <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
             <LessonSourceComponent nav={navigation} path={path} cb ={cb}></LessonSourceComponent>
 

@@ -13,15 +13,19 @@ import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 import Path from "../services/Path";
+import Constants from "../constant/Constants";
 
 export class GroupPreviewComponent extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
 
     this.getLessonNames = this.getLessonNames.bind(this);
     this.getGroupNames = this.getGroupNames.bind(this);
+    this.setState({
+      groupNames: this.getGroupNames(),
+    });
+    this.state = { currentlyOpenSwipeable: null };
 
-    this.state = { lessonNames: [], groupNames: [], currentlyOpenSwipeable: null };
   }
 
   componentDidMount() {
@@ -38,9 +42,8 @@ export class GroupPreviewComponent extends React.Component {
   }
 
   getGroupNames() {
-    var names = groupRepository.getGroupByPath(this.props.path).getGroupNames();
     this.setState({
-      groupNames: names,
+      groupNames: groupRepository.getGroupByPath(this.props.path).getGroupNames(),
     });
   }
 
@@ -63,12 +66,30 @@ export class GroupPreviewComponent extends React.Component {
           <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
 
             {/* Group Title */}
+            <View style={allTheStyles.addLessonOrGroupRow}>
+              <Text
+                onPress={() => {
 
-            <Text
-              style={allTheStyles.groupScreenPathHeader}
-            >
-              {this.props.path}
-            </Text>
+                  let prevPath = Path.up(this.props.path)
+                  if (prevPath == Constants.HEAD_GROUP_PATH) {
+                    this.props.nav.navigate("HomeScreen")
+                  } else {
+                    this.setState({
+                      groupNames: groupRepository.getGroupNamesByGroupPath(prevPath),
+                      lessonNames: groupRepository.getLessonNamesByGroupPath(prevPath)
+                    })
+
+                    this.props.nav.navigate("GroupScreen", {
+                      path: Path.up(this.props.path)
+                    })
+                  }
+
+                }
+                }
+                style={allTheStyles.backButton}>BACK</Text>
+              <Text>                 </Text>
+              <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path}</Text>
+            </View  >
             <Text
               style={allTheStyles.groupScreenTitle}
             >
@@ -84,30 +105,32 @@ export class GroupPreviewComponent extends React.Component {
               {"tap here to go to stats for " + Path.currentDir(this.props.path) + ".\n"}
             </Text>
             <View style={allTheStyles.addLessonOrGroupRow}>
-            {/* Add lesson */}
+              {/* Add lesson */}
 
-            <Text
-              onPress={() => this.props.nav.navigate("LessonSourceScreen", {
-                path: this.props.path,
-                cb: this.getLessonNames,
-              })}
-              style={allTheStyles.saveButton3}
-            >
-              {"Add lesson"}
-            </Text>
+              <Text
+                onPress={() => this.props.nav.navigate("LessonSourceScreen", {
+                  path: this.props.path,
+                  cb: this.getLessonNames,
+                })}
+                style={allTheStyles.saveButton3}
+              >
+                {"Add lesson"}
+              </Text>
 
 
-            {/* Add group */}
+              {/* Add group */}
 
-            <Text
-              onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                path: this.props.path,
-                cb: this.getGroupNames,
-              })}
-              style={allTheStyles.saveButton3}
-            >
-              {"Add group"}
-            </Text>
+              <Text
+                onPress={() => {
+                  this.props.nav.navigate("AddGroupScreen", {
+                    path: this.props.path,
+                    cb: this.getGroupNames,
+                  })
+                }}
+                style={allTheStyles.saveButton3}
+              >
+                {"Add group"}
+              </Text>
 
             </View  >
 
@@ -119,12 +142,15 @@ export class GroupPreviewComponent extends React.Component {
                 <Swipeable
                   rightButtons={[
                     <TouchableOpacity
-                      onPress={ () => {
+                      onPress={() => {
                         groupRepository.deleteByPath(
                           Path.plus(this.props.path, item)
                         );
-                        this.getGroupNames()
+                        this.setState({
+                          groupNames: this.getGroupNames(),
+                        })
                       }}
+
                       style={[
                         styles5.rightSwipeItem,
                         { backgroundColor: "red" },
@@ -137,8 +163,20 @@ export class GroupPreviewComponent extends React.Component {
                   onRightButtonsCloseRelease={itemProps.onClose}
                 >
                   <Text
-                    onPress={() => this.props.nav.navigate("GroupScreen",
-                      { path: item })}
+                    onPress={() => {
+                      let nextPath = Path.plus(this.props.path, item)
+
+                      this.setState({
+                        groupNames: groupRepository.getGroupNamesByGroupPath(nextPath),
+                        lessonNames: groupRepository.getLessonNamesByGroupPath(nextPath)
+                      });
+                      this.props.nav.navigate("GroupScreen", {
+                        path: Path.plus(this.props.path, item)
+                      })
+                    }
+                    }
+
+
                     style={allTheStyles.openGroup}
                   >
                     {item}
@@ -155,7 +193,7 @@ export class GroupPreviewComponent extends React.Component {
                 <Swipeable
                   rightButtons={[
                     <TouchableOpacity
-                      onPress={ () => {
+                      onPress={() => {
                         lessonRepository.deleteByPath(
                           Path.plus(this.props.path, item)
                         );

@@ -15,6 +15,7 @@ export default class GroupRepository {
         })
 
 
+
     }
 
     getAllGroupNames() {
@@ -42,6 +43,10 @@ export default class GroupRepository {
     
     getLessonNamesByGroupPath(path) {
         return this.getGroupByPath(path).getLessonNames()
+    }
+
+    getGroupNamesByGroupPath(path) {
+        return this.getGroupByPath(path).getGroupNames()
     }
 
     delete(group) {

@@ -23,11 +23,8 @@ export default {
     }
   },
   save(lesson) {
-    let group = groupRepository.getGroupByName(lesson.getGroupName())
-    group.addLessonName(lesson.getName())
-
     try {
-      groupRepository.save(group)
+      
       storage[lesson.getGroupName() + lesson.getName()] = JSON.stringify(lesson);
     } catch (error) {
       console.log(error.message);

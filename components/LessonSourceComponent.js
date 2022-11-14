@@ -23,6 +23,19 @@ export class LessonSourceComponent extends React.Component {
     return (
       <View
         style={{ width: '100%', height: '100%' }}>
+                  <Text>{"\n\n\n\n\n\n\n"}</Text>
+
+             <Text
+          style={allTheStyles.challengeButton}
+          onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
+            path: this.props.path,
+            cb: this.props.cb
+          })}
+        >
+          {"Custom"}
+        </Text>
+        <Text>{"\n\n\n\n\n\n\n"}</Text>
+
         <Text>{"\n\n\n\n\n\n\n"}</Text>
         <Text
           style={allTheStyles.challengeButton}
@@ -34,16 +47,7 @@ export class LessonSourceComponent extends React.Component {
           {"Template"}
         </Text>
         <Text>{"\n\n\n\n\n\n\n"}</Text>
-        <Text
-          style={allTheStyles.challengeButton}
-          onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
-            path: this.props.path,
-            cb: this.props.cb
-          })}
-        >
-          {"Custom"}
-        </Text>
-        <Text>{"\n\n\n\n\n\n\n"}</Text>
+
         <Text
           style={allTheStyles.challengeButton}
           onPress={() => this.props.nav.navigate("ScanLeadsheetScreen", {

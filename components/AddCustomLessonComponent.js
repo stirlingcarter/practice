@@ -65,7 +65,10 @@ export class AddCustomLessonComponent extends React.Component {
       Path.plus(this.props.path, this.state.name)) 
     lessonRepository.save(lesson)
 
-    alert(JSON.stringify(lesson))
+    let group = groupRepository.getGroupByPath(Path.up(lesson.getPath()))
+    group.addLessonName(lesson.getName())
+    groupRepository.save(group)
+
 
   
     this.props.cb()

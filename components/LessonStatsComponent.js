@@ -3,7 +3,7 @@ import {
   Text,
   View
 } from "react-native";
-import { challengeService } from "../App"
+import { statService } from "../App"
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
@@ -50,7 +50,7 @@ export class LessonStatsComponent extends React.Component {
   }
 
   render() {
-    let response = challengeService.getAveragesByVariant(this.props.lesson)
+    let response = statService.getAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]
     let namesOfVariants = response[1]
 

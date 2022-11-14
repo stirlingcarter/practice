@@ -1,5 +1,6 @@
 RANDOM_FIRST_RUN = true
 import Util from "./Util";
+import {sum } from "./Util"
 export default class StatService {
 
   lessonNames = [];
@@ -124,7 +125,7 @@ export default class StatService {
     //each set member needs a corresponding average time 
     //what is the av for A? 
 
-    let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => getAverageForVariant(variant)))
+    let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => this.getAverageForVariant(variant, lesson)))
 
 
 
@@ -140,8 +141,8 @@ export default class StatService {
   }
 
   getAverageForVariant(variant, lesson) {
-    let matchingVHashes = Util.getAllVHashesContainingVariant(vHashes, variant) // A maj7 left A min7 left A maj7 right A min7 right
-    return matchingVHashes.map(vHash => this.getWindowedAvg(10, vHash, lesson)).filter(avg => avg > 0).sum()
+    let matchingVHashes = Util.getAllVHashesContainingVariant(lesson.getVHashes(), variant) // A maj7 left A min7 left A maj7 right A min7 right
+    return matchingVHashes.length == 0 ? [] : matchingVHashes.map(vHash => this.getWindowedAvg(10, vHash, lesson)).filter(avg => avg > 0).reduce(sum, 0);
   }
 
 
