@@ -28,7 +28,6 @@ export class HomeScreenComponent extends React.Component {
 
   getGroupNames() {
     var names = groupRepository.getGroupByPath(Constants.HEAD_GROUP_PATH).getGroupNames();
-    alert(names)
     this.setState({
       groupNames: names,
     });

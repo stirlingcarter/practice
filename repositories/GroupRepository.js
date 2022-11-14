@@ -49,7 +49,7 @@ export default class GroupRepository {
             this.storage.delete(group.getPath());
             this.patchNeighbors(group)
         } catch (error) {
-            alert("error deletuing group: " + error.message);
+            alert("error deleting group: " + error.message);
         }
         return null
     }
@@ -68,18 +68,10 @@ export default class GroupRepository {
 
     deleteByPath(groupPath) {
         let group = this.getGroupByPath(groupPath)
-        alert(JSON.stringify(group))
-        try {
-            this.delete(group)
-        } catch (error) {
-            alert(error.message);
-        }
-        alert("deleted " + groupPath)
-
+        this.delete(group)
     }
 
     save(group) {
-        alert(JSON.stringify(group))
         try {
             this.storage.set(group.getPath(), JSON.stringify(group));
         } catch (error) {
