@@ -96,7 +96,7 @@ export class HomeScreenComponent extends React.Component {
                 >
                   <Text
                     onPress={() => this.props.nav.navigate("GroupScreen",
-                      { groupName: item })}
+                      { groupName: item, path: this.props.path})}
                     style={allTheStyles.groupOption}
                   >
                     {item}
