@@ -46,7 +46,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     backgroundColor: "#0f5e9c",
-    fontSize: 12,
+    fontSize: 22,
     fontStyle: "italic",
     fontWeight: "bold",
     marginBottom: 40
