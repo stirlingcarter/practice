@@ -14,6 +14,13 @@ export default class Util {
         return sum
     }
 
+    //{
+    //   "a" : [3,2,1],.. 
+    //}
+    static getVHashesFromDataset(dataset){
+        return Object.keys(dataset)
+    }
+
     static copyOf(o) {
         return JSON.parse(JSON.stringify(o))
     }

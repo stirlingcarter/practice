@@ -14,8 +14,8 @@ export default class Lesson {
 
     // historical times for each *variant* (e.x. A$DOM$LH) 
     dataset = {
-        // {A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]},
-        // {B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1]}...
+        // A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],
+        // B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],...
     }
 
     constructor(name, criteria, goal, v, v2, dataset, path) {
@@ -24,9 +24,13 @@ export default class Lesson {
         this.goal = goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
-        if (!Object.keys(this.dataset).length > 0) {
-            this.dataset = this.getPopulatedDatasetWithVariants()
-            this.vHashes = Object.keys(this.dataset)
+
+        if (dataset == undefined){
+          this.vHashes = this.getVHashesFromVariants()
+          this.dataset = this.getDatasetFromVHashes()
+        } else{
+            this.dataset = dataset
+            this.vHashes = Object.keys(dataset)
         }
         this.path = path
     }
@@ -35,14 +39,17 @@ export default class Lesson {
         this.vHashes = vHashes
     }
 
-    getPopulatedDatasetWithVariants() {
+    getDatasetFromVHashes() {
         let ans = {}
-        let combinedVariants = this.getCombinedVariants(this.v, this.v2)
-        let vHashes = this.getCombinedVariants(Constants.NOTES, combinedVariants)
-        for (const vHash of vHashes) { // vHash : A$maj7$LH
+        for (const vHash of this.vHashes) { // vHash : A$maj7$LH
             ans[vHash] = []
         }
         return ans
+    }
+
+    getVHashesFromVariants(){
+        let combinedVariants = this.getCombinedVariants(this.v, this.v2)
+        return this.getCombinedVariants(Constants.NOTES, combinedVariants)    
     }
 
     getCombinedVariants(v, v2) {

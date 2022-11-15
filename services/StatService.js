@@ -125,22 +125,13 @@ export default class StatService {
     //now, make the sets ordered. These sets will be the basis for param. order from here on out.
     //each set member needs a corresponding average time 
     //what is the av for A? 
-    alert(JSON.stringify(namesOfVariants))
     let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => this.getAverageForVariant(variant, lesson)))
-    
-    let inner = namesOfVariants[0]
-    
-    alert(JSON.stringify(averagesOfVariants))
-    alert(JSON.stringify(lesson))
-
-
-    //have a getter that gets you all the keys with A from the master set. 
+        //have a getter that gets you all the keys with A from the master set. 
     //from each of those keys' value arrays, get a windowed average. [1,4,5,.............2,4,3,5,4,6,5,7,6,8] average the last 10.
 
     let res = []
     res.push(averagesOfVariants)
     res.push(namesOfVariants)
-    //alert(res)
     return res
 
   }
