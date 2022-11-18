@@ -4,8 +4,11 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 import {  groupRepository } from "../App";
 import { HomeScreenComponent } from "../components/HomeScreenComponent.js";
 import Constants from "../constant/Constants.js";
+import TreeUtils from "../services/TreeUtils.js";
+
+
 export function HomeScreen({ navigation }) {
-  const headGroup = groupRepository.getHeadGroup()
+  const headGroup = TreeUtils.getHeadGroup()
   const path = Constants.HEAD_GROUP_PATH
   const groupNames = headGroup.getGroupNames()
   return (

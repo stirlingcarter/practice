@@ -12,12 +12,14 @@ import InputParser from "../services/InputParser.js"
 import { groupRepository } from "../App";
 import Path from "../services/Path";
 import Lesson from "../models/Lesson";
+import TreeUtils from "../services/TreeUtils"
+
 export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {  };
+    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
@@ -54,32 +56,28 @@ export class AddCustomLessonComponent extends React.Component {
 
 
   handleSubmit() {
-    
-    let lesson = new Lesson(
+
+    TreeUtils.saveLesson(new Lesson(
       this.state.name,
       this.state.criteria,
       InputParser.parseGoalFromStringInput(this.state.goal),
       InputParser.parseVariantsFromStringInput(this.state.variants),
       InputParser.parseVariantsFromStringInput(this.state.variants2),
       {},
-      Path.plus(this.props.path, this.state.name)) 
-    lessonRepository.save(lesson)
-
-    let group = groupRepository.getGroupByPath(Path.up(lesson.getPath()))
-    group.addLessonName(lesson.getName())
-    groupRepository.save(group)
+      Path.plus(this.props.path, this.state.name)))
 
 
-  
     this.props.cb()
-    this.props.nav.navigate("GroupScreen", { path: this.props.path})
-    
+    this.props.nav.navigate("GroupScreen", { path: this.props.path })
+
   }
 
   render() {
 
     return (
       <View style={allTheStyles.saveScreenBackground}>
+        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+
         <ScrollView>
           <View>
             <TextInput

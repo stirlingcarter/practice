@@ -12,6 +12,7 @@ import Group from "../models/Group";
 import Constants from "../constant/Constants";
 import Util from "../services/Util";
 import Path from "../services/Path";
+import TreeUtils, { HEAD_PATH } from "../services/TreeUtils";
 
 export class AddGroupComponent extends React.Component {
 
@@ -34,8 +35,7 @@ export class AddGroupComponent extends React.Component {
     }
 
     handleSubmit() {
-        let parentGroup = groupRepository.getGroupByPath(this.props.path)
-        groupRepository.save(
+        TreeUtils.saveGroup(
             new Group(
                 this.state.name,
                 this.state.description,
@@ -43,15 +43,11 @@ export class AddGroupComponent extends React.Component {
                 [],
                 Path.plus(this.props.path, this.state.name)
             ))
-        parentGroup.addGroupName(this.state.name)
-        groupRepository.save(parentGroup)
         
-
         this.props.cb()
-        if (parentGroup.getName() == Constants.HEAD_GROUP_NAME){
+        if (this.props.path == HEAD_PATH){
             this.props.nav.navigate("HomeScreen")
-
-        }else {
+        } else {
             this.props.nav.navigate("GroupScreen", { path: this.props.path })
         }
         
@@ -61,12 +57,15 @@ export class AddGroupComponent extends React.Component {
 
         return (
             <View style={allTheStyles.saveScreenBackground}>
+                      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+
+
                 <ScrollView>
                     <View>
                         <TextInput
                             style={allTheStyles.saveButton}
                             onBlur={Keyboard.dismiss}
-                            placeholder="Group name"
+                            placeholder="name"
                             maxLength={200}
                             value={this.state.name}
                             onChangeText={this.handleNameChange} />
@@ -75,11 +74,12 @@ export class AddGroupComponent extends React.Component {
                         <TextInput
                             style={allTheStyles.saveButton}
                             onBlur={Keyboard.dismiss}
-                            placeholder="Group description"
+                            placeholder="notes"
                             maxLength={200}
                             value={this.state.description}
                             onChangeText={this.handleDescriptionChange} />
                         <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
+                        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
                         <Text
                             style={allTheStyles.saveLessonButton}
@@ -88,6 +88,7 @@ export class AddGroupComponent extends React.Component {
                         >
                             {"save"}
                         </Text>
+
                     </View>
                 </ScrollView>
             </View>

@@ -12,6 +12,7 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 import Constants from "../constant/Constants"
 import Path from "../services/Path";
+import TreeUtils, { HEAD_PATH } from "../services/TreeUtils";
 
 export class HomeScreenComponent extends React.Component {
   constructor(props) {
@@ -27,9 +28,8 @@ export class HomeScreenComponent extends React.Component {
   }
 
   getGroupNames() {
-    var names = groupRepository.getGroupByPath(Constants.HEAD_GROUP_PATH).getGroupNames();
     this.setState({
-      groupNames: names,
+      groupNames: groupRepository.getGroupByPath(HEAD_PATH).getGroupNames(),
     });
   }
 
@@ -74,7 +74,7 @@ export class HomeScreenComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        groupRepository.deleteByPath(
+                        TreeUtils.deleteGroupByPath(
                           Path.plus(this.props.path, item)
                         );
                         this.getGroupNames()

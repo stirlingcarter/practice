@@ -28,7 +28,11 @@ export class IntroComponent extends React.Component {
 
 
     render() {
-        return (<View><Text style={allTheStyles.enterButton} onPress={() => this.props.nav.navigate("HomeScreen", {
-        })}>Practice</Text></View>)
+        return (<View><Text style={allTheStyles.enterButton} onPress={() => this.enter()}>Practice</Text>
+        <Text onPress={() => this.enter()} style={allTheStyles.enterArrow}>{"→"}</Text></View>)
+    }
+
+    enter(){
+        this.props.nav.navigate("HomeScreen", {})
     }
 }

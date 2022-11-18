@@ -14,6 +14,8 @@ export default class GroupRepository {
             id: "Groups"
         })
 
+        this.storage.clearAll()
+
 
 
     }
@@ -22,17 +24,17 @@ export default class GroupRepository {
         return this.storage.getAllKeys().filter(key => Path.currentDir(key));
     }
 
-    getHeadGroup() {
-        return this.getGroupByPath(Constants.HEAD_GROUP_PATH)
-    }
-
     getGroupByPath(groupPath) {
         try {
             let retrievedItem = this.storage.getString(groupPath)
             if (retrievedItem == undefined){
+                alert("no group for " + groupPath)
                 return null;
             }
             let group = Group.fromJSONStringified(retrievedItem)
+            if (group == null){
+                alert("no group for " + groupPath)
+            }
             return group;
         } catch (error) {
             alert(error.message);
@@ -42,33 +44,26 @@ export default class GroupRepository {
     }
     
     getLessonNamesByGroupPath(path) {
-        return this.getGroupByPath(path).getLessonNames()
+        try {
+            return this.getGroupByPath(path).getLessonNames()
+
+        } catch (error){
+            alert("error getting lessonnames: " + error.message)
+        }
     }
 
     getGroupNamesByGroupPath(path) {
-        return this.getGroupByPath(path).getGroupNames()
+        let group = this.getGroupByPath(path)
+        return group == null ? [] : group.getGroupNames()
     }
 
     delete(group) {
         try {
             this.storage.delete(group.getPath());
-            this.patchNeighbors(group)
         } catch (error) {
             alert("error deleting group: " + error.message);
         }
         return null
-    }
-
-    patchNeighbors(group){
-        for (const ln of group.getLessonNames()) {
-            lessonRepository.deleteByPath(Path.plus(group.getPath(), ln))
-        }
-        for (const gn of group.getGroupNames()) {
-            lessonRepository.deleteByPath(Path.plus(group.getPath(), gn))
-        }
-        let parentGroup = this.getGroupByPath(Path.up(group.getPath()))
-        parentGroup.removeChildGroupByName(group.getName())
-        this.save(parentGroup)
     }
 
     deleteByPath(groupPath) {

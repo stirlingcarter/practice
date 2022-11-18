@@ -34,6 +34,15 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     flexGrow: 1
   },
+  saveButton3r: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#0f5e9c",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
   goToStatsButton: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -46,7 +55,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     backgroundColor: "#0f5e9c",
-    fontSize: 22,
+    fontSize: 15,
     fontStyle: "italic",
     fontWeight: "bold",
     marginBottom: 40
@@ -181,7 +190,14 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 90,
   },
-
+  enterArrow: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 90,
+  },
   saveLessonButton: {
     textAlignVertical: "center",
     textAlign: "center",

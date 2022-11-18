@@ -5,7 +5,8 @@ import {
   SafeAreaView,
   FlatList,
   Text,
-  View
+  View,
+  TouchableHighlightBase
 } from "react-native";
 import Swipeable from "react-native-swipeable-row";
 import { groupRepository } from "../App";
@@ -14,6 +15,7 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 import { styles5 } from "../styles/styles5.js"
 import Path from "../services/Path";
 import Constants from "../constant/Constants";
+import TreeUtils from "../services/TreeUtils";
 
 export class GroupPreviewComponent extends React.Component {
   constructor(props) {
@@ -88,7 +90,7 @@ export class GroupPreviewComponent extends React.Component {
                 }
                 style={allTheStyles.backButton}>BACK</Text>
               <Text>                 </Text>
-              <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path}</Text>
+              <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length-34, this.props.path.length)}</Text>
             </View  >
             <Text
               style={allTheStyles.groupScreenTitle}
@@ -114,7 +116,7 @@ export class GroupPreviewComponent extends React.Component {
                 })}
                 style={allTheStyles.saveButton3}
               >
-                {"Add lesson"}
+                {"ADD LESSON"}
               </Text>
 
 
@@ -127,9 +129,9 @@ export class GroupPreviewComponent extends React.Component {
                     cb: this.getGroupNames,
                   })
                 }}
-                style={allTheStyles.saveButton3}
+                style={allTheStyles.saveButton3r}
               >
-                {"Add group"}
+                {"ADD GROUP"}
               </Text>
 
             </View  >
@@ -143,12 +145,10 @@ export class GroupPreviewComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        groupRepository.deleteByPath(
+                        TreeUtils.deleteGroupByPath(
                           Path.plus(this.props.path, item)
                         );
-                        this.setState({
-                          groupNames: this.getGroupNames(),
-                        })
+                        this.getGroupNames()
                       }}
 
                       style={[
@@ -194,7 +194,7 @@ export class GroupPreviewComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        lessonRepository.deleteByPath(
+                        TreeUtils.deleteLessonByPath(
                           Path.plus(this.props.path, item)
                         );
                         this.getLessonNames()

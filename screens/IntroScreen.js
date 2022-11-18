@@ -7,8 +7,12 @@ export function IntroScreen({ navigation }) {
   return (
     <View style={allTheStyles.homeScreenBackground}>
       <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
       <IntroComponent nav={navigation}></IntroComponent>
+      
 
       <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
     </View>

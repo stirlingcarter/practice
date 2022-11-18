@@ -27,9 +27,6 @@ export default class LessonRepository {
   deleteByPath(lessonPath) {
     try {
       this.storage.delete(lessonPath);
-      let group = groupRepository.getGroupByPath(Path.up(lessonPath))
-      group.removeChildLessonByName(Path.currentDir(lessonPath))
-      groupRepository.save(group)
     } catch (error) {
       console.log(error.message);
     }
@@ -38,9 +35,7 @@ export default class LessonRepository {
   save(lesson) {
 
     try {
-
       this.storage.set(lesson.getPath(), JSON.stringify(lesson));
-
     } catch (error) {
       alert(error.message);
     }
