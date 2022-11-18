@@ -57,16 +57,18 @@ export class AddCustomLessonComponent extends React.Component {
 
   handleSubmit() {
 
-    TreeUtils.saveLesson(new Lesson(
+    let l = new Lesson(
       this.state.name,
       this.state.criteria,
       InputParser.parseGoalFromStringInput(this.state.goal),
       InputParser.parseVariantsFromStringInput(this.state.variants),
       InputParser.parseVariantsFromStringInput(this.state.variants2),
       {},
-      Path.plus(this.props.path, this.state.name)))
+      Path.plus(this.props.path, this.state.name))
 
-
+    TreeUtils.saveLesson(l)
+    alert(JSON.stringify)
+    alert(JSON.stringify(lessonRepository.getLessonByPath(Path.plus(this.props.path, this.state.name))))
     this.props.cb()
     this.props.nav.navigate("GroupScreen", { path: this.props.path })
 
@@ -96,6 +98,14 @@ export class AddCustomLessonComponent extends React.Component {
               multiline={true}
               value={this.state.criteria}
               onChangeText={this.handleCriteriaChange} />
+            <Text
+              style={allTheStyles.saveLessonButton}
+              onPress={this.handleSubmit}
+              onChangeText={this.handleNameChange}
+            >
+              {"save"}
+            </Text>
+            <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
             <TextInput
               style={allTheStyles.saveButton5}
               onBlur={Keyboard.dismiss}
@@ -120,13 +130,7 @@ export class AddCustomLessonComponent extends React.Component {
               multiline={true}
               value={this.state.goal}
               onChangeText={this.handleGoalChange} />
-            <Text
-              style={allTheStyles.saveLessonButton}
-              onPress={this.handleSubmit}
-              onChangeText={this.handleNameChange}
-            >
-              {"save"}
-            </Text>
+
           </View>
         </ScrollView>
       </View>

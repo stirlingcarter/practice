@@ -16,7 +16,7 @@ export default {
 
     deleteGroup(group) {
         if (group == null) {
-            alert("why deleting null group")
+            alert("error: attempted deleting null group")
         } else {
             for (const ln of group.getLessonNames()) {
                 lessonRepository.deleteByPath(Path.plus(group.getPath(), ln))

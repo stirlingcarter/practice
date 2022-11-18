@@ -14,7 +14,7 @@ export default class GroupRepository {
             id: "Groups"
         })
 
-        this.storage.clearAll()
+        // this.storage.clearAll()
 
 
 

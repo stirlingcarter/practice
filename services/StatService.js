@@ -150,6 +150,7 @@ export default class StatService {
 
 
   getRandomVHash(lesson) {
+
     let vHashes = lesson.getVHashes()
     return vHashes[Math.floor(Math.random() * vHashes.length)]
   }

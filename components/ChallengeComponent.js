@@ -19,7 +19,7 @@ export class ChallengeComponent extends React.Component {
 
     this.state = {
       start: 0,
-      vHash: challengeService.getNextVHash(this.lesson),
+      vHash: challengeService.getNextVHashByStrategy(2, this.lesson),//random
     };
   }
 

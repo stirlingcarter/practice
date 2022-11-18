@@ -25,7 +25,7 @@ export default class Lesson {
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
 
-        if (dataset == undefined){
+        if (dataset == undefined || Object.keys(dataset).length == 0){
           this.vHashes = this.getVHashesFromVariants()
           this.dataset = this.getDatasetFromVHashes()
         } else{
