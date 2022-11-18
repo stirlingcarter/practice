@@ -14,7 +14,7 @@ export default class GroupRepository {
             id: "Groups"
         })
 
-        // this.storage.clearAll()
+        this.storage.clearAll()
 
 
 
@@ -28,12 +28,12 @@ export default class GroupRepository {
         try {
             let retrievedItem = this.storage.getString(groupPath)
             if (retrievedItem == undefined){
-                alert("no group for " + groupPath)
+                alert("error: no group for " + groupPath)
                 return null;
             }
             let group = Group.fromJSONStringified(retrievedItem)
             if (group == null){
-                alert("no group for " + groupPath)
+                alert("error: no group for " + groupPath)
             }
             return group;
         } catch (error) {

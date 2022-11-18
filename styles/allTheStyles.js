@@ -7,7 +7,7 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 170,
+    height: 190,
   },
   startButton: {
     textAlignVertical: "center",
@@ -103,6 +103,10 @@ export const allTheStyles = StyleSheet.create({
   addLessonOrGroupRow: {
     flexDirection:"row"
   },
+  addLessonCol: {//unnerlated^
+    flexDirection:"column",
+    textAlign: "left"
+  },
   saveButton4: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -119,6 +123,28 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 200,
+    color: "#000000",
+    flexDirection: "column",
+  },
+  saveButton6: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 40,
+    color: "#000000",
+    flexDirection: "column",
+  },
+  saveButton7: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 100,
     color: "#000000",
     flexDirection: "column",
   },

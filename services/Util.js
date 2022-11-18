@@ -150,4 +150,8 @@ export default class Util {
         }
     }
 
+    static isEmptyOrWS(s){
+        return !(s != undefined && s.replace(/\s/g, '').length)
+    }
+
 }

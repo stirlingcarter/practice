@@ -13,6 +13,7 @@ import { groupRepository } from "../App";
 import Path from "../services/Path";
 import Lesson from "../models/Lesson";
 import TreeUtils from "../services/TreeUtils"
+import Util from "../services/Util";
 
 export class AddCustomLessonComponent extends React.Component {
 
@@ -56,82 +57,82 @@ export class AddCustomLessonComponent extends React.Component {
 
 
   handleSubmit() {
+    if (Util.isEmptyOrWS(this.state.name)) {
+      alert("error: Title cannot be empty")
+    } else {
+      let l = new Lesson(
+        this.state.name,
+        this.state.criteria,
+        InputParser.parseGoalFromStringInput(this.state.goal),
+        InputParser.parseVariantsFromStringInput(this.state.variants),
+        InputParser.parseVariantsFromStringInput(this.state.variants2),
+        {},
+        Path.plus(this.props.path, this.state.name))
 
-    let l = new Lesson(
-      this.state.name,
-      this.state.criteria,
-      InputParser.parseGoalFromStringInput(this.state.goal),
-      InputParser.parseVariantsFromStringInput(this.state.variants),
-      InputParser.parseVariantsFromStringInput(this.state.variants2),
-      {},
-      Path.plus(this.props.path, this.state.name))
+      TreeUtils.saveLesson(l)
 
-    TreeUtils.saveLesson(l)
-    alert(JSON.stringify)
-    alert(JSON.stringify(lessonRepository.getLessonByPath(Path.plus(this.props.path, this.state.name))))
-    this.props.cb()
-    this.props.nav.navigate("GroupScreen", { path: this.props.path })
+
+      this.props.cb()
+      this.props.nav.navigate("GroupScreen", { path: this.props.path })
+    }
+
+
 
   }
 
   render() {
 
     return (
-      <View style={allTheStyles.saveScreenBackground}>
+      <View>
         <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
-        <ScrollView>
-          <View>
-            <TextInput
-              style={allTheStyles.saveButton}
-              onBlur={Keyboard.dismiss}
-              placeholder="Title"
-              maxLength={200}
-              value={this.state.name}
-              onChangeText={this.handleNameChange} />
-            <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
-            <TextInput
-              style={allTheStyles.saveButton5}
-              onBlur={Keyboard.dismiss}
-              placeholder="Criteria"
-              numberOfLines={2}
-              multiline={true}
-              value={this.state.criteria}
-              onChangeText={this.handleCriteriaChange} />
-            <Text
-              style={allTheStyles.saveLessonButton}
-              onPress={this.handleSubmit}
-              onChangeText={this.handleNameChange}
-            >
-              {"save"}
-            </Text>
-            <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
-            <TextInput
-              style={allTheStyles.saveButton5}
-              onBlur={Keyboard.dismiss}
-              placeholder="Variants (Maj7,m7,7)"
-              numberOfLines={2}
-              multiline={true}
-              value={this.state.variants}
-              onChangeText={this.handleVariantsChange} />
-            <TextInput
-              style={allTheStyles.saveButton5}
-              onBlur={Keyboard.dismiss}
-              placeholder="Any more variants? (0th,1st,2nd,3rd)"
-              numberOfLines={2}
-              multiline={true}
-              value={this.state.variants2}
-              onChangeText={this.handleVariants2Change} />
-            <TextInput
-              style={allTheStyles.saveButton5}
-              onBlur={Keyboard.dismiss}
-              placeholder="Your goal time for this exercise in seconds"
-              numberOfLines={2}
-              multiline={true}
-              value={this.state.goal}
-              onChangeText={this.handleGoalChange} />
+        <ScrollView style={allTheStyles.addLessonCol}>
+          <TextInput
+            style={allTheStyles.saveButton}
+            onBlur={Keyboard.dismiss}
+            placeholder="Title"
+            maxLength={200}
+            value={this.state.name}
+            onChangeText={this.handleNameChange} />
+          <TextInput
+            style={allTheStyles.saveButton7}
+            onBlur={Keyboard.dismiss}
+            placeholder="Criteria"
+            multiline={true}
+            value={this.state.criteria}
+            onChangeText={this.handleCriteriaChange} />
+          <TextInput
+            style={allTheStyles.saveButton6}
+            onBlur={Keyboard.dismiss}
+            placeholder="Your goal time for this exercise in seconds"
+            maxLength={200}
+            value={this.state.goal}
+            onChangeText={this.handleGoalChange} />
 
-          </View>
+          <TextInput
+            style={allTheStyles.saveButton6}
+            onBlur={Keyboard.dismiss}
+            placeholder="Variants (Maj7,m7,7)"
+            numberOfLines={2}
+            multiline={true}
+            value={this.state.variants}
+            onChangeText={this.handleVariantsChange} />
+          <TextInput
+            style={allTheStyles.saveButton6}
+            onBlur={Keyboard.dismiss}
+            placeholder="Any more variants? (0th,1st,2nd,3rd)"
+            numberOfLines={2}
+            multiline={true}
+            value={this.state.variants2}
+            onChangeText={this.handleVariants2Change} />
+          <Text
+            style={allTheStyles.saveLessonButton}
+            onPress={this.handleSubmit}
+            onChangeText={this.handleNameChange}
+          >
+            {"save"}
+          </Text>
+
         </ScrollView>
       </View>
     );
