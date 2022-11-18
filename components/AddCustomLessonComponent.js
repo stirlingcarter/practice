@@ -39,15 +39,11 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    if (variants.replace(/\s/g, '').length) {
-      this.setState({ variants });
-    }
+    this.setState({ variants : variants.replace(/\s/g, '') })
   }
 
   handleVariants2Change(variants2) {
-    if (variants2.replace(/\s/g, '').length) {
-      this.setState({ variants2 });
-    }
+    this.setState({ variants2 : variants2.replace(/\s/g, '') })
   }
 
 
