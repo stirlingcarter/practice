@@ -110,7 +110,7 @@ export class GroupPreviewComponent extends React.Component {
               {/* Add lesson */}
 
               <Text
-                onPress={() => this.props.nav.navigate("LessonSourceScreen", {
+                onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
                   path: this.props.path,
                   cb: this.getLessonNames,
                 })}

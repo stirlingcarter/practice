@@ -100,7 +100,7 @@ export class AddCustomLessonComponent extends React.Component {
           <TextInput
             style={allTheStyles.saveButton6}
             onBlur={Keyboard.dismiss}
-            placeholder="Your goal time for this exercise in seconds"
+            placeholder="Goal time (seconds)"
             maxLength={200}
             value={this.state.goal}
             onChangeText={this.handleGoalChange} />
@@ -108,7 +108,7 @@ export class AddCustomLessonComponent extends React.Component {
           <TextInput
             style={allTheStyles.saveButton6}
             onBlur={Keyboard.dismiss}
-            placeholder="Variants (Maj7,m7,7)"
+            placeholder='Variants e.g. "Ø,△,7..."'
             numberOfLines={2}
             multiline={true}
             value={this.state.variants}
@@ -116,7 +116,7 @@ export class AddCustomLessonComponent extends React.Component {
           <TextInput
             style={allTheStyles.saveButton6}
             onBlur={Keyboard.dismiss}
-            placeholder="Any more variants? (0th,1st,2nd,3rd)"
+            placeholder={'Add\'l variants e.g. "LH,RH"'}
             numberOfLines={2}
             multiline={true}
             value={this.state.variants2}
@@ -128,7 +128,17 @@ export class AddCustomLessonComponent extends React.Component {
           >
             {"save"}
           </Text>
+          <Text>{"\n\n\n\n\n\n\n"}</Text>
 
+        <Text
+          style={allTheStyles.saveButton8}
+          onPress={() => this.props.nav.navigate("AddLessonFromTemplateScreen", {
+            path: this.props.path,
+            cb: this.props.cb
+          })}
+        >
+          {"Use a template→"}
+        </Text>
         </ScrollView>
       </View>
     );

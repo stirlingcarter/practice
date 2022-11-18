@@ -148,6 +148,17 @@ export const allTheStyles = StyleSheet.create({
     color: "#000000",
     flexDirection: "column",
   },
+  saveButton8: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "center",
+    fontSize: 28,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 40,
+    color: "#000000",
+    flexDirection: "column",
+  },
 
   saveScreenSpacer: {
     textAlignVertical: "top",
