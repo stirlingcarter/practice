@@ -98,10 +98,11 @@ export class AddCustomLessonComponent extends React.Component {
             value={this.state.criteria}
             onChangeText={this.handleCriteriaChange} />
           <TextInput
-            style={allTheStyles.saveButton6}
+            style={allTheStyles.saveButton7}
             onBlur={Keyboard.dismiss}
             placeholder="Goal time (seconds)"
-            maxLength={200}
+            multiline={true}
+            numberOfLines={2}
             value={this.state.goal}
             onChangeText={this.handleGoalChange} />
 
