@@ -50,24 +50,10 @@ export class LessonStatsComponent extends React.Component {
   }
 
   render() {
-    let response = statService.getAveragesByVariant(this.props.lesson)
+
+    let response = statService.getRecentAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]
     let namesOfVariants = response[1]
-    
-
-    //challengeService.getAveragesByVariant returns -> [
-    //            [
-    //              [2,6,3,6,4,7,6,4,8,2,6,7],
-    //              [5,2,6,7,3],
-    //              [1,6]
-    //             ],
-    //             [
-    //              [a,b,c....g],
-    //              [maj7,m7...d7],
-    //              [left,right]
-    //             ]
-    //            ]
-
     let adjustedAveragesByVariant = []
     for (let i = 0; i < averagesByVariant.length; i++){
       let adjustedList = []
@@ -76,8 +62,6 @@ export class LessonStatsComponent extends React.Component {
       }
       adjustedAveragesByVariant.push(adjustedList)
     }
-
-
     if (adjustedAveragesByVariant.length == 1){
       return (
         <ScrollView>

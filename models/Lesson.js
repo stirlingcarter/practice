@@ -121,6 +121,14 @@ export default class Lesson {
         return this.name;
     }
 
+    getV() {
+        return this.v == undefined || this.v.length == 0 ? null : this.v
+    }
+
+    getV2() {
+        return this.v2 == undefined || this.v2.length == 0 ? null : this.v2
+    }
+
     getWindowOfTimes(vHash, window) {
 
         return this.getDataset() == undefined || this.getDataset()[vHash] == undefined ? [] : this.getDataset()[vHash].slice(window * (-1))

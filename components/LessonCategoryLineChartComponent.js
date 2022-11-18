@@ -5,12 +5,9 @@ import {
 } from "react-native";
 import { VictoryChart, VictoryLine, VictoryScatter, VictoryGroup, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
 import { statService } from "../App";
+import Constants from "../constant/Constants";
 
-// const DOMAIN_Y_BOUND = 100
-// const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
 const DOMAIN_X_BOUND = 100
-const COLORS = ["pink", "blue", "purple", "orange", "red", "green", "violet", "navy", "magenta", "tomato", "gold", "darkgreen"]
-
 
 export class LessonCategoryLineChartComponent extends React.Component {
 
@@ -59,7 +56,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
     const subtitles = []
     for (let i = 0; i < namesOfVariants.length; i++) {
       let variant = namesOfVariants[i]
-      subtitles.push(this.getOneSubtitle(variant, COLORS[i]))
+      subtitles.push(this.getOneSubtitle(variant, Constants.COLORS[i]))
     }
     return subtitles
 
@@ -97,15 +94,15 @@ export class LessonCategoryLineChartComponent extends React.Component {
   render() {
 
     let historicalAveragesByVariant = statService.getHistoricalAveragesByVariant(this.props.namesOfVariants, this.props.lesson)
-
-
     const fields = []
-    for (let i = 0; i < this.props.namesOfVariants.length; i++) {
-      let color = COLORS[i % 12]
-      fields.push(this.getOneGroupElement(historicalAveragesByVariant[i], this.props.namesOfVariants[i], color));
+    let i = 0
+    for (variant of Object.keys(historicalAveragesByVariant)){
+      let color = Constants.COLORS[i % 12]
+      fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
+      i += 1
     }
-
-    return (
+    
+    return ( 
       <View>
         <VictoryChart height={400} width={400}
           containerComponent={<VictoryVoronoiContainer />}

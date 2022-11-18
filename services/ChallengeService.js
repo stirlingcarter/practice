@@ -3,59 +3,28 @@ import { statService } from "../App";
 export default class ChallengeService {
 
   currentVHash = "na"
-  prevVHash = 13
-  strategies = ["max_min", "average", "random"]
-  strategyId = 1
 
   constructor(){}
 
   getNextVHash(lesson) {
-    let nextVHash = this.getNextVHashByStrategy(this.strategyId, lesson);
+    let nextVHash = ChallengeService.STRATS["SLOWEST"](lesson)
+    while (nextVHash == this.currentVHash) {
+      nextVHash = ChallengeService.STRATS["RANDOM"](lesson)
+    }
     this.currentVHash = nextVHash;
     return nextVHash;
   }
 
-  getNextVHashByStrategy(strategyId, lesson) {
-    if (strategyId == 0) {
-      return this.max_min(lesson);
-    } else if (strategyId == 1) {
-      return this.average(lesson);
-    } else {
-      return this.random(lesson);
+  static STRATS = {
+    "SLOWEST" : function(lesson) {
+      let WINDOW = 10
+      return statService.getSlowestVHash(WINDOW, lesson)
+    },
+    "RANDOM" : function(lesson) {
+      return statService.getRandomVHash(lesson)
     }
   }
 
-  //put in 12
-  //get 1,2,3....12
-  getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max)) + 1;
-  }
-
-  /*BEGIN STRATS --------------------------------------------------------------------------
-  Collection of functions that implement the vHash choosing strategies. 
-  */
-  max_min(lesson) {
-    return "A";
-  }
-
-  average(lesson) {
-    let nextVHash = statService.getSlowestVHash(10, lesson);
-    if (nextVHash != this.prevVHash) {
-      this.prevVHash = nextVHash;
-      return nextVHash;
-    } else {
-      return this.random(lesson);
-    }
-  }
-
-  random(lesson) {
-    let newVHash = statService.getRandomVHash(lesson);
-    // while (newNote == this.prevNote) {
-    //   newNote = statService.getRandomNote();
-    // }
-    this.prevVHash = newVHash;
-    return newVHash;
-  }
 }
   /*END STRATS --------------------------------------------------------------------------
 Collection of functions that implement the vHash choosing strategies. 
