@@ -10,6 +10,9 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 190,
   },
+  hite: {
+    height: 200
+  },
   addVariant : {
     textAlignVertical: "center",
     textAlign: "left",
@@ -20,13 +23,12 @@ export const allTheStyles = StyleSheet.create({
     height: 50,
   },
   addVariantPlus : {
-    textAlignVertical: "center",
     textAlign: "left",
     fontSize: 100,
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 190
+    height: 180
   },
   startButton: {
     textAlignVertical: "center",
@@ -197,6 +199,7 @@ export const allTheStyles = StyleSheet.create({
     height: 100,
     color: "#000000",
     flexDirection: "column",
+    
   },
   saveButton7NewKnown : {
     flexShrink: 1,
