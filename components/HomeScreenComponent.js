@@ -60,7 +60,7 @@ export class HomeScreenComponent extends React.Component {
                 path: Constants.HEAD_GROUP_PATH,
                 cb: this.getGroupNames,
               })}
-              style={allTheStyles.saveButton4}
+              style={allTheStyles.goToStatsButton}
             >
               {"tap here to add instruments.\n"}
             </Text>

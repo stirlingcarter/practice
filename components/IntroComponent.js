@@ -29,7 +29,7 @@ export class IntroComponent extends React.Component {
 
     render() {
         return (<View><Text style={allTheStyles.enterButton} onPress={() => this.enter()}>Practice</Text>
-        <Text onPress={() => this.enter()} style={allTheStyles.enterArrow}>{"→"}</Text></View>)
+        </View>)
     }
 
     enter(){

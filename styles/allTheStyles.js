@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { shadow } from "react-native-paper";
 
 export const allTheStyles = StyleSheet.create({
   saveButton: {
@@ -9,9 +10,28 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 190,
   },
+  addVariant : {
+    textAlignVertical: "center",
+    textAlign: "left",
+    fontSize: 50,
+    color: "#333333",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+  },
+  addVariantPlus : {
+    textAlignVertical: "center",
+    textAlign: "left",
+    fontSize: 100,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 190
+  },
   startButton: {
     textAlignVertical: "center",
     textAlign: "center",
+    color: "#333333",
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -28,7 +48,8 @@ export const allTheStyles = StyleSheet.create({
   saveButton3: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#98FB98",
+    color: "black",
+    backgroundColor: "pink",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -37,7 +58,26 @@ export const allTheStyles = StyleSheet.create({
   saveButton3r: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#0f5e9c",
+    color: "#333333",
+    backgroundColor: "white",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  linkChoiceButton3: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#98FB98",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  linkButton3r: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: "#000000",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -46,7 +86,7 @@ export const allTheStyles = StyleSheet.create({
   goToStatsButton: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#2389da",
+    color: "pink",
     fontSize: 12,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -54,7 +94,7 @@ export const allTheStyles = StyleSheet.create({
   groupScreenPathHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#0f5e9c",
+    color: "pink",
     fontSize: 15,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -63,8 +103,18 @@ export const allTheStyles = StyleSheet.create({
   backButton: {
     textAlignVertical: "top",
     textAlign: "left",
-    backgroundColor: "#0f5e9c",
+    color: "pink",
     fontSize: 33,
+    height: 39,
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
+  backButtonButItsStats: {
+    textAlignVertical: "top",
+    textAlign: "right",
+    color: "pink",
+    fontSize: 33,
+    height: 39,
     fontStyle: "italic",
     fontWeight: "bold"
   },
@@ -87,7 +137,7 @@ export const allTheStyles = StyleSheet.create({
   groupScreenTitle: {
     textAlignVertical: "top",
     textAlign: "center",
-    backgroundColor: "#2389da",
+    color: "white",
     fontSize: 74,
     fontStyle: "italic",
     fontWeight: "bold"
@@ -95,8 +145,8 @@ export const allTheStyles = StyleSheet.create({
   enterButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    backgroundColor: "#2389da",
     fontSize: 74,
+    color: "#333333",
     fontStyle: "italic",
     fontWeight: "bold"
   },
@@ -141,12 +191,32 @@ export const allTheStyles = StyleSheet.create({
     flexShrink: 1,
     textAlignVertical: "top",
     textAlign: "left",
-    fontSize: 30,
+    fontSize: 40,
     fontStyle: "italic",
     fontWeight: "bold",
     height: 100,
     color: "#000000",
     flexDirection: "column",
+  },
+  saveButton7NewKnown : {
+    flexShrink: 1,
+    textAlign: "left",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 40,
+    color: "#000000",
+    flexDirection: "row",
+  },
+  saveButton8NewKnown : {
+    flexShrink: 1,
+    textAlign: "right",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 40,
+    color: "#000000",
+    flexDirection: "row",
   },
   saveButton8: {
     flexShrink: 1,
@@ -197,6 +267,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     fontSize: 89,
+    color: "#333333",
     fontStyle: "italic",
     fontWeight: "bold",
     height: 110,
@@ -205,9 +276,9 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     fontSize: 89,
+    color: "#333333",
     fontStyle: "italic",
     fontWeight: "bold",
-    backgroundColor: "#74ccf4",
     height: 110,
   },
   openGroup: {
@@ -216,7 +287,8 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 89,
     fontStyle: "italic",
     fontWeight: "bold",
-    backgroundColor: "#5abcd8",
+    color: "#333333",
+    backgroundColor: "black",
     height: 110,
   },
   homeScreenSpacer: {
@@ -239,6 +311,14 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 180,
+  },
+  addVariantGroupButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 29,
     fontStyle: "italic",
     fontWeight: "bold",
     height: 180,
@@ -270,7 +350,8 @@ export const allTheStyles = StyleSheet.create({
   challengeButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    fontSize: 50,
+    fontSize: 100,
+    color: "#333333",
     fontStyle: "italic",
     fontWeight: "bold",
   },

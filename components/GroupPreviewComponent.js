@@ -89,23 +89,27 @@ export class GroupPreviewComponent extends React.Component {
                 }
                 }
                 style={allTheStyles.backButton}>BACK</Text>
-              <Text>                 </Text>
-              <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length-34, this.props.path.length)}</Text>
+
+
+              <Text>                                                           </Text>
+
+              <Text
+                onPress={() => this.props.nav.navigate("GroupStatsScreen", {
+                  path: this.props.path,
+                  cb: this.getLessonNames,
+                })}
+                style={allTheStyles.backButtonButItsStats}// < color
+              >
+                {"STATS"}
+              </Text>
             </View  >
             <Text
               style={allTheStyles.groupScreenTitle}
             >
               {Path.currentDir(this.props.path)}
             </Text>
-            <Text
-              onPress={() => this.props.nav.navigate("GroupStatsScreen", {
-                path: this.props.path,
-                cb: this.getLessonNames,
-              })}
-              style={allTheStyles.goToStatsButton}// < color
-            >
-              {"tap here to go to stats for " + Path.currentDir(this.props.path) + ".\n"}
-            </Text>
+            <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
+
             <View style={allTheStyles.addLessonOrGroupRow}>
               {/* Add lesson */}
 

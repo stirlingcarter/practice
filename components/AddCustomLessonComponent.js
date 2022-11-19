@@ -14,7 +14,9 @@ import Path from "../services/Path";
 import Lesson from "../models/Lesson";
 import TreeUtils from "../services/TreeUtils"
 import Util from "../services/Util";
-
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import { VariantBubbleComponent } from "./VariantBubbleComponent";
+import { LinkChoiceComponent } from "./LinkChoiceComponent";
 export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
@@ -39,11 +41,11 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    this.setState({ variants : variants.replace(/\s/g, '') })
+    this.setState({ variants: variants.replace(/\s/g, '') })
   }
 
   handleVariants2Change(variants2) {
-    this.setState({ variants2 : variants2.replace(/\s/g, '') })
+    this.setState({ variants2: variants2.replace(/\s/g, '') })
   }
 
 
@@ -82,7 +84,7 @@ export class AddCustomLessonComponent extends React.Component {
       <View>
         <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
-        <ScrollView style={allTheStyles.addLessonCol}>
+        <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
           <TextInput
             style={allTheStyles.saveButton}
             onBlur={Keyboard.dismiss}
@@ -90,6 +92,14 @@ export class AddCustomLessonComponent extends React.Component {
             maxLength={200}
             value={this.state.name}
             onChangeText={this.handleNameChange} />
+         
+         <Text
+            style={allTheStyles.addVariant}
+            >Variations</Text>
+                     <Text
+            style={allTheStyles.addVariantPlus}
+            >+</Text>
+
           <TextInput
             style={allTheStyles.saveButton7}
             onBlur={Keyboard.dismiss}
@@ -105,23 +115,6 @@ export class AddCustomLessonComponent extends React.Component {
             numberOfLines={2}
             value={this.state.goal}
             onChangeText={this.handleGoalChange} />
-
-          <TextInput
-            style={allTheStyles.saveButton6}
-            onBlur={Keyboard.dismiss}
-            placeholder='Variants e.g. "Ø,△,7..."'
-            numberOfLines={2}
-            multiline={true}
-            value={this.state.variants}
-            onChangeText={this.handleVariantsChange} />
-          <TextInput
-            style={allTheStyles.saveButton6}
-            onBlur={Keyboard.dismiss}
-            placeholder={'Add\'l variants e.g. "LH,RH"'}
-            numberOfLines={2}
-            multiline={true}
-            value={this.state.variants2}
-            onChangeText={this.handleVariants2Change} />
           <Text
             style={allTheStyles.saveLessonButton}
             onPress={this.handleSubmit}
@@ -129,17 +122,8 @@ export class AddCustomLessonComponent extends React.Component {
           >
             {"save"}
           </Text>
-          <Text>{"\n\n\n\n\n\n\n"}</Text>
 
-        <Text
-          style={allTheStyles.saveButton8}
-          onPress={() => this.props.nav.navigate("AddLessonFromTemplateScreen", {
-            path: this.props.path,
-            cb: this.props.cb
-          })}
-        >
-          {"Use a template→"}
-        </Text>
+
         </ScrollView>
       </View>
     );
