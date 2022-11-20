@@ -15,6 +15,7 @@ import { AddLessonFromTemplateScreen } from "./screens/AddLessonFromTemplateScre
 import { AddGroupScreen } from "./screens/AddGroupScreen";
 import { ScanLeadsheetScreen } from "./screens/ScanLeadsheetScreen";
 import { LessonSourceScreen } from "./screens/LessonSourceScreen";
+import { AddVariantGroupScreen } from "./screens/AddVariantGroupScreen";
 import ChallengeService from "./services/ChallengeService";
 import StatService from "./services/StatService";
 
@@ -41,12 +42,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="IntroScreen"   screenOptions={{
-    headerShown: false,
-    cardStyle: {
-      backgroundColor: '#222222'
-  }
-  }}>
+      <Stack.Navigator initialRouteName="IntroScreen" screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: '#222222'
+        }
+      }}>
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
@@ -106,6 +107,11 @@ export default function App() {
           name="LessonSourceScreen"
           component={LessonSourceScreen}
           options={{ title: "LessonSourceScreen" }}
+        />
+        <Stack.Screen
+          name="AddVariantGroupScreen"
+          component={AddVariantGroupScreen}
+          options={{ title: "AddVariantGroupScreen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -14,9 +14,8 @@ import Path from "../services/Path";
 import Lesson from "../models/Lesson";
 import TreeUtils from "../services/TreeUtils"
 import Util from "../services/Util";
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
-import { VariantBubbleComponent } from "./VariantBubbleComponent";
-import { LinkChoiceComponent } from "./LinkChoiceComponent";
+
+
 export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
@@ -24,6 +23,7 @@ export class AddCustomLessonComponent extends React.Component {
 
     this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePlus = this.handlePlus.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
@@ -73,9 +73,11 @@ export class AddCustomLessonComponent extends React.Component {
       this.props.cb()
       this.props.nav.navigate("GroupScreen", { path: this.props.path })
     }
+  }
 
-
-
+  handlePlus(g) {
+    alert("yo")
+    // this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: g})
   }
 
   render() {
@@ -84,7 +86,7 @@ export class AddCustomLessonComponent extends React.Component {
       <View>
         <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
-        <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
+        <ScrollView style={allTheStyles.addLessonCol}>
           <TextInput
             style={allTheStyles.saveButton}
             onBlur={Keyboard.dismiss}
@@ -92,10 +94,6 @@ export class AddCustomLessonComponent extends React.Component {
             maxLength={200}
             value={this.state.name}
             onChangeText={this.handleNameChange} />
-
-            <Text style={allTheStyles.addVariant}>Variations</Text>
-            <Text>                            </Text>
-            <Text style={allTheStyles.addVariantPlus}>+</Text>
           <TextInput
             style={allTheStyles.saveButton7}
             onBlur={Keyboard.dismiss}
@@ -111,6 +109,14 @@ export class AddCustomLessonComponent extends React.Component {
             numberOfLines={2}
             value={this.state.goal}
             onChangeText={this.handleGoalChange} />
+          <Text style={allTheStyles.addVariant}>Variations</Text>
+          <Text>                            </Text>
+          <Text style={allTheStyles.addVariantPlus} onPress={() => {
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true })
+          }}>{"  +"}</Text>
+          <Text style={allTheStyles.addVariantPlus2} onPress={() => {
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false })
+          }}>{"  +"}</Text>
           <Text
             style={allTheStyles.saveLessonButton}
             onPress={this.handleSubmit}
@@ -126,6 +132,6 @@ export class AddCustomLessonComponent extends React.Component {
 
         </ScrollView>
       </View>
-    );
+    )
   }
 }

@@ -13,22 +13,77 @@ export const allTheStyles = StyleSheet.create({
   hite: {
     height: 200
   },
-  addVariant : {
+  basicListItems : {
     textAlignVertical: "center",
     textAlign: "left",
-    fontSize: 50,
-    color: "#333333",
+    fontSize: 30,
+    color: "black",
     fontStyle: "italic",
     fontWeight: "bold",
     height: 50,
   },
-  addVariantPlus : {
+  basicListItemsGreen : {
+    textAlignVertical: "center",
     textAlign: "left",
-    fontSize: 100,
+    fontSize: 30,
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 180
+    height: 50,
+  },
+  basicListItemsBlue : {
+    textAlignVertical: "center",
+    textAlign: "left",
+    fontSize: 30,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+  },
+  addVariant : {
+    textAlignVertical: "center",
+    textAlign: "left",
+    fontSize: 40,
+    color: "",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 40,
+  },
+  addVariantPlus : {
+    textAlign: "left",
+    fontSize: 50,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50
+  },
+  addVariantDone : {
+    textAlignVertical: "bottom",
+    textAlign: "right",
+    fontSize: 100,
+    color: "green",
+    backgroundColor: "#98FB98",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 100
+  },
+  addVariantDoneBlue : {
+    textAlignVertical: "bottom",
+    textAlign: "right",
+    fontSize: 100,
+    color: "black",
+    backgroundColor: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 100
+  },
+  addVariantPlus2 : {
+    textAlign: "left",
+    fontSize: 50,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50
   },
   startButton: {
     textAlignVertical: "center",
@@ -120,6 +175,15 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold"
   },
+  rightColumnOVariants: {
+    textAlignVertical: "top",
+    textAlign: "right",
+    color: "black",
+    fontSize: 33,
+    height: 39,
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
   addGroupButton: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -148,6 +212,14 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 74,
+    color: "#333333",
+    fontStyle: "italic",
+    fontWeight: "bold"
+  },
+  variantGroupTitle: {
+    textAlignVertical: "center",
+    textAlign: "left",
+    fontSize: 30,
     color: "#333333",
     fontStyle: "italic",
     fontWeight: "bold"
@@ -200,6 +272,18 @@ export const allTheStyles = StyleSheet.create({
     color: "#000000",
     flexDirection: "column",
     
+  },
+  filterRow: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 65,
+    color: "white",
+    backgroundColor: "black",
+    flexDirection: "column"
   },
   saveButton7NewKnown : {
     flexShrink: 1,

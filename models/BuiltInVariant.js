@@ -8,4 +8,12 @@ export default class BuiltInVariant {
         this.category = category
     }
 
+    getName(){
+        return this.name
+    }
+
+    getCategory(){
+        return this.category
+    }
+
 }
