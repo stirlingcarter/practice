@@ -9,7 +9,7 @@ export default class InputParser {
 
     static parseVariantsFromStringInput(variants) {
         v = []
-        if (variants != null) {
+        if (variants != undefined) {
             v = variants.split(",")
             var i;
             for (i = 0; i < v.length; i++) {

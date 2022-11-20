@@ -62,8 +62,8 @@ export class AddCustomLessonComponent extends React.Component {
         this.state.name,
         this.state.criteria,
         InputParser.parseGoalFromStringInput(this.state.goal),
-        InputParser.parseVariantsFromStringInput(this.state.variants),
-        InputParser.parseVariantsFromStringInput(this.state.variants2),
+        this.sanitize(this.state.variants),
+        this.sanitize(this.state.variants2),
         {},
         Path.plus(this.props.path, this.state.name))
 
