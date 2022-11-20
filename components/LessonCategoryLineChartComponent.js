@@ -95,8 +95,9 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
     let historicalAveragesByVariant = statService.getHistoricalAveragesByVariant(this.props.namesOfVariants, this.props.lesson)
     const fields = []
+    // alert("ipi+"+JSON.stringify(this.props.namesOfVariants))
     let i = 0
-    for (variant of Object.keys(historicalAveragesByVariant)){
+    for (variant of this.props.namesOfVariants){
       let color = Constants.COLORS[i % 12]
       fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
       i += 1

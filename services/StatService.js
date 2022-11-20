@@ -44,7 +44,7 @@ export default class StatService {
   */
   getHistoricalAveragesByVariant(variantNames, lesson) {
     let res = {}
-    alert(variantNames)
+    
     for (vName of variantNames) {
       res[vName] = []
     }

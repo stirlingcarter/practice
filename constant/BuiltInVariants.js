@@ -162,7 +162,7 @@ export default class BuiltInVariants {
             }
             return BIVS;
         } catch (error) {
-            alert(error.message);
+            alert("error getting variants: " + error.message);
             return error.message
         }
 

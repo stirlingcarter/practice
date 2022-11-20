@@ -37,7 +37,7 @@ export default class LessonRepository {
     try {
       this.storage.set(lesson.getPath(), JSON.stringify(lesson));
     } catch (error) {
-      alert(error.message);
+      alert("error saving lesson: " + error.message);
     }
     return null;
   }
