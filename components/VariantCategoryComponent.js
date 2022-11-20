@@ -15,8 +15,24 @@ export class VariantCategoryComponent extends React.Component {
           };
         this.handleGreenVariantsChange = this.handleGreenVariantsChange.bind(this);
 
+        if (this.props.alreadyChosen != undefined){
+            for (v of this.props.alreadyChosen){
+                if (v.includes(this.props.categoryName)){
+                    this.handleGreenVariantsChange(this.getPrefix(v))
+                }
+                
+          }
+        }
+          
     }
 
+    getPrefix(variant){
+        return variant.indexOf("$") == -1 ? variant : variant.substring(0,variant.indexOf("$"))
+      }  
+      
+      getPostfix(variant){
+        return variant.indexOf("$") == -1 ? "NO_CAT" : variant.substring(variant.indexOf("$"),variant.length)
+      }
     componentDidMount() {
         this.setState({
 

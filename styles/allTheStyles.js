@@ -50,12 +50,20 @@ export const allTheStyles = StyleSheet.create({
     height: 40,
   },
   addVariantPlus : {
+    textAlign: "right",
+    fontSize: 50,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 60
+  },
+  addVariantPlusLeft : {
     textAlign: "left",
     fontSize: 50,
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 50
+    height: 60
   },
   addVariantDone : {
     textAlignVertical: "bottom",
@@ -79,6 +87,14 @@ export const allTheStyles = StyleSheet.create({
   },
   addVariantPlus2 : {
     textAlign: "left",
+    fontSize: 50,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50
+  },
+  addVariantPlus2Right : {
+    textAlign: "right",
     fontSize: 50,
     color: "blue",
     fontStyle: "italic",
@@ -269,6 +285,18 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 100,
+    color: "#000000",
+    flexDirection: "column",
+    
+  },
+  goalTime: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 75,
     color: "#000000",
     flexDirection: "column",
     

@@ -41,11 +41,11 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    this.setState({ variants: variants.replace(/\s/g, '') })
+    this.setState({ variants: variants })
   }
 
   handleVariants2Change(variants2) {
-    this.setState({ variants2: variants2.replace(/\s/g, '') })
+    this.setState({ variants2: variants2 })
   }
 
 
@@ -76,9 +76,57 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handlePlus(g) {
-    alert("yo")
     // this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: g})
   }
+
+  getListFromVariantList(rawList) {
+    let l = this.sanitize(rawList)
+    let ans = l == undefined ? "click to add" : l[0]
+    let length = l == undefined ? 0 : l.length
+    for (let i = 1; i < length; i++) {
+      ans = ans + "," + l[i]
+    }
+    return ans == undefined ? "" : ans.length < 13 ? ans : ans.substring(0,13) + "..."
+
+  }
+
+  sanitize(v){
+
+    if (v == undefined){
+      return []
+    }
+
+    let prefixes = Util.copyOf(v).map(variant =>  this.getPrefix(variant))
+    let duplicates = []
+
+    let letterToCount = {}
+    for (prefix of prefixes){
+      if (letterToCount[prefix] == undefined){
+        letterToCount[prefix] = 1
+      } else {
+        duplicates.push(prefix)
+      }
+    }
+
+    if (duplicates != undefined){
+      alert(duplicates)
+    }
+
+    return duplicates == undefined ? prefixes : v.map(variant => duplicates.includes(this.getPrefix(variant)) ? this.getCategoryExplanation(variant) : this.getPrefix(variant))
+  }
+
+  getPrefix(variant){
+    return variant.indexOf("$") == -1 ? variant : variant.substring(0,variant.indexOf("$"))
+  }
+
+  getCategoryExplanation(variant){
+    let cat = this.getPostfix(variant).toLowerCase()
+    return this.getPrefix(variant) + "(" + cat.substring(1,cat.length-1) + ")"
+  }
+  getPostfix(variant){
+    return variant.indexOf("$") == -1 ? "NO_CAT" : variant.substring(variant.indexOf("$"),variant.length)
+  }
+
 
   render() {
 
@@ -102,21 +150,28 @@ export class AddCustomLessonComponent extends React.Component {
             value={this.state.criteria}
             onChangeText={this.handleCriteriaChange} />
           <TextInput
-            style={allTheStyles.saveButton7}
+            style={allTheStyles.goalTime}
             onBlur={Keyboard.dismiss}
             placeholder="Goal time (seconds)"
             multiline={true}
             numberOfLines={2}
             value={this.state.goal}
             onChangeText={this.handleGoalChange} />
-          <Text style={allTheStyles.addVariant}>Variations</Text>
           <Text>                            </Text>
+
+          <View style={allTheStyles.addLessonOrGroupRow}>
+          <Text style={allTheStyles.addVariantPlusLeft} >{(this.state.variants == undefined ? "0 Variations" : this.state.variants.length + " variation" + (this.state.variants.length == 1 ? "" : "s"))}</Text>
+
           <Text style={allTheStyles.addVariantPlus} onPress={() => {
-            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true })
-          }}>{"  +"}</Text>
-          <Text style={allTheStyles.addVariantPlus2} onPress={() => {
-            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false })
-          }}>{"  +"}</Text>
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true, cb: this.handleVariantsChange, alreadyChosen: this.state.variants })
+          }}>{"      (+)"}</Text></View>
+          <View style={allTheStyles.addLessonOrGroupRow}>
+          <Text style={allTheStyles.addVariantPlus2}>{(this.state.variants2 == undefined ? "0 Variations" : this.state.variants2.length + " variation" + (this.state.variants2.length == 1 ? "" : "s"))}</Text>
+
+          <Text style={allTheStyles.addVariantPlus2Right} onPress={() => {
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false, cb: this.handleVariants2Change, alreadyChosen: this.state.variants2})
+          }}>{"      (+)"}</Text></View>
+
           <Text
             style={allTheStyles.saveLessonButton}
             onPress={this.handleSubmit}

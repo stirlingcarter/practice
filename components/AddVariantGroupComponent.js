@@ -25,12 +25,15 @@ import { LinkChoiceComponent } from "./LinkChoiceComponent";
 import { BasicListComponent } from "./BasicListComponent";
 import BuiltInVariants from "../constant/BuiltInVariants";
 import { VariantCategoryComponent } from "./VariantCategoryComponent";
+import { getTextOfJSDocComment } from "typescript";
 
 export class AddVariantGroupComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+        chosenVariants: this.props.alreadyChosen
+    };
     this.handleChosenVariantsChange = this.handleChosenVariantsChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
 
@@ -38,7 +41,6 @@ export class AddVariantGroupComponent extends React.Component {
   }
 
   handleChosenVariantsChange(chosenVariant) {
-
     let newChosenVariants = this.state.chosenVariants
     if (newChosenVariants != undefined && newChosenVariants.includes(chosenVariant)){
         newChosenVariants.splice(newChosenVariants.indexOf(chosenVariant),1)
@@ -57,30 +59,20 @@ export class AddVariantGroupComponent extends React.Component {
     this.setState({ filter });
   }
 
-
-  handleSubmit() {
-    if (Util.isEmptyOrWS(this.state.name)) {
-      alert("error: Title cannot be empty")
-    } else {
-      let l = new Lesson(
-        this.state.name,
-        this.state.criteria,
-        InputParser.parseGoalFromStringInput(this.state.goal),
-        InputParser.parseVariantsFromStringInput(this.state.variants),
-        InputParser.parseVariantsFromStringInput(this.state.variants2),
-        {},
-        Path.plus(this.props.path, this.state.name))
-
-      TreeUtils.saveLesson(l)
-
-
-      this.props.cb()
-      this.props.nav.navigate("GroupScreen", { path: this.props.path })
-    }
-
-
-
+  getPrefix(variant){
+    return variant.indexOf("$") == -1 ? variant : variant.substring(0,variant.indexOf("$"))
   }
+
+  getPostfix(variant){
+    return variant.indexOf("$") == -1 ? "NO_CAT" : variant.substring(variant.indexOf("$"),variant.length)
+  }
+
+
+  hashWithCatName(v) {
+    return v + "$" + this.props.categoryName
+  }
+
+
 
   render() {
     let cstyle = allTheStyles.addVariantDone
@@ -91,7 +83,10 @@ export class AddVariantGroupComponent extends React.Component {
     return (
       <View>
 
-        <Text style={cstyle} onPress={this.handlePlus}>{"SAVE"}</Text>
+        <Text style={cstyle} onPress={() => {
+          this.props.cb(this.state.chosenVariants)
+          this.props.nav.goBack()
+        }}>{"SAVE"}</Text>
         <TextInput
             style={allTheStyles.filterRow}
             onBlur={Keyboard.dismiss}
@@ -107,7 +102,7 @@ export class AddVariantGroupComponent extends React.Component {
         <FlatList
             data={Object.keys(BuiltInVariants.getAllGroups())}
             renderItem={({ item }) => (
-                <VariantCategoryComponent categoryName={item} cb={this.handleChosenVariantsChange} green={this.props.green}
+                <VariantCategoryComponent categoryName={item} cb={this.handleChosenVariantsChange} green={this.props.green} alreadyChosen={this.props.alreadyChosen}
                 variants={this.state.filter == undefined || this.state.filter.length == 0 ? BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()) : BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).filter(variant => variant.toLowerCase().includes(this.state.filter.toLowerCase()))}/>
             )}
             keyExtractor={(item, index) => index.toString()} />
