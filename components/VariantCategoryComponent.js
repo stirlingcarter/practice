@@ -4,6 +4,8 @@ import {
     View,
     FlatList
 } from "react-native";
+import BuiltInVariants from "../constant/BuiltInVariants";
+import BuiltInVariant from "../models/BuiltInVariant";
 import { allTheStyles } from "../styles/allTheStyles";
 import { BasicListComponent } from "./BasicListComponent";
 export class VariantCategoryComponent extends React.Component {
@@ -71,7 +73,13 @@ export class VariantCategoryComponent extends React.Component {
         }
         return (<View>
             <Text style={allTheStyles.variantGroupTitle} onPress={() => this.addAllVariants()}>{this.props.categoryName}</Text>
+            <Text style={allTheStyles.trash} onPress={() => {
+                for (n of this.state.greenVariants){
+                    BuiltInVariants.deleteCustomVariantByName(n)
 
+                }
+                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.greenVariants, path: this.props.path})
+                }}>{this.props.categoryName == "CUSTOM" && this.props.variants != undefined && this.props.variants.length > 0 && this.state.greenVariants != undefined && this.state.greenVariants.length > 0 ? "🗑️" : ""}</Text>
             <View style={allTheStyles.addLessonOrGroupRow}>
 
             <FlatList

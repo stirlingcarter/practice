@@ -1,14 +1,21 @@
 import BuiltInVariant from "../models/BuiltInVariant";
+import { MMKV } from "react-native-mmkv";
 
 export default class BuiltInVariants {
 
+    static PATH = "CUSTOM_VARIANTS"
     static INTERVALS = "Intervals"
     static CHORDS = "Chords"
     static SCALES = "Scales"
     static INVERSIONS = "Inversions"
     static TRAVERSALS = "Traversals"
     static STRINGS = "Strings"
-    
+    static CUSTOM = "Custom"
+
+    static storage = new MMKV({
+        id: "BuiltInVariants"
+    })
+
     static chordVariants = [
 
         new BuiltInVariant("min triad", this.CHORDS),
@@ -102,14 +109,76 @@ export default class BuiltInVariants {
         new BuiltInVariant("8th", this.STRINGS)
     ]
 
+    static saveNewCustomVariantByName(name){
+        let current = this.getCustomVariants()
+        
+        if (current == undefined || current.length == 0){
+            current = [
+                name
+            ]
+        }else{
+            
+            current.push(name)
+        }
+    
+        try {
+            this.storage.set(BuiltInVariants.PATH, JSON.stringify(current));
+        } catch (error) {
+            alert("error saving builtin variant: " + error.message)
+        }
+        return null
+    }
+
+    static deleteCustomVariantByName(name){
+        let current = this.getCustomVariants()
+        if (current == undefined){
+            alert("wtf u deleting")
+        }
+        let index = current.indexOf(name)
+        if (index == -1){
+            return null
+        }
+        current.splice(index, 1)
+        try {
+            this.storage.set(BuiltInVariants.PATH, JSON.stringify(current));
+        } catch (error) {
+            alert("error deleting builtin variant: " + error.message);
+        }
+        return null
+    }
+
+    static getCustomVariants(){
+        try {
+            let retrievedItem = this.storage.getString(BuiltInVariants.PATH)
+
+            if (retrievedItem == undefined){
+                alert("error: no BIVs")
+                return [];
+            }
+
+            let BIVS = JSON.parse(retrievedItem)
+            if (BIVS == null){
+                alert("error: no BIVS")
+            }
+            return BIVS;
+        } catch (error) {
+            alert(error.message);
+            return error.message
+        }
+
+    }
+
+
     static getAllGroups(){
+        let cv = this.getCustomVariants()
         return {
+            CUSTOM : cv == undefined ? [new BuiltInVariant("test", this.CUSTOM)] : cv.map(name => new BuiltInVariant(name, this.CUSTOM)),
             CHORDS : this.chordVariants,
             INTERVALS : this.intervalVariants,
             SCALES : this.scaleVariants,
             INVERSIONS : this.inversionVariants,
             TRAVERSALS : this.traversalVariants,
-            STRINGS : this.stringVariants
+            STRINGS : this.stringVariants,
         }
     }
 

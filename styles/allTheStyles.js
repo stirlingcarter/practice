@@ -75,6 +75,31 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 100
   },
+  trash : {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "right",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+    color: "pink",
+    flexDirection: "column",
+    position: 'absolute',
+    top: 5,
+    left: 375,
+    zIndex: 999
+  },
+  addVariantDoneUpper : {
+    textAlignVertical: "bottom",
+    textAlign: "right",
+    fontSize: 100,
+    color: "green",
+    backgroundColor: "#98FB98",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 20
+  },
   addVariantDoneBlue : {
     textAlignVertical: "bottom",
     textAlign: "right",
@@ -243,6 +268,12 @@ export const allTheStyles = StyleSheet.create({
   addLessonOrGroupRow: {
     flexDirection:"row"
   },
+  examplesRow: {
+    flexDirection:"row",
+    textAlign: "center",
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   addLessonCol: {//unnerlated^
     flexDirection:"column",
     textAlign: "left"
@@ -312,6 +343,21 @@ export const allTheStyles = StyleSheet.create({
     color: "white",
     backgroundColor: "black",
     flexDirection: "column"
+  },
+  filterRowRight: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "right",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+    color: "pink",
+    backgroundColor: "black",
+    flexDirection: "column",
+    position: 'absolute',
+    top: 130,
+    left: 285
   },
   saveButton7NewKnown : {
     flexShrink: 1,
@@ -428,7 +474,42 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 100,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 180,
+    height: 120,
+  },
+  examplesButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+  },
+  actualExample: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 50,
+    color: "pink",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 75,
+  },
+  actualExampleB: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 50,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 75,
+  },
+    actualExampleG: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 50,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 75,
   },
   addVariantGroupButton: {
     textAlignVertical: "center",

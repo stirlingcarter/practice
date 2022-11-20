@@ -44,6 +44,7 @@ export default class StatService {
   */
   getHistoricalAveragesByVariant(variantNames, lesson) {
     let res = {}
+    alert(variantNames)
     for (vName of variantNames) {
       res[vName] = []
     }
@@ -60,7 +61,12 @@ export default class StatService {
         if (i < lesson.getTimesByVHash(vHash).length) {
           relevantVariants = vHash.split("$")
           for (v of relevantVariants) {
-            res[v].push(lesson.getTimesByVHash(vHash)[i])
+            if (res[v] == undefined){
+              res[v] = [lesson.getTimesByVHash(vHash)[i]]
+            }else{
+              res[v].push(lesson.getTimesByVHash(vHash)[i])
+            }
+            
           }
         }
       }
@@ -88,10 +94,10 @@ export default class StatService {
     let v2 = lesson.getV2()
 
     if (v != null) {
-      namesOfVariants.ofVariants.push(v)
+      namesOfVariants.push(v)
     }
     if (v2 != null) {
-      namesOfVariants.ofVariants.push(v2)//now you have namesOfVariants = [(A,Bb,B....Ab), (maj7,min7....dim7), (left,right)] 
+      namesOfVariants.push(v2)//now you have namesOfVariants = [(A,Bb,B....Ab), (maj7,min7....dim7), (left,right)] 
     }
     let averagesOfVariants = namesOfVariants.map(variantGroup => variantGroup.map(variant => this.getAverageForVariant(variant, lesson)))
     let res = []

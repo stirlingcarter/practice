@@ -14,13 +14,12 @@ import Path from "../services/Path";
 import Lesson from "../models/Lesson";
 import TreeUtils from "../services/TreeUtils"
 import Util from "../services/Util";
-
+import Constants from "../constant/Constants";
 
 export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePlus = this.handlePlus.bind(this);
@@ -35,6 +34,16 @@ export class AddCustomLessonComponent extends React.Component {
   handleNameChange(name) {
     this.setState({ name });
   }
+
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      this.setState((state, props) => {
+        return {
+          examples: [Util.getRandomFromArray(Constants.NOTES),Util.getRandomFromArray(this.sanitize(this.state.variants)),Util.getRandomFromArray(this.sanitize(this.state.variants2))]
+        };
+      });
+    }, 1600);
+  };
 
   handleCriteriaChange(criteria) {
     this.setState({ criteria });
@@ -108,10 +117,6 @@ export class AddCustomLessonComponent extends React.Component {
       }
     }
 
-    if (duplicates != undefined){
-      alert(duplicates)
-    }
-
     return duplicates == undefined ? prefixes : v.map(variant => duplicates.includes(this.getPrefix(variant)) ? this.getCategoryExplanation(variant) : this.getPrefix(variant))
   }
 
@@ -179,7 +184,13 @@ export class AddCustomLessonComponent extends React.Component {
           >
             {"save"}
           </Text>
+          <Text style={allTheStyles.examplesButton}>{"Examples"}</Text>
 
+          <View style={allTheStyles.examplesRow}>
+          <Text style={allTheStyles.actualExample}>{this.state.examples == undefined ? "" : this.state.examples[0] + " "}</Text>
+          <Text style={allTheStyles.actualExampleG}>{this.state.examples == undefined ? "" : this.state.examples[1] + " "}</Text>
+          <Text style={allTheStyles.actualExampleB}>{this.state.examples == undefined ? "" : this.state.examples[2]}</Text>
+          </View>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 

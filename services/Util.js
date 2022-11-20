@@ -3,7 +3,6 @@
 //     return accumulator + a;
 // }
 
-
 export default class Util {
 
     static sum(arr){
@@ -67,29 +66,6 @@ export default class Util {
     }
 
 
-    //given a list of vHashes
-    //given a matching str A, maj7, etc
-    //return all vHashes that match 
-    //given that the s should match an entire substr, this is possible 
-    //but this creates a new restriction, cant have the same variant member twice 
-    static getAllVHashesContainingVariant(vHashes, variant) {
-
-        let res = []
-
-        for (let i = 0; i < vHashes.length; i++) {
-            let variants = vHashes[i].split("$")
-            for (let k = 0; k < variants.length; k++) {
-                if (variant === variants[k]) {
-                    res.push(vHashes[i])
-                }
-            }
-
-        }
-
-        return res
-
-    }
-
     static arrayAvg(arr){
         return arr.length < 1 ? 0 : arr.reduce((a, b) => a + b) / arr.length;
     }
@@ -152,6 +128,10 @@ export default class Util {
 
     static isEmptyOrWS(s){
         return !(s != undefined && s.replace(/\s/g, '').length)
+    }
+
+    static getRandomFromArray(items){
+        return items == undefined || items.length == 0 ? "" : items[Math.floor(Math.random()*items.length)];
     }
 
 }
