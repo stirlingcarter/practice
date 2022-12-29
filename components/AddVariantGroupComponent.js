@@ -84,7 +84,7 @@ export class AddVariantGroupComponent extends React.Component {
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
                 <Text onPress={()=>{BuiltInVariants.saveNewCustomVariantByCategoryAndName(BuiltInVariants.CHORDS, this.state.filter)
-                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
+                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).toLowerCase().includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     <FlatList
                         data={Object.keys(BuiltInVariants.getAllGroups())}
