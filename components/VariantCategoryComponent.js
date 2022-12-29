@@ -75,7 +75,7 @@ export class VariantCategoryComponent extends React.Component {
             <Text style={allTheStyles.variantGroupTitle} onPress={() => this.addAllVariants()}>{this.props.categoryName}</Text>
             <Text style={allTheStyles.trash} onPress={() => {
                 for (n of this.state.greenVariants){
-                    BuiltInVariants.deleteCustomVariantByName(n)
+                    BuiltInVariants.removeCustomVariantByCategoryAndName(n.getCategory(), n.getName())
 
                 }
                 this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.greenVariants, path: this.props.path})

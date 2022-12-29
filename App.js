@@ -22,6 +22,7 @@ import StatService from "./services/StatService";
 
 import GroupRepository from "./repositories/GroupRepository";
 import LessonRepository from "./repositories/LessonRepository";
+import CustomVariantSetRepository from "./repositories/CustomVariantSetRepository";
 
 import LifecycleManager from "./services/LifecycleManager";
 
@@ -31,6 +32,8 @@ const PROFILE = PROD
 
 export const lessonRepository = new LessonRepository()
 export const groupRepository = new GroupRepository()
+export const customVariantSetRepository = new CustomVariantSetRepository()
+
 const lifecycleManager = new LifecycleManager()
 
 export const challengeService = new ChallengeService()

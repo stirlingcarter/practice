@@ -11,6 +11,7 @@ import {
 import { allTheStyles } from "../styles/allTheStyles.js"
 import BuiltInVariants from "../constant/BuiltInVariants";
 import { VariantCategoryComponent } from "./VariantCategoryComponent";
+import { customVariantSetRepository } from "../App.js";
 
 export class SingleRowVariantChooserSaverComponent extends React.Component {
 
@@ -25,35 +26,14 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
 
     }
 
-    // handleChosenVariantsChange(chosenVariant) {
-    //     let newChosenVariants = this.state.chosenVariants
-    //     if (newChosenVariants != undefined && newChosenVariants.includes(chosenVariant)) {
-    //         newChosenVariants.splice(newChosenVariants.indexOf(chosenVariant), 1)
-    //     } else {
-    //         if (newChosenVariants == undefined) {
-    //             newChosenVariants = [chosenVariant]
-    //         } else {
-    //             newChosenVariants.push(chosenVariant)
-    //         }
-
-    //     }
-    //     this.setState({ chosenVariants: newChosenVariants });
-    // }
-
-    // getPrefix(variant) {
-    //     return variant.indexOf("$") == -1 ? variant : variant.substring(0, variant.indexOf("$"))
-    // }
-
-    // getPostfix(variant) {
-    //     return variant.indexOf("$") == -1 ? "NO_CAT" : variant.substring(variant.indexOf("$"), variant.length)
-    // }
-
     handleVariantSelect(variant) {
+    
         let newChosenVariants = this.state.chosenVariants
-        if (newChosenVariants != undefined && newChosenVariants.includes(variant)) {
+        newChosenVariants = newChosenVariants == undefined ? [] : newChosenVariants
+        if (newChosenVariants.length != 0 && newChosenVariants.includes(variant)) {
             newChosenVariants.splice(newChosenVariants.indexOf(variant), 1)
         } else {
-            if (newChosenVariants == undefined) {
+            if (newChosenVariants.length == 0) {
                 newChosenVariants = [variant]
             } else {
                 newChosenVariants.push(variant)
@@ -61,14 +41,11 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
 
         }
         this.setState({ chosenVariants: newChosenVariants });
+        this.props.cb(newChosenVariants)
     }
 
     handleFilterChange(filter) {
         this.setState({ filter });
-    }
-
-    hashWithCatName(v) {
-        return v + "$" + this.props.categoryName
     }
 
     render() {
@@ -77,18 +54,25 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
 
         const { category, cb } = this.props;
         const { chosenVariants } = this.state;
-        let options = BuiltInVariants.getCustomAndBIVForCategory(category)
+
+        let customCSV = customVariantSetRepository.getCustomVariantSetByCategory(category)
+        let customNameSet = customCSV == undefined ? [] : customCSV.getNames()
+        let BIVs = BuiltInVariants.getBIV(category)
+        let BIVsNameSet = BIVs.map(v => v.getName())
+
+
 
         let cstyle = allTheStyles.addVariantDone
 
         return (
+            <ScrollView>
             <View>
                 <Text style={allTheStyles.addVariantDoneUpper} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{""}</Text>
 
-                             
+
                 <Text style={cstyle} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
@@ -102,14 +86,34 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
 
-<Text onPress={()=>{BuiltInVariants.saveNewCustomVariantByCategoryAndName(this.props.category, this.state.filter)
-                this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path, category: this.props.category})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !options.map(option => option.getName().toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
+                <Text onPress={() => {
+                    customVariantSetRepository.appendVariant(this.props.category, this.state.filter)
+                    this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path, category: this.props.category })
+                }} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BIVsNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) && !customNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
 
-              {options != undefined ? options.map(option => option.getName()).filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
-                <Text style={this.state.chosenVariants.includes(variant) ? green : init } onPress={()=>this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
-              )) : <Text>{this.props.category}</Text>}
+                {BIVs != undefined && BIVs.map(v => v.getName()).filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
+                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
+                ))}
+
+
+                {customNameSet.length > 0 && customNameSet.filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
+                    <View>
+                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
+                    <Text style={allTheStyles.trash} onPress={() => {
+                        let newChosen = this.state.chosenVariants
+                        if (newChosen != undefined && newChosen.includes(variant)) {
+                            newChosen.splice(newChosen.indexOf(variant), 1)
+                            this.setState({ chosenVariants: newChosen });
+                            this.props.cb(this.state.chosenVariants)
+                        }
+                        customVariantSetRepository.removeVariant(this.props.category, variant)
+                        this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {cb: this.props.cb, category: this.props.category, alreadyChosen: this.state.chosenVariants, path: this.props.path})
+                        }}>{"🗑️"}</Text>
+                        </View>
+                ))}
 
             </View>
-          );
+            </ScrollView>
+        );
     }
 }

@@ -17,18 +17,23 @@ export class FluencyRequirementsComponent extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        selectedNotes: [],
-        selectedIntervals: [],
+        selectedNotes: ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"],
+        selectedIntervals: ["octave", "2nd", "-2nd", "3rd","-3rd", "4th", "tritone", "5th", "6th", "-6th", "7th", "-7th"],
         selectedScales: [],
         selectedScalePermutations: [],
         selectedChords: '',
         selectedChordInversions: [],
-        scalesBpm: 60,
-        chordsBpm: 60,
-        arpeggiosBpm: 60
+        scalesBpm: 120,
+        chordsBpm: 120,
+        arpsBpm: 120
       };
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleNotesChange = this.handleNotesChange.bind(this);
+      this.handleScalesChange = this.handleScalesChange.bind(this);
+      this.handleScalePermutationsChange = this.handleScalePermutationsChange.bind(this);
+      this.handleChordsChange = this.handleChordsChange.bind(this);
+      this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
+
       this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
       this.handleScalesBPMChange = this.handleScalesBPMChange.bind(this);
       this.handleChordsBPMChange = this.handleChordsBPMChange.bind(this);
@@ -37,6 +42,22 @@ export class FluencyRequirementsComponent extends React.Component {
   
     handleSubmit() {
       // Handle form submission
+    }
+
+    handleScalesChange(scales) {
+        this.setState({ selectedScales: scales });  
+    }
+
+    handleScalePermutationsChange(permutations) {
+        this.setState({ selectedScalePermutations: permutations });
+    }
+
+    handleChordInversionsChange(inversions) {
+        this.setState({ selectedChordInversions: inversions });
+    }
+
+    handleChordsChange(chords) {
+        this.setState({ selectedChords: chords });
     }
   
     handleNotesChange(note) {
@@ -74,7 +95,7 @@ export class FluencyRequirementsComponent extends React.Component {
     }
   
     handleArpsBPMChange(bpm) {
-      this.setState({ arpeggiosBpm: bpm });
+      this.setState({ arpsBpm: bpm });
     }
 
     
@@ -92,37 +113,37 @@ export class FluencyRequirementsComponent extends React.Component {
 
                     <Text style={allTheStyles.fluentRow}>{"NOTES"}</Text>
                     <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.handleNotesChange("A")}style={this.state.selectedNotes.includes("A") ? init : green}>{"A"}</Text>
-                    <Text onPress={() => this.handleNotesChange("Bb")}style={this.state.selectedNotes.includes("Bb") ? init : green}>{"Bb"}</Text>
-                    <Text onPress={() => this.handleNotesChange("B")}style={this.state.selectedNotes.includes("B") ? init : green}>{"B"}</Text>
-                    <Text onPress={() => this.handleNotesChange("C")}style={this.state.selectedNotes.includes("C") ? init : green}>{"C"}</Text>
-                    <Text onPress={() => this.handleNotesChange("Db")}style={this.state.selectedNotes.includes("Db") ? init : green}>{"Db"}</Text>
-                    <Text onPress={() => this.handleNotesChange("D")}style={this.state.selectedNotes.includes("D") ? init : green}>{"D"}</Text>
+                    <Text onPress={() => this.handleNotesChange("A")}style={this.state.selectedNotes.includes("A") ? green : init}>{"A"}</Text>
+                    <Text onPress={() => this.handleNotesChange("Bb")}style={this.state.selectedNotes.includes("Bb") ? green : init}>{"Bb"}</Text>
+                    <Text onPress={() => this.handleNotesChange("B")}style={this.state.selectedNotes.includes("B") ? green : init}>{"B"}</Text>
+                    <Text onPress={() => this.handleNotesChange("C")}style={this.state.selectedNotes.includes("C") ? green : init}>{"C"}</Text>
+                    <Text onPress={() => this.handleNotesChange("Db")}style={this.state.selectedNotes.includes("Db") ? green : init}>{"Db"}</Text>
+                    <Text onPress={() => this.handleNotesChange("D")}style={this.state.selectedNotes.includes("D") ? green : init}>{"D"}</Text>
                     </View>
                     <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.handleNotesChange("Eb")}style={this.state.selectedNotes.includes("Eb") ? init : green}>{"Eb"}</Text>
-                    <Text onPress={() => this.handleNotesChange("E")}style={this.state.selectedNotes.includes("E") ? init : green}>{"E"}</Text>
-                    <Text onPress={() => this.handleNotesChange("F")}style={this.state.selectedNotes.includes("F") ? init : green}>{"F"}</Text>
-                    <Text onPress={() => this.handleNotesChange("Gb")}style={this.state.selectedNotes.includes("Gb") ? init : green}>{"Gb"}</Text>
-                    <Text onPress={() => this.handleNotesChange("G")}style={this.state.selectedNotes.includes("G") ? init : green}>{"G"}</Text>
-                    <Text onPress={() => this.handleNotesChange("Ab")}style={this.state.selectedNotes.includes("Ab") ? init : green}>{"Ab"}</Text>
+                    <Text onPress={() => this.handleNotesChange("Eb")}style={this.state.selectedNotes.includes("Eb") ? green : init}>{"Eb"}</Text>
+                    <Text onPress={() => this.handleNotesChange("E")}style={this.state.selectedNotes.includes("E") ? green : init}>{"E"}</Text>
+                    <Text onPress={() => this.handleNotesChange("F")}style={this.state.selectedNotes.includes("F") ? green : init}>{"F"}</Text>
+                    <Text onPress={() => this.handleNotesChange("Gb")}style={this.state.selectedNotes.includes("Gb") ? green : init}>{"Gb"}</Text>
+                    <Text onPress={() => this.handleNotesChange("G")}style={this.state.selectedNotes.includes("G") ? green : init}>{"G"}</Text>
+                    <Text onPress={() => this.handleNotesChange("Ab")}style={this.state.selectedNotes.includes("Ab") ? green : init}>{"Ab"}</Text>
                     </View>
                     <Text style={allTheStyles.fluentRow}>{"INTERVALS"}</Text>
                     <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.handleIntervalsChange("octave")}style={this.state.selectedIntervals.includes("octave") ? init : green}>{"octave"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("2nd")}style={this.state.selectedIntervals.includes("2nd") ? init : green}>{"2nd"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("-2nd")}style={this.state.selectedIntervals.includes("-2nd") ? init : green}>{"-2nd"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("3rd")}style={this.state.selectedIntervals.includes("3rd") ? init : green}>{"3rd"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("-3rd")}style={this.state.selectedIntervals.includes("-3rd") ? init : green}>{"-3rd"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("4th")}style={this.state.selectedIntervals.includes("4th") ? init : green}>{"4th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("octave")}style={this.state.selectedIntervals.includes("octave") ? green : init}>{"octave"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("2nd")}style={this.state.selectedIntervals.includes("2nd") ? green : init}>{"2nd"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("-2nd")}style={this.state.selectedIntervals.includes("-2nd") ? green : init}>{"-2nd"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("3rd")}style={this.state.selectedIntervals.includes("3rd") ? green : init}>{"3rd"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("-3rd")}style={this.state.selectedIntervals.includes("-3rd") ? green : init}>{"-3rd"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("4th")}style={this.state.selectedIntervals.includes("4th") ? green : init}>{"4th"}</Text>
                     </View>
                     <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.handleIntervalsChange("tritone")}style={this.state.selectedIntervals.includes("tritone") ? init : green}>{"tritone"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("5th")}style={this.state.selectedIntervals.includes("5th") ? init : green}>{"5th"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("6th")}style={this.state.selectedIntervals.includes("6th") ? init : green}>{"6th"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("-6th")}style={this.state.selectedIntervals.includes("-6th") ? init : green}>{"-6th"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("7th")}style={this.state.selectedIntervals.includes("7th") ? init : green}>{"7th"}</Text>
-                    <Text onPress={() => this.handleIntervalsChange("-7th")}style={this.state.selectedIntervals.includes("-7th") ? init : green}>{"-7th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("tritone")}style={this.state.selectedIntervals.includes("tritone") ? green : init}>{"tritone"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("5th")}style={this.state.selectedIntervals.includes("5th") ? green : init}>{"5th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("6th")}style={this.state.selectedIntervals.includes("6th") ? green : init}>{"6th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("-6th")}style={this.state.selectedIntervals.includes("-6th") ? green : init}>{"-6th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("7th")}style={this.state.selectedIntervals.includes("7th") ? green : init}>{"7th"}</Text>
+                    <Text onPress={() => this.handleIntervalsChange("-7th")}style={this.state.selectedIntervals.includes("-7th") ? green : init}>{"-7th"}</Text>
                     </View>
                     <Text style={allTheStyles.fluentRow}>{"SCALES"}</Text>
                     <View style={allTheStyles.examplesRow}>
@@ -130,25 +151,25 @@ export class FluencyRequirementsComponent extends React.Component {
                     <TextInput onChangeText={this.handleScalesBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>
-                    <Text style={allTheStyles.highlighteableOption}>{"Type"}</Text>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {category: BuiltInVariants.SCALES, cb: this.props.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path})} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scales chosen" : "tap to choose scales"}</Text>
-
-                    <Text style={allTheStyles.highlighteableOption}>{"Permutations ->"}</Text>
-
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {category: BuiltInVariants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path})} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {category: BuiltInVariants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path})} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
                     <Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text>
                     <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.highlighteableOption}>{"BPM"}</Text>
                     <TextInput onChangeText={this.handleChordsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>                    
-                    <Text style={allTheStyles.highlighteableOption}>{"Qualities"}</Text>
-                    <Text style={allTheStyles.highlighteableOption}>{"Inversions"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {category: BuiltInVariants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path})} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {category: BuiltInVariants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path})} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
                     <Text style={allTheStyles.fluentRow}>{"ARPS"}</Text>
                     <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.highlighteableOption}>{"BPM"}</Text>
                     <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>
+                    <Text style={allTheStyles.addVariantDone} onPress={() => {
+                    alert(this.state.selectedScalePermutations)
+                }}>{"GEN"}</Text>
 
                 </ScrollView>
             </View>

@@ -1,23 +1,20 @@
 import BuiltInVariant from "../models/BuiltInVariant";
 import { MMKV } from "react-native-mmkv";
+import { elementsThatOverlapOffsets } from "react-native/Libraries/Lists/VirtualizeUtils";
+import { customVariantSetRepository } from "../App";
 
 export default class BuiltInVariants {
 
-    static PATH = "CUSTOM_VARIANTS"
     static INTERVALS = "Intervals"
     static CHORDS = "Chords"
+    static PERMUTATIONS = "Permutations"
     static SCALES = "Scales"
     static INVERSIONS = "Inversions"
     static TRAVERSALS = "Traversals"
     static STRINGS = "Strings"
     static CUSTOM = "Custom"
 
-    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
-
-
-    static storage = new MMKV({
-        id: "BuiltInVariants"
-    })
+    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATION_VARIANTS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
     static CHORD_VARIANTS = [
 
@@ -35,6 +32,10 @@ export default class BuiltInVariants {
         new BuiltInVariant("7#9", this.CHORDS),
         new BuiltInVariant("7#5", this.CHORDS),//thelonious chord lol
         new BuiltInVariant("7#11", this.CHORDS)
+    ]
+
+    static PERMUTATION_VARIANTS = [
+        new BuiltInVariant("1234567", this.PERMUTATIONS)
     ]
 
     static INTERVAL_VARIANTS = [
@@ -85,7 +86,12 @@ export default class BuiltInVariants {
         new BuiltInVariant("3rd", this.INVERSIONS),
         new BuiltInVariant("4th", this.INVERSIONS),
         new BuiltInVariant("5th", this.INVERSIONS),
-        new BuiltInVariant("6th", this.INVERSIONS)
+        new BuiltInVariant("root sub 9", this.INVERSIONS),
+        new BuiltInVariant("1st sub 9", this.INVERSIONS),
+        new BuiltInVariant("2nd sub 9", this.INVERSIONS),
+        new BuiltInVariant("3rd sub 9", this.INVERSIONS),
+        new BuiltInVariant("4th sub 9", this.INVERSIONS),
+        new BuiltInVariant("5th sub 9", this.INVERSIONS)
     ]
 
     static TRAVERSAL_VARIANTS = [
@@ -112,31 +118,14 @@ export default class BuiltInVariants {
         new BuiltInVariant("8th", this.STRINGS)
     ]
 
-    static saveNewCustomVariantByCategoryAndName(category, name){
-        let current = this.getCustomVariants(category)
-        
-        if (current == undefined || current.length == 0){
-            current = [
-                name
-            ]
-        }else{
-            current.push(name)
-        }
-    
-        try {
-            this.storage.set(BuiltInVariants.PATH + category, JSON.stringify(current));
-        } catch (error) {
-            alert("error saving builtin variant: " + error.message)
-        }
-        return null
-    }
-
     static getBIV(category){
         switch(category){
             case this.CHORDS:
                 return this.CHORD_VARIANTS;
             case this.INTERVALS:
                 return this.INTERVAL_VARIANTS;
+            case this.PERMUTATIONS:
+                return this.PERMUTATION_VARIANTS;
             case this.SCALES:
                 return this.SCALE_VARIANTS;
             case this.INVERSIONS:
@@ -150,57 +139,6 @@ export default class BuiltInVariants {
         }
     }
 
-    static getCustomAndBIVForCategory(category){
-        return this.getCustomVariants(category) == undefined ? this.getBIV(category) :
-        this.getBIV(category).concat(this.getCustomVariants(category))
-    }
-
-    static deleteCustomVariantByName(category, variantName){
-        if (category == undefined || !this.VALID_CATEGORIES.includes(category)){
-            alert("invalid category")
-            return null
-        }
-        let current = this.getCustomVariants(category)
-        if (current == undefined){
-            alert("wtf u deleting")
-            return null
-        }
-        let index = current.indexOf(variantName)
-        if (index == -1){
-            alert("wtf u deleting")
-            return null
-        }
-        current.splice(index, 1)
-        try {
-            this.storage.set(BuiltInVariants.PATH + category, JSON.stringify(current));
-        } catch (error) {
-            alert("error deleting builtin variant: " + error.message);
-        }
-        return null
-    }
-
-
-    static getCustomVariants(category){
-        if (category == undefined || !this.VALID_CATEGORIES.includes(category)){
-            alert("invalid category")
-            return null
-        }
-
-        try {
-            let retrievedItem = this.storage.getString(BuiltInVariants.PATH + category)
-
-            if (retrievedItem == undefined){
-                return [];
-            }
-
-            return JSON.parse(retrievedItem)
-        } catch (error) {
-            alert("error getting variants: " + error.message);
-            return error.message
-        }
-
-    }
-
 
     static getAllGroups(){
         let cv = this.getCustomVariants()
@@ -208,19 +146,13 @@ export default class BuiltInVariants {
             CUSTOM : cv == undefined ? [new BuiltInVariant("test", this.CUSTOM)] : cv.map(name => new BuiltInVariant(name, this.CUSTOM)),
             CHORDS : this.CHORD_VARIANTS,
             INTERVALS : this.INTERVAL_VARIANTS,
+            PERMUTATIONS: this.PERMUTATION_VARIANTS,
             SCALES : this.SCALE_VARIANTS,
             INVERSIONS : this.INVERSION_VARIANTS,
             TRAVERSALS : this.TRAVERSAL_VARIANTS,
             STRINGS : this.STRING_VARIANTS,
         }
     }
-
-    static getScales(){
-        return this.SCALE_VARIANTS 
-    }
-
- 
-
 
 }
 
