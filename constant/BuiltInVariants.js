@@ -12,11 +12,14 @@ export default class BuiltInVariants {
     static STRINGS = "Strings"
     static CUSTOM = "Custom"
 
+    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
+
+
     static storage = new MMKV({
         id: "BuiltInVariants"
     })
 
-    static chordVariants = [
+    static CHORD_VARIANTS = [
 
         new BuiltInVariant("min triad", this.CHORDS),
         new BuiltInVariant("maj triad", this.CHORDS),
@@ -34,7 +37,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("7#11", this.CHORDS)
     ]
 
-    static intervalVariants = [
+    static INTERVAL_VARIANTS = [
 
         new BuiltInVariant("2nd", this.INTERVALS),
         new BuiltInVariant("minor 3rd", this.INTERVALS),
@@ -55,7 +58,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("octave", this.INTERVALS)
     ]
 
-    static scaleVariants = [
+    static SCALE_VARIANTS = [
 
         new BuiltInVariant("major", this.SCALES),
         new BuiltInVariant("minor", this.SCALES),
@@ -75,7 +78,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("minor bebop", this.SCALES)
     ]
 
-    static inversionVariants = [
+    static INVERSION_VARIANTS = [
         new BuiltInVariant("root", this.INVERSIONS),
         new BuiltInVariant("1st", this.INVERSIONS),
         new BuiltInVariant("2nd", this.INVERSIONS),
@@ -85,7 +88,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("6th", this.INVERSIONS)
     ]
 
-    static traversalVariants = [
+    static TRAVERSAL_VARIANTS = [
         new BuiltInVariant("ascending", this.TRAVERSALS),
         new BuiltInVariant("descending", this.TRAVERSALS),
         new BuiltInVariant("asc/desc", this.TRAVERSALS),
@@ -98,7 +101,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("octaves", this.TRAVERSALS),
     ]
 
-    static stringVariants = [
+    static STRING_VARIANTS = [
         new BuiltInVariant("1st/highest", this.STRINGS),
         new BuiltInVariant("2nd", this.STRINGS),
         new BuiltInVariant("3rd", this.STRINGS),
@@ -109,58 +112,88 @@ export default class BuiltInVariants {
         new BuiltInVariant("8th", this.STRINGS)
     ]
 
-    static saveNewCustomVariantByName(name){
-        let current = this.getCustomVariants()
+    static saveNewCustomVariantByCategoryAndName(category, name){
+        let current = this.getCustomVariants(category)
         
         if (current == undefined || current.length == 0){
             current = [
                 name
             ]
         }else{
-            
             current.push(name)
         }
     
         try {
-            this.storage.set(BuiltInVariants.PATH, JSON.stringify(current));
+            this.storage.set(BuiltInVariants.PATH + category, JSON.stringify(current));
         } catch (error) {
             alert("error saving builtin variant: " + error.message)
         }
         return null
     }
 
-    static deleteCustomVariantByName(name){
-        let current = this.getCustomVariants()
+    static getBIV(category){
+        switch(category){
+            case this.CHORDS:
+                return this.CHORD_VARIANTS;
+            case this.INTERVALS:
+                return this.INTERVAL_VARIANTS;
+            case this.SCALES:
+                return this.SCALE_VARIANTS;
+            case this.INVERSIONS:
+                return this.INVERSION_VARIANTS;
+            case this.TRAVERSALS:
+                return this.TRAVERSAL_VARIANTS;  
+            case this.STRINGS:  
+                return this.STRING_VARIANTS;
+            default:
+                return null;
+        }
+    }
+
+    static getCustomAndBIVForCategory(category){
+        return this.getCustomVariants(category) == undefined ? this.getBIV(category) :
+        this.getBIV(category).concat(this.getCustomVariants(category))
+    }
+
+    static deleteCustomVariantByName(category, variantName){
+        if (category == undefined || !this.VALID_CATEGORIES.includes(category)){
+            alert("invalid category")
+            return null
+        }
+        let current = this.getCustomVariants(category)
         if (current == undefined){
             alert("wtf u deleting")
+            return null
         }
-        let index = current.indexOf(name)
+        let index = current.indexOf(variantName)
         if (index == -1){
+            alert("wtf u deleting")
             return null
         }
         current.splice(index, 1)
         try {
-            this.storage.set(BuiltInVariants.PATH, JSON.stringify(current));
+            this.storage.set(BuiltInVariants.PATH + category, JSON.stringify(current));
         } catch (error) {
             alert("error deleting builtin variant: " + error.message);
         }
         return null
     }
 
-    static getCustomVariants(){
+
+    static getCustomVariants(category){
+        if (category == undefined || !this.VALID_CATEGORIES.includes(category)){
+            alert("invalid category")
+            return null
+        }
+
         try {
-            let retrievedItem = this.storage.getString(BuiltInVariants.PATH)
+            let retrievedItem = this.storage.getString(BuiltInVariants.PATH + category)
 
             if (retrievedItem == undefined){
-                alert("error: no BIVs")
                 return [];
             }
 
-            let BIVS = JSON.parse(retrievedItem)
-            if (BIVS == null){
-                alert("error: no BIVS")
-            }
-            return BIVS;
+            return JSON.parse(retrievedItem)
         } catch (error) {
             alert("error getting variants: " + error.message);
             return error.message
@@ -173,14 +206,21 @@ export default class BuiltInVariants {
         let cv = this.getCustomVariants()
         return {
             CUSTOM : cv == undefined ? [new BuiltInVariant("test", this.CUSTOM)] : cv.map(name => new BuiltInVariant(name, this.CUSTOM)),
-            CHORDS : this.chordVariants,
-            INTERVALS : this.intervalVariants,
-            SCALES : this.scaleVariants,
-            INVERSIONS : this.inversionVariants,
-            TRAVERSALS : this.traversalVariants,
-            STRINGS : this.stringVariants,
+            CHORDS : this.CHORD_VARIANTS,
+            INTERVALS : this.INTERVAL_VARIANTS,
+            SCALES : this.SCALE_VARIANTS,
+            INVERSIONS : this.INVERSION_VARIANTS,
+            TRAVERSALS : this.TRAVERSAL_VARIANTS,
+            STRINGS : this.STRING_VARIANTS,
         }
     }
+
+    static getScales(){
+        return this.SCALE_VARIANTS 
+    }
+
+ 
+
 
 }
 

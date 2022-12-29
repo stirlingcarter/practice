@@ -8,7 +8,8 @@ import { GroupScreen } from "./screens/GroupScreen";
 import { LessonLaunchScreen } from "./screens/LessonLaunchScreen";
 import { AddCustomLessonScreen } from "./screens/AddCustomLessonScreen";
 import { LessonStatsScreen } from "./screens/LessonStatsScreen";
-
+import { FluencyRequirementsScreen } from "./screens/FluencyRequirementsScreen";
+import { SingleRowVariantChooserSaverScreen } from "./screens/SingleRowVariantChooserSaverScreen";
 import { GroupStatsScreen } from "./screens/GroupStatsScreen";
 import { IntroScreen } from "./screens/IntroScreen";
 import { AddLessonFromTemplateScreen } from "./screens/AddLessonFromTemplateScreen";
@@ -113,12 +114,20 @@ export default function App() {
           component={AddVariantGroupScreen}
           options={{ title: "AddVariantGroupScreen" }}
         />
+        <Stack.Screen
+          name="FluencyRequirementsScreen"
+          component={FluencyRequirementsScreen}
+          options={{ title: "FluencyRequirementsScreen" }}
+        />
+        <Stack.Screen
+          name="SingleRowVariantChooserSaverScreen"
+          component={SingleRowVariantChooserSaverScreen}
+          options={{ title: "SingleRowVariantChooserSaverScreen" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-
 
 
 

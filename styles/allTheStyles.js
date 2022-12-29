@@ -153,6 +153,66 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     flexGrow: 1
   },
+  fluentButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "black",
+    backgroundColor: "#e0aa3e",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  fluentRow: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "black",
+    backgroundColor: "#e0aa3e",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  highlighteableOption: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "black",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  bpmOption: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "white",
+    backgroundColor: "green",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  highlighteableOptionGreen: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "green",
+    backgroundColor: "black",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  fluentHeader: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "black",
+    backgroundColor: "green",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
   saveButton3r: {
     textAlignVertical: "top",
     textAlign: "center",

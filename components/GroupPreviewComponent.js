@@ -109,7 +109,15 @@ export class GroupPreviewComponent extends React.Component {
               {Path.currentDir(this.props.path)}
             </Text>
             <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
-
+            <Text
+                onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
+                  path: this.props.path,
+                  cb: this.getLessonNames,
+                })}
+                style={allTheStyles.fluentButton}
+              >
+                {"MAKE ME FLUENT"}
+              </Text>
             <View style={allTheStyles.addLessonOrGroupRow}>
               {/* Add lesson */}
 

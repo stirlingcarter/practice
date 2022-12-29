@@ -1,31 +1,16 @@
 import * as React from "react";
 import {
-    TouchableOpacity,
     ScrollView,
-    SafeAreaView,
     FlatList,
     Text,
     View,
     TextInput,
-    Keyboard,
-    TouchableHighlightBase
+    Keyboard
 } from "react-native";
 
-import { lessonRepository } from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-import InputParser from "../services/InputParser.js"
-import { groupRepository } from "../App";
-import Path from "../services/Path";
-import Lesson from "../models/Lesson";
-import TreeUtils from "../services/TreeUtils"
-import Util from "../services/Util";
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
-import { VariantBubbleComponent } from "./VariantBubbleComponent";
-import { LinkChoiceComponent } from "./LinkChoiceComponent";
-import { BasicListComponent } from "./BasicListComponent";
 import BuiltInVariants from "../constant/BuiltInVariants";
 import { VariantCategoryComponent } from "./VariantCategoryComponent";
-import { getTextOfJSDocComment } from "typescript";
 
 export class AddVariantGroupComponent extends React.Component {
 
@@ -98,8 +83,8 @@ export class AddVariantGroupComponent extends React.Component {
                     multiline={true}
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
-                <Text onPress={()=>{BuiltInVariants.saveNewCustomVariantByName(this.state.filter)
-                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 ? "Create" : ""}</Text>
+                <Text onPress={()=>{BuiltInVariants.saveNewCustomVariantByCategoryAndName(BuiltInVariants.CHORDS, this.state.filter)
+                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     <FlatList
                         data={Object.keys(BuiltInVariants.getAllGroups())}
@@ -119,6 +104,6 @@ export class AddVariantGroupComponent extends React.Component {
 
                 </ScrollView>
             </View>
-        );
+        )
     }
 }
