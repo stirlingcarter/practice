@@ -15,4 +15,6 @@ then
 ```expo start --dev-client```
 if your phone is nearby and has the app open it will now listen to that server instead for reloads (r) and cmd+s
 
-maybe some holes but that's the general idea 
+this is the deprecated view props patch
+
+https://stackoverflow.com/questions/72755476/invariant-violation-viewproptypes-has-been-removed-from-react-native-migrate-t
