@@ -112,7 +112,7 @@ export class GroupPreviewComponent extends React.Component {
             <Text
                 onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
                   path: this.props.path,
-                  cb: this.getLessonNames,
+                  cb: this.getGroupNames,
                 })}
                 style={allTheStyles.fluentButton}
               >

@@ -74,7 +74,9 @@ export class AddCustomLessonComponent extends React.Component {
         this.sanitize(this.state.variants),
         this.sanitize(this.state.variants2),
         {},
-        Path.plus(this.props.path, this.state.name))
+        Path.plus(this.props.path, this.state.name),
+        Constants.LESSON_TYPE_TIMED,
+        -1)
 
       TreeUtils.saveLesson(l)
 

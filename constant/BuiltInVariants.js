@@ -14,6 +14,9 @@ export default class BuiltInVariants {
     static STRINGS = "Strings"
     static CUSTOM = "Custom"
 
+    static NOTES = "Notes"
+    static ARPEGGIOS = "Arpeggios"
+
     static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATION_VARIANTS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
     static CHORD_VARIANTS = [

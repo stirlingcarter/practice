@@ -11,14 +11,15 @@ export default class Lesson {
     v2 = []
     vHashes = []
     path = ''
-
+    type = Constants.LESSON_TYPE_TIMED
+    
     // historical times for each *variant* (e.x. A$DOM$LH) 
     dataset = {
         // A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],
         // B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],...
     }
 
-    constructor(name, criteria, goal, v, v2, dataset, path) {
+    constructor(name, criteria, goal, v, v2, dataset, path, type) {
         this.name = name
         this.criteria = criteria
         this.goal = goal
@@ -32,6 +33,7 @@ export default class Lesson {
             this.vHashes = Object.keys(dataset)
         }
         this.path = path
+        this.type= type
     }
 
     setVHashes(vHashes) {
@@ -120,6 +122,10 @@ export default class Lesson {
         return this.name;
     }
 
+    getType() {
+        return this.type
+    }
+
     getV() {
         return this.v == undefined || this.v.length == 0 ? null : this.v
     }
@@ -144,6 +150,8 @@ export default class Lesson {
         let path = lessonDict['path']
         let dataset = lessonDict['dataset']
         let vHashes = lessonDict['vHashes']
+        let type = lessonDict['type']
+        let bpm = lessonDict['bpm']
         let l = new Lesson(
             name == undefined ? '' : name,
             criteria == undefined ? '' : criteria,
@@ -151,7 +159,9 @@ export default class Lesson {
             v == undefined ? [] : v,
             v2 == undefined ? [] : v2,
             dataset == undefined ? {} : dataset,
-            path == undefined ? '' : path
+            path == undefined ? '' : path,
+            type == undefined ? Constants.LESSON_TYPE_TIMED : type,
+            bpm == undefined ? -1 : bpm
         )
         if (vHashes != undefined) {
             l.setVHashes(vHashes)

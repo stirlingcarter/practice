@@ -47,6 +47,11 @@ export default {
     
     },
 
+    getInstrumentFromPath(path) {
+        let split = path.split("/")
+        return split[1]
+    },
+
     saveLesson(lesson) {
         let parentGroup = groupRepository.getGroupByPath(Path.up(lesson.getPath()))
         parentGroup.addLessonName(lesson.getName())
