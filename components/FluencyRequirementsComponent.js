@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Audio } from 'expo-av';
 import { allTheStyles } from "../styles/allTheStyles.js"
-import BuiltInVariants from "../constant/BuiltInVariants";
 import TreeUtils from "../services/TreeUtils"
 import Constants from "../constant/Constants";
 import FluencyGen from "../models/FluencyGen.js";
@@ -204,8 +203,8 @@ export class FluencyRequirementsComponent extends React.Component {
                         <TextInput onChangeText={this.handleScalesBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                         <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
                     {isChordal && <View>
                     <Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text>
                     <View style={allTheStyles.examplesRow}>
@@ -213,8 +212,8 @@ export class FluencyRequirementsComponent extends React.Component {
                         <TextInput onChangeText={this.handleChordsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                         <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
+                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
                     </View>}
                     <Text style={allTheStyles.fluentRow}>{"ARPS"}</Text>
                     <View style={allTheStyles.examplesRow}>
@@ -222,7 +221,7 @@ export class FluencyRequirementsComponent extends React.Component {
                         <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                         <Text onPress={() => this.playSound('./assets/sounds/test.wav')} style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     </View>
-                    {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
+                    {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
 
                     <Text style={allTheStyles.addVariantDone} onPress={() => {
                         if (this.state.selectedScales.length != 0 && this.state.selectedScalePermutations.length == 0) {

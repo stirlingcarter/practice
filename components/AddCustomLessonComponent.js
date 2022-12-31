@@ -39,7 +39,7 @@ export class AddCustomLessonComponent extends React.Component {
     this.interval = setInterval(() => {
       this.setState((state, props) => {
         return {
-          examples: [Util.getRandomFromArray(Constants.NOTES),Util.getRandomFromArray(this.sanitize(this.state.variants)),Util.getRandomFromArray(this.sanitize(this.state.variants2))]
+          examples: [Util.getRandomFromArray(Constants.ALL_NOTES),Util.getRandomFromArray(this.sanitize(this.state.variants)),Util.getRandomFromArray(this.sanitize(this.state.variants2))]
         };
       });
     }, 1600);
@@ -50,13 +50,21 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    alert("l" + variants)
-    this.setState({ variants: variants })
+    let newVariants = Util.getNoParensForEachInListsIfNoDupe(variants, this.state.variants2)[0]
+    let newVariants2 = Util.getNoParensForEachInListsIfNoDupe(variants, this.state.variants2)[1]
+
+    this.setState({ variants: newVariants,
+                    variants2: newVariants2 })
+    
   }
 
   handleVariants2Change(variants2) {
-    this.setState({ variants2: variants2 })
-  }
+    let newVariants = Util.getNoParensForEachInListsIfNoDupe(this.state.variants, variants2)[0]
+    let newVariants2 = Util.getNoParensForEachInListsIfNoDupe(this.state.variants, variants2)[1]    
+    
+    this.setState({ variants: newVariants,
+      variants2: newVariants2 })
+      }
 
 
   handleGoalChange(goal) {
@@ -191,8 +199,8 @@ export class AddCustomLessonComponent extends React.Component {
 
           <View style={allTheStyles.examplesRow}>
           <Text style={allTheStyles.actualExample}>{this.state.examples == undefined ? "" : this.state.examples[0] + " "}</Text>
-          <Text style={allTheStyles.actualExampleG}>{this.state.examples == undefined ? "" : this.state.examples[1] + " "}</Text>
-          <Text style={allTheStyles.actualExampleB}>{this.state.examples == undefined ? "" : this.state.examples[2]}</Text>
+          <Text style={allTheStyles.actualExampleG}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
+          <Text style={allTheStyles.actualExampleB}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
           </View>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>

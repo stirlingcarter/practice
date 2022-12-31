@@ -2,141 +2,128 @@ import BuiltInVariant from "../models/BuiltInVariant";
 import { MMKV } from "react-native-mmkv";
 import { elementsThatOverlapOffsets } from "react-native/Libraries/Lists/VirtualizeUtils";
 import { customVariantSetRepository } from "../App";
+import Constants from "./Constants";
 
 
 export default class BuiltInVariants {
 
-    static INTERVALS = "Intervals"
-    static CHORDS = "Chords"
-    static PERMUTATIONS = "Permutations"
-    static SCALES = "Scales"
-    static INVERSIONS = "Inversions"
-    static TRAVERSALS = "Traversals"
-    static STRINGS = "Strings"
-    static CUSTOM = "Custom"
-
-    static NOTES = "Notes"
-    static ARPEGGIOS = "Arpeggios"
-
-    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATION_VARIANTS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
-
     static CHORD_VARIANTS = [
 
-        new BuiltInVariant("min triad", this.CHORDS),
-        new BuiltInVariant("maj triad", this.CHORDS),
-        new BuiltInVariant("dom triad", this.CHORDS),
-        new BuiltInVariant("min6", this.CHORDS),
-        new BuiltInVariant("maj6", this.CHORDS),
-        new BuiltInVariant("min7", this.CHORDS),
-        new BuiltInVariant("maj7", this.CHORDS),
-        new BuiltInVariant("7", this.CHORDS),
-        new BuiltInVariant("dim", this.CHORDS),
-        new BuiltInVariant("half dim", this.CHORDS),
-        new BuiltInVariant("7#5#9", this.CHORDS),
-        new BuiltInVariant("7#9", this.CHORDS),
-        new BuiltInVariant("7#5", this.CHORDS),//thelonious chord lol
-        new BuiltInVariant("7#11", this.CHORDS)
+        new BuiltInVariant("min triad", Constants.CHORDS),
+        new BuiltInVariant("maj triad", Constants.CHORDS),
+        new BuiltInVariant("dom triad", Constants.CHORDS),
+        new BuiltInVariant("min6", Constants.CHORDS),
+        new BuiltInVariant("maj6", Constants.CHORDS),
+        new BuiltInVariant("min7", Constants.CHORDS),
+        new BuiltInVariant("maj7", Constants.CHORDS),
+        new BuiltInVariant("7", Constants.CHORDS),
+        new BuiltInVariant("dim", Constants.CHORDS),
+        new BuiltInVariant("half dim", Constants.CHORDS),
+        new BuiltInVariant("7#5#9", Constants.CHORDS),
+        new BuiltInVariant("7#9", Constants.CHORDS),
+        new BuiltInVariant("7#5", Constants.CHORDS),//thelonious chord lol
+        new BuiltInVariant("7#11", Constants.CHORDS)
     ]
 
     static PERMUTATION_VARIANTS = [
-        new BuiltInVariant("normal", this.PERMUTATIONS)
+        new BuiltInVariant("normal", Constants.PERMUTATIONS)
     ]
 
     static INTERVAL_VARIANTS = [
 
-        new BuiltInVariant("2nd", this.INTERVALS),
-        new BuiltInVariant("minor 3rd", this.INTERVALS),
-        new BuiltInVariant("major 3rd", this.INTERVALS),
-        new BuiltInVariant("4th", this.INTERVALS),
-        new BuiltInVariant("5th", this.INTERVALS),
-        new BuiltInVariant("minor 6th", this.INTERVALS),
-        new BuiltInVariant("major 6th", this.INTERVALS),
-        new BuiltInVariant("minor 7th", this.INTERVALS),
-        new BuiltInVariant("major 7th", this.INTERVALS),
-        new BuiltInVariant("9th", this.INTERVALS),
-        new BuiltInVariant("minor 10th", this.INTERVALS),
-        new BuiltInVariant("major 10th", this.INTERVALS),
-        new BuiltInVariant("11th", this.INTERVALS),
-        new BuiltInVariant("12th", this.INTERVALS),
-        new BuiltInVariant("minor 13th", this.INTERVALS),
-        new BuiltInVariant("major 13th", this.INTERVALS),
-        new BuiltInVariant("octave", this.INTERVALS)
+        new BuiltInVariant("2nd", Constants.INTERVALS),
+        new BuiltInVariant("minor 3rd", Constants.INTERVALS),
+        new BuiltInVariant("major 3rd", Constants.INTERVALS),
+        new BuiltInVariant("4th", Constants.INTERVALS),
+        new BuiltInVariant("5th", Constants.INTERVALS),
+        new BuiltInVariant("minor 6th", Constants.INTERVALS),
+        new BuiltInVariant("major 6th", Constants.INTERVALS),
+        new BuiltInVariant("minor 7th", Constants.INTERVALS),
+        new BuiltInVariant("major 7th", Constants.INTERVALS),
+        new BuiltInVariant("9th", Constants.INTERVALS),
+        new BuiltInVariant("minor 10th", Constants.INTERVALS),
+        new BuiltInVariant("major 10th", Constants.INTERVALS),
+        new BuiltInVariant("11th", Constants.INTERVALS),
+        new BuiltInVariant("12th", Constants.INTERVALS),
+        new BuiltInVariant("minor 13th", Constants.INTERVALS),
+        new BuiltInVariant("major 13th", Constants.INTERVALS),
+        new BuiltInVariant("octave", Constants.INTERVALS)
     ]
 
     static SCALE_VARIANTS = [
 
-        new BuiltInVariant("major", this.SCALES),
-        new BuiltInVariant("minor", this.SCALES),
-        new BuiltInVariant("ionian", this.SCALES),
-        new BuiltInVariant("dorian", this.SCALES),
-        new BuiltInVariant("phrygian", this.SCALES),
-        new BuiltInVariant("lydian", this.SCALES),
-        new BuiltInVariant("mixolydian", this.SCALES),
-        new BuiltInVariant("aeolian", this.SCALES),
-        new BuiltInVariant("locrian", this.SCALES),
-        new BuiltInVariant("melodic minor", this.SCALES),
-        new BuiltInVariant("diminished", this.SCALES),
-        new BuiltInVariant("half diminished", this.SCALES),
-        new BuiltInVariant("chromatic", this.SCALES),
-        new BuiltInVariant("pentatonic", this.SCALES),
-        new BuiltInVariant("major bebop", this.SCALES),
-        new BuiltInVariant("minor bebop", this.SCALES)
+        new BuiltInVariant("major", Constants.SCALES),
+        new BuiltInVariant("minor", Constants.SCALES),
+        new BuiltInVariant("ionian", Constants.SCALES),
+        new BuiltInVariant("dorian", Constants.SCALES),
+        new BuiltInVariant("phrygian", Constants.SCALES),
+        new BuiltInVariant("lydian", Constants.SCALES),
+        new BuiltInVariant("mixolydian", Constants.SCALES),
+        new BuiltInVariant("aeolian", Constants.SCALES),
+        new BuiltInVariant("locrian", Constants.SCALES),
+        new BuiltInVariant("melodic minor", Constants.SCALES),
+        new BuiltInVariant("diminished", Constants.SCALES),
+        new BuiltInVariant("half diminished", Constants.SCALES),
+        new BuiltInVariant("chromatic", Constants.SCALES),
+        new BuiltInVariant("pentatonic", Constants.SCALES),
+        new BuiltInVariant("major bebop", Constants.SCALES),
+        new BuiltInVariant("minor bebop", Constants.SCALES)
     ]
 
     static INVERSION_VARIANTS = [
-        new BuiltInVariant("root", this.INVERSIONS),
-        new BuiltInVariant("1st", this.INVERSIONS),
-        new BuiltInVariant("2nd", this.INVERSIONS),
-        new BuiltInVariant("3rd", this.INVERSIONS),
-        new BuiltInVariant("4th", this.INVERSIONS),
-        new BuiltInVariant("5th", this.INVERSIONS),
-        new BuiltInVariant("root sub 9", this.INVERSIONS),
-        new BuiltInVariant("1st sub 9", this.INVERSIONS),
-        new BuiltInVariant("2nd sub 9", this.INVERSIONS),
-        new BuiltInVariant("3rd sub 9", this.INVERSIONS),
-        new BuiltInVariant("4th sub 9", this.INVERSIONS),
-        new BuiltInVariant("5th sub 9", this.INVERSIONS)
+        new BuiltInVariant("root", Constants.INVERSIONS),
+        new BuiltInVariant("1st", Constants.INVERSIONS),
+        new BuiltInVariant("2nd", Constants.INVERSIONS),
+        new BuiltInVariant("3rd", Constants.INVERSIONS),
+        new BuiltInVariant("4th", Constants.INVERSIONS),
+        new BuiltInVariant("5th", Constants.INVERSIONS),
+        new BuiltInVariant("root sub 9", Constants.INVERSIONS),
+        new BuiltInVariant("1st sub 9", Constants.INVERSIONS),
+        new BuiltInVariant("2nd sub 9", Constants.INVERSIONS),
+        new BuiltInVariant("3rd sub 9", Constants.INVERSIONS),
+        new BuiltInVariant("4th sub 9", Constants.INVERSIONS),
+        new BuiltInVariant("5th sub 9", Constants.INVERSIONS)
     ]
 
     static TRAVERSAL_VARIANTS = [
-        new BuiltInVariant("ascending", this.TRAVERSALS),
-        new BuiltInVariant("descending", this.TRAVERSALS),
-        new BuiltInVariant("asc/desc", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 2nds", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 3rds", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 4ths", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 5ths", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 6ths", this.TRAVERSALS),
-        new BuiltInVariant("diatonic 7ths", this.TRAVERSALS),
-        new BuiltInVariant("octaves", this.TRAVERSALS),
+        new BuiltInVariant("ascending", Constants.TRAVERSALS),
+        new BuiltInVariant("descending", Constants.TRAVERSALS),
+        new BuiltInVariant("asc/desc", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 2nds", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 3rds", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 4ths", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 5ths", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 6ths", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 7ths", Constants.TRAVERSALS),
+        new BuiltInVariant("octaves", Constants.TRAVERSALS),
     ]
 
     static STRING_VARIANTS = [
-        new BuiltInVariant("1st/highest", this.STRINGS),
-        new BuiltInVariant("2nd", this.STRINGS),
-        new BuiltInVariant("3rd", this.STRINGS),
-        new BuiltInVariant("4th", this.STRINGS),
-        new BuiltInVariant("5th", this.STRINGS),
-        new BuiltInVariant("6th", this.STRINGS),
-        new BuiltInVariant("7th", this.STRINGS),
-        new BuiltInVariant("8th", this.STRINGS)
+        new BuiltInVariant("1st/highest", Constants.STRINGS),
+        new BuiltInVariant("2nd", Constants.STRINGS),
+        new BuiltInVariant("3rd", Constants.STRINGS),
+        new BuiltInVariant("4th", Constants.STRINGS),
+        new BuiltInVariant("5th", Constants.STRINGS),
+        new BuiltInVariant("6th", Constants.STRINGS),
+        new BuiltInVariant("7th", Constants.STRINGS),
+        new BuiltInVariant("8th", Constants.STRINGS)
     ]
 
     static getBIV(category){
         switch(category){
-            case this.CHORDS:
+            case Constants.CHORDS:
                 return this.CHORD_VARIANTS;
-            case this.INTERVALS:
+            case Constants.INTERVALS:
                 return this.INTERVAL_VARIANTS;
-            case this.PERMUTATIONS:
+            case Constants.PERMUTATIONS:
                 return this.PERMUTATION_VARIANTS;
-            case this.SCALES:
+            case Constants.SCALES:
                 return this.SCALE_VARIANTS;
-            case this.INVERSIONS:
+            case Constants.INVERSIONS:
                 return this.INVERSION_VARIANTS;
-            case this.TRAVERSALS:
+            case Constants.TRAVERSALS:
                 return this.TRAVERSAL_VARIANTS;  
-            case this.STRINGS:  
+            case Constants.STRINGS:  
                 return this.STRING_VARIANTS;
             default:
                 return null;
@@ -145,21 +132,21 @@ export default class BuiltInVariants {
 
 
     static getAllGroups(){
-        let chords = customVariantSetRepository.getCustomVariantSetByCategory(this.CHORDS);
-        let intervals = customVariantSetRepository.getCustomVariantSetByCategory(this.INTERVALS);
-        let permutations = customVariantSetRepository.getCustomVariantSetByCategory(this.PERMUTATIONS);
-        let scales = customVariantSetRepository.getCustomVariantSetByCategory(this.SCALES);
-        let inversions = customVariantSetRepository.getCustomVariantSetByCategory(this.INVERSIONS);
-        let traversals = customVariantSetRepository.getCustomVariantSetByCategory(this.TRAVERSALS);
-        let strings = customVariantSetRepository.getCustomVariantSetByCategory(this.STRINGS);
+        let chords = customVariantSetRepository.getCustomVariantSetByCategory(Constants.CHORDS);
+        let intervals = customVariantSetRepository.getCustomVariantSetByCategory(Constants.INTERVALS);
+        let permutations = customVariantSetRepository.getCustomVariantSetByCategory(Constants.PERMUTATIONS);
+        let scales = customVariantSetRepository.getCustomVariantSetByCategory(Constants.SCALES);
+        let inversions = customVariantSetRepository.getCustomVariantSetByCategory(Constants.INVERSIONS);
+        let traversals = customVariantSetRepository.getCustomVariantSetByCategory(Constants.TRAVERSALS);
+        let strings = customVariantSetRepository.getCustomVariantSetByCategory(Constants.STRINGS);
         
-        chords = chords == undefined ? [] : chords.getNames().map(name => new BuiltInVariant(name, this.CHORDS));
-        intervals = intervals == undefined ? [] : intervals.getNames().map(name => new BuiltInVariant(name, this.INTERVALS));
-        permutations = permutations == undefined ? [] : permutations.getNames().map(name => new BuiltInVariant(name, this.PERMUTATIONS));
-        scales = scales == undefined ? [] : scales.getNames().map(name => new BuiltInVariant(name, this.SCALES));
-        inversions = inversions == undefined ? [] : inversions.getNames().map(name => new BuiltInVariant(name, this.INVERSIONS));
-        traversals = traversals == undefined ? [] : traversals.getNames().map(name => new BuiltInVariant(name, this.TRAVERSALS));
-        strings = strings == undefined ? [] : strings.getNames().map(name => new BuiltInVariant(name, this.STRINGS));
+        chords = chords == undefined ? [] : chords.getNames().map(name => new BuiltInVariant(name, Constants.CHORDS));
+        intervals = intervals == undefined ? [] : intervals.getNames().map(name => new BuiltInVariant(name, Constants.INTERVALS));
+        permutations = permutations == undefined ? [] : permutations.getNames().map(name => new BuiltInVariant(name, Constants.PERMUTATIONS));
+        scales = scales == undefined ? [] : scales.getNames().map(name => new BuiltInVariant(name, Constants.SCALES));
+        inversions = inversions == undefined ? [] : inversions.getNames().map(name => new BuiltInVariant(name, Constants.INVERSIONS));
+        traversals = traversals == undefined ? [] : traversals.getNames().map(name => new BuiltInVariant(name, Constants.TRAVERSALS));
+        strings = strings == undefined ? [] : strings.getNames().map(name => new BuiltInVariant(name, Constants.STRINGS));
 
         chords = chords.concat(this.CHORD_VARIANTS);
         intervals = intervals.concat(this.INTERVAL_VARIANTS);
@@ -171,32 +158,27 @@ export default class BuiltInVariants {
 
         // //TODO above are 7 lists of BuiltInVariants. For each list, for each BuiltInVariant that shares the same name with any other BuiltInVariant in any of the 7 lists, change the name to the current name plus the category name. For example, if there is a chord variant named "major" and a scale variant named "major", change the chord variant name to "major (chord)" and the scale variant name to "major (scale)".
 
-        // const variantLists = [chords, intervals, permutations, scales, inversions, traversals, strings];
-        // const categoryNames = ["CHORDS", "INTERVALS", "PERMUTATIONS", "SCALES", "INVERSIONS", "TRAVERSALS", "STRINGS"];
+        const variantLists = [chords, intervals, permutations, scales, inversions, traversals, strings];
+        const categoryNames = ["Chords", "Intervals", "Permutations", "Scales", "Inversions", "Traversals", "Strings"];
 
-        // const names = {};
-        // for (let i = 0; i < variantLists.length; i++) {
-        //     const variantList = variantLists[i];
-        //     const categoryName = categoryNames[i];
-        //     for (let j = 0; j < variantList.length; j++) {
-        //         const variant = variantList[j];
-        //         if (names[variant.name] != undefined) {
-        //             variant.name += ` (${categoryName})`;
-        //         } else {
-        //             names[variant.name] = true;
-        //         }
-        //     }
+        let ans = {}
+        for (let i = 0; i < variantLists.length; i++) {
+            ans[categoryNames[i]] = variantLists[i].map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category));
+        }
+
+        return ans;
+
+        // return {
+        //     CHORDS : chords.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     INTERVALS : intervals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     PERMUTATIONS : permutations.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     SCALES : scales.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     INVERSIONS : inversions.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     TRAVERSALS : traversals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+        //     STRINGS : strings.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category))
         // }
 
-        return {
-            CHORDS : chords.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            INTERVALS : intervals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            PERMUTATIONS : permutations.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            SCALES : scales.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            INVERSIONS : inversions.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            TRAVERSALS : traversals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
-            STRINGS : strings.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category))
-        }
+
     }
 
 

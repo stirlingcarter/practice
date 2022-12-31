@@ -24,7 +24,6 @@ export default class CustomVariantSetRepository {
             return customVariantSet;
         } catch (error) {
             alert(error.message);
-            return error.message    
         }
         
     }
@@ -43,18 +42,27 @@ export default class CustomVariantSetRepository {
     saveCustomVariantSet(customVariantSet) {
         try { 
             this.storage.set(this.PATH + "/" + customVariantSet.getCategory(), JSON.stringify(customVariantSet));
+            let current = this.getCustomVariantSetByCategory(customVariantSet.getCategory())
+
         } catch (error) {
             alert("error saving custom variant: " + error.message);
         }
     }
 
     removeVariant(category, variantName) {
+        if (category == null || category == undefined){
+            return null
+        }
         let current = this.getCustomVariantSetByCategory(category)
         if (current == null){
             return null
         }
+        
+
         current.removeName(variantName)
+
         this.saveCustomVariantSet(current)
+        let fin = this.getCustomVariantSetByCategory(category)
         return null
     }
 

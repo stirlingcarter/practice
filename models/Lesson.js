@@ -50,7 +50,7 @@ export default class Lesson {
 
     getVHashesFromVariants(){
         let combinedVariants = this.getCombinedVariants(this.v, this.v2)
-        return this.getCombinedVariants(Constants.NOTES, combinedVariants)    
+        return this.getCombinedVariants(Constants.ALL_NOTES, combinedVariants)    
     }
 
     getCombinedVariants(v, v2) {

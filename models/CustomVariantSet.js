@@ -17,7 +17,7 @@ export default class CustomVariantSet {
     }
 
     removeName(name){
-        this.names = this.names.filter((item) => item !== name)
+        this.names = this.names.filter((item) => item != name)
     }
 
     addName(name){

@@ -24,6 +24,19 @@ export default class Util {
         return JSON.parse(JSON.stringify(o))
     }
 
+    static toTitleCase(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    
+    }
+
+    static getNoParens(s) {
+        let index = s.indexOf("(");
+        if (index === -1) {
+          return s;
+        }
+        return s.slice(0, index);
+      }
+
     static getNamesOfVariantsFromVHashes(vHashes) {
         if (!vHashes[0].includes("$")){
             return [vHashes]
@@ -133,5 +146,57 @@ export default class Util {
     static getRandomFromArray(items){
         return items == undefined || items.length == 0 ? "" : items[Math.floor(Math.random()*items.length)];
     }
+
+    static getNoParensForEachInListsIfNoDupe(names, names2) {
+
+        //temporariily disable this
+        return [names,names2]
+
+        let uniqueNames = {}
+        let result = [];
+        let result2 = [];
+
+        if (names != undefined){
+          names.forEach(name => {
+          let index = name.indexOf("(");
+          if (index === -1) {
+            result.push(name);
+            uniqueNames[name] = true;
+          }else {
+            let strippedName = name.slice(0, index).trim();
+          if (uniqueNames[strippedName] == undefined) {
+            result.push(strippedName);
+            uniqueNames[strippedName] = true;
+          } else {
+            result.push(name);
+          }
+          }
+
+        })
+        }
+        
+
+        if (names2 != undefined){
+            names2.forEach(name => {
+            let index = name.indexOf("(");
+            if (index === -1) {
+              result2.push(name);
+              uniqueNames[name] = true;
+            }else {
+              let strippedName = name.slice(0, index).trim();
+            if (uniqueNames[strippedName] == undefined) {
+              result2.push(strippedName);
+              uniqueNames[strippedName] = true;
+            } else {
+              result2.push(name);
+            }
+            }
+  
+          })
+          }
+
+        
+        return [result, result2];
+      }
 
 }

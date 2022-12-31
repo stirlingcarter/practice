@@ -22,8 +22,6 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
         };
         this.handleVariantSelect = this.handleVariantSelect.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
-
-
     }
 
     handleVariantSelect(variant) {
@@ -59,7 +57,7 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
         let BIVs = BuiltInVariants.getBIV(category)
         let BIVsNameSet = BIVs.map(v => v.getName())
 
-
+        
 
         let cstyle = allTheStyles.addVariantDone
 
@@ -93,7 +91,7 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                 {BIVs != undefined && BIVs.map(v => v.getName()).filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
                     <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
                 ))}
-
+                
 
                 {customNameSet.length > 0 && customNameSet.filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
                     <View>
@@ -105,7 +103,9 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                             this.setState({ chosenVariants: newChosen });
                             this.props.cb(this.state.chosenVariants)
                         }
+                        alert("before" + category)
                         customVariantSetRepository.removeVariant(this.props.category, variant)
+                        alert("after" + JSON.stringify(customVariantSetRepository.getCustomVariantSetByCategory(this.props.category).getNames()))
                         this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {cb: this.props.cb, category: this.props.category, alreadyChosen: this.state.chosenVariants, path: this.props.path})
                         }}>{"🗑️"}</Text>
                         </View>
