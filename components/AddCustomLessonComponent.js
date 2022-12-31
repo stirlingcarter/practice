@@ -50,6 +50,7 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
+    alert("l" + variants)
     this.setState({ variants: variants })
   }
 

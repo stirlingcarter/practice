@@ -50,8 +50,10 @@ export class AddVariantGroupComponent extends React.Component {
         let variants = BuiltInVariants.getAllGroups()[category].map(v => v.getName())
         for (let i = 0; i < variants.length; i++) {
             if (!this.state.chosenVariants.includes(variants[i])) {
-                this.setState({ chosenVariants: this.state.chosenVariants.concat(variants.filter(v => !this.state.chosenVariants.includes(v))) });
-                this.props.cb(this.state.chosenVariants)
+                let newVariants = this.state.chosenVariants.concat(variants.filter(v => !this.state.chosenVariants.includes(v)))
+                this.setState({ chosenVariants: newVariants});
+                alert("bef" + newVariants)
+                this.props.cb(newVariants)
                 return
             }
 
@@ -67,7 +69,7 @@ export class AddVariantGroupComponent extends React.Component {
 
 
         this.setState({ chosenVariants: newChosen });
-        this.props.cb(this.state.chosenVariants)
+        this.props.cb(newChosen)
     }
 
 
@@ -134,14 +136,6 @@ export class AddVariantGroupComponent extends React.Component {
                     this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path })
                 }} style={allTheStyles.filterRowRight}>{"Create"}</Text>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
-
-                    {/* <FlatList
-                        data={Object.keys(BuiltInVariants.getAllGroups())}
-                        renderItem={({ item }) => (
-                            <VariantCategoryComponent nav={this.props.nav} categoryName={item} cb={this.handleChosenVariantsChange} green={this.props.green} alreadyChosen={this.props.alreadyChosen}
-                                variants={this.state.filter == undefined || this.state.filter.length == 0 ? BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()) : BuiltInVariants.getAllGroups()[item].filter(variant => variant.getName().toLowerCase().includes(this.state.filter.toLowerCase()) || variant.getCategory().toLowerCase().includes(this.state.filter.toLowerCase()))} />
-                        )}
-                        keyExtractor={(item, index) => index.toString()} /> */}
                     {Object.keys(BuiltInVariants.getAllGroups()).map(category => (
                         <View>
                             <Text onPress={
