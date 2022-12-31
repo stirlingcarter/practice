@@ -39,6 +39,7 @@ export class LessonLaunchComponent extends React.Component {
             onPress={() => this.props.nav.navigate("LessonChallengeScreen", {
               lesson: this.lesson,
               groupName: this.props.path,
+              type: this.lesson.getType(),
             })}
           >
             {"\n\n\nSTART"}

@@ -225,9 +225,9 @@ export default class FluencyGen {
                 chords.forEach(chord => {
                     lessonName = 'Chords ' + (i++)
                     if (Constants.CHORDS_3.includes(chord)) {
-                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 1st, root' + inversions, 1, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 1st, root', 1, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
-                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 3rd, 2nd, 1st, root' + inversions, 1, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 3rd, 2nd, 1st, root', 1, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })
                 lessonName = 'Chords ' + (i++)
