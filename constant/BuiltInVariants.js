@@ -38,7 +38,7 @@ export default class BuiltInVariants {
     ]
 
     static PERMUTATION_VARIANTS = [
-        new BuiltInVariant("1234567", this.PERMUTATIONS)
+        new BuiltInVariant("normal", this.PERMUTATIONS)
     ]
 
     static INTERVAL_VARIANTS = [

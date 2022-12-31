@@ -59,6 +59,7 @@ export class FluencyRequirementsComponent extends React.Component {
 
     handleScalePermutationsChange(permutations) {
         this.setState({ selectedScalePermutations: permutations });
+        
     }
 
     handleChordInversionsChange(inversions) {
@@ -224,9 +225,16 @@ export class FluencyRequirementsComponent extends React.Component {
                     {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: BuiltInVariants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
 
                     <Text style={allTheStyles.addVariantDone} onPress={() => {
-                        this.generate(isChordal)
-                        this.props.cb()
-                        this.props.nav.navigate("GroupScreen", { path: Path.plus("Instruments",TreeUtils.getInstrumentFromPath(this.props.path))})
+                        if (this.state.selectedScales.length != 0 && this.state.selectedScalePermutations.length == 0) {
+                            alert("You must choose at least one scale permutation")
+                        }else{
+                            if (this.state.selectedChords.length == 0){
+                                alert("No chords chosen, no arp or chord exercises will be generated")
+                            }
+                            this.generate(isChordal)
+                            this.props.cb()
+                            this.props.nav.navigate("GroupScreen", { path: Path.plus("Instruments",TreeUtils.getInstrumentFromPath(this.props.path))})
+                        }
                     }}>{"GEN"}</Text>
 
                 </ScrollView>

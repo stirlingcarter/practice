@@ -27,7 +27,6 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
     }
 
     handleVariantSelect(variant) {
-    
         let newChosenVariants = this.state.chosenVariants
         newChosenVariants = newChosenVariants == undefined ? [] : newChosenVariants
         if (newChosenVariants.length != 0 && newChosenVariants.includes(variant)) {
