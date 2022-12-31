@@ -11,6 +11,7 @@ import {
 import { allTheStyles } from "../styles/allTheStyles.js"
 import BuiltInVariants from "../constant/BuiltInVariants";
 import { VariantCategoryComponent } from "./VariantCategoryComponent";
+import Constants from "../constant/Constants.js";
 
 export class AddVariantGroupComponent extends React.Component {
 
@@ -19,29 +20,36 @@ export class AddVariantGroupComponent extends React.Component {
         this.state = {
             chosenVariants: this.props.alreadyChosen
         };
-        this.handleChosenVariantsChange = this.handleChosenVariantsChange.bind(this);
+        this.handleVariantSelect = this.handleVariantSelect.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
 
 
     }
 
-    handleChosenVariantsChange(chosenVariant) {
+    handleVariantSelect(variant) {
         let newChosenVariants = this.state.chosenVariants
-        if (newChosenVariants != undefined && newChosenVariants.includes(chosenVariant)) {
-            newChosenVariants.splice(newChosenVariants.indexOf(chosenVariant), 1)
+        newChosenVariants = newChosenVariants == undefined ? [] : newChosenVariants
+        if (newChosenVariants.length != 0 && newChosenVariants.includes(variant)) {
+            newChosenVariants.splice(newChosenVariants.indexOf(variant), 1)
         } else {
-            if (newChosenVariants == undefined) {
-                newChosenVariants = [chosenVariant]
+            if (newChosenVariants.length == 0) {
+                newChosenVariants = [variant]
             } else {
-                newChosenVariants.push(chosenVariant)
+                newChosenVariants.push(variant)
             }
 
         }
         this.setState({ chosenVariants: newChosenVariants });
+        this.props.cb(newChosenVariants)
     }
 
     handleFilterChange(filter) {
         this.setState({ filter });
+    }
+
+    handleCategoryChange(category) {
+        this.setState({ category });
     }
 
     getPrefix(variant) {
@@ -60,6 +68,9 @@ export class AddVariantGroupComponent extends React.Component {
 
 
     render() {
+
+        let init = allTheStyles.highlighteableOption
+        let green = allTheStyles.highlighteableOptionGreen
         let cstyle = allTheStyles.addVariantDone
         if (!this.props.green) {
             cstyle = allTheStyles.addVariantDoneBlue
@@ -83,16 +94,44 @@ export class AddVariantGroupComponent extends React.Component {
                     multiline={true}
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
-                <Text onPress={()=>{BuiltInVariants.saveNewCustomVariantByCategoryAndName(BuiltInVariants.CHORDS, this.state.filter)
-                this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path})}} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).toLowerCase().includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
+                <TextInput
+                    style={allTheStyles.filterRow}
+                    onBlur={Keyboard.dismiss}
+                    placeholder="Category"
+                    placeholderTextColor="#333333"
+                    multiline={true}
+                    value={this.state.filter}
+                    onChangeText={this.handleCategoryChange} />
+                <Text onPress={() => {
+                    BuiltInVariants.saveNewCustomVariantByCategoryAndName(BuiltInVariants.CHORDS, this.state.filter)
+                    this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path })
+                }} style={allTheStyles.filterRowRight}>{"Create"}</Text>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
-                    <FlatList
+
+                    {/* <FlatList
                         data={Object.keys(BuiltInVariants.getAllGroups())}
                         renderItem={({ item }) => (
                             <VariantCategoryComponent nav={this.props.nav} categoryName={item} cb={this.handleChosenVariantsChange} green={this.props.green} alreadyChosen={this.props.alreadyChosen}
-                                variants={this.state.filter == undefined || this.state.filter.length == 0 ? BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()) : BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()).filter(variant => variant.toLowerCase().includes(this.state.filter.toLowerCase()))} />
+                                variants={this.state.filter == undefined || this.state.filter.length == 0 ? BuiltInVariants.getAllGroups()[item].map(builtin => builtin.getName()) : BuiltInVariants.getAllGroups()[item].filter(variant => variant.getName().toLowerCase().includes(this.state.filter.toLowerCase()) || variant.getCategory().toLowerCase().includes(this.state.filter.toLowerCase()))} />
                         )}
-                        keyExtractor={(item, index) => index.toString()} />
+                        keyExtractor={(item, index) => index.toString()} /> */}
+                    {Object.keys(BuiltInVariants.getAllGroups()).map(category => (
+                        <View>
+                            <Text onPress={
+                                () => {
+                                    BuiltInVariants.getAllGroups()[category].map(biv => biv.getName()).forEach(variant => this.handleVariantSelect(variant))
+                                }
+                            } style={allTheStyles.filterRow}>{category}</Text>
+                            <FlatList
+                                data={BuiltInVariants.getAllGroups()[category].map(biv => biv.getName())}
+                                renderItem={({ item }) => (
+                                    <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{item}</Text>
+
+                                )}
+                                keyExtractor={(item, index) => index.toString()} />
+                        </View>))}
+
+
 
 
                     <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>

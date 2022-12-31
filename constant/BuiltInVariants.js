@@ -3,6 +3,7 @@ import { MMKV } from "react-native-mmkv";
 import { elementsThatOverlapOffsets } from "react-native/Libraries/Lists/VirtualizeUtils";
 import { customVariantSetRepository } from "../App";
 
+
 export default class BuiltInVariants {
 
     static INTERVALS = "Intervals"
@@ -144,18 +145,60 @@ export default class BuiltInVariants {
 
 
     static getAllGroups(){
-        let cv = this.getCustomVariants()
+        let chords = customVariantSetRepository.getCustomVariantSetByCategory(this.CHORDS);
+        let intervals = customVariantSetRepository.getCustomVariantSetByCategory(this.INTERVALS);
+        let permutations = customVariantSetRepository.getCustomVariantSetByCategory(this.PERMUTATIONS);
+        let scales = customVariantSetRepository.getCustomVariantSetByCategory(this.SCALES);
+        let inversions = customVariantSetRepository.getCustomVariantSetByCategory(this.INVERSIONS);
+        let traversals = customVariantSetRepository.getCustomVariantSetByCategory(this.TRAVERSALS);
+        let strings = customVariantSetRepository.getCustomVariantSetByCategory(this.STRINGS);
+        
+        chords = chords == undefined ? [] : chords.getNames().map(name => new BuiltInVariant(name, this.CHORDS));
+        intervals = intervals == undefined ? [] : intervals.getNames().map(name => new BuiltInVariant(name, this.INTERVALS));
+        permutations = permutations == undefined ? [] : permutations.getNames().map(name => new BuiltInVariant(name, this.PERMUTATIONS));
+        scales = scales == undefined ? [] : scales.getNames().map(name => new BuiltInVariant(name, this.SCALES));
+        inversions = inversions == undefined ? [] : inversions.getNames().map(name => new BuiltInVariant(name, this.INVERSIONS));
+        traversals = traversals == undefined ? [] : traversals.getNames().map(name => new BuiltInVariant(name, this.TRAVERSALS));
+        strings = strings == undefined ? [] : strings.getNames().map(name => new BuiltInVariant(name, this.STRINGS));
+
+        chords = chords.concat(this.CHORD_VARIANTS);
+        intervals = intervals.concat(this.INTERVAL_VARIANTS);
+        permutations = permutations.concat(this.PERMUTATION_VARIANTS);
+        scales = scales.concat(this.SCALE_VARIANTS);
+        inversions = inversions.concat(this.INVERSION_VARIANTS);
+        traversals = traversals.concat(this.TRAVERSAL_VARIANTS);
+        strings = strings.concat(this.STRING_VARIANTS);
+
+        // //TODO above are 7 lists of BuiltInVariants. For each list, for each BuiltInVariant that shares the same name with any other BuiltInVariant in any of the 7 lists, change the name to the current name plus the category name. For example, if there is a chord variant named "major" and a scale variant named "major", change the chord variant name to "major (chord)" and the scale variant name to "major (scale)".
+
+        // const variantLists = [chords, intervals, permutations, scales, inversions, traversals, strings];
+        // const categoryNames = ["CHORDS", "INTERVALS", "PERMUTATIONS", "SCALES", "INVERSIONS", "TRAVERSALS", "STRINGS"];
+
+        // const names = {};
+        // for (let i = 0; i < variantLists.length; i++) {
+        //     const variantList = variantLists[i];
+        //     const categoryName = categoryNames[i];
+        //     for (let j = 0; j < variantList.length; j++) {
+        //         const variant = variantList[j];
+        //         if (names[variant.name] != undefined) {
+        //             variant.name += ` (${categoryName})`;
+        //         } else {
+        //             names[variant.name] = true;
+        //         }
+        //     }
+        // }
+
         return {
-            CUSTOM : cv == undefined ? [new BuiltInVariant("test", this.CUSTOM)] : cv.map(name => new BuiltInVariant(name, this.CUSTOM)),
-            CHORDS : this.CHORD_VARIANTS,
-            INTERVALS : this.INTERVAL_VARIANTS,
-            PERMUTATIONS: this.PERMUTATION_VARIANTS,
-            SCALES : this.SCALE_VARIANTS,
-            INVERSIONS : this.INVERSION_VARIANTS,
-            TRAVERSALS : this.TRAVERSAL_VARIANTS,
-            STRINGS : this.STRING_VARIANTS,
+            CHORDS : chords.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            INTERVALS : intervals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            PERMUTATIONS : permutations.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            SCALES : scales.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            INVERSIONS : inversions.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            TRAVERSALS : traversals.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category)),
+            STRINGS : strings.map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category))
         }
     }
+
 
 }
 

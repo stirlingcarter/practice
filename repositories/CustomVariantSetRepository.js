@@ -15,12 +15,11 @@ export default class CustomVariantSetRepository {
         try {
             let retrievedItem = this.storage.getString(this.PATH + "/" + category)
             if (retrievedItem == undefined){
-                alert("error: no custom variant set for " + category)
-                return null;
+                return undefined
             }
             let customVariantSet = CustomVariantSet.fromJSONStringified(retrievedItem)
             if (customVariantSet == null){
-                alert("error: no custom variant set for " + category)
+                return undefined
             }
             return customVariantSet;
         } catch (error) {
