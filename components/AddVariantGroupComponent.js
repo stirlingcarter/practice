@@ -18,11 +18,12 @@ export class AddVariantGroupComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chosenVariants: this.props.alreadyChosen
+            chosenVariants: this.props.alreadyChosen == undefined ? [] : this.props.alreadyChosen
         };
         this.handleVariantSelect = this.handleVariantSelect.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
+        this.handleSelectAll = this.handleSelectAll.bind(this);
 
 
     }
@@ -43,6 +44,32 @@ export class AddVariantGroupComponent extends React.Component {
         this.setState({ chosenVariants: newChosenVariants });
         this.props.cb(newChosenVariants)
     }
+
+    handleSelectAll(category) {
+
+        let variants = BuiltInVariants.getAllGroups()[category].map(v => v.getName())
+        for (let i = 0; i < variants.length; i++) {
+            if (!this.state.chosenVariants.includes(variants[i])) {
+                this.setState({ chosenVariants: this.state.chosenVariants.concat(variants.filter(v => !this.state.chosenVariants.includes(v))) });
+                this.props.cb(this.state.chosenVariants)
+                return
+            }
+
+        }
+
+        let newChosen = this.state.chosenVariants;
+        variants.forEach(v => {
+            const index = newChosen.indexOf(v);
+            if (index > -1) {
+                newChosen.splice(index, 1);
+            }
+        })
+
+
+        this.setState({ chosenVariants: newChosen });
+        this.props.cb(this.state.chosenVariants)
+    }
+
 
     handleFilterChange(filter) {
         this.setState({ filter });
@@ -104,7 +131,7 @@ export class AddVariantGroupComponent extends React.Component {
                     onChangeText={this.handleCategoryChange} />
                 <Text onPress={() => {
                     BuiltInVariants.saveNewCustomVariantByCategoryAndName(BuiltInVariants.CHORDS, this.state.filter)
-                    this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, green: this.props.green, alreadyChosen: this.props.alreadyChosen, path: this.props.path })
+                    this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path })
                 }} style={allTheStyles.filterRowRight}>{"Create"}</Text>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
 
@@ -119,7 +146,7 @@ export class AddVariantGroupComponent extends React.Component {
                         <View>
                             <Text onPress={
                                 () => {
-                                    BuiltInVariants.getAllGroups()[category].map(biv => biv.getName()).forEach(variant => this.handleVariantSelect(variant))
+                                    this.handleSelectAll(category)
                                 }
                             } style={allTheStyles.filterRow}>{category}</Text>
                             <FlatList
