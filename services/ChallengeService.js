@@ -34,15 +34,15 @@ export default class ChallengeService {
     let vHashes = lesson.getVHashes()
     for (let i = 0; i < vHashes.length; i++) {
       let vHash = vHashes[i]
-      let tries = lesson.getTimesByVHash(vHash)
       let bpms = lesson.getBPMsByVHash(vHash)
 
-      if (Util.removeNonTargetBpm(tries, bpms, bpm).length == 0) {
+      if (bpms[bpms.length - 1] != bpm) {
         return vHash
+      }
     }
     return undefined
   }
-}
+
     
 
   static STRATS = {
@@ -74,7 +74,6 @@ export default class ChallengeService {
     if (Util.removeNonTargetBpm(tries,bpms, cur).length != lesson.getVHashes().length) { //if the slice is not all target bpm
       return cur //(this keeps it the same) harsh but gotta blow thru it all without leveling down to level up
     }
-    alert("res: " + res)
     let count = { 1: 0, 2: 0, 3: 0, 4: 0 };//ok at this point we have a slice of all target bpm so lets see how many 1s, 2s, 3s, 4+s there are
     tries.forEach(function(number) {
       if (number > 3) {

@@ -138,7 +138,6 @@ export default class StatService {
       aggTries = aggTries.concat(addandT)
       aggBPM = aggBPM.concat(addandB)
     }
-    alert("aggTries: " + aggTries + " aggBPM: " + aggBPM)
     return [aggTries, aggBPM]
   }
 

@@ -50,7 +50,6 @@ export class ChallengeComponent extends React.Component {
             let newBPM = this.state.bpm
             if (this.props.auto){
               newBPM = challengeService.reccommendBPM(this.lesson)
-              alert("Your new BPM is " + newBPM)
               this.lesson.setCompletedBPM(newBPM)//mostly this will be the same and do nothing. but sometimes it will be one more or less if youre doing well or poorly, and it will update the lesson
               this.lesson.setBPM(newBPM)
               lessonRepository.save(this.lesson)

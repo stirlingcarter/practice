@@ -1,4 +1,3 @@
-import { getModeForResolutionAtIndex } from "typescript";
 import { groupRepository, lessonRepository } from "../App";
 import BuiltInVariant from "./BuiltInVariant";
 import BuiltInVariants from "../constant/BuiltInVariants";
