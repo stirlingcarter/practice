@@ -131,6 +131,7 @@ export class FluencyRequirementsComponent extends React.Component {
             TreeUtils.getInstrumentFromPath(this.props.path)
         )
         let gen = new FluencyGen(fgInput)
+        
         gen.generateGroups()
     }
 

@@ -33,7 +33,6 @@ export default class LessonRepository {
   }
 
   save(lesson) {
-
     try {
       this.storage.set(lesson.getPath(), JSON.stringify(lesson));
     } catch (error) {

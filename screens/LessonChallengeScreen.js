@@ -6,6 +6,7 @@ export function LessonChallengeScreen({ route, navigation }) {
   const { groupName } = route.params;
   const { type } = route.params;
   const { bpm } = route.params;
+  const { auto } = route.params;
 
-  return <ChallengeComponent nav={navigation} lesson={lesson} groupName={groupName} type={type} bpm={bpm} />;
+  return <ChallengeComponent nav={navigation} lesson={lesson} groupName={groupName} type={type} bpm={bpm} auto={auto}/>;
 }

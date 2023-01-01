@@ -21,7 +21,14 @@ export default class Util {
     }
 
     static copyOf(o) {
-        return JSON.parse(JSON.stringify(o))
+        try {
+            return JSON.parse(JSON.stringify(o));
+          } catch (error) {
+            // handle the error here
+            alert("Error in Util.copyOf: " + error)
+            alert("Object: " + o)
+          }
+          
     }
 
     static toTitleCase(s) {
@@ -146,6 +153,55 @@ export default class Util {
     static getRandomFromArray(items){
         return items == undefined || items.length == 0 ? "" : items[Math.floor(Math.random()*items.length)];
     }
+
+    static getUniqueNumbersDesc(numbers) {
+        // Create an empty object to store the unique numbers
+        const uniqueNumbers = {};
+        // Loop through the numbers array and add each number to the object
+        numbers.forEach(number => {
+          uniqueNumbers[number] = true;
+        });
+        // Convert the object to an array and sort it in descending order
+        return Object.keys(uniqueNumbers).sort((a, b) => b - a);
+      }
+
+    static getLargestBPMWith3TriesOrLess(tries, bpms) {
+        let uniqueBpms = Util.getUniqueNumbersDesc(bpms);
+        for (let i = 0; i < uniqueBpms.length; i++) {
+            let bpm = uniqueBpms[i];
+            let triesWithBpm = Util.removeNonTargetBpm(tries, bpms, bpm);
+            //if any of the tries < 4, return this bpm
+            for (let i = 0; i < triesWithBpm.length; i++) {
+                if (triesWithBpm[i] < 4) {
+                    return bpm;
+                }
+            }
+        }
+        return null;
+    }
+      
+
+    static removeNonTargetBpm(tries, bpms, target) {
+        return tries.filter((_, i) => bpms[i] == target)
+      }
+
+      static getMostCommonNumber(numbers) {
+        let count = {};
+        let maxNumber = null;
+        let maxCount = 0;
+        numbers.forEach(function(number) {
+          if (number in count) {
+            count[number]++;
+          } else {
+            count[number] = 1;
+          }
+          if (count[number] > maxCount) {
+            maxNumber = number;
+            maxCount = count[number];
+          }
+        });
+        return maxNumber;
+      }
 
     static getNoParensForEachInListsIfNoDupe(names, names2) {
 

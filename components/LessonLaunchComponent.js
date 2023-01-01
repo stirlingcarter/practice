@@ -15,7 +15,7 @@ export class LessonLaunchComponent extends React.Component {
     this.add = this.add.bind(this);
     this.subtract = this.subtract.bind(this);
     this.handleAutoToggle = this.handleAutoToggle.bind(this);
-
+    this.updateLessonBPM = this.updateLessonBPM.bind(this);
     let lesson = lessonRepository.getLessonByPath(this.props.path)
 
     let recc = challengeService.reccommendBPM(lesson)
@@ -40,6 +40,15 @@ export class LessonLaunchComponent extends React.Component {
     this.setState({
       bpm: this.state.bpm + 1
     })
+
+    this.updateLessonBPM(1)
+    
+  }
+
+  updateLessonBPM(n){
+    let newLesson = this.state.lesson
+    newLesson.setBPM(this.state.bpm + n)
+    lessonRepository.save(newLesson)
   }
 
   subtract(){
@@ -52,13 +61,18 @@ export class LessonLaunchComponent extends React.Component {
     this.setState({
       bpm: this.state.bpm - 1
     })
+
+    this.updateLessonBPM(-1)
   }
 
   handleAutoToggle()  {
-    if (!this.state.auto){
+    if (!this.state.auto){//if we are turning auto on
+      let newBPM = challengeService.reccommendBPM(this.state.lesson)
+      let diff = newBPM - this.state.bpm
       this.setState({
-        bpm: challengeService.reccommendBPM(this.state.lesson)
+        bpm: newBPM
       })
+      this.updateLessonBPM(diff)
     }
     this.setState({
       auto: !this.state.auto
@@ -112,9 +126,6 @@ export class LessonLaunchComponent extends React.Component {
         {" Auto"}
       </Text>
         </View>
-          
-
-
       </View>
   }
 
@@ -129,7 +140,8 @@ export class LessonLaunchComponent extends React.Component {
               lesson: this.state.lesson,
               groupName: this.props.path,
               type: this.state.lesson.getType(),
-              bpm: this.state.bpm
+              bpm: this.state.bpm,
+              auto: this.state.auto
             })}
           >
             {"\n\n\nSTART"}
@@ -139,7 +151,7 @@ export class LessonLaunchComponent extends React.Component {
             title={"start " + this.props.lessonName}
             onPress={() => this.props.nav.navigate("LessonStatsScreen", {
               lesson: this.state.lesson,
-              path: this.props.path,
+              path: this.props.path
             })}
           >
             {"\n\n\nSTATS"}

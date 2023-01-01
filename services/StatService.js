@@ -17,7 +17,7 @@ export default class StatService {
   */
   getSlowestVHash(window, lesson) {
     let vHashes = lesson.getVHashes()
-
+      
     if (RANDOM_FIRST_RUN) {
       let unvisitedVHashes = lesson.getVHashes().filter(vHash => lesson.isEmpty(vHash))
       if (unvisitedVHashes.length > 0) {
@@ -123,6 +123,23 @@ export default class StatService {
   getRandomVHash(lesson) {
     let vHashes = lesson.getVHashes()
     return vHashes[Math.floor(Math.random() * vHashes.length)]
+  }
+
+  getLastNSliceFromEachVHashAndAggregate(n, lesson) {
+    let allVHashes = lesson.getVHashes()
+    let aggBPM = []
+    let aggTries = []
+    for (vHash of allVHashes) {
+      let addandT = lesson.getTimesByVHash(vHash).slice(-n)
+      let addandB = lesson.getBPMsByVHash(vHash).slice(-n)
+      if (addandT.length < 1) {
+        return undefined //if any vHash is empty, return empty array to indicate not enough data
+      }
+      aggTries = aggTries.concat(addandT)
+      aggBPM = aggBPM.concat(addandB)
+    }
+    alert("aggTries: " + aggTries + " aggBPM: " + aggBPM)
+    return [aggTries, aggBPM]
   }
 
 }

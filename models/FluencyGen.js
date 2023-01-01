@@ -39,11 +39,11 @@ export default class FluencyGen {
 
         this.FLUENCY_ROOT = Path.plus(this.INSTRUMENT_ROOT, this.name);
 
-        this.NOTES_LEVEL = Path.plus(this.FLUENCY_ROOT, BuiltInVariants.NOTES)
-        this.CHORDS_LEVEL = Path.plus(this.FLUENCY_ROOT, BuiltInVariants.CHORDS)
-        this.ARPS_LEVEL = Path.plus(this.FLUENCY_ROOT, BuiltInVariants.ARPEGGIOS)
-        this.INTERVALS_LEVEL = Path.plus(this.FLUENCY_ROOT, BuiltInVariants.INTERVALS)
-        this.SCALES_LEVEL = Path.plus(this.FLUENCY_ROOT, BuiltInVariants.SCALES)
+        this.NOTES_LEVEL = Path.plus(this.FLUENCY_ROOT, Constants.NOTES)
+        this.CHORDS_LEVEL = Path.plus(this.FLUENCY_ROOT, Constants.CHORDS)
+        this.ARPS_LEVEL = Path.plus(this.FLUENCY_ROOT, Constants.ARPEGGIOS)
+        this.INTERVALS_LEVEL = Path.plus(this.FLUENCY_ROOT, Constants.INTERVALS)
+        this.SCALES_LEVEL = Path.plus(this.FLUENCY_ROOT, Constants.SCALES)
     }
 
     generateGroups() {
@@ -93,6 +93,7 @@ export default class FluencyGen {
         } catch (e) {
             alert("error generating ScalesGroup " + e.message)
         }
+        groups.forEach(g => alert(g.toString()))
 
         try {
             let group = new Group(this.name, 'Fluency course', [], groups.map(g => g.getName()), this.FLUENCY_ROOT)
@@ -112,7 +113,7 @@ export default class FluencyGen {
         let notes = this.fgInput.getNotes();
         let description = 'Notes fluency'
         let lessons = this.generateLessonsForNotes(this.fgInput.getInstrument(), notes)
-        let group = new Group(BuiltInVariants.NOTES, description, lessons.map(l => l.getName()), [], this.NOTES_LEVEL)
+        let group = new Group(Constants.NOTES, description, lessons.map(l => l.getName()), [], this.NOTES_LEVEL)
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group;
@@ -149,7 +150,7 @@ export default class FluencyGen {
 
         let description = 'Interval fluency'
         let lessons = this.generateLessonsForIntervals(this.fgInput.getInstrument(), intervals)
-        let group = new Group(BuiltInVariants.INTERVALS, description, lessons.map(l => l.getName()), [], this.INTERVALS_LEVEL)
+        let group = new Group(Constants.INTERVALS, description, lessons.map(l => l.getName()), [], this.INTERVALS_LEVEL)
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group;    
@@ -209,7 +210,7 @@ export default class FluencyGen {
         }
         let description = 'Chords fluency'
         let lessons = this.generateLessonsForChords(this.fgInput.getInstrument(), chords)
-        let group = new Group(BuiltInVariants.CHORDS, description, lessons.map(l => l.getName()), [], this.CHORDS_LEVEL)
+        let group = new Group(Constants.CHORDS, description, lessons.map(l => l.getName()), [], this.CHORDS_LEVEL)
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group;        
@@ -265,7 +266,7 @@ export default class FluencyGen {
         let description = 'Scales fluency'
         let lessons = this.generateLessonsForScales(this.fgInput.getInstrument(), scales)
         alert(this.SCALES_LEVEL)
-        let group = new Group(BuiltInVariants.SCALES, description, lessons.map(l => l.getName()), [], this.SCALES_LEVEL);
+        let group = new Group(Constants.SCALES, description, lessons.map(l => l.getName()), [], this.SCALES_LEVEL);
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group; 
@@ -310,7 +311,7 @@ export default class FluencyGen {
         }
         let description = 'Arps fluency'
         let lessons = this.generateLessonsForArps(this.fgInput.getInstrument(), chords)
-        let group = new Group(BuiltInVariants.ARPEGGIOS, description, lessons.map(l => l.getName()), [], this.ARPS_LEVEL);
+        let group = new Group(Constants.ARPEGGIOS, description, lessons.map(l => l.getName()), [], this.ARPS_LEVEL);
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group; 

@@ -25,6 +25,8 @@ export default class Lesson {
         // B$dom$LH" : [60,60,61,61,61...],...
     }
 
+    completedBPM = Constants.DEFAULT_STARTING_BPM
+
     constructor(name, criteria, goal, v, v2, dataset, path, type) {
         this.name = name
         this.criteria = criteria
@@ -34,6 +36,8 @@ export default class Lesson {
         if (dataset == undefined || Object.keys(dataset).length == 0){
           this.vHashes = this.getVHashesFromVariants()
           this.dataset = this.getDatasetFromVHashes()
+          this.bpms = this.getDatasetFromVHashes()
+
         } else{
             this.dataset = dataset
             this.vHashes = Object.keys(dataset)
@@ -85,6 +89,10 @@ export default class Lesson {
         return Util.copyOf(this.dataset[vHash])
     }
 
+    getBPMsByVHash(vHash) {
+        return Util.copyOf(this.bpms[vHash])
+    }
+
     isEmpty(vHash) {
         return this.dataset[vHash] == undefined || this.dataset[vHash].length == 0
     }
@@ -100,9 +108,23 @@ export default class Lesson {
         return this.path
     }
 
+
+    getCompletedBPM() {
+        return this.completedBPM
+    }
+
+    setCompletedBPM(bpm) {
+        this.completedBPM = bpm
+    }
+
     getBPM() {
         return this.bpm
     }
+
+    setBPM(bpm) {
+        this.bpm = bpm
+    }
+
 
     getBPMs() {
         return this.bpms
@@ -155,7 +177,11 @@ export default class Lesson {
 
     getWindowOfTimes(vHash, window) {
 
-        return this.getDataset() == undefined || this.getDataset()[vHash] == undefined ? [] : this.getDataset()[vHash].slice(window * (-1))
+        let ans = this.getDataset() == undefined || this.getDataset()[vHash] == undefined ? [] : this.getDataset()[vHash].slice(window * (-1))
+        if (this.getType() == Constants.LESSON_TYPE_TRIES) {
+            let bpmSister = this.getBPMs() == undefined || this.getBPMs()[vHash] == undefined ? [] : this.getBPMs()[vHash].slice(window * (-1))
+            return Util.removeNonTargetBpm(ans, bpmSister, this.bpm)
+        }
     }
 
     static fromJSONStringified(lessonString) {
@@ -172,6 +198,7 @@ export default class Lesson {
         let type = lessonDict['type']
         let bpms = lessonDict['bpms']
         let bpm = lessonDict['bpm']
+        let completedBPM = lessonDict['completedBPM']
         let l = new Lesson(
             name == undefined ? '' : name,
             criteria == undefined ? '' : criteria,
@@ -180,13 +207,18 @@ export default class Lesson {
             v2 == undefined ? [] : v2,
             dataset == undefined ? {} : dataset,
             path == undefined ? '' : path,
-            type == undefined ? Constants.LESSON_TYPE_TIMED : type,
-            bpms == undefined ? {} : bpms,
-            bpm == undefined ? Constants.DEFAULT_STARTING_BPM : bpm
+            type == undefined ? Constants.LESSON_TYPE_TIMED : type
         )
+        if (bpm != undefined) {
+            l.bpm = bpm
+        }
+        if (completedBPM != undefined) {
+            l.completedBPM = completedBPM
+        }
         if (vHashes != undefined) {
             l.setVHashes(vHashes)
         }
+        l.bpms = bpms == undefined ? {} : bpms
         return l
     }
 }

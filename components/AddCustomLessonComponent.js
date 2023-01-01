@@ -175,7 +175,7 @@ export class AddCustomLessonComponent extends React.Component {
           <TextInput
             style={allTheStyles.goalTime}
             onBlur={Keyboard.dismiss}
-            placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Goal time (seconds)" : "Goal number of tries"}
+            placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Goal time (seconds)" : "Goal BPM"}
             multiline={true}
             numberOfLines={2}
             value={this.state.goal}

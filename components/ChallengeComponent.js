@@ -23,7 +23,8 @@ export class ChallengeComponent extends React.Component {
     this.state = {
       start: 0,
       vHash: challengeService.getNextVHash(this.lesson),
-      count: 0
+      count: 0,
+      bpm: this.props.bpm
     };
   }
 
@@ -41,25 +42,33 @@ export class ChallengeComponent extends React.Component {
   challengeCallback(nav) {
 
     if (this.type == Constants.LESSON_TYPE_TRIES) {
-      if (this.state.count == undefined || this.state.count == 0) {
-        alert("You need to do at least one try!")
-        return
-      }
-      this.lesson.registerTime(this.state.count, this.state.vHash)
+            if (this.state.count == undefined || this.state.count == 0) {
+              alert("You need to do at least one try!")
+              return
+            }
+            this.lesson.registerTimeWithBPM(this.state.count, this.state.vHash, this.state.bpm)
+            let newBPM = this.state.bpm
+            if (this.props.auto){
+              newBPM = challengeService.reccommendBPM(this.lesson)
+              alert("Your new BPM is " + newBPM)
+              this.lesson.setCompletedBPM(newBPM)//mostly this will be the same and do nothing. but sometimes it will be one more or less if youre doing well or poorly, and it will update the lesson
+              this.lesson.setBPM(newBPM)
+              lessonRepository.save(this.lesson)
+              }
+            this.setState({
+              bpm: newBPM
+            })
     }else{
-      let end = Date.now()
-      let diff = end - this.state.start;
-      this.lesson.registerTime(diff, this.state.vHash)
+            let end = Date.now()
+            let diff = end - this.state.start;
+            this.lesson.registerTime(diff, this.state.vHash)
     }
-     
-    lessonRepository.save(this.lesson)
-    
+
     this.setState({
       vHash: challengeService.getNextVHash(this.lesson),
       start: Date.now(),
       count: 0
     })
-
     // nav.navigate("LessonChallengeScreen");
   }
 
@@ -122,7 +131,7 @@ export class ChallengeComponent extends React.Component {
       <Text 
         style={allTheStyles.challengeButton}
       >
-        {"BPM:" + this.props.bpm}
+        {"BPM:" + this.state.bpm}
       </Text>
       </View>
       </View>
