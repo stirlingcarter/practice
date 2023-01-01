@@ -62,13 +62,16 @@ export default class ChallengeService {
  * @returns {number} the recommended BPM
  */
   reccommendBPM(lesson) {
-    let res = statService.getLastNSliceFromEachVHashAndAggregate(1,lesson)//get a tru surface slice, incl each vhashes last tries and bpm
-    let tries = res[0]
-    let bpms = res[1]
     let cur = lesson.getCompletedBPM()//appr level to be trying
 
-    if (res == undefined || //if there isnt even a whole slice
-      Util.removeNonTargetBpm(tries,bpms, cur).length != lesson.getVHashes().length) { //if the slice is not all target bpm
+    let res = statService.getLastNSliceFromEachVHashAndAggregate(1,lesson)//get a tru surface slice, incl each vhashes last tries and bpm
+    if (res == undefined) {//if there isnt even a whole slice yet
+      return cur
+    }
+    let tries = res[0]
+    let bpms = res[1]
+
+    if (Util.removeNonTargetBpm(tries,bpms, cur).length != lesson.getVHashes().length) { //if the slice is not all target bpm
       return cur //(this keeps it the same) harsh but gotta blow thru it all without leveling down to level up
     }
     alert("res: " + res)
