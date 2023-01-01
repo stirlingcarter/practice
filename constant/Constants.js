@@ -11,6 +11,7 @@ export default class Constants {
     
     static LESSON_TYPE_TIMED = "timed"
     static LESSON_TYPE_TRIES = "tries"
+    static VALID_CHALLENGE_MODES = [this.LESSON_TYPE_TIMED, this.LESSON_TYPE_TRIES]
 
     static STRINGSET_GUITAR = ["1st/highest", "2nd", "3rd", "4th", "5th", "6th"]
 
@@ -30,4 +31,5 @@ export default class Constants {
     static ARPEGGIOS = "Arpeggios"
     static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
+    static DEFAULT_STARTING_BPM = 30
 }   

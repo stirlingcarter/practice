@@ -25,6 +25,11 @@ export default class ChallengeService {
     }
   }
 
+  reccommendBPM(lesson) {
+    return 44
+  }
+
+
 }
   /*END STRATS --------------------------------------------------------------------------
 Collection of functions that implement the vHash choosing strategies. 

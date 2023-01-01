@@ -19,7 +19,7 @@ export class ChallengeComponent extends React.Component {
     this.lesson = this.props.lesson;
 
     this.type = this.props.type
-    
+
     this.state = {
       start: 0,
       vHash: challengeService.getNextVHash(this.lesson),
@@ -82,7 +82,7 @@ export class ChallengeComponent extends React.Component {
     return (
       <View>
       <View onTouchStart={() => this.challengeCallback(this.props.nav)}
-        style={{ width: '100%', height: '65%' }}>
+        style={{ width: '100%', height: '52%' }}>
         <Text>{"\n\n\n\n\n\n\n"}</Text><Text>{"\n\n\n\n\n\n\n"}</Text>
         <Text
           style={allTheStyles.challengeButton}
@@ -93,7 +93,7 @@ export class ChallengeComponent extends React.Component {
       </View>
 
 
-     { this.type == Constants.LESSON_TYPE_TRIES && 
+  { this.type == Constants.LESSON_TYPE_TRIES && 
       <Text
         style={allTheStyles.challengeButton}
       >
@@ -106,6 +106,8 @@ export class ChallengeComponent extends React.Component {
       <Text>{"\n\n\n\n\n\n\n"}</Text>
 
       <Text>{"\n\n\n\n\n\n\n"}</Text>
+      <View style={allTheStyles.addLessonCol}>
+      <View style={allTheStyles.examplesRow}>
         <Text onPress={this.subtract}
         style={allTheStyles.challengeButton}
       >
@@ -116,8 +118,13 @@ export class ChallengeComponent extends React.Component {
       >
         {"  +"}
       </Text>
-      <Text>{"\n\n\n\n\n\n\n"}</Text>
-
+      </View>
+      <Text 
+        style={allTheStyles.challengeButton}
+      >
+        {"BPM:" + this.props.bpm}
+      </Text>
+      </View>
       </View>
   }
       </View>

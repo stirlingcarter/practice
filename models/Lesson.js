@@ -12,11 +12,17 @@ export default class Lesson {
     vHashes = []
     path = ''
     type = Constants.LESSON_TYPE_TIMED
-    
+    bpm = Constants.DEFAULT_STARTING_BPM
     // historical times for each *variant* (e.x. A$DOM$LH) 
     dataset = {
         // A$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],
         // B$dom$LH" : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],...
+    }
+
+    //what was the BPM when above was recorded?
+    bpms = {
+        // A$dom$LH" : [60,60,60,61,61...],
+        // B$dom$LH" : [60,60,61,61,61...],...
     }
 
     constructor(name, criteria, goal, v, v2, dataset, path, type) {
@@ -94,6 +100,14 @@ export default class Lesson {
         return this.path
     }
 
+    getBPM() {
+        return this.bpm
+    }
+
+    getBPMs() {
+        return this.bpms
+    }
+
     getGoal() {
         return this.goal
     }
@@ -104,6 +118,11 @@ export default class Lesson {
 
     registerTime(diff, vHash) {
         this.dataset[vHash].push(diff)
+    }
+
+    registerTimeWithBPM(diff, vHash, bpm) {
+        this.dataset[vHash].push(diff)
+        this.bpms[vHash].push(bpm)
     }
 
     totalTimes(vHash) {
@@ -151,6 +170,7 @@ export default class Lesson {
         let dataset = lessonDict['dataset']
         let vHashes = lessonDict['vHashes']
         let type = lessonDict['type']
+        let bpms = lessonDict['bpms']
         let bpm = lessonDict['bpm']
         let l = new Lesson(
             name == undefined ? '' : name,
@@ -161,7 +181,8 @@ export default class Lesson {
             dataset == undefined ? {} : dataset,
             path == undefined ? '' : path,
             type == undefined ? Constants.LESSON_TYPE_TIMED : type,
-            bpm == undefined ? -1 : bpm
+            bpms == undefined ? {} : bpms,
+            bpm == undefined ? Constants.DEFAULT_STARTING_BPM : bpm
         )
         if (vHashes != undefined) {
             l.setVHashes(vHashes)

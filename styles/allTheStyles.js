@@ -611,6 +611,14 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
   },
+  challengeButtonGreen: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
 
   cri: {
     textAlignVertical: "center",

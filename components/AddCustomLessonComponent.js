@@ -22,13 +22,16 @@ export class AddCustomLessonComponent extends React.Component {
     super(props);
     this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handlePlus = this.handlePlus.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
     this.handleGoalChange = this.handleGoalChange.bind(this);
-
+    this.handleModeChange = this.handleModeChange.bind(this);
+    this.state = {
+      mode: Constants.LESSON_TYPE_TIMED
+    }
+  
   }
 
   handleNameChange(name) {
@@ -44,6 +47,13 @@ export class AddCustomLessonComponent extends React.Component {
       });
     }, 1600);
   };
+
+  handleModeChange() {
+    let indexOfCurrentMode = Constants.VALID_CHALLENGE_MODES.indexOf(this.state.mode)
+    let indexOfNextMode = (indexOfCurrentMode + 1) % Constants.VALID_CHALLENGE_MODES.length
+    let nextMode = Constants.VALID_CHALLENGE_MODES[indexOfNextMode]
+    this.setState({ mode: nextMode })
+  }
 
   handleCriteriaChange(criteria) {
     this.setState({ criteria });
@@ -84,8 +94,7 @@ export class AddCustomLessonComponent extends React.Component {
         this.sanitize(this.state.variants2),
         {},
         Path.plus(this.props.path, this.state.name),
-        Constants.LESSON_TYPE_TIMED,
-        -1)
+        this.state.mode)
 
       TreeUtils.saveLesson(l)
 
@@ -95,9 +104,6 @@ export class AddCustomLessonComponent extends React.Component {
     }
   }
 
-  handlePlus(g) {
-    // this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: g})
-  }
 
   getListFromVariantList(rawList) {
     let l = this.sanitize(rawList)
@@ -165,10 +171,11 @@ export class AddCustomLessonComponent extends React.Component {
             multiline={true}
             value={this.state.criteria}
             onChangeText={this.handleCriteriaChange} />
+            <Text onPress={this.handleModeChange} style={allTheStyles.saveButton7}>{"Mode: " + (this.state.mode == Constants.LESSON_TYPE_TIMED ? "times" : "number of tries")}              </Text>
           <TextInput
             style={allTheStyles.goalTime}
             onBlur={Keyboard.dismiss}
-            placeholder="Goal time (seconds)"
+            placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Goal time (seconds)" : "Goal number of tries"}
             multiline={true}
             numberOfLines={2}
             value={this.state.goal}
