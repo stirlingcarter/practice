@@ -26,7 +26,14 @@ export default class BuiltInVariants {
     ]
 
     static PERMUTATION_VARIANTS = [
-        new BuiltInVariant("normal", Constants.PERMUTATIONS)
+        new BuiltInVariant("1234567/normal/ionian)", Constants.PERMUTATIONS),
+        new BuiltInVariant("2345671/dorian", Constants.PERMUTATIONS),
+        new BuiltInVariant("3456712/phrygian", Constants.PERMUTATIONS),
+        new BuiltInVariant("4567123/lydian", Constants.PERMUTATIONS),
+        new BuiltInVariant("5671234/mixolydian", Constants.PERMUTATIONS),
+        new BuiltInVariant("6712345/aeolian", Constants.PERMUTATIONS),
+        new BuiltInVariant("7123456/locrian", Constants.PERMUTATIONS),
+        new BuiltInVariant("13243546576....", Constants.PERMUTATIONS)
     ]
 
     static INTERVAL_VARIANTS = [
@@ -61,6 +68,7 @@ export default class BuiltInVariants {
         new BuiltInVariant("mixolydian", Constants.SCALES),
         new BuiltInVariant("aeolian", Constants.SCALES),
         new BuiltInVariant("locrian", Constants.SCALES),
+        new BuiltInVariant("harmonic minor", Constants.SCALES),
         new BuiltInVariant("melodic minor", Constants.SCALES),
         new BuiltInVariant("diminished", Constants.SCALES),
         new BuiltInVariant("half diminished", Constants.SCALES),
