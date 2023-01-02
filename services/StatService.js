@@ -88,7 +88,7 @@ export default class StatService {
   */
   getRecentAveragesByVariant(lesson) {
     let namesOfVariants = [
-      Constants.ALL_NOTES
+      lesson.getNotes()
     ]
     let v = lesson.getV()
     let v2 = lesson.getV2()

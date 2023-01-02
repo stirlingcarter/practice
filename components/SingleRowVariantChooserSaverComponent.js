@@ -103,9 +103,7 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                             this.setState({ chosenVariants: newChosen });
                             this.props.cb(this.state.chosenVariants)
                         }
-                        alert("before" + category)
                         customVariantSetRepository.removeVariant(this.props.category, variant)
-                        alert("after" + JSON.stringify(customVariantSetRepository.getCustomVariantSetByCategory(this.props.category).getNames()))
                         this.props.nav.navigate("SingleRowVariantChooserSaverScreen", {cb: this.props.cb, category: this.props.category, alreadyChosen: this.state.chosenVariants, path: this.props.path})
                         }}>{"🗑️"}</Text>
                         </View>

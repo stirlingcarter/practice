@@ -25,14 +25,17 @@ export default class Lesson {
         // B$dom$LH" : [60,60,61,61,61...],...
     }
 
+    notes = Constants.ALL_NOTES
+
     completedBPM = Constants.DEFAULT_STARTING_BPM
 
-    constructor(name, criteria, goal, v, v2, dataset, path, type) {
+    constructor(name, criteria, goal, notes, v, v2, dataset, path, type) {
         this.name = name
         this.criteria = criteria
         this.goal = goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
+        this.notes = notes
         if (dataset == undefined || Object.keys(dataset).length == 0){
           this.vHashes = this.getVHashesFromVariants()
           this.dataset = this.getDatasetFromVHashes()
@@ -42,6 +45,7 @@ export default class Lesson {
             this.dataset = dataset
             this.vHashes = Object.keys(dataset)
         }
+        
         this.path = path
         this.type= type
     }
@@ -60,7 +64,7 @@ export default class Lesson {
 
     getVHashesFromVariants(){
         let combinedVariants = this.getCombinedVariants(this.v, this.v2)
-        return this.getCombinedVariants(Constants.ALL_NOTES, combinedVariants)    
+        return this.getCombinedVariants(this.notes, combinedVariants)    
     }
 
     getCombinedVariants(v, v2) {
@@ -125,6 +129,10 @@ export default class Lesson {
         this.bpm = bpm
     }
 
+    getNotes() {
+        return this.notes
+    }
+
 
     getBPMs() {
         return this.bpms
@@ -177,11 +185,13 @@ export default class Lesson {
 
     getWindowOfTimes(vHash, window) {
 
-        let ans = this.getDataset() == undefined || this.getDataset()[vHash] == undefined ? [] : this.getDataset()[vHash].slice(window * (-1))
+
+        let ans = (this.getDataset() == undefined || this.getDataset()[vHash] == undefined) ? [] : this.getDataset()[vHash].slice(window * (-1))
         if (this.getType() == Constants.LESSON_TYPE_TRIES) {
             let bpmSister = this.getBPMs() == undefined || this.getBPMs()[vHash] == undefined ? [] : this.getBPMs()[vHash].slice(window * (-1))
             return Util.removeNonTargetBpm(ans, bpmSister, this.bpm)
         }
+        return ans
     }
 
     static fromJSONStringified(lessonString) {
@@ -190,6 +200,7 @@ export default class Lesson {
         let name = lessonDict['name']
         let criteria = lessonDict['criteria']
         let goal = lessonDict['goal']
+        let notes = lessonDict['notes']
         let v = lessonDict['v']
         let v2 = lessonDict['v2']
         let path = lessonDict['path']
@@ -203,6 +214,7 @@ export default class Lesson {
             name == undefined ? '' : name,
             criteria == undefined ? '' : criteria,
             goal == undefined ? this.goal : goal,
+            notes == undefined ? Constants.ALL_NOTES : notes,
             v == undefined ? [] : v,
             v2 == undefined ? [] : v2,
             dataset == undefined ? {} : dataset,

@@ -163,10 +163,6 @@ export class FluencyRequirementsComponent extends React.Component {
 
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     <Text style={allTheStyles.fluentHeader}>{"\nIndicate your desired level of fluency"}</Text>
-
-
-                    {/* NOTES
-                    we may want to use this flow if we allow users to stick to one key or something? But not necessaty for now
                     <Text style={allTheStyles.fluentRow}>{"NOTES"}</Text>
                     <View style={allTheStyles.examplesRow}>
                         <Text onPress={() => this.handleNotesChange("A")} style={this.state.selectedNotes.includes("A") ? green : init}>{"A"}</Text>
@@ -183,7 +179,7 @@ export class FluencyRequirementsComponent extends React.Component {
                         <Text onPress={() => this.handleNotesChange("Gb")} style={this.state.selectedNotes.includes("Gb") ? green : init}>{"Gb"}</Text>
                         <Text onPress={() => this.handleNotesChange("G")} style={this.state.selectedNotes.includes("G") ? green : init}>{"G"}</Text>
                         <Text onPress={() => this.handleNotesChange("Ab")} style={this.state.selectedNotes.includes("Ab") ? green : init}>{"Ab"}</Text>
-                    </View> */}
+                    </View>
 
                     <Text style={allTheStyles.fluentRow}>{"INTERVALS"}</Text>
                     <View style={allTheStyles.examplesRow}>
