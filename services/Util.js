@@ -183,6 +183,15 @@ export default class Util {
         }
         return null;
     }
+
+    static pairTriesAndBPMsDatasets(triesDs, bpmsDs) {
+        let ds = {}
+
+        Object.keys(triesDs).forEach(vhash => {
+            ds[vhash] = triesDs[vhash].map((oneTriesCount, i) => [oneTriesCount, bpmsDs[vhash][i]])
+          })
+        return ds
+    }
       
 
     static removeNonTargetBpm(tries, bpms, target) {

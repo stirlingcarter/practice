@@ -7,7 +7,8 @@ import { statService } from "../App"
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
-
+import Util from "../services/Util";
+import Constants from "../constant/Constants";
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
 
@@ -68,6 +69,7 @@ export class LessonStatsComponent extends React.Component {
   
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
+        {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
 
         </ScrollView>
       
@@ -82,7 +84,7 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1]}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
-
+        {this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}
         </ScrollView>
 
       
@@ -99,6 +101,7 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]} lesson={this.props.lesson}/>
+        {this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}
 
 
         </ScrollView>

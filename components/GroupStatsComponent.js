@@ -9,6 +9,7 @@ import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryR
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
 import Path from "../services/Path";
 import Constants from "../constant/Constants";
+import Util from "../services/Util";
 
 const DOMAIN = { y: [0, 100] }
 const LIMIT = 30 * 1000
@@ -59,20 +60,15 @@ export class GroupStatsComponent extends React.Component {
     //All of these are structured like normal lesson datasets. VHashes map to list of times - or bpms. 
     let timedDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TIMED).map(lesson => lesson.getDataset())
     let triesDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TRIES).map(lesson => lesson.getDataset())
-    let aggBPMDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TRIES).map(lesson => lesson.getBPMs())
+    let bpmDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TRIES).map(lesson => lesson.getBPMs())
     //ABOVE TWO DATASETS SHOULD HAVE MATCHING KEYS THAT MAP TO LISTS WITH MATCHING LENGTHS. 
     //CONVERT THESE TO A SINGLE DATASET WITH VHASHES AS KEYS THAT MAP TO A LIST OF PAIRS EACH CONTAINING A TIME AND CORRESPONDING BPM. USE A LIST FOR THE PAIRS
     let aggTriesAndBPMPairsDatasets = []
 
     for (let i = 0; i < triesDatasets.length; i++) {
       let triesDs = triesDatasets[i]
-      let aggBPMDs = aggBPMDatasets[i]
-      let ds = {}
-
-      Object.keys(triesDs).forEach(vhash => {
-        ds[vhash] = triesDs[vhash].map((oneTriesCount, i) => [oneTriesCount, aggBPMDs[vhash][i]])
-      })
-      aggTriesAndBPMPairsDatasets.push(ds)
+      let bpmsDs = bpmDatasets[i]
+      aggTriesAndBPMPairsDatasets.push(Util.pairTriesAndBPMDatasets(triesDs, bpmsDs))
     }
 
     /* FINAL TIMED RESULT 
@@ -94,7 +90,7 @@ export class GroupStatsComponent extends React.Component {
 
     alert(timedResult)
     alert(triesResult)
-    return (<Text>{JSON.stringify(timedResult) + "\n\n\n\n" + JSON.stringify(triesResult)}</Text>)
+    return (<ScrollView><Text>{("\n\n\n\n\n\n\n\n\n" + JSON.stringify(timedResult) + "\n\n\n\n" + JSON.stringify(triesResult)).replace(/,/g, ",\n")}</Text></ScrollView>)
 
     
 
