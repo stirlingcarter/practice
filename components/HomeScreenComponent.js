@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   TouchableOpacity,
-  ScrollView,
+  View,
   SafeAreaView,
   FlatList,
   Text
@@ -48,7 +48,7 @@ export class HomeScreenComponent extends React.Component {
     return (
       <>
         <SafeAreaView>
-          <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
+          <View snapToStart={false} style={allTheStyles.scrollStyle}>
           <Text
               style={allTheStyles.groupScreenTitle}
             >
@@ -102,7 +102,7 @@ export class HomeScreenComponent extends React.Component {
               keyExtractor={(item, index) => index.toString()} />
 
             <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
-          </ScrollView>
+          </View>
         </SafeAreaView>
       </>
     );

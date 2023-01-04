@@ -184,7 +184,7 @@ export class AddVariantGroupComponent extends React.Component {
                                 data={BuiltInVariants.getAllGroups()[category].map(biv => biv.getName()).filter(v => v.toLowerCase().includes(this.state.filter.toLowerCase()) || this.state.filter == "")}
                                 renderItem={({ item }) => (
                                     <View style={allTheStyles.examplesRow}>
-                                        <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{item}</Text>
+                                        <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{Util.getNoParens(item)}</Text>
                                         {/* {customNamesByCategory[category] == undefined && <Text>{category}</Text>} */}
                                         {customNamesByCategory[category] != undefined && customNamesByCategory[category].includes(item) && <Text style={allTheStyles.trash} onPress={() => {
                                             let newChosen = this.state.chosenVariants

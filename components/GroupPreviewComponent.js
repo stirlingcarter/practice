@@ -52,8 +52,9 @@ export class GroupPreviewComponent extends React.Component {
   }
 
   handlePlus() {
+    let next = !this.state.plusOpen
     this.setState({
-      plusOpen: !this.state.plusOpen
+      plusOpen: next
     })  
   }
 
@@ -164,7 +165,7 @@ export class GroupPreviewComponent extends React.Component {
 
               </View>}
 
-              <ScrollView>
+              <View>
             {/* GROUPS */}
 
             <FlatList
@@ -251,7 +252,7 @@ export class GroupPreviewComponent extends React.Component {
                 </Swipeable>
               )}
               keyExtractor={(item, index) => index.toString()} />
-</ScrollView>
+</View>
 
             <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
           </View>

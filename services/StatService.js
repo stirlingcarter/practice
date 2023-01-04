@@ -75,6 +75,43 @@ export default class StatService {
     return res
   }
 
+    /*
+  returns a list of ****approx*** inorder times (every historical time) for each variant
+  e.g. {"a" : [6,3,3,6,34,3...],...}
+  */
+  getHistoricalAveragesByVariantBPM(variantNames, vHashes, tries) {
+    let res = {}
+    
+    for (vName of variantNames) {
+      res[vName] = []
+    }
+
+    var maxLength = 0;
+
+
+    for (vHash of vHashes) {
+      maxLength = maxLength >= tries[vHash].length ? maxLength : tries[vHash].length
+    }
+    let i = 0
+    while (i < maxLength) {
+      for (vHash of vHashes) {
+        if (i < tries[vHash].length) {
+          relevantVariants = vHash.split("$")
+          for (v of relevantVariants) {
+            if (res[v] == undefined){
+              res[v] = [tries[vHash][i]]
+            }else{
+              res[v].push(tries[vHash][i])
+            }
+            
+          }
+        }
+      }
+      i += 1;
+    }
+    return res
+  }
+
 
   /*
     returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
@@ -162,7 +199,7 @@ export default class StatService {
       return variantDict;
     
       }
-      alert(lessonDicts)
+
     // Iterate through each lessonDict
     lessonDicts.forEach((lessonDict) => {
       // Iterate through each vHash in the lessonDict

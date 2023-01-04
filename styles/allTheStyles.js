@@ -131,11 +131,11 @@ export const allTheStyles = StyleSheet.create({
   startButton: {
     textAlignVertical: "center",
     textAlign: "center",
-    color: "#333333",
-    fontSize: 100,
+    color: themeColor,
+    fontSize: 80,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 300,
+    height: 100,
   },
   saveButton2: {
     textAlignVertical: "top",
@@ -741,7 +741,7 @@ export const allTheStyles = StyleSheet.create({
   cri: {
     textAlignVertical: "center",
     textAlign: "auto",
-    fontSize: 100,
+    fontSize: 60,
     fontStyle: "italic",
     fontWeight: "bold",
   },

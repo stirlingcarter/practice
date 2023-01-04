@@ -5,6 +5,7 @@ import Constants from "../constant/Constants";
 import Path from "../services/Path";
 import Group from "./Group";
 import Lesson from "./Lesson";
+import Util from "../services/Util";
 
 
 
@@ -141,7 +142,7 @@ export default class FluencyGen {
     }
 
     generateIntervalsGroup() {
-        let intervals = this.fgInput.getIntervals();
+        let intervals = this.fgInput.getIntervals().map(i => Util.toParens(i,Constants.INTERVALS))
         if (intervals == undefined || intervals.length == 0) {
             return null;
         }
@@ -202,7 +203,7 @@ export default class FluencyGen {
     }
 
     generateChordsGroup() {
-        let chords = this.fgInput.getChords();
+        let chords = this.fgInput.getChords().map(i => Util.toParens(i,Constants.CHORDS))
         if (chords == undefined || chords.length == 0){
             return null;
         }
@@ -224,9 +225,9 @@ export default class FluencyGen {
                 chords.forEach(chord => {
                     lessonName = 'Chords ' + (i++)
                     if (Constants.CHORDS_3.includes(chord)) {
-                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play the ' + Util.getNoParens(chord) + ' chord in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
-                        lessons.push(new Lesson(lessonName, 'Play the ' + chord + ' chord in the following inversions/order: root, 1st, 2nd, 3rd, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play the ' + Util.getNoParens(chord) + ' chord in the following inversions/order: root, 1st, 2nd, 3rd, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })
                 lessonName = 'Chords ' + (i++)
@@ -257,7 +258,7 @@ export default class FluencyGen {
     }
 
     generateScalesGroup() {
-        let scales = this.fgInput.getScales()
+        let scales = this.fgInput.getScales().map(i => Util.toParens(i,Constants.SCALES))
         if (scales == undefined || scales.length == 0) {
             return null;
         }
@@ -280,7 +281,7 @@ export default class FluencyGen {
                 scales.forEach(scale => {
                     permutations.forEach(permutation => {
                         lessonName = 'Scales ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + scale + ' scale in the given key with permutation: ' + permutation, 1, this.notes, [], [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation, 1, this.notes, [], [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                     })
                 })
                 break;
@@ -288,11 +289,11 @@ export default class FluencyGen {
                 scales.forEach(scale => {
                     permutations.forEach(permutation => {
                         lessonName = 'Scales ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + scale + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 4 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 4 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                         lessonName = 'Scales ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + scale + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 3 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 3 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                         lessonName = 'Scales ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + scale + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 2 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 2 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                     })
 
                 })
@@ -302,7 +303,7 @@ export default class FluencyGen {
     }
 
     generateArpsGroup() {
-        let chords = this.fgInput.getChords();
+        let chords = this.fgInput.getChords().map(i => Util.toParens(i,Constants.CHORDS))
         if (chords == undefined || chords.length == 0) {
             return null;
         }
@@ -324,9 +325,9 @@ export default class FluencyGen {
                 chords.forEach(chord => {
                     lessonName = 'Arps ' + (i++)
                     if (Constants.CHORDS_3.includes(chord)) {
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree', 1, this.notes, ["1st(root)", "2nd", "3rd"], [], {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree', 1, this.notes, ["1st(root)", "2nd", "3rd"], [], {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree', 1, this.notes, ["1st(root)", "2nd", "3rd", "4th"], [], {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree', 1, this.notes, ["1st(root)", "2nd", "3rd", "4th"], [], {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })
                 break;
@@ -334,17 +335,17 @@ export default class FluencyGen {
                 chords.forEach(chord => {
                     lessonName = 'Arps ' + (i++)
                     if (Constants.CHORDS_3.includes(chord)) {
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                         lessonName = 'Arps ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                         lessonName = 'Arps ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.',  1, this.notes, ["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.',  1, this.notes, ["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                         lessonName = 'Arps ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                         lessonName = 'Arps ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play a ' + chord + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })
                 break;

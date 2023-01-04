@@ -8,6 +8,7 @@ import {
     Keyboard
 } from "react-native";
 
+import Util from "../services/Util.js";
 import { allTheStyles } from "../styles/allTheStyles.js"
 import BuiltInVariants from "../constant/BuiltInVariants";
 import { VariantCategoryComponent } from "./VariantCategoryComponent";
@@ -93,13 +94,13 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
 
 
                 {BIVs != undefined && BIVs.map(v => v.getName()).filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
-                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
+                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{Util.getNoParens(variant)}</Text>
                 ))}
                 
 
                 {customNameSet.length > 0 && customNameSet.filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
                     <View>
-                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
+                    <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{Util.getNoParens(variant)}</Text>
                     <Text style={allTheStyles.trash} onPress={() => {
                         let newChosen = this.state.chosenVariants
                         if (newChosen != undefined && newChosen.includes(variant)) {

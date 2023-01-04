@@ -129,10 +129,11 @@ export class LessonLaunchComponent extends React.Component {
       </View>
   }
 
-      <Text>{"\n\n\n\n\n\n\n"}</Text>
 
       </View>
-  }
+  }        
+          
+          
           <Text
             style={allTheStyles.startButton}
             title={"start " + this.props.lessonName}
@@ -144,8 +145,9 @@ export class LessonLaunchComponent extends React.Component {
               auto: this.state.auto
             })}
           >
-            {"\n\n\nSTART"}
+            {"START"}
           </Text>
+          
           <Text
             style={allTheStyles.startButton}
             title={"start " + this.props.lessonName}
@@ -154,11 +156,10 @@ export class LessonLaunchComponent extends React.Component {
               path: this.props.path
             })}
           >
-            {"\n\n\nSTATS"}
+            {"STATS"}
           </Text>
           
         </ScrollView>
-        <Text style={allTheStyles.lessonInfoScreenSpacer}>{"\n"}</Text>
 
         { this.state.lesson.getType() == Constants.LESSON_TYPE_TRIES && 
       <Text

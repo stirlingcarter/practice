@@ -9,6 +9,7 @@ import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryR
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
 import Util from "../services/Util";
 import Constants from "../constant/Constants";
+import { BPMLineChartComponent } from "./BPMLineChartComponent";
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
 
@@ -50,8 +51,12 @@ export class LessonStatsComponent extends React.Component {
     return (ret > 0 ? ret : 10)
   }
 
+
+
   render() {
 
+    let variantsToTryBPMPairs = Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())
+    let allSingleKeys = Object.keys(variantsToTryBPMPairs)
     let response = statService.getRecentAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]
     let namesOfVariants = response[1]
@@ -70,7 +75,14 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]}  namesOfVariants={namesOfVariants[0]}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
+        {allSingleKeys.map((key) => {
+            <View>
+              <Text>{key}</Text>
+              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
+            </View>
+        }
 
+          )}
         </ScrollView>
       
       );
@@ -84,7 +96,16 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1]}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
-        {this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}
+        {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
+        {allSingleKeys.map((key) => {
+            <View>
+              <Text>{key}</Text>
+              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
+            </View>
+        }
+
+          )}
+       
         </ScrollView>
 
       
@@ -101,8 +122,15 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]} lesson={this.props.lesson}/>
-        {this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}
+        {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
+        {allSingleKeys.map((key) => {
+            <View>
+              <Text>{key}</Text>
+              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
+            </View>
+        }
 
+          )}
 
         </ScrollView>
 
@@ -113,3 +141,4 @@ export class LessonStatsComponent extends React.Component {
     }
   }
 }
+

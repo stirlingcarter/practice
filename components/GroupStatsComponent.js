@@ -68,7 +68,7 @@ export class GroupStatsComponent extends React.Component {
     for (let i = 0; i < triesDatasets.length; i++) {
       let triesDs = triesDatasets[i]
       let bpmsDs = bpmDatasets[i]
-      aggTriesAndBPMPairsDatasets.push(Util.pairTriesAndBPMDatasets(triesDs, bpmsDs))
+      aggTriesAndBPMPairsDatasets.push(Util.pairTriesAndBPMsDatasets(triesDs, bpmsDs))
     }
 
     /* FINAL TIMED RESULT 
@@ -88,8 +88,7 @@ export class GroupStatsComponent extends React.Component {
     let timedResult = statService.getAllInterleavedTimesByVariant(timedDatasets)
     let triesResult = statService.getAllInterleavedTimesByVariant(aggTriesAndBPMPairsDatasets)
 
-    alert(timedResult)
-    alert(triesResult)
+
     return (<ScrollView><Text>{("\n\n\n\n\n\n\n\n\n" + JSON.stringify(timedResult) + "\n\n\n\n" + JSON.stringify(triesResult)).replace(/,/g, ",\n")}</Text></ScrollView>)
 
     
