@@ -62,20 +62,13 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   handleVariantsChange(variants) {
-    let newVariants = Util.getNoParensForEachInListsIfNoDupe(variants, this.state.variants2)[0]
-    let newVariants2 = Util.getNoParensForEachInListsIfNoDupe(variants, this.state.variants2)[1]
-
-    this.setState({ variants: newVariants,
-                    variants2: newVariants2 })
-    
-  }
+    this.setState({ 
+      variants: variants })
+      }
 
   handleVariants2Change(variants2) {
-    let newVariants = Util.getNoParensForEachInListsIfNoDupe(this.state.variants, variants2)[0]
-    let newVariants2 = Util.getNoParensForEachInListsIfNoDupe(this.state.variants, variants2)[1]    
-    
-    this.setState({ variants: newVariants,
-      variants2: newVariants2 })
+    this.setState({ 
+      variants2: variants2 })
       }
 
 
