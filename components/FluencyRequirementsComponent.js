@@ -32,7 +32,12 @@ export class FluencyRequirementsComponent extends React.Component {
             selectedChordInversions: [],
             scalesBpm: 120,
             chordsBpm: 120,
-            arpsBpm: 120
+            arpsBpm: 120,
+            notesOpen : false,
+            intervalsOpen : false,
+            scalesOpen : false,
+            chordsOpen : false,
+            arpsOpen : false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -41,6 +46,13 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleChordsChange = this.handleChordsChange.bind(this);
         this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
         this.generate = this.generate.bind(this);
+        
+        this.handleNotesOpen = this.handleNotesOpen.bind(this);
+        this.handleIntervalsOpen = this.handleIntervalsOpen.bind(this);
+        this.handleScalesOpen = this.handleScalesOpen.bind(this);
+        this.handleChordsOpen = this.handleChordsOpen.bind(this);
+        this.handleArpsOpen = this.handleArpsOpen.bind(this);
+    
 
         this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
         this.handleScalesBPMChange = this.handleScalesBPMChange.bind(this);
@@ -95,6 +107,27 @@ export class FluencyRequirementsComponent extends React.Component {
 
         this.setState({ selectedIntervals: current });
     }
+
+    handleNotesOpen() {
+        this.setState({ notesOpen: !this.state.notesOpen });
+    }
+
+    handleIntervalsOpen() {
+        this.setState({ intervalsOpen: !this.state.intervalsOpen });
+    }
+
+    handleScalesOpen() {
+        this.setState({ scalesOpen: !this.state.scalesOpen });
+    }
+
+    handleChordsOpen() {
+        this.setState({ chordsOpen: !this.state.chordsOpen });
+    }
+
+    handleArpsOpen() {
+        this.setState({ arpsOpen: !this.state.arpsOpen });
+    }
+
 
     handleScalesBPMChange(bpm) {
         this.setState({ scalesBpm: bpm });
@@ -163,7 +196,12 @@ export class FluencyRequirementsComponent extends React.Component {
 
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     <Text style={allTheStyles.fluentHeader}>{"\nIndicate your desired level of fluency"}</Text>
-                    <Text style={allTheStyles.fluentRow}>{"NOTES"}</Text>
+
+                    <View style={allTheStyles.examplesRow}>
+                    <Text style={allTheStyles.fluentRow}>{"NOTES"}</Text><Text onPress={this.handleNotesOpen} style={this.state.notesOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.notesOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
+                    </View>
+
+                    {this.state.notesOpen && <View>
                     <View style={allTheStyles.examplesRow}>
                         <Text onPress={() => this.handleNotesChange("A")} style={this.state.selectedNotes.includes("A") ? green : init}>{"A"}</Text>
                         <Text onPress={() => this.handleNotesChange("Bb")} style={this.state.selectedNotes.includes("Bb") ? green : init}>{"Bb"}</Text>
@@ -180,8 +218,14 @@ export class FluencyRequirementsComponent extends React.Component {
                         <Text onPress={() => this.handleNotesChange("G")} style={this.state.selectedNotes.includes("G") ? green : init}>{"G"}</Text>
                         <Text onPress={() => this.handleNotesChange("Ab")} style={this.state.selectedNotes.includes("Ab") ? green : init}>{"Ab"}</Text>
                     </View>
+                    </View>}
 
-                    <Text style={allTheStyles.fluentRow}>{"INTERVALS"}</Text>
+
+                    <View style={allTheStyles.examplesRow}>
+                    <Text style={allTheStyles.fluentRow}>{"INTERVALS"}</Text><Text onPress={this.handleIntervalsOpen} style={this.state.intervalsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.intervalsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
+                    </View>
+
+                    {this.state.intervalsOpen && <View>
                     <View style={allTheStyles.examplesRow}>
                         <Text onPress={() => this.handleIntervalsChange("octave")} style={this.state.selectedIntervals.includes("octave") ? green : init}>{"octave"}</Text>
                         <Text onPress={() => this.handleIntervalsChange("2nd")} style={this.state.selectedIntervals.includes("2nd") ? green : init}>{"2nd"}</Text>
@@ -198,31 +242,47 @@ export class FluencyRequirementsComponent extends React.Component {
                         <Text onPress={() => this.handleIntervalsChange("7th")} style={this.state.selectedIntervals.includes("7th") ? green : init}>{"7th"}</Text>
                         <Text onPress={() => this.handleIntervalsChange("-7th")} style={this.state.selectedIntervals.includes("-7th") ? green : init}>{"-7th"}</Text>
                     </View>
-                    <Text style={allTheStyles.fluentRow}>{"SCALES"}</Text>
+                    </View>}
+
+
                     <View style={allTheStyles.examplesRow}>
-                        <Text style={allTheStyles.highlighteableOption}>{"BPM (quarter notes)"}</Text>
+                    <Text style={allTheStyles.fluentRow}>{"SCALES"}</Text><Text onPress={this.handleScalesOpen} style={this.state.scalesOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.scalesOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
+                    </View>
+
+                    {this.state.scalesOpen && <View>
+                    <View style={allTheStyles.examplesRow}>
+                        <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
                         <TextInput onChangeText={this.handleScalesBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
+                    </View>}
+
                     {isChordal && <View>
-                    <Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text>
+                    {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text><Text onPress={this.handleChordsOpen} style={this.state.chordsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.chordsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
+                    {this.state.chordsOpen && <View>
                     <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.highlighteableOption}>{"BPM (quarter notes)"}</Text>
+                    <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
                         <TextInput onChangeText={this.handleChordsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
                     </View>}
-                    <Text style={allTheStyles.fluentRow}>{"ARPS"}</Text>
-                    <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.highlighteableOption}>{"BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
-                        {/* <Text onPress={() => this.playSound('./assets/sounds/test.wav')} style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
-                    </View>
-                    {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
+                    </View>}
 
-                    <Text style={allTheStyles.addVariantDone} onPress={() => {
+
+                    {isChordal && <View>
+                    {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"ARPS"}</Text><Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
+                    {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
+                    <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
+                        <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
+                    </View>}
+                    </View>}
+                        {/* <Text onPress={() => this.playSound('./assets/sounds/test.wav')} style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
+                    {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
+                    
+
+                    <Text style={allTheStyles.generateButton} onPress={() => {
                         if (this.state.selectedScales.length != 0 && this.state.selectedScalePermutations.length == 0) {
                             alert("You must choose at least one scale permutation")
                         }else{
@@ -233,7 +293,8 @@ export class FluencyRequirementsComponent extends React.Component {
                             this.props.cb()
                             this.props.nav.navigate("GroupScreen", { path: Path.plus("Instruments",TreeUtils.getInstrumentFromPath(this.props.path))})
                         }
-                    }}>{"GEN"}</Text>
+                    }}>{"GENERATE"}</Text>
+
 
                 </ScrollView>
             </View>

@@ -27,6 +27,7 @@ export class AddVariantGroupComponent extends React.Component {
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleCategoryFilterChange = this.handleCategoryFilterChange.bind(this);
         this.handleSelectAll = this.handleSelectAll.bind(this);
+        this.alreadyExists = this.alreadyExists.bind(this);
 
 
     }
@@ -54,7 +55,7 @@ export class AddVariantGroupComponent extends React.Component {
         for (let i = 0; i < variants.length; i++) {
             if (!this.state.chosenVariants.includes(variants[i])) {
                 let newVariants = this.state.chosenVariants.concat(variants.filter(v => !this.state.chosenVariants.includes(v)))
-                this.setState({ chosenVariants: newVariants});
+                this.setState({ chosenVariants: newVariants });
                 this.props.cb(newVariants)
                 return
             }
@@ -96,6 +97,20 @@ export class AddVariantGroupComponent extends React.Component {
         return v + "$" + this.props.categoryName
     }
 
+    alreadyExists(variant, category) {
+        if (!Constants.VALID_CATEGORIES.includes(category)) {
+            return true
+        }
+
+        let customCSV = customVariantSetRepository.getCustomVariantSetByCategory(category)
+        let customNameSet = customCSV == undefined ? [] : customCSV.getNames()
+        let BIVs = BuiltInVariants.getBIV(category)
+        let BIVsNameSet = BIVs.map(v => v.getName())
+        let withP = Util.toParens(variant.toLowerCase(), category)
+        return BIVsNameSet.map(n => n.toLowerCase()).includes(withP) ||  customNameSet.includes(withP) 
+
+    }
+
 
 
     render() {
@@ -108,25 +123,38 @@ export class AddVariantGroupComponent extends React.Component {
         }
 
 
-        
-        
+
+
         let customNamesByCategory = {}
         Constants.VALID_CATEGORIES.forEach(c => {
             customNamesByCategory[c] = customVariantSetRepository.getCustomVariantSetByCategory(c) == undefined ? [] : customVariantSetRepository.getCustomVariantSetByCategory(c).getNames()
-            
+
         })
 
 
         return (
             <View>
-                <Text style={allTheStyles.addVariantDoneUpper} onPress={() => {
+                <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{""}</Text>
-                <Text style={cstyle} onPress={() => {
+                <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{"SAVE"}</Text>
+                <Text onPress={() => {
+                    if (this.state.filter == "") {
+                        alert("Please enter a name")
+                        return
+                    }
+                    let categoryCorrected = Util.toTitleCase(this.state.categoryFilter)
+                    if (this.state.categoryFilter == "" || !Constants.VALID_CATEGORIES.includes(categoryCorrected)) {
+                        alert("Please enter a valid category")
+                        return
+                    }
+                    customVariantSetRepository.appendVariant(categoryCorrected, this.state.filter)
+                    this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path })
+                }} style={allTheStyles.variantAddCreateButton}>{this.state.categoryFilter == "" || !this.alreadyExists(this.state.filter, this.state.categoryFilter) ? "Create" : ""}</Text>
                 <TextInput
                     style={allTheStyles.filterRow}
                     onBlur={Keyboard.dismiss}
@@ -143,19 +171,7 @@ export class AddVariantGroupComponent extends React.Component {
                     multiline={true}
                     value={this.state.categoryFilter}
                     onChangeText={this.handleCategoryFilterChange} />
-                <Text onPress={() => {
-                    if (this.state.filter == ""){
-                        alert("Please enter a name")
-                        return
-                    }
-                    let categoryCorrected = Util.toTitleCase(this.state.categoryFilter)
-                    if (this.state.categoryFilter == "" || !Constants.VALID_CATEGORIES.includes(categoryCorrected)){
-                        alert("Please enter a valid category")
-                        return
-                    }
-                    customVariantSetRepository.appendVariant(categoryCorrected, this.state.filter)
-                    this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path })
-                }} style={allTheStyles.filterRowRight}>{"Create"}</Text>
+
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     {Object.keys(BuiltInVariants.getAllGroups()).map(category => (
                         (category.toLowerCase().includes(this.state.categoryFilter.toLowerCase()) || this.state.categoryFilter == "") && <View>
@@ -163,22 +179,22 @@ export class AddVariantGroupComponent extends React.Component {
                                 () => {
                                     this.handleSelectAll(category)
                                 }
-                            } style={allTheStyles.filterRow}>{category}</Text>
+                            } style={allTheStyles.snazzyCategorySubHeader}>{category}</Text>
                             <FlatList
                                 data={BuiltInVariants.getAllGroups()[category].map(biv => biv.getName()).filter(v => v.toLowerCase().includes(this.state.filter.toLowerCase()) || this.state.filter == "")}
                                 renderItem={({ item }) => (
                                     <View style={allTheStyles.examplesRow}>
-                                    <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{item}</Text>
-                                    {/* {customNamesByCategory[category] == undefined && <Text>{category}</Text>} */}
-                                    {customNamesByCategory[category] != undefined && customNamesByCategory[category].includes(item) && <Text style={allTheStyles.trash} onPress={() => {
-                                        let newChosen = this.state.chosenVariants
-                                        if (newChosen.includes(item)) {
-                                            newChosen.splice(newChosen.indexOf(item), 1)
-                                            this.setState({ chosenVariants: newChosen });
-                                            this.props.cb(newChosen)
-                                        }
-                                        customVariantSetRepository.removeVariant(category, item)
-                                        this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path})
+                                        <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{item}</Text>
+                                        {/* {customNamesByCategory[category] == undefined && <Text>{category}</Text>} */}
+                                        {customNamesByCategory[category] != undefined && customNamesByCategory[category].includes(item) && <Text style={allTheStyles.trash} onPress={() => {
+                                            let newChosen = this.state.chosenVariants
+                                            if (newChosen.includes(item)) {
+                                                newChosen.splice(newChosen.indexOf(item), 1)
+                                                this.setState({ chosenVariants: newChosen });
+                                                this.props.cb(newChosen)
+                                            }
+                                            customVariantSetRepository.removeVariant(category, item)
+                                            this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path })
                                         }}>{"🗑️"}</Text>}
 
                                     </View>

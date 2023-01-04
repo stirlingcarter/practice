@@ -18,7 +18,8 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chosenVariants: this.props.alreadyChosen
+            chosenVariants: this.props.alreadyChosen,
+            filter: ""
         };
         this.handleVariantSelect = this.handleVariantSelect.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
@@ -62,18 +63,22 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
         let cstyle = allTheStyles.addVariantDone
 
         return (
-            <ScrollView>
             <View>
-                <Text style={allTheStyles.addVariantDoneUpper} onPress={() => {
+            <View>
+                <Text style={allTheStyles.fluentHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{""}</Text>
 
 
-                <Text style={cstyle} onPress={() => {
+                <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{"SAVE"}</Text>
+                                <Text onPress={() => {
+                    customVariantSetRepository.appendVariant(this.props.category, this.state.filter)
+                    this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path, category: this.props.category })
+                }} style={allTheStyles.variantAddCreateButton}>{ !BIVsNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) && !customNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
                 <TextInput
                     style={allTheStyles.filterRow}
                     onBlur={Keyboard.dismiss}
@@ -83,10 +88,9 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
 
-                <Text onPress={() => {
-                    customVariantSetRepository.appendVariant(this.props.category, this.state.filter)
-                    this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path, category: this.props.category })
-                }} style={allTheStyles.filterRowRight}>{this.state.filter != undefined && this.state.filter.length > 0 && !BIVsNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) && !customNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
+
+<ScrollView>
+
 
                 {BIVs != undefined && BIVs.map(v => v.getName()).filter(name => this.state.filter == undefined || this.state.filter.length == 0 || name.toLowerCase().includes(this.state.filter.toLowerCase())).map(variant => (
                     <Text style={this.state.chosenVariants.includes(variant) ? green : init} onPress={() => this.handleVariantSelect(variant)} key={variant}>{variant}</Text>
@@ -108,9 +112,9 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
                         }}>{"🗑️"}</Text>
                         </View>
                 ))}
-
+</ScrollView>
             </View>
-            </ScrollView>
+            </View>
         );
     }
 }

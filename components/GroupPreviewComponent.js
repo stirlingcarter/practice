@@ -23,6 +23,7 @@ export class GroupPreviewComponent extends React.Component {
 
     this.getLessonNames = this.getLessonNames.bind(this);
     this.getGroupNames = this.getGroupNames.bind(this);
+    this.handlePlus = this.handlePlus.bind(this);
     this.setState({
       groupNames: this.getGroupNames(),
     });
@@ -40,6 +41,7 @@ export class GroupPreviewComponent extends React.Component {
     var names = group.getLessonNames();
     this.setState({
       lessonNames: names,
+      plusOpen: false
     });
   }
 
@@ -47,6 +49,12 @@ export class GroupPreviewComponent extends React.Component {
     this.setState({
       groupNames: groupRepository.getGroupByPath(this.props.path).getGroupNames(),
     });
+  }
+
+  handlePlus() {
+    this.setState({
+      plusOpen: !this.state.plusOpen
+    })  
   }
 
   render() {
@@ -65,7 +73,7 @@ export class GroupPreviewComponent extends React.Component {
     return (
       <>
         <SafeAreaView>
-          <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
+          <View snapToStart={false} style={allTheStyles.scrollStyle}>
 
             {/* Group Title */}
             <View style={allTheStyles.addLessonOrGroupRow}>
@@ -109,17 +117,14 @@ export class GroupPreviewComponent extends React.Component {
               {Path.currentDir(this.props.path)}
             </Text>
             <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
-            <Text
-                onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
-                  path: this.props.path,
-                  cb: this.getGroupNames,
-                })}
-                style={allTheStyles.fluentButton}
-              >
-                {"MAKE ME FLUENT"}
-              </Text>
-            <View style={allTheStyles.addLessonOrGroupRow}>
-              {/* Add lesson */}
+
+            <Text onPress={this.handlePlus}
+        style={this.state.plusOpen ? allTheStyles.addStuffButtonRed : allTheStyles.addStuffButton}
+      >
+        {this.state.plusOpen ? "-" : "+"}
+      </Text>
+      {this.state.plusOpen && <View>
+                {/* Add lesson */}
 
               <Text
                 onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
@@ -130,7 +135,16 @@ export class GroupPreviewComponent extends React.Component {
               >
                 {"ADD LESSON"}
               </Text>
-
+            {this.props.path.split('/').length === 2 && //we are at instr level
+             <Text
+                onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
+                  path: this.props.path,
+                  cb: this.getGroupNames,
+                })}
+                style={allTheStyles.fluentButton}
+              >
+                {"MAKE ME FLUENT (BETA)"}
+              </Text>}
 
               {/* Add group */}
 
@@ -146,8 +160,11 @@ export class GroupPreviewComponent extends React.Component {
                 {"ADD GROUP"}
               </Text>
 
-            </View  >
+            
 
+              </View>}
+
+              <ScrollView>
             {/* GROUPS */}
 
             <FlatList
@@ -234,10 +251,10 @@ export class GroupPreviewComponent extends React.Component {
                 </Swipeable>
               )}
               keyExtractor={(item, index) => index.toString()} />
-
+</ScrollView>
 
             <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
-          </ScrollView>
+          </View>
         </SafeAreaView>
       </>
     );

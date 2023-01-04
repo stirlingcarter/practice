@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import { shadow } from "react-native-paper";
 
+const themeColor = '#FFC0CB'
+const vsrs = "#222222"
 export const allTheStyles = StyleSheet.create({
   saveButton: {
     textAlignVertical: "center",
@@ -83,7 +85,7 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 50,
-    color: "pink",
+    color: themeColor,
     flexDirection: "column",
     position: 'absolute',
     top: 5,
@@ -146,8 +148,8 @@ export const allTheStyles = StyleSheet.create({
   saveButton3: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "black",
-    backgroundColor: "pink",
+    color: "white",
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -157,7 +159,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     color: "black",
-    backgroundColor: "#e0aa3e",
+    backgroundColor: themeColor,
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -166,9 +168,9 @@ export const allTheStyles = StyleSheet.create({
   fluentRow: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "black",
-    backgroundColor: "#e0aa3e",
-    fontSize: 30,
+    color: "#222222",
+    backgroundColor: "black",
+    fontSize: 50,
     fontStyle: "italic",
     fontWeight: "bold",
     flexGrow: 1
@@ -187,7 +189,17 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     color: "white",
-    backgroundColor: "black",
+    backgroundColor: vsrs,
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
+  bpmHeading: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: themeColor,
+    backgroundColor: vsrs,
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -207,7 +219,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     color: "green",
-    backgroundColor: "#222222",
+    backgroundColor: vsrs,
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -216,12 +228,37 @@ export const allTheStyles = StyleSheet.create({
   fluentHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "black",
-    backgroundColor: "green",
-    fontSize: 30,
+    color: "white",
+    backgroundColor: vsrs,
+    fontSize: 50,
+    marginBottom: 25,
     fontStyle: "italic",
     fontWeight: "bold",
     flexGrow: 1
+  },
+  variantAddSaveHeader: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: themeColor,
+    backgroundColor: vsrs,
+    fontSize: 50,
+    marginBottom: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1,
+    marginTop: 25
+  },
+  variantAddCreateButton: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "green",
+    backgroundColor: vsrs,
+    fontSize: 25,
+    marginBottom: 25,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1,
+    marginTop: 25
   },
   saveButton3r: {
     textAlignVertical: "top",
@@ -254,7 +291,7 @@ export const allTheStyles = StyleSheet.create({
   goToStatsButton: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "pink",
+    color: themeColor,
     fontSize: 12,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -262,16 +299,16 @@ export const allTheStyles = StyleSheet.create({
   groupScreenPathHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "pink",
+    color: themeColor,
     fontSize: 15,
     fontStyle: "italic",
     fontWeight: "bold",
-    marginBottom: 40
+    marginBottom: 0
   },
   backButton: {
     textAlignVertical: "top",
     textAlign: "left",
-    color: "pink",
+    color: themeColor,
     fontSize: 33,
     height: 39,
     fontStyle: "italic",
@@ -280,7 +317,7 @@ export const allTheStyles = StyleSheet.create({
   backButtonButItsStats: {
     textAlignVertical: "top",
     textAlign: "right",
-    color: "pink",
+    color: themeColor,
     fontSize: 33,
     height: 39,
     fontStyle: "italic",
@@ -426,6 +463,20 @@ export const allTheStyles = StyleSheet.create({
     backgroundColor: "black",
     flexDirection: "column"
   },
+  snazzyCategorySubHeader: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 65,
+    color: "white",
+    backgroundColor: "#222222",
+    flexDirection: "column",
+    color: themeColor
+
+  },
   filterRowRight: {
     flexShrink: 1,
     textAlignVertical: "top",
@@ -434,7 +485,7 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 50,
-    color: "pink",
+    color: themeColor,
     backgroundColor: "black",
     flexDirection: "column",
     position: 'absolute',
@@ -570,7 +621,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 50,
-    color: "pink",
+    color: themeColor,
     fontStyle: "italic",
     fontWeight: "bold",
     height: 75,
@@ -630,6 +681,51 @@ export const allTheStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 100,
     color: "#333333",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  generateButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 75,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    marginTop: 25
+  },
+  addStuffButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  smallerAddStuffButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 50,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    backgroundColor: "black",
+    flexDirection: "column",
+  },
+  smallerAddStuffButtonRed: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 50,
+    color: "red",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    backgroundColor: "black",
+    flexDirection: "column",
+  },
+  addStuffButtonRed: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    color: "red",
     fontStyle: "italic",
     fontWeight: "bold",
   },

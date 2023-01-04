@@ -44,6 +44,10 @@ export default class Util {
         return s.slice(0, index);
       }
 
+      static toParens(v,c){
+        return v + "(" + c + ")"
+      }
+
     static getNamesOfVariantsFromVHashes(vHashes) {
         if (!vHashes[0].includes("$")){
             return [vHashes]
