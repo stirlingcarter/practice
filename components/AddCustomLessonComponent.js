@@ -20,17 +20,19 @@ export class AddCustomLessonComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedNotes: Constants.ALL_NOTES,
+      mode: Constants.LESSON_TYPE_TIMED
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleCriteriaChange = this.handleCriteriaChange.bind(this);
     this.handleVariantsChange = this.handleVariantsChange.bind(this);
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
     this.handleGoalChange = this.handleGoalChange.bind(this);
     this.handleModeChange = this.handleModeChange.bind(this);
-    this.state = {
-      mode: Constants.LESSON_TYPE_TIMED
-    }
+
   
   }
 
@@ -42,7 +44,7 @@ export class AddCustomLessonComponent extends React.Component {
     this.interval = setInterval(() => {
       this.setState((state, props) => {
         return {
-          examples: [Util.getRandomFromArray(Constants.ALL_NOTES),Util.getRandomFromArray(this.sanitize(this.state.variants)),Util.getRandomFromArray(this.sanitize(this.state.variants2))]
+          examples: [Util.getRandomFromArray(Constants.ALL_NOTES),Util.getRandomFromArray(this.state.variants),Util.getRandomFromArray(this.state.variants2)]
         };
       });
     }, 1600);
@@ -90,8 +92,9 @@ export class AddCustomLessonComponent extends React.Component {
         this.state.name,
         this.state.criteria,
         InputParser.parseGoalFromStringInput(this.state.goal),
-        this.sanitize(this.state.variants),
-        this.sanitize(this.state.variants2),
+        this.state.selectedNotes,
+        this.state.variants,
+        this.state.variants2,
         {},
         Path.plus(this.props.path, this.state.name),
         this.state.mode)
@@ -116,27 +119,6 @@ export class AddCustomLessonComponent extends React.Component {
 
   }
 
-  sanitize(v){
-
-    if (v == undefined){
-      return []
-    }
-
-    let prefixes = Util.copyOf(v).map(variant =>  this.getPrefix(variant))
-    let duplicates = []
-
-    let letterToCount = {}
-    for (prefix of prefixes){
-      if (letterToCount[prefix] == undefined){
-        letterToCount[prefix] = 1
-      } else {
-        duplicates.push(prefix)
-      }
-    }
-
-    return duplicates == undefined ? prefixes : v.map(variant => duplicates.includes(this.getPrefix(variant)) ? this.getCategoryExplanation(variant) : this.getPrefix(variant))
-  }
-
   getPrefix(variant){
     return variant.indexOf("$") == -1 ? variant : variant.substring(0,variant.indexOf("$"))
   }
@@ -149,8 +131,25 @@ export class AddCustomLessonComponent extends React.Component {
     return variant.indexOf("$") == -1 ? "NO_CAT" : variant.substring(variant.indexOf("$"),variant.length)
   }
 
+  handleNotesChange(note) {
+
+    let current = this.state.selectedNotes;
+
+    let i = current.indexOf(note);
+    if (i > -1) { // only splice array when item is found
+        current.splice(i, 1); // 2nd parameter means remove one item only
+    } else {
+        current.push(note)
+    }
+
+    this.setState({ selectedNotes: current });
+}
+
 
   render() {
+
+    let init = allTheStyles.highlighteableOption
+    let green = allTheStyles.highlighteableOptionGreen
 
     return (
       <View>
@@ -165,13 +164,15 @@ export class AddCustomLessonComponent extends React.Component {
             value={this.state.name}
             onChangeText={this.handleNameChange} />
           <TextInput
-            style={allTheStyles.saveButton7}
+            style={allTheStyles.criteriaTextInput}
             onBlur={Keyboard.dismiss}
             placeholder="Criteria"
             multiline={true}
             value={this.state.criteria}
             onChangeText={this.handleCriteriaChange} />
-            <Text onPress={this.handleModeChange} style={allTheStyles.saveButton7}>{"Mode: " + (this.state.mode == Constants.LESSON_TYPE_TIMED ? "times" : "number of tries")}              </Text>
+          
+        
+            <Text onPress={this.handleModeChange} style={allTheStyles.criteriaTextInput}>{"Mode: " + (this.state.mode == Constants.LESSON_TYPE_TIMED ? "times" : "number of tries")}              </Text>
           <TextInput
             style={allTheStyles.goalTime}
             onBlur={Keyboard.dismiss}
@@ -195,6 +196,26 @@ export class AddCustomLessonComponent extends React.Component {
             this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false, cb: this.handleVariants2Change, alreadyChosen: this.state.variants2})
           }}>{"      (+)"}</Text></View>
 
+          <Text style={allTheStyles.notesHeader}>{"NOTES"}</Text>            
+          <View>
+          <View style={allTheStyles.examplesRow}>
+              <Text onPress={() => this.handleNotesChange("A")} style={this.state.selectedNotes.includes("A") ? green : init}>{"A"}</Text>
+              <Text onPress={() => this.handleNotesChange("Bb")} style={this.state.selectedNotes.includes("Bb") ? green : init}>{"Bb"}</Text>
+              <Text onPress={() => this.handleNotesChange("B")} style={this.state.selectedNotes.includes("B") ? green : init}>{"B"}</Text>
+              <Text onPress={() => this.handleNotesChange("C")} style={this.state.selectedNotes.includes("C") ? green : init}>{"C"}</Text>
+              <Text onPress={() => this.handleNotesChange("Db")} style={this.state.selectedNotes.includes("Db") ? green : init}>{"Db"}</Text>
+              <Text onPress={() => this.handleNotesChange("D")} style={this.state.selectedNotes.includes("D") ? green : init}>{"D"}</Text>
+          </View>
+          <View style={allTheStyles.examplesRow}>
+              <Text onPress={() => this.handleNotesChange("Eb")} style={this.state.selectedNotes.includes("Eb") ? green : init}>{"Eb"}</Text>
+              <Text onPress={() => this.handleNotesChange("E")} style={this.state.selectedNotes.includes("E") ? green : init}>{"E"}</Text>
+              <Text onPress={() => this.handleNotesChange("F")} style={this.state.selectedNotes.includes("F") ? green : init}>{"F"}</Text>
+              <Text onPress={() => this.handleNotesChange("Gb")} style={this.state.selectedNotes.includes("Gb") ? green : init}>{"Gb"}</Text>
+              <Text onPress={() => this.handleNotesChange("G")} style={this.state.selectedNotes.includes("G") ? green : init}>{"G"}</Text>
+              <Text onPress={() => this.handleNotesChange("Ab")} style={this.state.selectedNotes.includes("Ab") ? green : init}>{"Ab"}</Text>
+          </View>
+          </View>
+          
           <Text
             style={allTheStyles.saveLessonButton}
             onPress={this.handleSubmit}

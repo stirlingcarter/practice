@@ -161,11 +161,11 @@ export default class FluencyGen {
         switch (instrument.toLowerCase()) {
             case "piano":
                 lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval starting on the given note', 1, this.notes, [], [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+                lessons.push(new Lesson(lessonName, 'Play the given interval starting on the given note', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
                 if (this.fgInput.getScales() != undefined){
                     this.fgInput.getScales().forEach(scaleType => {
                         lessonName = 'Intervals ' + (i++)
-                        lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                        lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     })
                 }
                 break;
@@ -179,13 +179,13 @@ export default class FluencyGen {
 
                 this.fgInput.getScales().forEach(scaleType => {
                     lessonName = 'Intervals ' + (i++)
-                    lessons.push(new Lesson(lessonName, 'Using the 6th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                    lessons.push(new Lesson(lessonName, 'Using the 6th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     lessonName = 'Intervals ' + (i++)
-                    lessons.push(new Lesson(lessonName, 'Using the 4th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                    lessons.push(new Lesson(lessonName, 'Using the 4th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     lessonName = 'Intervals ' + (i++)
-                    lessons.push(new Lesson(lessonName, 'Using the 3rd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                    lessons.push(new Lesson(lessonName, 'Using the 3rd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     lessonName = 'Intervals ' + (i++)
-                    lessons.push(new Lesson(lessonName, 'Using the 2nd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                    lessons.push(new Lesson(lessonName, 'Using the 2nd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                 })
                 break;
             case "sax":
@@ -193,7 +193,7 @@ export default class FluencyGen {
                 lessons.push(new Lesson(lessonName, 'Play the given interval starting on the given note', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
                 this.fgInput.getScales().forEach(scaleType => {
                     lessonName = 'Intervals ' + (i++)
-                    lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding after each note the given diatonic interval', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
+                    lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding after each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     i++;
                 })
                 break;

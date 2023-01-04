@@ -3,10 +3,12 @@ import {
   Text,
   View
 } from "react-native";
-import { lessonRepository, statService } from "../App"
+import { lessonRepository, statService, groupRepository} from "../App"
 import { ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
+import Path from "../services/Path";
+import Constants from "../constant/Constants";
 
 const DOMAIN = { y: [0, 100] }
 const LIMIT = 30 * 1000
@@ -52,13 +54,56 @@ export class GroupStatsComponent extends React.Component {
   render() {
 
     //1. weakest variants 
-    let lessonNames = groupRepository.getGroupByPath(Path.currentDirectory(this.props.path)).getLessonNames()
+    let lessons = lessonRepository.getAllLessonsRecursiveFlatByParentGroupPath(this.props.path)
+
+    //All of these are structured like normal lesson datasets. VHashes map to list of times - or bpms. 
+    let timedDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TIMED).map(lesson => lesson.getDataset())
+    let triesDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TRIES).map(lesson => lesson.getDataset())
+    let aggBPMDatasets = lessons.filter(lesson => lesson.getType() == Constants.LESSON_TYPE_TRIES).map(lesson => lesson.getBPMs())
+    //ABOVE TWO DATASETS SHOULD HAVE MATCHING KEYS THAT MAP TO LISTS WITH MATCHING LENGTHS. 
+    //CONVERT THESE TO A SINGLE DATASET WITH VHASHES AS KEYS THAT MAP TO A LIST OF PAIRS EACH CONTAINING A TIME AND CORRESPONDING BPM. USE A LIST FOR THE PAIRS
+    let aggTriesAndBPMPairsDatasets = []
+
+    for (let i = 0; i < triesDatasets.length; i++) {
+      let triesDs = triesDatasets[i]
+      let aggBPMDs = aggBPMDatasets[i]
+      let ds = {}
+
+      Object.keys(triesDs).forEach(vhash => {
+        ds[vhash] = triesDs[vhash].map((oneTriesCount, i) => [oneTriesCount, aggBPMDs[vhash][i]])
+      })
+      aggTriesAndBPMPairsDatasets.push(ds)
+    }
+
+    /* FINAL TIMED RESULT 
+  returns -> 
+      { "a" : 
+        [[2,6,3,6,4,7,6,4,8,2,6,7]
+      "b" :
+        [[5,2,6,7,3,....]
+      }
+*/
+    /* FINAL BPM RESULT 
+  returns -> 
+      { "a" : 
+        [[(2,49),(6,50),(3,50),(6,52),(4,53),(7,54),(6,55),(4,56),(8,57),(2,58),(6,59),(7,60)]
+        ....
+*/
+    let timedResult = statService.getAllInterleavedTimesByVariant(timedDatasets)
+    let triesResult = statService.getAllInterleavedTimesByVariant(aggTriesAndBPMPairsDatasets)
+
+    alert(timedResult)
+    alert(triesResult)
+    return (<Text>{JSON.stringify(timedResult) + "\n\n\n\n" + JSON.stringify(triesResult)}</Text>)
+
+    
+
 
     let recentAvgsByLessonName = {}
     let originalAvgsByLessonName = {}
-    let lessons = lessonNames.map(name => {
-      lessonRepository.getLessonByPath(Path.Plus(this.props.path, name))
-    })
+    // let lessons = lessonNames.map(name => {
+    //   lessonRepository.getLessonByPath(Path.Plus(this.props.path, name))
+    // })
     for (lesson of lessons) {
 
 
@@ -178,7 +223,7 @@ just returns ->
     //2. now, using those names as keys, create dict mapping them to constructed times array for their whole history
     // a big task of course d
     //3. now you can get a window from there to create a radial chart or the whole thing to make a line chart 
-    //  - for each category of variant reporesented. 
+    //  - for each category of variant represented. 
 
     let response = statService.getRecentAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]

@@ -8,113 +8,108 @@ import Constants from "./Constants";
 export default class BuiltInVariants {
 
     static CHORD_VARIANTS = [
+        new BuiltInVariant("min triad(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("maj triad(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("dom triad(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("min6(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("maj6(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("min7(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("maj7(" + Constants.CHORDS + ")", Constants.CHORDS), 
+        new BuiltInVariant("7(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("dim(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("half dim(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("7#5#9(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("7#9(" + Constants.CHORDS + ")", Constants.CHORDS),
+        new BuiltInVariant("7#5(" + Constants.CHORDS + ")", Constants.CHORDS),//thelonious chord lol
+        new BuiltInVariant("7#11(" + Constants.CHORDS + ")", Constants.CHORDS)
 
-        new BuiltInVariant("min triad", Constants.CHORDS),
-        new BuiltInVariant("maj triad", Constants.CHORDS),
-        new BuiltInVariant("dom triad", Constants.CHORDS),
-        new BuiltInVariant("min6", Constants.CHORDS),
-        new BuiltInVariant("maj6", Constants.CHORDS),
-        new BuiltInVariant("min7", Constants.CHORDS),
-        new BuiltInVariant("maj7", Constants.CHORDS),
-        new BuiltInVariant("7", Constants.CHORDS),
-        new BuiltInVariant("dim", Constants.CHORDS),
-        new BuiltInVariant("half dim", Constants.CHORDS),
-        new BuiltInVariant("7#5#9", Constants.CHORDS),
-        new BuiltInVariant("7#9", Constants.CHORDS),
-        new BuiltInVariant("7#5", Constants.CHORDS),//thelonious chord lol
-        new BuiltInVariant("7#11", Constants.CHORDS)
     ]
 
     static PERMUTATION_VARIANTS = [
-        new BuiltInVariant("1234567/normal/ionian)", Constants.PERMUTATIONS),
-        new BuiltInVariant("2345671/dorian", Constants.PERMUTATIONS),
-        new BuiltInVariant("3456712/phrygian", Constants.PERMUTATIONS),
-        new BuiltInVariant("4567123/lydian", Constants.PERMUTATIONS),
-        new BuiltInVariant("5671234/mixolydian", Constants.PERMUTATIONS),
-        new BuiltInVariant("6712345/aeolian", Constants.PERMUTATIONS),
-        new BuiltInVariant("7123456/locrian", Constants.PERMUTATIONS),
-        new BuiltInVariant("13243546576....", Constants.PERMUTATIONS)
+        new BuiltInVariant("1234567/normal/ionian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("2345671/dorian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("3456712/phrygian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("4567123/lydian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("5671234/mixolydian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("6712345/aeolian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("7123456/locrian(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS),
+        new BuiltInVariant("13243546576....(" + Constants.PERMUTATIONS + ")", Constants.PERMUTATIONS)
     ]
 
     static INTERVAL_VARIANTS = [
+        new BuiltInVariant("2nd(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("minor 3rd(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("major 3rd(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("4th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("5th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("minor 6th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("major 6th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("minor 7th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("major 7th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("9th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("minor 10th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("major 10th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("11th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("12th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("minor 13th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("major 13th(" + Constants.INTERVALS + ")", Constants.INTERVALS),
+        new BuiltInVariant("octave(" + Constants.INTERVALS + ")", Constants.INTERVALS)
 
-        new BuiltInVariant("2nd", Constants.INTERVALS),
-        new BuiltInVariant("minor 3rd", Constants.INTERVALS),
-        new BuiltInVariant("major 3rd", Constants.INTERVALS),
-        new BuiltInVariant("4th", Constants.INTERVALS),
-        new BuiltInVariant("5th", Constants.INTERVALS),
-        new BuiltInVariant("minor 6th", Constants.INTERVALS),
-        new BuiltInVariant("major 6th", Constants.INTERVALS),
-        new BuiltInVariant("minor 7th", Constants.INTERVALS),
-        new BuiltInVariant("major 7th", Constants.INTERVALS),
-        new BuiltInVariant("9th", Constants.INTERVALS),
-        new BuiltInVariant("minor 10th", Constants.INTERVALS),
-        new BuiltInVariant("major 10th", Constants.INTERVALS),
-        new BuiltInVariant("11th", Constants.INTERVALS),
-        new BuiltInVariant("12th", Constants.INTERVALS),
-        new BuiltInVariant("minor 13th", Constants.INTERVALS),
-        new BuiltInVariant("major 13th", Constants.INTERVALS),
-        new BuiltInVariant("octave", Constants.INTERVALS)
     ]
 
     static SCALE_VARIANTS = [
+        new BuiltInVariant("major(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("minor(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("harmonic minor(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("melodic minor(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("diminished(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("half diminished(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("chromatic(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("pentatonic(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("major bebop(" + Constants.SCALES + ")", Constants.SCALES),
+        new BuiltInVariant("minor bebop(" + Constants.SCALES + ")", Constants.SCALES)
 
-        new BuiltInVariant("major", Constants.SCALES),
-        new BuiltInVariant("minor", Constants.SCALES),
-        new BuiltInVariant("ionian", Constants.SCALES),
-        new BuiltInVariant("dorian", Constants.SCALES),
-        new BuiltInVariant("phrygian", Constants.SCALES),
-        new BuiltInVariant("lydian", Constants.SCALES),
-        new BuiltInVariant("mixolydian", Constants.SCALES),
-        new BuiltInVariant("aeolian", Constants.SCALES),
-        new BuiltInVariant("locrian", Constants.SCALES),
-        new BuiltInVariant("harmonic minor", Constants.SCALES),
-        new BuiltInVariant("melodic minor", Constants.SCALES),
-        new BuiltInVariant("diminished", Constants.SCALES),
-        new BuiltInVariant("half diminished", Constants.SCALES),
-        new BuiltInVariant("chromatic", Constants.SCALES),
-        new BuiltInVariant("pentatonic", Constants.SCALES),
-        new BuiltInVariant("major bebop", Constants.SCALES),
-        new BuiltInVariant("minor bebop", Constants.SCALES)
     ]
 
     static INVERSION_VARIANTS = [
-        new BuiltInVariant("root", Constants.INVERSIONS),
-        new BuiltInVariant("1st", Constants.INVERSIONS),
-        new BuiltInVariant("2nd", Constants.INVERSIONS),
-        new BuiltInVariant("3rd", Constants.INVERSIONS),
-        new BuiltInVariant("4th", Constants.INVERSIONS),
-        new BuiltInVariant("5th", Constants.INVERSIONS),
-        new BuiltInVariant("root sub 9", Constants.INVERSIONS),
-        new BuiltInVariant("1st sub 9", Constants.INVERSIONS),
-        new BuiltInVariant("2nd sub 9", Constants.INVERSIONS),
-        new BuiltInVariant("3rd sub 9", Constants.INVERSIONS),
-        new BuiltInVariant("4th sub 9", Constants.INVERSIONS),
-        new BuiltInVariant("5th sub 9", Constants.INVERSIONS)
+        new BuiltInVariant("root(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("1st(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("2nd(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("3rd(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("4th(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("5th(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("root sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("1st sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("2nd sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("3rd sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("4th sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS),
+        new BuiltInVariant("5th sub 9(" + Constants.INVERSIONS + ")", Constants.INVERSIONS)
+
     ]
 
     static TRAVERSAL_VARIANTS = [
-        new BuiltInVariant("ascending", Constants.TRAVERSALS),
-        new BuiltInVariant("descending", Constants.TRAVERSALS),
-        new BuiltInVariant("asc/desc", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 2nds", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 3rds", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 4ths", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 5ths", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 6ths", Constants.TRAVERSALS),
-        new BuiltInVariant("diatonic 7ths", Constants.TRAVERSALS),
-        new BuiltInVariant("octaves", Constants.TRAVERSALS),
+        new BuiltInVariant("ascending(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("descending(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("asc/desc(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 2nds(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 3rds(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 4ths(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 5ths(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 6ths(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("diatonic 7ths(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS),
+        new BuiltInVariant("octaves(" + Constants.TRAVERSALS + ")", Constants.TRAVERSALS)
+
     ]
 
     static STRING_VARIANTS = [
-        new BuiltInVariant("1st/highest", Constants.STRINGS),
-        new BuiltInVariant("2nd", Constants.STRINGS),
-        new BuiltInVariant("3rd", Constants.STRINGS),
-        new BuiltInVariant("4th", Constants.STRINGS),
-        new BuiltInVariant("5th", Constants.STRINGS),
-        new BuiltInVariant("6th", Constants.STRINGS),
-        new BuiltInVariant("7th", Constants.STRINGS),
-        new BuiltInVariant("8th", Constants.STRINGS)
+        new BuiltInVariant("1st/highest(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("2nd(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("3rd(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("4th(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("5th(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("6th(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("7th(" + Constants.STRINGS + ")", Constants.STRINGS),
+        new BuiltInVariant("8th(" + Constants.STRINGS + ")", Constants.STRINGS)
     ]
 
     static getBIV(category){
@@ -171,7 +166,7 @@ export default class BuiltInVariants {
 
         let ans = {}
         for (let i = 0; i < variantLists.length; i++) {
-            ans[categoryNames[i]] = variantLists[i].map(v => new BuiltInVariant(v.name + "(" + v.category + ")", v.category));
+            ans[categoryNames[i]] = variantLists[i]
         }
 
         return ans;

@@ -173,6 +173,16 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     flexGrow: 1
   },
+  notesHeader: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: "black",
+    backgroundColor: "#222222",
+    fontSize: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1
+  },
   highlighteableOption: {
     textAlignVertical: "top",
     textAlign: "center",
@@ -197,7 +207,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     color: "green",
-    backgroundColor: "black",
+    backgroundColor: "#222222",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -376,6 +386,18 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 100,
+    color: "#000000",
+    flexDirection: "column",
+    
+  },
+  criteriaTextInput: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 60,
     color: "#000000",
     flexDirection: "column",
     

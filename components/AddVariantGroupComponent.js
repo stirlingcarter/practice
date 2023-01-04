@@ -168,16 +168,16 @@ export class AddVariantGroupComponent extends React.Component {
                                 data={BuiltInVariants.getAllGroups()[category].map(biv => biv.getName()).filter(v => v.toLowerCase().includes(this.state.filter.toLowerCase()) || this.state.filter == "")}
                                 renderItem={({ item }) => (
                                     <View style={allTheStyles.examplesRow}>
-                                    <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{Util.getNoParens(item)}</Text>
+                                    <Text style={this.state.chosenVariants == undefined || this.state.chosenVariants.includes(item) ? green : init} onPress={() => this.handleVariantSelect(item)} key={item}>{item}</Text>
                                     {/* {customNamesByCategory[category] == undefined && <Text>{category}</Text>} */}
-                                    {customNamesByCategory[category] != undefined && customNamesByCategory[category].includes(Util.getNoParens(item)) && <Text style={allTheStyles.trash} onPress={() => {
+                                    {customNamesByCategory[category] != undefined && customNamesByCategory[category].includes(item) && <Text style={allTheStyles.trash} onPress={() => {
                                         let newChosen = this.state.chosenVariants
                                         if (newChosen.includes(item)) {
                                             newChosen.splice(newChosen.indexOf(item), 1)
                                             this.setState({ chosenVariants: newChosen });
                                             this.props.cb(newChosen)
                                         }
-                                        customVariantSetRepository.removeVariant(category, Util.getNoParens(item))
+                                        customVariantSetRepository.removeVariant(category, item)
                                         this.props.nav.navigate("AddVariantGroupScreen", {cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path})
                                         }}>{"🗑️"}</Text>}
 

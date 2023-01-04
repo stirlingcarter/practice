@@ -141,4 +141,72 @@ export default class StatService {
     return [aggTries, aggBPM]
   }
 
+  getListOfSingleDatasets(listOfSingleDatasets) {
+    let aggDataset = {}
+    for (singleDataset of listOfSingleDatasets) {
+      for (vHash in singleDataset) {
+        if (aggDataset[vHash] == undefined) {
+          aggDataset[vHash] = singleDataset[vHash]
+        } else {
+          aggDataset[vHash] = aggDataset[vHash].concat(singleDataset[vHash])
+        }
+      }
+    }
+    return aggDataset
+  }
+
+
+  getAllInterleavedTimesByVariant(lessonDicts) {
+    const variantDict = {};
+    if (lessonDicts == undefined || lessonDicts.length == 0) {
+      return variantDict;
+    
+      }
+      alert(lessonDicts)
+    // Iterate through each lessonDict
+    lessonDicts.forEach((lessonDict) => {
+      // Iterate through each vHash in the lessonDict
+      for (const vHash in lessonDict) {
+        // Split the vHash into an array of variants
+        const variants = vHash.split('$');
+  
+        // Iterate through each variant in the vHash
+        variants.forEach(variant => {
+          // If the variant doesn't yet have an entry in the variantDict, create one
+          if (!variantDict[variant]) {
+            variantDict[variant] = [];
+          }
+  
+          // Add the list of times to the variant's entry in the variantDict
+          variantDict[variant].push(lessonDict[vHash]);
+        });
+      }
+    });
+
+    Object.keys(variantDict).forEach(times => {
+
+      //interleave the times
+      // example: [[1,2,3],[4,5,6],[6,7,2]] -> [1,4,6,2,5,7,3,6,2
+      let interleavedTimes = []
+      let maxLengthOfATimesList = 0
+      for (let i = 0; i < variantDict[times].length; i++) {
+        maxLengthOfATimesList = maxLengthOfATimesList >= variantDict[times][i].length ? maxLengthOfATimesList : variantDict[times][i].length
+      }
+      let i = 0
+      while (i < maxLengthOfATimesList) {
+        for (let j = 0; j < variantDict[times].length; j++) {
+          if (i < variantDict[times][j].length) {
+            interleavedTimes.push(variantDict[times][j][i])
+          }
+        }
+        i += 1
+      }
+      variantDict[times] = interleavedTimes
+    })
+
+
+  
+    return variantDict;
+  }
+
 }

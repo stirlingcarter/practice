@@ -34,7 +34,7 @@ export default class CustomVariantSetRepository {
 
             current = new CustomVariantSet(category, [])
         }
-        current.addName(variantName)
+        current.addName(variantName+"(" + category + ")")
 
         this.saveCustomVariantSet(current)
     }

@@ -14,7 +14,8 @@ export default class Constants {
     static VALID_CHALLENGE_MODES = [this.LESSON_TYPE_TIMED, this.LESSON_TYPE_TRIES]
 
     static STRINGSET_GUITAR = ["1st/highest", "2nd", "3rd", "4th", "5th", "6th"]
-
+    static ALL_INTERVALS = ["minor 2nd", "major 2nd", "minor 3rd", "major 3rd", "perfect 4th", "tritone", "perfect 5th", "minor 6th", "major 6th", "minor 7th", "major 7th", "octave"]
+    static DIATONIC_INTERVALS = ["2nd", "3rd", "4th", "5th", "6th", "7th", "octave"]
     static CHORDS_3 = ["major", "minor"]
 
     static ASC_DESC = ["ascending", "descending"]

@@ -41,4 +41,26 @@ export default class LessonRepository {
     return null;
   }
 
+  //groups are objects with a list of groups a and a list of lessons. so lessons are the leaves.
+  getAllLessonsRecursiveFlatByParentGroupPath(groupPath) {
+    let lessons = []
+    let parentGroup = groupRepository.getGroupByPath(groupPath)
+    let groupNames = parentGroup.getGroupNames()
+    let lessonNames = parentGroup.getLessonNames()
+    for (let i = 0; i < groupNames.length; i++) {
+      let groupName = groupNames[i]
+      let groupLessons = this.getAllLessonsRecursiveFlatByParentGroupPath(Path.plus(groupPath, groupName))
+      lessons = lessons.concat(groupLessons)
+    }
+    for (let i = 0; i < lessonNames.length; i++) {
+      let lessonName = lessonNames[i]
+      let lesson = this.getLessonByPath(Path.plus(groupPath, lessonName))
+      lessons.push(lesson)
+    }
+    return lessons
+
+
+
+  }
+
 }

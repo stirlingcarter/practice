@@ -85,6 +85,10 @@ export default class Util {
         return name
     }
 
+    static getListOfVariantsFromVHash(vHash) {
+        return vHash.split("$")
+    }
+
 
     static arrayAvg(arr){
         return arr.length < 1 ? 0 : arr.reduce((a, b) => a + b) / arr.length;

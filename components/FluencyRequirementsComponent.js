@@ -24,7 +24,7 @@ export class FluencyRequirementsComponent extends React.Component {
 
         super(props);
         this.state = {
-            selectedNotes: ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"],
+            selectedNotes: Constants.ALL_NOTES,
             selectedIntervals: ["octave", "2nd", "-2nd", "3rd", "-3rd", "4th", "tritone", "5th", "6th", "-6th", "7th", "-7th"],
             selectedScales: [],
             selectedScalePermutations: [],
