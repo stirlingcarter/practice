@@ -168,20 +168,15 @@ export class FluencyRequirementsComponent extends React.Component {
         gen.generateGroups()
     }
 
-    async playSound(path) {
-        alert("loading")
-        try {
-            const playbackObject = await Audio.Sound.createAsync(
-                require('../assets/sounds/test.wav'),
-                { shouldPlay: true }
-              );
-              
-              playbackObject.playAsync();
-              
 
+    async playSound() {
+        const sound = new Audio.Sound();
+        try {
+          await sound.loadAsync(require('../assets/sounds/test.wav'), {shouldPlay: true});
+          await sound.setPositionAsync(0);
+          await sound.playAsync();
         } catch (error) {
-            alert(error);
-            // An error occurred!
+          console.error(error)
         }
     }
 
@@ -274,7 +269,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     {isChordal && <View>
                     {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"ARPS"}</Text><Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
                     {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
+                    <Text onPress={this.playSound}style={allTheStyles.bpmHeading}>{"Test/BPM (quarter notes)"}</Text>
                         <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
                     </View>}
                     </View>}

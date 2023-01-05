@@ -9,7 +9,6 @@ import Util from "../services/Util.js"
 import { challengeService } from "../App";
 import Constants from "../constant/Constants";
 
-
 export class ChallengeComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +25,9 @@ export class ChallengeComponent extends React.Component {
       count: 0,
       bpm: this.props.bpm
     };
+
+    
+
   }
 
   componentDidMount() {
