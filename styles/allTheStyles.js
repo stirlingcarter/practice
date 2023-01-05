@@ -24,6 +24,16 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 50,
   },
+  chartTheme : {
+    axis: {
+      style: {
+        tickLabels: {
+          // this changed the color of my numbers to white
+          fill: 'white',
+        },
+      },
+    },
+  },
   basicListItemsGreen : {
     textAlignVertical: "center",
     textAlign: "left",

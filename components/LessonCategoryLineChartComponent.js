@@ -6,7 +6,7 @@ import {
 import { VictoryChart, VictoryLine, VictoryScatter, VictoryGroup, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
 import { statService } from "../App";
 import Constants from "../constant/Constants";
-
+import { allTheStyles } from "../styles/allTheStyles";
 const DOMAIN_X_BOUND = 100
 
 export class LessonCategoryLineChartComponent extends React.Component {
@@ -30,7 +30,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
   }
 
   getCoords(historicalTimes) {
-    if (historicalTimes.length == 0) {
+    if (historicalTimes == undefined || historicalTimes.length == 0) {
       return []
     } else if (historicalTimes.length == 1) {
       let res = []
@@ -92,20 +92,25 @@ export class LessonCategoryLineChartComponent extends React.Component {
   }
 
   render() {
-
-    let historicalAveragesByVariant = statService.getHistoricalAveragesByVariant(this.props.namesOfVariants, this.props.lesson)
     const fields = []
-    // alert("ipi+"+JSON.stringify(this.props.namesOfVariants))
-    let i = 0
-    for (variant of this.props.namesOfVariants){
-      let color = Constants.COLORS[i % 12]
-      fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
-      i += 1
+    let historicalAveragesByVariant = undefined
+    if (this.props.lesson != undefined){
+      historicalAveragesByVariant = statService.getHistoricalAveragesByVariantBPM(this.props.namesOfVariants, this.props.lesson.getVHashes(), this.props.lesson.getDataset())
+          let i = 0
+
+      this.props.namesOfVariants.forEach(variant => {
+        let color = Constants.COLORS[i % 12]
+        fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
+        i += 1
+      });
+    }else{
+      fields.push(this.getOneGroupElement(this.props.times, this.props.namesOfVariants[0], Constants.COLORS[0]))
+      fields.push(this.getOneGroupElement(this.props.bpms, this.props.namesOfVariants[1], Constants.COLORS[1]))
     }
     
     return ( 
       <View>
-        <VictoryChart height={400} width={400}
+        <VictoryChart theme={allTheStyles.chartTheme} height={400} width={400}
           containerComponent={<VictoryVoronoiContainer />}
         >
           {fields}

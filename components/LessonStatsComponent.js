@@ -4,12 +4,13 @@ import {
   View
 } from "react-native";
 import { statService } from "../App"
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
 import Util from "../services/Util";
 import Constants from "../constant/Constants";
 import { BPMLineChartComponent } from "./BPMLineChartComponent";
+import { allTheStyles } from "../styles/allTheStyles";
 const DOMAIN = {y:[0,100]}
 const LIMIT = 30 * 1000
 
@@ -57,6 +58,16 @@ export class LessonStatsComponent extends React.Component {
 
     let variantsToTryBPMPairs = Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())
     let allSingleKeys = Object.keys(variantsToTryBPMPairs)
+      /*
+    returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+                 [5,2,6,7,3],
+                 [1,6]],
+                 [[a,b,c....g],
+                 [maj7,m7...d7],
+                 [left,right]]]
+
+    second array maps to first via this.getAverageForVariant(elem)
+  */
     let response = statService.getRecentAveragesByVariant(this.props.lesson)
     let averagesByVariant = response[0]
     let namesOfVariants = response[1]
@@ -78,16 +89,19 @@ export class LessonStatsComponent extends React.Component {
         {allSingleKeys.map((key) => {
             <View>
               <Text>{key}</Text>
-              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
+              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES","BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()}/>
             </View>
         }
+        
 
           )}
+        <Text>{allSingleKeys}</Text>
+
+
         </ScrollView>
       
       );
     }else if (adjustedAveragesByVariant.length == 2){
-
 
       return (
         <ScrollView>
@@ -96,16 +110,21 @@ export class LessonStatsComponent extends React.Component {
         <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1]}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson}/>
         <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson}/>
-        {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
-        {allSingleKeys.map((key) => {
-            <View>
-              <Text>{key}</Text>
-              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
-            </View>
-        }
+        {/* {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>} */}
+        
+        {/*Why won't the below component render? */}
+        {//the reason is that the below component is not a valid react component. It is a function.
+        //so how do we fix this by encapsulating the below code in a react component?
+        // all we need to do is to make a react component that takes in the props and returns the below code}
 
-          )}
-       
+          <FlatList data={allSingleKeys} renderItem={({item}) => (
+            <View>
+              <Text style={{color : "white", fontSize : 30}}>{Util.getVHashPretty(item)}</Text>
+              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES","BPM"]} times={variantsToTryBPMPairs[item].map(pair => pair[0]*1000)} bpms={variantsToTryBPMPairs[item].map(pair => pair[1])} vHashes={this.props.lesson.getVHashes()}/>
+            </View>
+      )}/>
+        }
+ 
         </ScrollView>
 
       
@@ -125,12 +144,14 @@ export class LessonStatsComponent extends React.Component {
         {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
         {allSingleKeys.map((key) => {
             <View>
-              <Text>{key}</Text>
-              <BPMLineChartComponent variant={key} tries={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[0]) }/>
+              <Text style={{color : "white"}}>{Util.getVHashPretty(key)}</Text>
+              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES","BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()}/>
             </View>
         }
 
           )}
+
+        <Text>{allSingleKeys}</Text>
 
         </ScrollView>
 

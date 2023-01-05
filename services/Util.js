@@ -196,6 +196,18 @@ export default class Util {
           })
         return ds
     }
+
+    static getVHashPretty(vHash) {
+        let args = vHash.split("$")
+        let name = ""
+        for (let i = 0; i < args.length; i++) {
+            name += args[i]
+            if (i != args.length - 1) {
+                name += " "
+            }
+        }
+        return name
+    }
       
 
     static removeNonTargetBpm(tries, bpms, target) {
