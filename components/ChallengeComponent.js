@@ -89,18 +89,29 @@ export class ChallengeComponent extends React.Component {
   }
 
   render() {
+    let variants = this.state.vHash.split("$")
+    let l = variants.length
     return (
       <View>
       <View onTouchStart={() => this.challengeCallback(this.props.nav)}
         style={{ width: '100%', height: '52%' }}>
-        <Text>{"\n\n\n\n\n\n\n"}</Text><Text>{"\n\n\n\n\n\n\n"}</Text>
-        <Text
-          style={allTheStyles.challengeButton}
-        >
-          {Util.vHashToName(this.state.vHash)}
-        </Text>
+        <Text>{"\n\n\n\n\n\n\n"}</Text>
+
+          {
+          <View >
+          {variants != undefined && <Text style={allTheStyles.actualExample}>{variants[0] + " "}</Text>}
+          {l > 1 && <Text style={allTheStyles.actualExampleG}>{Util.getNoParens(variants[1]) + " "}</Text>}
+          {l > 2 && <Text style={allTheStyles.actualExampleB}>{Util.getNoParens(variants[2])}</Text>}
+          </View>
+
+
+
+          }
         
       </View>
+
+
+
 
 
   { this.type == Constants.LESSON_TYPE_TRIES && 
@@ -119,12 +130,12 @@ export class ChallengeComponent extends React.Component {
       <View style={allTheStyles.addLessonCol}>
       <View style={allTheStyles.examplesRow}>
         <Text onPress={this.subtract}
-        style={allTheStyles.challengeButton}
+        style={allTheStyles.challengeMinusButton}
       >
         {"-  "}
       </Text>
       <Text onPress={this.add}
-        style={allTheStyles.challengeButton}
+        style={allTheStyles.challengePlusButton}
       >
         {"  +"}
       </Text>

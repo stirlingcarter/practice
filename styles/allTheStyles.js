@@ -12,6 +12,23 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 190,
   },
+  logo: {
+    width: '130%',
+    height: 1000,
+    position: 'absolute',
+    top: -400,
+    right: 20
+  },
+  gpt : {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
   hite: {
     height: 200
   },
@@ -364,7 +381,8 @@ export const allTheStyles = StyleSheet.create({
     color: "white",
     fontSize: 74,
     fontStyle: "italic",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: "optima"
   },
   enterButton: {
     textAlignVertical: "center",
@@ -445,7 +463,7 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 60,
-    color: "#000000",
+    color: "white",
     flexDirection: "column",
     
   },
@@ -630,11 +648,12 @@ export const allTheStyles = StyleSheet.create({
   actualExample: {
     textAlignVertical: "center",
     textAlign: "center",
-    fontSize: 50,
+    fontSize: 100,
     color: themeColor,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 75,
+    height: 100,
+    marginLeft: -230,
   },
   actualExampleB: {
     textAlignVertical: "center",
@@ -643,7 +662,8 @@ export const allTheStyles = StyleSheet.create({
     color: "blue",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 75,
+    height: 70,
+    marginLeft: 40,
   },
     actualExampleG: {
     textAlignVertical: "center",
@@ -652,7 +672,7 @@ export const allTheStyles = StyleSheet.create({
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 75,
+    height: 70,
   },
   addVariantGroupButton: {
     textAlignVertical: "center",
@@ -691,6 +711,22 @@ export const allTheStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 100,
     color: "#333333",
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  challengePlusButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    color: themeColor,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  challengeMinusButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    color: themeColor,
     fontStyle: "italic",
     fontWeight: "bold",
   },

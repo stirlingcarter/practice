@@ -49,7 +49,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="IntroScreen" screenOptions={{
         headerShown: false,
         cardStyle: {
-          backgroundColor: '#222222'
+          backgroundColor: 'black'
         }
       }}>
         <Stack.Screen

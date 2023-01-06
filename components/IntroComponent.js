@@ -1,21 +1,23 @@
 import * as React from "react";
 import {
     Text,
-    View
+    View,
+    ImageBackground
 } from "react-native";
 import { allTheStyles } from "../styles/allTheStyles";
 export class IntroComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        };
+            setTimeout(() => this.enter(), 1000);
+
+
     }
 
     componentDidMount() {
-        this.setState({
+        
 
-        });
+
     }
 
     componentWillUnmount() {
@@ -28,8 +30,11 @@ export class IntroComponent extends React.Component {
 
 
     render() {
-        return (<View><Text style={allTheStyles.enterButton} onPress={() => this.enter()}>Practice</Text>
-        </View>)
+        return (<View style={{flex:1}}>
+            <ImageBackground onPress={() => this.enter()} resizeMode={'center'} source={require('../assets/Pics/logo.png')} style={allTheStyles.logo} >
+            </ImageBackground>
+        </View>) 
+
     }
 
     enter(){

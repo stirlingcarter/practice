@@ -47,7 +47,9 @@ export class HomeScreenComponent extends React.Component {
     };
     return (
       <>
-        <SafeAreaView>
+        <View>
+        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+
           <View snapToStart={false} style={allTheStyles.scrollStyle}>
           <Text
               style={allTheStyles.groupScreenTitle}
@@ -103,7 +105,7 @@ export class HomeScreenComponent extends React.Component {
 
             <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
           </View>
-        </SafeAreaView>
+        </View>
       </>
     );
   }

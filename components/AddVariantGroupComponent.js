@@ -203,7 +203,11 @@ export class AddVariantGroupComponent extends React.Component {
                         </View>))}
 
 
-
+                        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+                    <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+                    <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+                    <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
+                    <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
                     <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
                     <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>

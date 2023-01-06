@@ -24,10 +24,11 @@ export class GroupPreviewComponent extends React.Component {
     this.getLessonNames = this.getLessonNames.bind(this);
     this.getGroupNames = this.getGroupNames.bind(this);
     this.handlePlus = this.handlePlus.bind(this);
-    this.setState({
-      groupNames: this.getGroupNames(),
-    });
-    this.state = { currentlyOpenSwipeable: null };
+
+    this.state = { 
+        currentlyOpenSwipeable: null,
+        groupNames: groupRepository.getGroupByPath(this.props.path).getGroupNames()
+   };
 
   }
 
@@ -55,7 +56,7 @@ export class GroupPreviewComponent extends React.Component {
     let next = !this.state.plusOpen
     this.setState({
       plusOpen: next
-    })  
+    })
   }
 
   render() {
@@ -73,7 +74,8 @@ export class GroupPreviewComponent extends React.Component {
 
     return (
       <>
-        <SafeAreaView>
+        <View>
+        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
           <View snapToStart={false} style={allTheStyles.scrollStyle}>
 
             {/* Group Title */}
@@ -120,12 +122,12 @@ export class GroupPreviewComponent extends React.Component {
             <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
 
             <Text onPress={this.handlePlus}
-        style={this.state.plusOpen ? allTheStyles.addStuffButtonRed : allTheStyles.addStuffButton}
-      >
-        {this.state.plusOpen ? "-" : "+"}
-      </Text>
-      {this.state.plusOpen && <View>
-                {/* Add lesson */}
+              style={this.state.plusOpen ? allTheStyles.addStuffButtonRed : allTheStyles.addStuffButton}
+            >
+              {this.state.plusOpen ? "-" : "+"}
+            </Text>
+            {this.state.plusOpen && <View>
+              {/* Add lesson */}
 
               <Text
                 onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
@@ -136,16 +138,16 @@ export class GroupPreviewComponent extends React.Component {
               >
                 {"ADD LESSON"}
               </Text>
-            {this.props.path.split('/').length === 2 && //we are at instr level
-             <Text
-                onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
-                  path: this.props.path,
-                  cb: this.getGroupNames,
-                })}
-                style={allTheStyles.fluentButton}
-              >
-                {"MAKE ME FLUENT (BETA)"}
-              </Text>}
+              {this.props.path.split('/').length === 2 && //we are at instr level
+                <Text
+                  onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
+                    path: this.props.path,
+                    cb: this.getGroupNames,
+                  })}
+                  style={allTheStyles.fluentButton}
+                >
+                  {"MAKE ME FLUENT (BETA)"}
+                </Text>}
 
               {/* Add group */}
 
@@ -161,102 +163,102 @@ export class GroupPreviewComponent extends React.Component {
                 {"ADD GROUP"}
               </Text>
 
-            
-
-              </View>}
-
-              <View>
-            {/* GROUPS */}
-
-            <FlatList
-              data={this.state.groupNames}
-              renderItem={({ item }) => (
-                <Swipeable
-                  rightButtons={[
-                    <TouchableOpacity
-                      onPress={() => {
-                        TreeUtils.deleteGroupByPath(
-                          Path.plus(this.props.path, item)
-                        );
-                        this.getGroupNames()
-                      }}
-
-                      style={[
-                        styles5.rightSwipeItem,
-                        { backgroundColor: "red" },
-                      ]}
-                    >
-                      <Text></Text>
-                    </TouchableOpacity>,
-                  ]}
-                  onRightButtonsOpenRelease={itemProps.onOpen}
-                  onRightButtonsCloseRelease={itemProps.onClose}
-                >
-                  <Text
-                    onPress={() => {
-                      let nextPath = Path.plus(this.props.path, item)
-
-                      this.setState({
-                        groupNames: groupRepository.getGroupNamesByGroupPath(nextPath),
-                        lessonNames: groupRepository.getLessonNamesByGroupPath(nextPath)
-                      });
-                      this.props.nav.navigate("GroupScreen", {
-                        path: Path.plus(this.props.path, item)
-                      })
-                    }
-                    }
 
 
-                    style={allTheStyles.openGroup}
+            </View>}
+
+            <ScrollView>
+              {/* GROUPS */}
+
+              <FlatList
+                data={this.state.groupNames}
+                renderItem={({ item }) => (
+                  <Swipeable
+                    rightButtons={[
+                      <TouchableOpacity
+                        onPress={() => {
+                          TreeUtils.deleteGroupByPath(
+                            Path.plus(this.props.path, item)
+                          );
+                          this.getGroupNames()
+                        }}
+
+                        style={[
+                          styles5.rightSwipeItem,
+                          { backgroundColor: "red" },
+                        ]}
+                      >
+                        <Text></Text>
+                      </TouchableOpacity>,
+                    ]}
+                    onRightButtonsOpenRelease={itemProps.onOpen}
+                    onRightButtonsCloseRelease={itemProps.onClose}
                   >
-                    {item}
-                  </Text>
-                </Swipeable>
-              )}
-              keyExtractor={(item, index) => index.toString()} />
-
-            {/* LESSONS */}
-
-            <FlatList
-              data={this.state.lessonNames}
-              renderItem={({ item }) => (
-                <Swipeable
-                  rightButtons={[
-                    <TouchableOpacity
+                    <Text
                       onPress={() => {
-                        TreeUtils.deleteLessonByPath(
-                          Path.plus(this.props.path, item)
-                        );
-                        this.getLessonNames()
-                      }}
-                      style={[
-                        styles5.rightSwipeItem,
-                        { backgroundColor: "red" },
-                      ]}
+                        let nextPath = Path.plus(this.props.path, item)
+
+                        this.setState({
+                          groupNames: groupRepository.getGroupNamesByGroupPath(nextPath),
+                          lessonNames: groupRepository.getLessonNamesByGroupPath(nextPath)
+                        });
+                        this.props.nav.navigate("GroupScreen", {
+                          path: Path.plus(this.props.path, item)
+                        })
+                      }
+                      }
+
+
+                      style={allTheStyles.openGroup}
                     >
-                      <Text></Text>
-                    </TouchableOpacity>,
-                  ]}
-                  onRightButtonsOpenRelease={itemProps.onOpen}
-                  onRightButtonsCloseRelease={itemProps.onClose}
-                >
-                  <Text
-                    onPress={() => this.props.nav.navigate("LessonLaunchScreen", {
-                      lessonName: item,
-                      path: Path.plus(this.props.path, item),
-                    })}
-                    style={allTheStyles.openLesson}
+                      {item}
+                    </Text>
+                  </Swipeable>
+                )}
+                keyExtractor={(item, index) => index.toString()} />
+
+              {/* LESSONS */}
+
+              <FlatList
+                data={this.state.lessonNames}
+                renderItem={({ item }) => (
+                  <Swipeable
+                    rightButtons={[
+                      <TouchableOpacity
+                        onPress={() => {
+                          TreeUtils.deleteLessonByPath(
+                            Path.plus(this.props.path, item)
+                          );
+                          this.getLessonNames()
+                        }}
+                        style={[
+                          styles5.rightSwipeItem,
+                          { backgroundColor: "red" },
+                        ]}
+                      >
+                        <Text></Text>
+                      </TouchableOpacity>,
+                    ]}
+                    onRightButtonsOpenRelease={itemProps.onOpen}
+                    onRightButtonsCloseRelease={itemProps.onClose}
                   >
-                    {item}
-                  </Text>
-                </Swipeable>
-              )}
-              keyExtractor={(item, index) => index.toString()} />
-</View>
+                    <Text
+                      onPress={() => this.props.nav.navigate("LessonLaunchScreen", {
+                        lessonName: item,
+                        path: Path.plus(this.props.path, item),
+                      })}
+                      style={allTheStyles.openLesson}
+                    >
+                      {item}
+                    </Text>
+                  </Swipeable>
+                )}
+                keyExtractor={(item, index) => index.toString()} />
+            </ScrollView>
 
             <Text style={allTheStyles.groupScreenSpacer}>{"\n"}</Text>
           </View>
-        </SafeAreaView>
+        </View>
       </>
     );
   }
