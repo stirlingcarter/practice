@@ -8,6 +8,7 @@ import {
 import { challengeService, lessonRepository } from "../App";
 import Constants from "../constant/Constants";
 import { allTheStyles } from "../styles/allTheStyles.js"
+import Util from "../services/Util";
 
 export class LessonLaunchComponent extends React.Component {
   constructor(props) {
@@ -29,8 +30,14 @@ export class LessonLaunchComponent extends React.Component {
 
   }
 
-  componentWillUnmount() {
-
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState((state, props) => {
+        return {
+          examples: [Util.getRandomFromArray(this.state.lesson.getNotes()),Util.getRandomFromArray(this.state.lesson.getV()),Util.getRandomFromArray(this.state.lesson.getV2())]
+        };
+      });
+    }, 1600);
   }
 
   add(){
@@ -86,7 +93,7 @@ export class LessonLaunchComponent extends React.Component {
       <SafeAreaView>
         <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
 
-          <Text style={allTheStyles.cri}>{this.state.lesson.getCriteria()}</Text>
+          <Text style={allTheStyles.criWhite}>{this.state.lesson.getCriteria()}</Text>
           { (this.state.lesson.getType() === Constants.LESSON_TYPE_TRIES) && 
       <View
       style={ allTheStyles.examplesRow}>    
@@ -132,7 +139,11 @@ export class LessonLaunchComponent extends React.Component {
 
       </View>
   }        
-          
+                    <View style={allTheStyles.examplesRow}>
+          <Text style={allTheStyles.actualExampleO}>{this.state.examples == undefined ? "" : this.state.examples[0] + " "}</Text>
+          <Text style={allTheStyles.actualExampleGO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
+          <Text style={allTheStyles.actualExampleBO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
+          </View>
           
           <Text
             style={allTheStyles.startButton}

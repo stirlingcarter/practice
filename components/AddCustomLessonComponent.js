@@ -44,7 +44,7 @@ export class AddCustomLessonComponent extends React.Component {
     this.interval = setInterval(() => {
       this.setState((state, props) => {
         return {
-          examples: [Util.getRandomFromArray(Constants.ALL_NOTES),Util.getRandomFromArray(this.state.variants),Util.getRandomFromArray(this.state.variants2)]
+          examples: [Util.getRandomFromArray(this.selectedNotes),Util.getRandomFromArray(this.state.variants),Util.getRandomFromArray(this.state.variants2)]
         };
       });
     }, 1600);
@@ -150,7 +150,7 @@ export class AddCustomLessonComponent extends React.Component {
 
         <ScrollView style={allTheStyles.addLessonCol}>
           <TextInput
-            style={allTheStyles.saveButton}
+            style={allTheStyles.leTitleButton}
             onBlur={Keyboard.dismiss}
             placeholder="Title"
             maxLength={200}

@@ -9,7 +9,7 @@ export class IntroComponent extends React.Component {
 
     constructor(props) {
         super(props);
-            setTimeout(() => this.enter(), 1000);
+            setTimeout(() => this.enter(), 4000);
 
 
     }
@@ -30,8 +30,8 @@ export class IntroComponent extends React.Component {
 
 
     render() {
-        return (<View style={{flex:1}}>
-            <ImageBackground onPress={() => this.enter()} resizeMode={'center'} source={require('../assets/Pics/logo.png')} style={allTheStyles.logo} >
+        return (<View onClick={() => this.enter()}  style={{flex:1}}>
+            <ImageBackground resizeMode={'center'} source={require('../assets/Pics/logo3.png')} style={allTheStyles.logo} >
             </ImageBackground>
         </View>) 
 

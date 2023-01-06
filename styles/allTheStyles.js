@@ -12,6 +12,15 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 190,
   },
+  leTitleButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 190,
+    color: 'white'
+  },
   logo: {
     width: '130%',
     height: 1000,
@@ -477,6 +486,7 @@ export const allTheStyles = StyleSheet.create({
     height: 75,
     color: "#000000",
     flexDirection: "column",
+    color: "white",
     
   },
   filterRow: {
@@ -674,6 +684,35 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 70,
   },
+  actualExampleO: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 30,
+    color: themeColor,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 70,
+
+  },
+  actualExampleBO: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 30,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 70,
+
+  },
+    actualExampleGO: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 30,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 70,
+  },
   addVariantGroupButton: {
     textAlignVertical: "center",
     textAlign: "center",
@@ -790,6 +829,14 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 60,
     fontStyle: "italic",
     fontWeight: "bold",
+  },
+  criWhite: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 60,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    color: "white"
   },
   scrollStyle: {
   },
