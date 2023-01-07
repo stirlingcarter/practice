@@ -1,14 +1,3 @@
-import { StyleSheet } from "react-native";
-
-//LEFTOVER 3RD PARTY STYLES ------------------------------------------------------------------------------------------------------------------------------------------------------------
-const styles1 = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 22,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-});
+version https://git-lfs.github.com/spec/v1
+oid sha256:826ee68663bfe7a0a9f0b73906d6395a1e32acddd97af5fc5f0007687327747d
+size 388

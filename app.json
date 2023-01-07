@@ -1,36 +1,3 @@
-{
-  "expo": {
-    "name": "practice",
-    "description": "No description",
-    "slug": "snack-b6315657-2bd7-4ab8-99d9-52d2be36a4b5",
-    "privacy": "unlisted",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "primaryColor": "#cccccc",
-    "icon": "https://d1wp6m56sqw74a.cloudfront.net/~assets/c9aa1be8a6a6fe81e20c3ac4106a2ebc",
-    "packagerOpts": {
-      "assetExts": [
-        "ttf",
-        "mp4",
-        "otf",
-        "xml"
-      ]
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.stirlingcarter.snack-b6315657-2bd7-4ab8-99d9-52d2be36a4b5"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "8c20f4b9-cef3-4e0a-96f1-a8e9eb57ab95"
-      }
-    },
-    "android": {
-      "package": "com.stirlingcarter.snackb63156572bd74ab899d952d2be36a4b5"
-    },
-    "runtimeVersion": "1.0.0",
-    "updates": {
-      "url": "https://u.expo.dev/8c20f4b9-cef3-4e0a-96f1-a8e9eb57ab95"
-    }
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c8aef30e6a506ebb59e01e19bb7d3bb20a34a319f8231f99ebbc39f7b60aa4d6
+size 933

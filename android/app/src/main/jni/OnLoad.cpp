@@ -1,11 +1,3 @@
-#include <fbjni/fbjni.h>
-#include "MainApplicationTurboModuleManagerDelegate.h"
-#include "MainComponentsRegistry.h"
-
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
-  return facebook::jni::initialize(vm, [] {
-    facebook::react::MainApplicationTurboModuleManagerDelegate::
-        registerNatives();
-    facebook::react::MainComponentsRegistry::registerNatives();
-  });
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d1eb649f571ca68a44298710fb64eeed1eb9ecc787e3efca14b23a7666179c92
+size 381

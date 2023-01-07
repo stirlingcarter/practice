@@ -1,7 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
-    <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" />
-</manifest>
+version https://git-lfs.github.com/spec/v1
+oid sha256:f7c8a30583046041a5348db5ac64a59c65dc0d542889871f966f3916c003a055
+size 329

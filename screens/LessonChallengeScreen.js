@@ -1,12 +1,3 @@
-import * as React from "react";
-import { ChallengeComponent } from "../components/ChallengeComponent";
-
-export function LessonChallengeScreen({ route, navigation }) {
-  const { lesson } = route.params;
-  const { groupName } = route.params;
-  const { type } = route.params;
-  const { bpm } = route.params;
-  const { auto } = route.params;
-
-  return <ChallengeComponent nav={navigation} lesson={lesson} groupName={groupName} type={type} bpm={bpm} auto={auto}/>;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:725116d5f570d67c02d114917a85b7aa11680424bba8e94daa389f277c703f2f
+size 462

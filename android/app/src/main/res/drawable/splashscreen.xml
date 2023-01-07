@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:drawable="@color/splashscreen_background"/>
-</layer-list>
+version https://git-lfs.github.com/spec/v1
+oid sha256:8a6ad3364c40464ae27a3aff36a319488b376eededf12e0cf92602d7262931b9
+size 201

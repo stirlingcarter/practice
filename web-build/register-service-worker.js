@@ -1,14 +1,3 @@
-/* eslint-env browser */
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker
-      .register("/expo-service-worker.js", { scope: "/" })
-      .then(function (info) {
-        // console.info('Registered service-worker', info);
-      })
-      .catch(function (error) {
-        console.info("Failed to register service-worker", error);
-      });
-  });
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0e6880fd7a8f3bdbba02c4b46e6f94953b9d629d1ddc197ca00fe59146c457cd
+size 412

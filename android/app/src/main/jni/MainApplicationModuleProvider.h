@@ -1,16 +1,3 @@
-#pragma once
-
-#include <memory>
-#include <string>
-
-#include <ReactCommon/JavaTurboModule.h>
-
-namespace facebook {
-namespace react {
-
-std::shared_ptr<TurboModule> MainApplicationModuleProvider(
-    const std::string moduleName,
-    const JavaTurboModule::InitParams &params);
-
-} // namespace react
-} // namespace facebook
+version https://git-lfs.github.com/spec/v1
+oid sha256:0a94d2db0eeded4b6f0f5035fe64f6bb6984e1c9696e07126dba395337d43f89
+size 321

@@ -1,19 +1,3 @@
-{
-  "cli": {
-    "version": ">= 2.6.0",
-    "promptToConfigurePushNotifications": false
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {}
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3da5f13112580a4499f98c77bd1710c8d677bfded5305aab1c6731d42a7456ff
+size 324

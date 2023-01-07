@@ -1,36 +1,3 @@
-package com.stirlingcarter.snackb63156572bd74ab899d952d2be36a4b5.newarchitecture.components;
-
-import com.facebook.jni.HybridData;
-import com.facebook.proguard.annotations.DoNotStrip;
-import com.facebook.react.fabric.ComponentFactory;
-import com.facebook.soloader.SoLoader;
-
-/**
- * Class responsible to load the custom Fabric Components. This class has native methods and needs a
- * corresponding C++ implementation/header file to work correctly (already placed inside the jni/
- * folder for you).
- *
- * <p>Please note that this class is used ONLY if you opt-in for the New Architecture (see the
- * `newArchEnabled` property). Is ignored otherwise.
- */
-@DoNotStrip
-public class MainComponentsRegistry {
-  static {
-    SoLoader.loadLibrary("fabricjni");
-  }
-
-  @DoNotStrip private final HybridData mHybridData;
-
-  @DoNotStrip
-  private native HybridData initHybrid(ComponentFactory componentFactory);
-
-  @DoNotStrip
-  private MainComponentsRegistry(ComponentFactory componentFactory) {
-    mHybridData = initHybrid(componentFactory);
-  }
-
-  @DoNotStrip
-  public static MainComponentsRegistry register(ComponentFactory componentFactory) {
-    return new MainComponentsRegistry(componentFactory);
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:83d6bdeb65a1353c3b08d049d5465a625f5d7bb6befd36f000ecab6f0844977b
+size 1199

@@ -1,16 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-  <dict>
-    <key>EXUpdatesCheckOnLaunch</key>
-    <string>ALWAYS</string>
-    <key>EXUpdatesEnabled</key>
-    <true/>
-    <key>EXUpdatesLaunchWaitMs</key>
-    <integer>0</integer>
-    <key>EXUpdatesURL</key>
-    <string>https://u.expo.dev/8c20f4b9-cef3-4e0a-96f1-a8e9eb57ab95</string>
-    <key>EXUpdatesRuntimeVersion</key>
-    <string>1.0.0</string>
-  </dict>
-</plist>
+version https://git-lfs.github.com/spec/v1
+oid sha256:d188b9df3fb8585163d817a8f61e806e2110c5b251d4d999547dded0d7824c8f
+size 534

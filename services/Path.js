@@ -1,16 +1,3 @@
-export default class Path {
-
-    static up(path){
-        return path.substring(0,path.lastIndexOf('/'))
-    }
-
-    static currentDir(path){
-        return path.substring(path.lastIndexOf('/')+1)
-    }
-
-    static plus(path, p){
-        return path + '/' + p
-    }
-
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0ee6760ab7e1848e7f7a54ec279ec802ab81baa3f044482209f69205af76128c
+size 268

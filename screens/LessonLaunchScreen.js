@@ -1,14 +1,3 @@
-import * as React from "react";
-import { LessonLaunchComponent } from "../components/LessonLaunchComponent";
-
-export function LessonLaunchScreen({ route, navigation }) {
-  const { lessonName } = route.params;
-  const { path } = route.params;
-
-  return (
-    <LessonLaunchComponent
-      path={path}
-      nav={navigation}
-      lessonName={lessonName} />
-  );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9ab5fa83e40e36cd69959a5a842bd2cf6b01fa57fac4337b0237ddbf05460731
+size 362

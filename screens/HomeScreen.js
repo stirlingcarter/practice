@@ -1,21 +1,3 @@
-import * as React from "react";
-import { View, Text, FlatList } from "react-native";
-import { allTheStyles } from "../styles/allTheStyles.js"
-import {  groupRepository } from "../App";
-import { HomeScreenComponent } from "../components/HomeScreenComponent.js";
-import Constants from "../constant/Constants.js";
-import TreeUtils from "../services/TreeUtils.js";
-
-
-export function HomeScreen({ navigation }) {
-  const headGroup = TreeUtils.getHeadGroup()
-  const path = Constants.HEAD_GROUP_PATH
-  const groupNames = headGroup.getGroupNames()
-  return (
-    <View style={allTheStyles.homeScreenBackground}>
-
-      <HomeScreenComponent  nav={navigation} groupNames={groupNames} path={path}></HomeScreenComponent>
-
-    </View>
-  );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3c1bb7d0be3bfcb075d0cdf58ecb6e608fb406bac06ec31478d1637f1d3d652c
+size 730

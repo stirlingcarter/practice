@@ -1,10 +1,3 @@
-import * as React from "react";
-import { FluencyRequirementsComponent } from "../components/FluencyRequirementsComponent";
-
-
-export function FluencyRequirementsScreen({ route, navigation }) {
-  const { path } = route.params;
-  const { cb } = route.params;
-
-  return <FluencyRequirementsComponent path={path} cb={cb} nav={navigation}/>;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9eb803971ddbe694cb4c4dff2eb5b2839f7c308568d6f6a4f312edd1c823563b
+size 338

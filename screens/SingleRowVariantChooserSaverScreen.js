@@ -1,18 +1,3 @@
-import * as React from "react";
-import { View } from "react-native";
-import { AddVariantGroupComponent } from "../components/AddVariantGroupComponent";
-import { SingleRowVariantChooserSaverComponent } from "../components/SingleRowVariantChooserSaverComponent";
-
-export function SingleRowVariantChooserSaverScreen({ route, navigation }) {
-  const { path } = route.params;
-  const { category } = route.params;
-  const { cb } = route.params;
-  const { alreadyChosen } = route.params
-  
-  return (
-    <View>
-      <SingleRowVariantChooserSaverComponent nav={navigation} path={path} category={category} cb={cb} alreadyChosen={alreadyChosen}/>
-    </View>
-  );
-}
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:8223d80908ecbf2d36d6756016c39dca1cba9fd8dfee9ad166c3372d03b9a398
+size 659
