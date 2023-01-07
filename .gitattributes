@@ -1,2 +1,7 @@
 assets/sounds/nome.wav filter=lfs diff=lfs merge=lfs -text
+assets/ filter=lfs diff=lfs merge=lfs -text
+assets/icons filter=lfs diff=lfs merge=lfs -text
+assets/snack-icon.png filter=lfs diff=lfs merge=lfs -text
+assets/sounds filter=lfs diff=lfs merge=lfs -text
+assets/Pics filter=lfs diff=lfs merge=lfs -text
 * filter=lfs diff=lfs merge=lfs -text
