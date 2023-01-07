@@ -273,8 +273,8 @@ export const allTheStyles = StyleSheet.create({
   fluentHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "white",
-    backgroundColor: vsrs,
+    color: "black",
+    backgroundColor: themeColor,
     fontSize: 50,
     marginBottom: 25,
     fontStyle: "italic",

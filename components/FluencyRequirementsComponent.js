@@ -260,7 +260,7 @@ export class FluencyRequirementsComponent extends React.Component {
 
                     {this.state.scalesOpen && <View>
                     <View style={allTheStyles.examplesRow}>
-                        <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
+                        <Text onPress={() => this.playSound(Number(this.state.scalesBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
                         <TextInput onChangeText={this.handleScalesBpmChange} defaultValue={this.state.scalesBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
@@ -271,7 +271,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text><Text onPress={this.handleChordsOpen} style={this.state.chordsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.chordsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
                     {this.state.chordsOpen && <View>
                     <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
+                    <Text onPress={() => this.playSound(Number(this.state.chordsBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
                         <TextInput onChangeText={this.handleChordsBpmChange} defaultValue={this.state.chordsBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
@@ -287,7 +287,7 @@ export class FluencyRequirementsComponent extends React.Component {
                         <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>}
                     </View>}
-                        <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
+                        {/* <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
                     {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
                     
 
