@@ -140,7 +140,7 @@ export class LessonLaunchComponent extends React.Component {
       </View>
   }        
                     <View style={allTheStyles.examplesRow}>
-          <Text style={allTheStyles.actualExampleO}>{this.state.examples == undefined ? "" : this.state.examples[0] + " "}</Text>
+          <Text style={allTheStyles.actualExampleO}>{this.state.examples == undefined ? "For example" : this.state.examples[0] + " "}</Text>
           <Text style={allTheStyles.actualExampleGO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
           <Text style={allTheStyles.actualExampleBO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
           </View>

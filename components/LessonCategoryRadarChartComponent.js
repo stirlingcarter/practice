@@ -36,7 +36,7 @@ export class LessonCategoryRadarChartComponent extends React.Component {
     let color = "mediumspringgreen"
     for (var i = 0; i < this.props.averages.length; i++) {
       if (this.props.averages[i] < 100) {
-        color = "black"
+        color = "pink"
         break;
       }
     }

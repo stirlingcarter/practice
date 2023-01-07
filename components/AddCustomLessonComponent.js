@@ -219,7 +219,7 @@ export class AddCustomLessonComponent extends React.Component {
           <Text style={allTheStyles.examplesButton}>{"Examples"}</Text>
 
           <View style={allTheStyles.examplesRow}>
-          <Text style={allTheStyles.actualExample}>{this.state.examples == undefined ? "" : this.state.examples[0] + " "}</Text>
+          <Text style={allTheStyles.actualExample}>{this.state.examples == undefined ? "e.g." : this.state.examples[0] + " "}</Text>
           <Text style={allTheStyles.actualExampleG}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
           <Text style={allTheStyles.actualExampleB}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
           </View>

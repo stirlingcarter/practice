@@ -3,6 +3,7 @@ import { shadow } from "react-native-paper";
 
 const themeColor = '#FFC0CB'
 const vsrs = "#222222"
+const understandMargin = 200
 export const allTheStyles = StyleSheet.create({
   saveButton: {
     textAlignVertical: "center",
@@ -22,11 +23,19 @@ export const allTheStyles = StyleSheet.create({
     color: 'white'
   },
   logo: {
+  
     width: '130%',
     height: 1000,
     position: 'absolute',
     top: -400,
-    right: 20
+    right: 17
+  },
+  radialEx: {
+    width: 450,
+    height: 300,
+    position: 'absolute',
+    top: -50,
+    right: -10
   },
   gpt : {
     flex: 1,
@@ -837,6 +846,56 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     color: "white"
+  },
+  warningScreen: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 25,
+    marginRight: 10,
+    marginTop: 400
+  },
+  warningScreen3: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 25,
+    marginRight: 10,
+    marginTop: 20
+  },
+  warningScreenHeader: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 33,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 25,
+    marginRight: 10,
+    marginTop: -300
+  },
+  warningScreen1: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 25,
+    marginRight: 10,
+    marginTop: 40
+  },
+  warningScreenUnderstand: {
+    textAlignVertical: "center",
+    textAlign: "auto",
+    fontSize: 33,
+    fontWeight: "bold",
+    color: "white",
+    marginLeft: 25,
+    marginRight: 10,
+    marginBottom: 200,
   },
   scrollStyle: {
   },
