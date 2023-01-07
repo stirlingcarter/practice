@@ -8,7 +8,7 @@ import { allTheStyles } from "../styles/allTheStyles.js"
 import Util from "../services/Util.js"
 import { challengeService } from "../App";
 import Constants from "../constant/Constants";
-
+import Metronome from "./Metronome";
 export class ChallengeComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -120,7 +120,7 @@ export class ChallengeComponent extends React.Component {
       >
         {this.state.count == undefined ? 0 : this.state.count}
       </Text>
-  }
+  }<Metronome></Metronome>
   { this.type == Constants.LESSON_TYPE_TRIES && 
       <View
       style={ allTheStyles.examplesRow}>    
@@ -128,6 +128,7 @@ export class ChallengeComponent extends React.Component {
 
       <Text>{"\n\n\n\n\n\n\n"}</Text>
       <View style={allTheStyles.addLessonCol}>
+        
       <View style={allTheStyles.examplesRow}>
         <Text onPress={this.subtract}
         style={allTheStyles.challengeMinusButton}

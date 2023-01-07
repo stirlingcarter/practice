@@ -652,6 +652,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,
+    color: themeColor,
     fontStyle: "italic",
     fontWeight: "bold",
     height: 120,
@@ -889,13 +890,14 @@ export const allTheStyles = StyleSheet.create({
   },
   warningScreenUnderstand: {
     textAlignVertical: "center",
-    textAlign: "auto",
+    textAlign: "center",
     fontSize: 33,
     fontWeight: "bold",
-    color: "white",
-    marginLeft: 25,
-    marginRight: 10,
-    marginBottom: 200,
+    color: "black",
+    marginTop: 30,
+    marginBottom: 120,
+    width: 430,
+    backgroundColor: themeColor
   },
   scrollStyle: {
   },

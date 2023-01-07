@@ -9,7 +9,7 @@ import { allTheStyles } from "../styles/allTheStyles";
 
 
 export class IntroComponent extends React.Component {
-    LOGO_OPEN_SEC = 7
+    LOGO_OPEN_SEC = 50
 
     WARNING_OPEN_SEC = 5
     constructor(props) {
@@ -39,10 +39,10 @@ export class IntroComponent extends React.Component {
 
     render() {
         return this.state.count == 0 ? (<View style={{flex:1}}>
-            <ImageBackground  resizeMode={'center'} source={require('../assets/Pics/logo11.png')} style={allTheStyles.logo} >
+            <ImageBackground  resizeMode={'center'} source={require('../assets/Pics/logo9.png')} style={allTheStyles.logo} >
             <Text style={{color: 'white'}}onPress={this.enter} ></Text>
             </ImageBackground>
-            <ImageBackground resizeMode={'center'} source={require('../assets/Pics/logo10.png')} style={allTheStyles.logo} >
+            <ImageBackground resizeMode={'center'} source={require('../assets/Pics/logo8.png')} style={allTheStyles.logo} >
             </ImageBackground>
             </View>) : 
             (<View >

@@ -30,14 +30,15 @@ export class FluencyRequirementsComponent extends React.Component {
             selectedScalePermutations: [],
             selectedChords: '',
             selectedChordInversions: [],
-            scalesBpm: 120,
-            chordsBpm: 120,
-            arpsBpm: 120,
+            scalesBpm: "120",
+            chordsBpm: "120",
+            arpsBpm: "120",
             notesOpen : false,
             intervalsOpen : false,
             scalesOpen : false,
             chordsOpen : false,
-            arpsOpen : false
+            arpsOpen : false,
+            currentlyPlaying: undefined
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -53,11 +54,11 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleChordsOpen = this.handleChordsOpen.bind(this);
         this.handleArpsOpen = this.handleArpsOpen.bind(this);
     
-
+        
         this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
-        this.handleScalesBPMChange = this.handleScalesBPMChange.bind(this);
-        this.handleChordsBPMChange = this.handleChordsBPMChange.bind(this);
-        this.handleArpsBPMChange = this.handleArpsBPMChange.bind(this);
+        this.handleScalesBpmChange = this.handleScalesBpmChange.bind(this);
+        this.handleChordsBpmChange = this.handleChordsBpmChange.bind(this);
+        this.handleArpsBpmChange = this.handleArpsBpmChange.bind(this);
     }
 
     handleSubmit() {
@@ -129,15 +130,15 @@ export class FluencyRequirementsComponent extends React.Component {
     }
 
 
-    handleScalesBPMChange(bpm) {
+    handleScalesBpmChange(bpm) {
         this.setState({ scalesBpm: bpm });
     }
 
-    handleChordsBPMChange(bpm) {
+    handleChordsBpmChange(bpm) {
         this.setState({ chordsBpm: bpm });
     }
 
-    handleArpsBPMChange(bpm) {
+    handleArpsBpmChange(bpm) {
         this.setState({ arpsBpm: bpm });
     }
 
@@ -169,15 +170,28 @@ export class FluencyRequirementsComponent extends React.Component {
     }
 
 
-    async playSound() {
+    async playSound(bpm, currentlyPlaying) {
+
+        if (currentlyPlaying != undefined && currentlyPlaying) {
+            await currentlyPlaying.stopAsync();
+          }
         const sound = new Audio.Sound();
         try {
-          await sound.loadAsync(require('../assets/sounds/test.wav'), {shouldPlay: true});
+          await sound.loadAsync(require('../assets/sounds/nome1.wav'), {shouldPlay: true});
           await sound.setPositionAsync(0);
+          //set the rate
+          await sound.setRateAsync(bpm/120, false);
+          this.setState({currentlyPlaying: sound})
           await sound.playAsync();
+          
         } catch (error) {
-          console.error(error)
+          alert(error)
         }
+    }
+
+    //what do we need to multiply 120 by to get the desired bpm?
+    getMultiplierForBPM(bpm) {
+        
     }
 
 
@@ -247,7 +261,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     {this.state.scalesOpen && <View>
                     <View style={allTheStyles.examplesRow}>
                         <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleScalesBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
+                        <TextInput onChangeText={this.handleScalesBpmChange} defaultValue={this.state.scalesBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
@@ -258,7 +272,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     {this.state.chordsOpen && <View>
                     <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleChordsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
+                        <TextInput onChangeText={this.handleChordsBpmChange} defaultValue={this.state.chordsBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
@@ -269,11 +283,11 @@ export class FluencyRequirementsComponent extends React.Component {
                     {isChordal && <View>
                     {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"ARPS"}</Text><Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
                     {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
-                    <Text onPress={this.playSound}style={allTheStyles.bpmHeading}>{"Test/BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleArpsBPMChange} defaultValue={"120"} style={allTheStyles.bpmOption}></TextInput>
+                    <Text onPress={() => this.playSound(Number(this.state.arpsBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"Test/BPM (quarter notes)"}</Text>
+                        <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
                     </View>}
                     </View>}
-                        {/* <Text onPress={() => this.playSound('./assets/sounds/test.wav')} style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
+                        <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text>
                     {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
                     
 
