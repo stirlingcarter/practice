@@ -1,19 +1,19 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  StyleSheet
+  View
 } from "react-native";
-import { HQI } from "../App";
-import { VictoryChart, VictoryTheme, VictoryArea, VictoryPolarAxis, VictoryLabel  } from "victory-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { statService } from "../App"
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
-
-const DOMAIN = {y:[0,100]}
+import Util from "../services/Util";
+import Constants from "../constant/Constants";
+import { BPMLineChartComponent } from "./BPMLineChartComponent";
+import { allTheStyles } from "../styles/allTheStyles";
+const DOMAIN = { y: [0, 100] }
 const LIMIT = 30 * 1000
 
-//  want this to be ininviisiible and cover whole screen TODO
 export class LessonStatsComponent extends React.Component {
 
   constructor(props) {
@@ -36,99 +36,131 @@ export class LessonStatsComponent extends React.Component {
   componentDidUpdate() {
   }
 
-  f(x){
+  f(x) {
 
-    let goal = HQI.getLessonGoal() * 1000 
+    let goal = this.props.lesson.getGoal() * 1000
 
     //approach 100 as x approaches  0
     //approach 0 as x approaches inf  
-    if (x == 0 || x > LIMIT){
+    if (x == 0 || x > LIMIT) {
       return 10
-    } if (x <= goal){
-      return 100 
+    } if (x <= goal) {
+      return 100
     }
     let diffFromGoal = (x - goal) / 1000
     let ret = 100 - (16.4317 * Math.sqrt(diffFromGoal))
     return (ret > 0 ? ret : 10)
   }
 
+
+
   render() {
-    let response = HQI.getAveragesByCategory()
-    let averagesByCategory = response[0]
-    let namesByCategory = response[1]
 
-    //HQI.getAverages returns -> [
-      //            [
-        //          [2,6,3,6,4,7,6,4,8,2,6,7],
-    //              [5,2,6,7,3],
-    //              [1,6]
-  //                ],
-  //                [
-    //              [a,b,c....g],
-    //              [maj7,m7...d7],
-    //              [left,right]
-  //                ]
-//                                ]
+    let isTries = this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES
 
-    let adjustedAveragesByCategory = []
-    for (let i = 0; i < averagesByCategory.length; i++){
-      let adjustedList = []
-      for (let k = 0; k < averagesByCategory[i].length; k++){
-        adjustedList.push(this.f(averagesByCategory[i][k]))
-      }
-      adjustedAveragesByCategory.push(adjustedList)
+    if (isTries) {
+      var variantsToTryBPMPairs = Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())
+      var allSingleKeys = Object.keys(variantsToTryBPMPairs)
     }
 
+    /*
+  returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
+               [5,2,6,7,3],
+               [1,6]],
+               [[a,b,c....g],
+               [maj7,m7...d7],
+               [left,right]]]
 
-    
-
-      
-
-    if (adjustedAveragesByCategory.length == 1){
+  second array maps to first via this.getAverageForVariant(elem)
+*/
+    let response = statService.getRecentAveragesByVariant(this.props.lesson)
+    let averagesByVariant = response[0]
+    let namesOfVariants = response[1]
+    let adjustedAveragesByVariant = []
+    for (let i = 0; i < averagesByVariant.length; i++) {
+      let adjustedList = []
+      for (let k = 0; k < averagesByVariant[i].length; k++) {
+        adjustedList.push(this.f(averagesByVariant[i][k]))
+      }
+      adjustedAveragesByVariant.push(adjustedList)
+    }
+    if (adjustedAveragesByVariant.length == 1) {
       return (
         <ScrollView>
-  
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
 
-        </ScrollView>
-      
-      );
-    }else if (adjustedAveragesByCategory.length == 2){
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
+          {<Text>{isTries && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
+          {isTries && allSingleKeys.map((key) => {
+            <View>
+              <Text>{key}</Text>
+              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()} />
+            </View>
+          }
 
 
-      return (
-        <ScrollView>
-  
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]} names={namesByCategory[0]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]} names={namesByCategory[1]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
-
-        </ScrollView>
-
-      
-      );
-    }else if (adjustedAveragesByCategory.length == 3){
-
-      return (
-
-        <ScrollView>
-  
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[0]}  names={namesByCategory[0]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[1]}  names={namesByCategory[1]}/>
-        <LessonCategoryRadarChartComponent variants={adjustedAveragesByCategory[2]}  names={namesByCategory[2]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[0]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[1]}/>
-        <LessonCategoryLineChartComponent names={namesByCategory[2]}/>
-
+          )}
 
         </ScrollView>
 
-      
       );
-    }else{
+    } else if (adjustedAveragesByVariant.length == 2) {
+
+      return (
+        <ScrollView>
+
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1].map(v => Util.getNoParens(v))} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson} />
+          {/* {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>} */}
+
+          {/*Why won't the below component render? */}
+          {//the reason is that the below component is not a valid react component. It is a function.
+            //so how do we fix this by encapsulating the below code in a react component?
+            // all we need to do is to make a react component that takes in the props and returns the below code}
+
+            isTries && <FlatList data={allSingleKeys} renderItem={({ item }) => (
+              <View>
+                <Text style={{ color: "white", fontSize: 30 }}>{Util.getVHashPretty(item)}</Text>
+                <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[item].map(pair => pair[0] * 1000)} bpms={variantsToTryBPMPairs[item].map(pair => pair[1])} vHashes={this.props.lesson.getVHashes()} />
+              </View>
+            )} />
+          }
+
+        </ScrollView>
+
+
+      );
+    } else if (adjustedAveragesByVariant.length == 3) {
+
+      return (
+
+        <ScrollView>
+
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1].map(v => Util.getNoParens(v))} />
+          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[2]} namesOfVariants={namesOfVariants[2].map(v => Util.getNoParens(v))} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson} />
+          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]} lesson={this.props.lesson} />
+          {<Text>{isTries && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
+          {isTries && allSingleKeys.map((key) => {
+            <View>
+              <Text style={{ color: "white" }}>{Util.getVHashPretty(key)}</Text>
+              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()} />
+            </View>
+          }
+
+          )}
+
+        </ScrollView>
+
+
+      );
+    } else {
       return (<View><Text>huh?</Text></View>)
     }
   }
 }
+

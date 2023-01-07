@@ -1,18 +1,14 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  StyleSheet
+  View
 } from "react-native";
-import { HQI } from "../App";
-import { VictoryChart, VictoryTheme, VictoryLine, VictoryScatter, VictoryGroup, VictoryLabel, VictoryVoronoiContainer, VictoryTooltip  } from "victory-native";
-import { ScrollView } from "react-native-gesture-handler";
-
-// const DOMAIN_Y_BOUND = 100
-// const DOMAIN = {y:[0,DOMAIN_Y_BOUND]}
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryGroup, VictoryVoronoiContainer, VictoryTooltip } from "victory-native";
+import { statService } from "../App";
+import Constants from "../constant/Constants";
+import { allTheStyles } from "../styles/allTheStyles";
 const DOMAIN_X_BOUND = 100
-const COLORS = ["pink","blue","purple","orange","red","green","violet","navy","magenta","tomato","gold","darkgreen"]
-//  want this to be ininviisiible and cover whole screen TODO
+
 export class LessonCategoryLineChartComponent extends React.Component {
 
   constructor(props) {
@@ -33,102 +29,94 @@ export class LessonCategoryLineChartComponent extends React.Component {
   componentDidUpdate() {
   }
 
-  getCoords(historicalTimes){
-    if (historicalTimes.length == 0){
+  getCoords(historicalTimes) {
+    if (historicalTimes == undefined || historicalTimes.length == 0) {
       return []
-    } else if (historicalTimes.length == 1){
+    } else if (historicalTimes.length == 1) {
       let res = []
-      res.push({ x: 0, y: historicalTimes[0]/1000  })
-      res.push({ x: DOMAIN_X_BOUND, y: historicalTimes[0]/1000 })
+      res.push({ x: 0, y: historicalTimes[0] / 1000 })
+      res.push({ x: DOMAIN_X_BOUND, y: historicalTimes[0] / 1000 })
       return res
     }
     let res = []
     let l = historicalTimes.length
     let xCoords = []
     let sum = 0
-    let step = DOMAIN_X_BOUND/(l-1)
-    for (let i = 0; i < l; i++){
+    let step = DOMAIN_X_BOUND / (l - 1)
+    for (let i = 0; i < l; i++) {
       xCoords.push(sum)
-      res.push({ x: sum, y: historicalTimes[i]/1000 })
+      res.push({ x: sum, y: historicalTimes[i] / 1000 })
       sum += step
     }
     return res
   }
 
-  getColoredSubtitles(names){
+  getColoredSubtitles(namesOfVariants) {
 
     const subtitles = []
-    for (let i = 0; i < names.length; i++){
-      subtitles.push(this.getOneSubtitle(names[i],COLORS[i]))
+    for (let i = 0; i < namesOfVariants.length; i++) {
+      let variant = namesOfVariants[i]
+      subtitles.push(this.getOneSubtitle(variant, Constants.COLORS[i]))
     }
     return subtitles
-      
+
 
   }
 
-  getOneSubtitle(name,color){
+  getOneSubtitle(variant, color) {
     return (
-      <Text style={{color: color}}>{name}</Text>
+      <Text style={{ color: color }}>{variant}</Text>
     )
   }
 
-  getOneGroupElement(times,catMember,color){
-    return(
-    <VictoryGroup
-      color={color}
-      labels={({ datum }) => `${catMember}: ${datum.y}`}
-      labelComponent={
-        <VictoryTooltip
-          style={{ fontSize: 10 }}
+  getOneGroupElement(times, variant, color) {
+    return (
+      <VictoryGroup
+        color={color}
+        labels={({ datum }) => `${variant}: ${datum.y}`}
+        labelComponent={
+          <VictoryTooltip
+            style={{ fontSize: 10 }}
+          />
+        }
+        data={
+          this.getCoords(times)
+        }
+      >
+        <VictoryLine />
+        <VictoryScatter
+          size={({ active }) => active ? 8 : 3}
         />
-      }
-      data={
-        this.getCoords(times)
-      }
-    >
-      <VictoryLine/>
-      <VictoryScatter
-        size={({ active }) => active ? 8 : 3}
-      />
-    </VictoryGroup>
+      </VictoryGroup>
     )
   }
-
-//this.props.names- [a,b,c....g]
 
   render() {
-
-      // [
-    //   [8,7,5,3] this is a whole interleaved array tho
-    //   [5,2]
-    //   []
-    //   [23,14,10,7,6,4,3]
-    //   ....
-  // ]
-    let historicalAveragesByCatMember = HQI.getHistoricalAveragesByCatMember(this.props.names)
-    
-
     const fields = []
-    for (let i = 0; i < this.props.names.length; i++) {
-      let color = COLORS[i%12]
-      fields.push(this.getOneGroupElement(historicalAveragesByCatMember[i],this.props.names[i],color));
-    }
+    let historicalAveragesByVariant = undefined
+    if (this.props.lesson != undefined){
+      historicalAveragesByVariant = statService.getHistoricalAveragesByVariantBPM(this.props.namesOfVariants, this.props.lesson.getVHashes(), this.props.lesson.getDataset())
+          let i = 0
 
-    return(
-<View>
-      <VictoryChart height={400} width={400}
-        containerComponent={<VictoryVoronoiContainer/>}
-      >
+      this.props.namesOfVariants.forEach(variant => {
+        let color = Constants.COLORS[i % 12]
+        fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
+        i += 1
+      });
+    }else{
+      fields.push(this.getOneGroupElement(this.props.times, this.props.namesOfVariants[0], Constants.COLORS[0]))
+      fields.push(this.getOneGroupElement(this.props.bpms, this.props.namesOfVariants[1], Constants.COLORS[1]))
+    }
+    
+    return ( 
+      <View>
+        <VictoryChart theme={allTheStyles.chartTheme} height={400} width={400}
+          containerComponent={<VictoryVoronoiContainer />}
+        >
           {fields}
-   </VictoryChart>
-   {this.getColoredSubtitles(this.props.names)}</View>
+        </VictoryChart>
+        {this.getColoredSubtitles(this.props.namesOfVariants)}</View>
 
     )
-
-
-
-    
-
-
   }
 }

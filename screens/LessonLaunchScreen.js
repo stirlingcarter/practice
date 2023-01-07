@@ -1,15 +1,14 @@
 import * as React from "react";
-import { WholeAssLessonInfo } from "../components/LessonInfoComponent";
+import { LessonLaunchComponent } from "../components/LessonLaunchComponent";
 
 export function LessonLaunchScreen({ route, navigation }) {
-  const { lesson } = route.params;
-  const { instrument } = route.params;
+  const { lessonName } = route.params;
+  const { path } = route.params;
 
-  //HQI.getStatsByInstr(instrument)
   return (
-    <WholeAssLessonInfo
-      instrument={instrument}
+    <LessonLaunchComponent
+      path={path}
       nav={navigation}
-      lesson={lesson} />
+      lessonName={lessonName} />
   );
 }
