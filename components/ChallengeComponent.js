@@ -1,85 +1,154 @@
 import * as React from "react";
 import {
   Text,
-  View,
-  TouchableOpacity
+  View
 } from "react-native";
-import { HQI } from "../App";
+import { lessonRepository} from "../App";
 import { allTheStyles } from "../styles/allTheStyles.js"
-
-//  want this to be ininviisiible and cover whole screen TODO
+import Util from "../services/Util.js"
+import { challengeService } from "../App";
+import Constants from "../constant/Constants";
+import Metronome from "./Metronome";
 export class ChallengeComponent extends React.Component {
   constructor(props) {
     super(props);
     this.challengeCallback = this.challengeCallback.bind(this);
+    this.add = this.add.bind(this);
+    this.subtract = this.subtract.bind(this);
+    this.lesson = this.props.lesson;
+
+    this.type = this.props.type
+
     this.state = {
-      //clock
       start: 0,
-      isOn: false,
-      end: 0,
-      note: HQI.getNextNote(),
+      vHash: challengeService.getNextVHash(this.lesson),
+      count: 0,
+      bpm: this.props.bpm
     };
+
+    
+
   }
 
   componentDidMount() {
     this.setState({
       start: Date.now(),
-      isOn: true,
-      end: this.state.end,
+      count: 0
     });
   }
 
   componentWillUnmount() {
-    HQI.saveLesson();
+    lessonRepository.save(this.lesson);
   }
 
   challengeCallback(nav) {
-    this.setState({
-      isOn: false,
-      end: Date.now(),
-    });
 
-    nav.navigate("LessonChallengeScreen");
+    if (this.type == Constants.LESSON_TYPE_TRIES) {
+            if (this.state.count == undefined || this.state.count == 0) {
+              alert("You need to do at least one try!")
+              return
+            }
+            this.lesson.registerTimeWithBPM(this.state.count, this.state.vHash, this.state.bpm)
+            let newBPM = this.state.bpm
+            if (this.props.auto){
+              newBPM = challengeService.reccommendBPM(this.lesson)
+              this.lesson.setCompletedBPM(newBPM)//mostly this will be the same and do nothing. but sometimes it will be one more or less if youre doing well or poorly, and it will update the lesson
+              this.lesson.setBPM(newBPM)
+              lessonRepository.save(this.lesson)
+              }
+            this.setState({
+              bpm: newBPM
+            })
+    }else{
+            let end = Date.now()
+            let diff = end - this.state.start;
+            this.lesson.registerTime(diff, this.state.vHash)
+    }
+
+    this.setState({
+      vHash: challengeService.getNextVHash(this.lesson),
+      start: Date.now(),
+      count: 0
+    })
+    // nav.navigate("LessonChallengeScreen");
   }
 
-  //entered at mount due to state channge
-  componentDidUpdate() {
-    //not entered at mount due to bool
-    if (this.state.isOn == false) {
-      let diff = this.state.end - this.state.start;
-      //alert(diff);
-      HQI.commit(diff);
-      
-      
+  add(){
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
 
-      this.setState({
-        note: HQI.getNextNote(), //this is where the refreshing happens, but it can happen all at once up there^ 
-        start: Date.now(),
-        isOn: true,
-        end: this.state.end,
-      });
+  subtract(){
+    if (this.state.count == 0) {
+      return;
     }
+    this.setState({
+      count: this.state.count - 1
+    })
   }
 
   render() {
-    let args = this.state.note.split("$")
-    let challenge = ""
-    for (let i = 0; i < args.length; i++){
-      challenge += args[i]
-      challenge += " "
-    }
-
-
+    let variants = this.state.vHash.split("$")
+    let l = variants.length
     return (
+      <View>
       <View onTouchStart={() => this.challengeCallback(this.props.nav)}
-      style={{ width: '100%', height: '100%' }}>
+        style={{ width: '100%', height: '52%' }}>
         <Text>{"\n\n\n\n\n\n\n"}</Text>
-        <Text
-       
-          style={allTheStyles.challengeButton}
-        >
-          {challenge}
-        </Text>
+
+          {
+          <View >
+          {variants != undefined && <Text style={allTheStyles.actualExample}>{variants[0] + " "}</Text>}
+          {l > 1 && <Text style={allTheStyles.actualExampleG}>{Util.getNoParens(variants[1]) + " "}</Text>}
+          {l > 2 && <Text style={allTheStyles.actualExampleB}>{Util.getNoParens(variants[2])}</Text>}
+          </View>
+
+
+
+          }
+        
+      </View>
+
+
+
+
+
+  { this.type == Constants.LESSON_TYPE_TRIES && 
+      <Text
+        style={allTheStyles.challengeButton}
+      >
+        {this.state.count == undefined ? 0 : this.state.count}
+      </Text>
+  }<Metronome></Metronome>
+  { this.type == Constants.LESSON_TYPE_TRIES && 
+      <View
+      style={ allTheStyles.examplesRow}>    
+      <Text>{"\n\n\n\n\n\n\n"}</Text>
+
+      <Text>{"\n\n\n\n\n\n\n"}</Text>
+      <View style={allTheStyles.addLessonCol}>
+        
+      <View style={allTheStyles.examplesRow}>
+        <Text onPress={this.subtract}
+        style={allTheStyles.challengeMinusButton}
+      >
+        {"-  "}
+      </Text>
+      <Text onPress={this.add}
+        style={allTheStyles.challengePlusButton}
+      >
+        {"  +"}
+      </Text>
+      </View>
+      <Text 
+        style={allTheStyles.challengeButton}
+      >
+        {"BPM:" + this.state.bpm}
+      </Text>
+      </View>
+      </View>
+  }
       </View>
     );
   }
