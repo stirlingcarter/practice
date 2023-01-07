@@ -48,7 +48,7 @@
     "react-swipe-to-delete-component": "^0.5.4",
     "styled-components": "5.1.0",
     "uuid": "^9.0.0",
-    "victory-native": "^35.3.1"
+    "victory-native": "^36.6.8"
   },
   "scripts": {
     "start": "expo start --dev-client",
