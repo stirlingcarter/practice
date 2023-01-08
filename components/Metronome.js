@@ -1,146 +1,145 @@
 import React, { Component } from 'react'
 import { Text, View, Slider, Button } from 'react-native';
 import { Audio } from 'expo-av';
-
+import { allTheStyles } from '../styles/allTheStyles.js'
+import { sounds } from "../App.js";
 
 export default class Metronome extends Component {
 
   constructor(props) {
     super(props);
-    this.click1=null;
-    this.click2=null;
+
   
 
-  this.state = {
-    bpm: 100,
-    playing: false,
-    count: 0,
-    beatPerMeasure: 4
+    this.state = {
+      currentlyPlaying: -1,
+      // sounds: []
+    }
+
+    // this.prepareSounds = this.prepareSounds.bind(this);
+    this.stopMetronome = this.stopMetronome.bind(this);
+    this.getIndexAndMultiplierBasedOnBpm = this.getIndexAndMultiplierBasedOnBpm.bind(this);
+    
+
+}
+
+  componentDidMount() {
+    // this.prepareSounds()
   }
 
-}
+  componentWillUnmount() {
+    if (this.currentlyPlaying != -1){
+      // this.stopMetronome(this.state.sounds[this.state.currentlyPlaying])
+      return
+    }}
 
-  async playSound1() {
-    const sound = new Audio.Sound();
-    try {
-      await sound.loadAsync(require('../assets/sounds/click.mp3'), {shouldPlay: true});
-      await sound.replayAsync();
-    } catch (error) {
-      alert(error)
-    } 
-}
+  // async prepareSounds() {
+  //   const sound0 = new Audio.Sound();
+  //   const sound1 = new Audio.Sound();
+  //   const sound2 = new Audio.Sound();
+  //   const sound3 = new Audio.Sound();
+  //   const sound4 = new Audio.Sound();
+  //   const sound5 = new Audio.Sound();
+  //   const sound6 = new Audio.Sound();
+  //   const sound7 = new Audio.Sound();
+  //   const sound8 = new Audio.Sound();
+  //   const sound9 = new Audio.Sound();
+
+  //   try {
+  //       await sound0.loadAsync(require('../assets/sounds/metronome/25bpm10m.mp3'), {shouldPlay: false});
+  //       await sound1.loadAsync(require('../assets/sounds/metronome/35bpm10m.mp3'), {shouldPlay: false});
+  //       await sound2.loadAsync(require('../assets/sounds/metronome/45bpm10m.mp3'), {shouldPlay: false});
+  //       await sound3.loadAsync(require('../assets/sounds/metronome/55bpm10m.mp3'), {shouldPlay: false});
+  //       await sound4.loadAsync(require('../assets/sounds/metronome/65bpm10m.mp3'), {shouldPlay: false});
+  //       await sound5.loadAsync(require('../assets/sounds/metronome/75bpm10m.mp3'), {shouldPlay: false});
+  //       await sound6.loadAsync(require('../assets/sounds/metronome/85bpm10m.mp3'), {shouldPlay: false});
+  //       await sound7.loadAsync(require('../assets/sounds/metronome/95bpm10m.mp3'), {shouldPlay: false});
+  //       await sound8.loadAsync(require('../assets/sounds/metronome/105bpm10m.mp3'), {shouldPlay: false});
+  //       await sound9.loadAsync(require('../assets/sounds/metronome/120bpm10m.mp3'), {shouldPlay: false});
+
+  //       this.setState({
+  //           sounds: [
+  //               sound0,
+  //               sound1,
+  //               sound2,
+  //               sound3,
+  //               sound4,
+  //               sound5,
+  //               sound6,
+  //               sound7,
+  //               sound8,
+  //               sound9
+  //           ]
+  //       })
+  //   } catch (error) {
+  //       alert(error)
+  //     }
+  // }
+
+  getIndexAndMultiplierBasedOnBpm(bpm) {
+    if (bpm <= 30) {
+      return [0, bpm/25]
+    } else if (bpm <= 40) {
+      return [1, bpm/35]
+    } else if (bpm <= 50) {
+      return [2, bpm/45]
+    } else if (bpm <= 60) {
+      return [3, bpm/55]
+    } else if (bpm <= 70) {
+      return [4, bpm/65]
+    } else if (bpm <= 80) {
+      return [5, bpm/75]
+    } else if (bpm <= 90) {
+      return [6, bpm/85]
+    } else if (bpm <= 100) {
+      return [7, bpm/95]
+    } else if (bpm <= 110) {
+      return [8, bpm/105]
+    } else {
+      return [9, bpm/120]
+    }
+  }
 
 
+  async playSound(sounds) {
 
-    // https://docs.expo.io/versions/v28.0.0/sdk/audio#__next
-    // https://github.com/expo/playlist-example/blob/master/App.js
-    // https://daveceddia.com/react-practice-projects/
+    // alert("Playing sound at bpm " + this.props.bpm +
+    // " and currentlyPlaying is " + this.state.currentlyPlaying)
+    if (this.state.currentlyPlaying != -1){
+      await this.stopMetronome(sounds[this.state.currentlyPlaying])
+      return
+    }
 
-    startStop = () => {
-      if (this.state.playing) {
-        // Stop the timer
-        clearInterval(this.timer);
-        this.setState({
-          playing: false
-        });
-      } else {
-        // Start a timer with the current BPM
-        this.timer = setInterval(
-          this.playSound1,
-          (60 / this.state.bpm) * 1000
-        );
-        this.setState(
-          {
-            count: 0,
-            playing: true
-            // Play a click "immediately" (after setState finishes)
-          })
-
-          this.playSound1
-        
-      }
-    };
-
-    async playClick () {
-      const { count, beatsPerMeasure } = this.state;
-
-      // The first beat will have a different sound than the others
-      if (count % beatsPerMeasure === 0) {
-
-        this.playSound1()
-
-
-
-      } else {
-        this.playSound1()
+    let indexAndMult = this.getIndexAndMultiplierBasedOnBpm(this.props.bpm)
+    let i = indexAndMult[0]
+    let mult = indexAndMult[1]
+    // alert("Playing sound at index " + i + " and multiplier " + mult)
+    let metronome = sounds[i]
+        try {
+          await metronome.setPositionAsync(0);
+          await metronome.setRateAsync(mult, false);
+          await metronome.playAsync();
+          this.setState({currentlyPlaying: i})
+          
+        } catch (error) {
+          alert(error)
         }
-
-      // Keep track of which beat we're on
-      this.setState({
-        count: (this.state.count + 1) % this.state.beatsPerMeasure
-    });
-    };
-
-    handleBpmChange = bpm => {
-
-      if (this.state.playing) {
-        // Stop the old timer and start a new one
-        clearInterval(this.timer);
-        this.timer = setInterval(this.playSound1, (60 / bpm) * 1000);
-
-        // Set the new BPM, and reset the beat counter
-        this.setState({
-          count: 0,
-          bpm: bpm
-        });
-      } else {
-        // Otherwise just update the BPM
-        this.setState({ bpm: bpm});
-      }
-    };
+}
 
 
+    async stopMetronome(metronome) {
+      await metronome.stopAsync();
+      this.setState({currentlyPlaying: -1})
+    }
 
   render() {
-    const { bpm, playing } = this.state;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.bpmTitle}>{bpm} BPM</Text>
-        <Slider
-          style={styles.slider}
-          maximumValue={180}
-          minimumValue={60}
-          onValueChange={this.handleBpmChange}
-          step={1}
-          value={bpm}
-        />
-        <Button
-        style={styles.button}
-        onPress={this.startStop}
-        title={ playing ? "Stop" : "Play"}
-        accessibilityLabel="Start and Stop The Metronome"
-        />
+      <View>
+        <Text
+        style={allTheStyles.metronomePlayPauseButton} onPress={() => this.playSound(sounds)}
+        >{this.state.currentlyPlaying > -1 ? "◻️" : "▶"}</Text>
       </View>
     )
-  }
-}
-
-const styles = {
-  bpmTitle: {
-    fontSize: 30,
-    marginBottom: 50
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  slider : {
-    height: 3,
-    width: 300
-  },
-  button: {
-    fontSize:70
   }
 }

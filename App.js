@@ -19,12 +19,26 @@ import { LessonSourceScreen } from "./screens/LessonSourceScreen";
 import { AddVariantGroupScreen } from "./screens/AddVariantGroupScreen";
 import ChallengeService from "./services/ChallengeService";
 import StatService from "./services/StatService";
+import { Audio } from 'expo-av';
 
 import GroupRepository from "./repositories/GroupRepository";
 import LessonRepository from "./repositories/LessonRepository";
 import CustomVariantSetRepository from "./repositories/CustomVariantSetRepository";
 
 import LifecycleManager from "./services/LifecycleManager";
+
+export const sounds = [
+  new Audio.Sound(), //20-30
+  new Audio.Sound(), //31-40
+  new Audio.Sound(), //41-50
+  new Audio.Sound(), //51-60
+  new Audio.Sound(), //61-70
+  new Audio.Sound(), //71-80
+  new Audio.Sound(), //81-90
+  new Audio.Sound(), //91-100
+  new Audio.Sound(), //101-110
+  new Audio.Sound() //111+
+]
 
 const PROD = "production"
 const LOCAL = "production"
@@ -44,6 +58,19 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
+
+    sounds[0].loadAsync(require('./assets/sounds/metronome/25bpm10m.mp3'), {shouldPlay: false});
+    sounds[1].loadAsync(require('./assets/sounds/metronome/35bpm10m.mp3'), {shouldPlay: false});
+    sounds[2].loadAsync(require('./assets/sounds/metronome/45bpm10m.mp3'), {shouldPlay: false});
+    sounds[3].loadAsync(require('./assets/sounds/metronome/55bpm10m.mp3'), {shouldPlay: false});
+    sounds[4].loadAsync(require('./assets/sounds/metronome/65bpm10m.mp3'), {shouldPlay: false});
+    sounds[5].loadAsync(require('./assets/sounds/metronome/75bpm10m.mp3'), {shouldPlay: false});
+    sounds[6].loadAsync(require('./assets/sounds/metronome/85bpm10m.mp3'), {shouldPlay: false});
+    sounds[7].loadAsync(require('./assets/sounds/metronome/95bpm10m.mp3'), {shouldPlay: false});
+    sounds[8].loadAsync(require('./assets/sounds/metronome/105bpm10m.mp3'), {shouldPlay: false});
+    sounds[9].loadAsync(require('./assets/sounds/metronome/120bpm10m.mp3'), {shouldPlay: false});
+  
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="IntroScreen" screenOptions={{

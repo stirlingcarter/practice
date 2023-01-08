@@ -242,13 +242,13 @@ export const allTheStyles = StyleSheet.create({
   },
   bpmHeading: {
     textAlignVertical: "top",
-    textAlign: "center",
+    textAlign: "left",
     color: themeColor,
-    backgroundColor: vsrs,
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
-    flexGrow: 1
+    marginRight: 30
   },
   bpmOption: {
     textAlignVertical: "top",
@@ -258,7 +258,7 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
-    flexGrow: 1
+    
   },
   highlighteableOptionGreen: {
     textAlignVertical: "top",
@@ -787,6 +787,15 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     marginTop: 25
+  },
+  metronomePlayPauseButton: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 45,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    marginLeft: 30
   },
   addStuffButton: {
     textAlignVertical: "center",

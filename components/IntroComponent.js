@@ -7,9 +7,8 @@ import {
 } from "react-native";
 import { allTheStyles } from "../styles/allTheStyles";
 
-
 export class IntroComponent extends React.Component {
-    LOGO_OPEN_SEC = 50
+    LOGO_OPEN_SEC = 2
 
     WARNING_OPEN_SEC = 5
     constructor(props) {
@@ -19,6 +18,7 @@ export class IntroComponent extends React.Component {
          this.state = {
             count: 0
          }
+
 
     }
 
@@ -52,6 +52,7 @@ export class IntroComponent extends React.Component {
 "\nLatency Elimination learns faster and faster how to make you learn faster and faster. It lifts the burden of choosing what to practice, which we tend to either dedicate a lot of time to or plan very poorly.\n " 
             }</Text>
             <Image resizeMode={'stretch'} source={require('../assets/Pics/radialGraphExample.jpg')} style={allTheStyles.radialEx} />
+
             <Text onPress={this.enter} style={allTheStyles.warningScreen}>{
 "The algorithm delivers a pure, physical mastery of the instrument, which can then be applied by an artist to support any choice of form.\n "
 

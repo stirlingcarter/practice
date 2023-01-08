@@ -15,8 +15,7 @@ import Constants from "../constant/Constants";
 import FluencyGen from "../models/FluencyGen.js";
 import FgInput from "../models/FgInput.js";
 import Path from "../services/Path.js";
-
-const fileA = require('../assets/sounds/test.wav');
+import Metronome from "./Metronome.js";
 
 export class FluencyRequirementsComponent extends React.Component {
 
@@ -38,7 +37,8 @@ export class FluencyRequirementsComponent extends React.Component {
             scalesOpen : false,
             chordsOpen : false,
             arpsOpen : false,
-            currentlyPlaying: undefined
+            metronome: new Audio.Sound(),
+            metronomeIsPlaying: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -47,13 +47,17 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleChordsChange = this.handleChordsChange.bind(this);
         this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
         this.generate = this.generate.bind(this);
+        this.cleanup = this.cleanup.bind(this);
+        
         
         this.handleNotesOpen = this.handleNotesOpen.bind(this);
         this.handleIntervalsOpen = this.handleIntervalsOpen.bind(this);
         this.handleScalesOpen = this.handleScalesOpen.bind(this);
         this.handleChordsOpen = this.handleChordsOpen.bind(this);
         this.handleArpsOpen = this.handleArpsOpen.bind(this);
-    
+        
+        this.prepareSound = this.prepareSound.bind(this);
+        this.stopMetronome = this.stopMetronome.bind(this);
         
         this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
         this.handleScalesBpmChange = this.handleScalesBpmChange.bind(this);
@@ -63,6 +67,20 @@ export class FluencyRequirementsComponent extends React.Component {
 
     handleSubmit() {
         // Handle form submission
+    }
+
+    componentDidMount() {
+        this.prepareSound()
+    }
+    
+    componentWillUnmount() {
+        this.stopMetronome(this.state.metronome);
+    }
+
+    async cleanup(currentlyPlaying) {
+        if (currentlyPlaying != undefined && currentlyPlaying) {
+            await currentlyPlaying.stopAsync();
+          }
     }
 
     handleScalesChange(scales) {
@@ -170,31 +188,41 @@ export class FluencyRequirementsComponent extends React.Component {
     }
 
 
-    async playSound(bpm, currentlyPlaying) {
-
-        if (currentlyPlaying != undefined && currentlyPlaying) {
-            await currentlyPlaying.stopAsync();
-          }
+    async prepareSound() {
         const sound = new Audio.Sound();
         try {
-          await sound.loadAsync(require('../assets/sounds/nome1.wav'), {shouldPlay: true});
-          await sound.setPositionAsync(0);
-          //set the rate
+            await sound.loadAsync(require('../assets/sounds/60bpm10m.mp3'), {shouldPlay: false});
+            //set the rate
 
-          await sound.setRateAsync(bpm/120, false);
-          this.setState({currentlyPlaying: sound})
-          await sound.setIsLoopingAsync(true);
+            this.setState({
+                metronome: sound
+            })
+        } catch (error) {
+            alert(error)
+          }
+    }
 
-        //   await sound.playAsync();
+    async playSound(bpm, metronome) {
+
+        if (this.state.metronomeIsPlaying) {
+            await this.stopMetronome(this.state.metronome)
+            return
+        }
+        try {
+          await metronome.setPositionAsync(0);
+          await metronome.setRateAsync(bpm/120, true);
+        //   await sound.setIsLoopingAsync(true);
+          await metronome.playAsync();
+          this.setState({metronomeIsPlaying: true})
           
         } catch (error) {
           alert(error)
         }
     }
 
-    //what do we need to multiply 120 by to get the desired bpm?
-    getMultiplierForBPM(bpm) {
-        
+    async stopMetronome(metronome) {
+        await metronome.stopAsync();
+        this.setState({metronomeIsPlaying: false})
     }
 
 
@@ -263,8 +291,10 @@ export class FluencyRequirementsComponent extends React.Component {
 
                     {this.state.scalesOpen && <View>
                     <View style={allTheStyles.examplesRow}>
-                        <Text onPress={() => this.playSound(Number(this.state.scalesBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleScalesBpmChange} defaultValue={this.state.scalesBpm} style={allTheStyles.bpmOption}></TextInput>
+                    <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
+                    <TextInput onChangeText={this.handleScalesBpmChange} defaultValue={this.state.scalesBpm} style={allTheStyles.bpmOption}></TextInput>
+
+                    <Metronome bpm={this.state.scalesBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
@@ -274,8 +304,10 @@ export class FluencyRequirementsComponent extends React.Component {
                     {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"CHORDS"}</Text><Text onPress={this.handleChordsOpen} style={this.state.chordsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.chordsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
                     {this.state.chordsOpen && <View>
                     <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.playSound(Number(this.state.chordsBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"BPM (quarter notes)"}</Text>
+                    <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
+                    
                         <TextInput onChangeText={this.handleChordsBpmChange} defaultValue={this.state.chordsBpm} style={allTheStyles.bpmOption}></TextInput>
+                        <Metronome bpm={this.state.chordsBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
@@ -286,14 +318,15 @@ export class FluencyRequirementsComponent extends React.Component {
                     {isChordal && <View>
                     {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"ARPS"}</Text><Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
                     {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
-                    <Text onPress={() => this.playSound(Number(this.state.arpsBpm),this.state.currentlyPlaying)} style={allTheStyles.bpmHeading}>{"Test/BPM (quarter notes)"}</Text>
-                        <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
+                    <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
+                    <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
+                    <Metronome bpm={this.state.arpsBpm} />
+
                     </View>}
                     </View>}
                         {/* <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
                     {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
                     
-
                     <Text style={allTheStyles.generateButton} onPress={() => {
                         if (this.state.selectedScales.length != 0 && this.state.selectedScalePermutations.length == 0) {
                             alert("You must choose at least one scale permutation")
