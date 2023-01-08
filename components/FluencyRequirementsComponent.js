@@ -180,9 +180,12 @@ export class FluencyRequirementsComponent extends React.Component {
           await sound.loadAsync(require('../assets/sounds/nome1.wav'), {shouldPlay: true});
           await sound.setPositionAsync(0);
           //set the rate
+
           await sound.setRateAsync(bpm/120, false);
           this.setState({currentlyPlaying: sound})
-          await sound.playAsync();
+          await sound.setIsLoopingAsync(true);
+
+        //   await sound.playAsync();
           
         } catch (error) {
           alert(error)
