@@ -137,7 +137,10 @@ export default class Metronome extends Component {
     return (
       <View>
         <Text
-        style={allTheStyles.metronomePlayPauseButton} onPress={() => this.playSound(sounds)}
+        style={this.props.playPauseButtonTextStyle} onPress={() => {
+          this.playSound(sounds)
+          this.props.onPressCB()
+        }}
         >{this.state.currentlyPlaying > -1 ? "◻️" : "▶"}</Text>
       </View>
     )

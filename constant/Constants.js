@@ -32,5 +32,5 @@ export default class Constants {
     static ARPEGGIOS = "Arpeggios"
     static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
-    static DEFAULT_STARTING_BPM = 29
+    static DEFAULT_STARTING_BPM = 60
 }   

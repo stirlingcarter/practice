@@ -40,14 +40,12 @@ export class FluencyRequirementsComponent extends React.Component {
             metronome: new Audio.Sound(),
             metronomeIsPlaying: false
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
         this.handleScalesChange = this.handleScalesChange.bind(this);
         this.handleScalePermutationsChange = this.handleScalePermutationsChange.bind(this);
         this.handleChordsChange = this.handleChordsChange.bind(this);
         this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
         this.generate = this.generate.bind(this);
-        this.cleanup = this.cleanup.bind(this);
         
         
         this.handleNotesOpen = this.handleNotesOpen.bind(this);
@@ -56,31 +54,10 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleChordsOpen = this.handleChordsOpen.bind(this);
         this.handleArpsOpen = this.handleArpsOpen.bind(this);
         
-        this.prepareSound = this.prepareSound.bind(this);
-        this.stopMetronome = this.stopMetronome.bind(this);
-        
         this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
         this.handleScalesBpmChange = this.handleScalesBpmChange.bind(this);
         this.handleChordsBpmChange = this.handleChordsBpmChange.bind(this);
         this.handleArpsBpmChange = this.handleArpsBpmChange.bind(this);
-    }
-
-    handleSubmit() {
-        // Handle form submission
-    }
-
-    componentDidMount() {
-        this.prepareSound()
-    }
-    
-    componentWillUnmount() {
-        this.stopMetronome(this.state.metronome);
-    }
-
-    async cleanup(currentlyPlaying) {
-        if (currentlyPlaying != undefined && currentlyPlaying) {
-            await currentlyPlaying.stopAsync();
-          }
     }
 
     handleScalesChange(scales) {
@@ -187,45 +164,6 @@ export class FluencyRequirementsComponent extends React.Component {
         gen.generateGroups()
     }
 
-
-    async prepareSound() {
-        const sound = new Audio.Sound();
-        try {
-            await sound.loadAsync(require('../assets/sounds/60bpm10m.mp3'), {shouldPlay: false});
-            //set the rate
-
-            this.setState({
-                metronome: sound
-            })
-        } catch (error) {
-            alert(error)
-          }
-    }
-
-    async playSound(bpm, metronome) {
-
-        if (this.state.metronomeIsPlaying) {
-            await this.stopMetronome(this.state.metronome)
-            return
-        }
-        try {
-          await metronome.setPositionAsync(0);
-          await metronome.setRateAsync(bpm/120, true);
-        //   await sound.setIsLoopingAsync(true);
-          await metronome.playAsync();
-          this.setState({metronomeIsPlaying: true})
-          
-        } catch (error) {
-          alert(error)
-        }
-    }
-
-    async stopMetronome(metronome) {
-        await metronome.stopAsync();
-        this.setState({metronomeIsPlaying: false})
-    }
-
-
     render() {
         let init = allTheStyles.highlighteableOption
         let green = allTheStyles.highlighteableOptionGreen
@@ -294,7 +232,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
                     <TextInput onChangeText={this.handleScalesBpmChange} defaultValue={this.state.scalesBpm} style={allTheStyles.bpmOption}></TextInput>
 
-                    <Metronome bpm={this.state.scalesBpm} />
+                    <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.scalesBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.SCALES, cb: this.handleScalesChange, alreadyChosen: this.state.selectedScales, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScales.length > 0 ? this.state.selectedScales.length + " scale" + (this.state.selectedScales.length > 1 ? "s" : "") + " chosen" : "tap to choose scales"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.PERMUTATIONS, cb: this.handleScalePermutationsChange, alreadyChosen: this.state.selectedScalePermutations, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedScalePermutations.length > 0 ? this.state.selectedScalePermutations.length + " permutation" + (this.state.selectedScalePermutations.length > 1 ? "s" : "") + " chosen" : "tap to choose permutations"}</Text>
@@ -307,7 +245,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
                     
                         <TextInput onChangeText={this.handleChordsBpmChange} defaultValue={this.state.chordsBpm} style={allTheStyles.bpmOption}></TextInput>
-                        <Metronome bpm={this.state.chordsBpm} />
+                        <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.chordsBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
@@ -320,7 +258,7 @@ export class FluencyRequirementsComponent extends React.Component {
                     {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
                     <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
-                    <Metronome bpm={this.state.arpsBpm} />
+                    <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.arpsBpm} />
 
                     </View>}
                     </View>}
