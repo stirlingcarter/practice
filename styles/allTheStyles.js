@@ -448,7 +448,7 @@ export const allTheStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: themeColor,
-    height: 130,
+    height: 140,
     top: -20
   },
   addLessonCol: {//unnerlated^
@@ -793,6 +793,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   challengeAutoButton: {
+    top: -20,
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 80,
@@ -801,6 +802,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   challengeAutoButtonG: {
+    top: -20,
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 80,
@@ -809,6 +811,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   challengeBpmChangeButtonVis: {
+    top: -20,
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,
@@ -817,6 +820,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   challengeBpmChangeButtonInVis: {
+    top: -20,
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,

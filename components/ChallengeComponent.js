@@ -230,12 +230,20 @@ export class ChallengeComponent extends React.Component {
                   <Metronome onPressCB={this.handleMetronomeIsPlayingChange} playPauseButtonTextStyle={allTheStyles.challengeMetronomeButton} bpm={this.state.bpm}></Metronome>
                 </View>
 
+                <View style={allTheStyles.metronomeLabelAndPlayButtonRow}>
+
+                <Text
+                  style={allTheStyles.challengeBpmIndicatorInit}
+                >
+                  {"BPM: "}
+                </Text>
 
                 <Text
                   style={this.state.auto ? allTheStyles.challengeBpmIndicatorGreen : allTheStyles.challengeBpmIndicatorInit}
                 >
-                  {"BPM: " + this.state.bpm}
+                  {this.state.bpm}
                 </Text>
+                </View>
               </View>
             </View>
           }
