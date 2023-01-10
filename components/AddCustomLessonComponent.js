@@ -22,7 +22,8 @@ export class AddCustomLessonComponent extends React.Component {
     super(props);
     this.state = {
       selectedNotes: Constants.ALL_NOTES,
-      mode: Constants.LESSON_TYPE_TIMED
+      mode: Constants.LESSON_TYPE_TIMED,
+      criteria: "Play the following notes",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);

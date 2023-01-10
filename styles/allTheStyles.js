@@ -512,6 +512,10 @@ export const allTheStyles = StyleSheet.create({
     height: 60,
     color: "white",
     flexDirection: "column",
+
+    textAlignVertical: "center",
+    textAlign: "center",
+
     
   },
   goalTime: {
@@ -522,7 +526,6 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 75,
-    color: "#000000",
     flexDirection: "column",
     color: "white",
     
