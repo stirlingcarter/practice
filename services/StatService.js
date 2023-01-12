@@ -2,6 +2,7 @@ RANDOM_FIRST_RUN = true
 import { LessonSourceComponent } from "../components/LessonSourceComponent";
 import Constants from "../constant/Constants";
 import Util from "./Util";
+import Lesson from "../models/Lesson";
 export default class StatService {
 
   /*

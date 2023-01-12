@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import Util from '../services/Util';
 import Constants from '../constant/Constants';
 
@@ -25,6 +24,11 @@ export default class Lesson {
         // B$dom$LH" : [60,60,61,61,61...],...
     }
 
+    variantDataset = {
+        // A : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],
+        // B : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],...
+    }
+
     notes = Constants.ALL_NOTES
 
     completedBPM = Constants.DEFAULT_STARTING_BPM
@@ -48,6 +52,12 @@ export default class Lesson {
         
         this.path = path
         this.type= type
+
+        this.notes.forEach((n) => {this.variantDataset[n] = []})
+        this.v.forEach((n) => {this.variantDataset[n] = []})
+        this.v2.forEach((n) => {this.variantDataset[n] = []})
+
+
     }
 
     setVHashes(vHashes) {
@@ -134,7 +144,7 @@ export default class Lesson {
     }
 
 
-    getBPMs() {
+    getBpms() {
         return this.bpms
     }
 
@@ -146,14 +156,27 @@ export default class Lesson {
         return this.criteria
     }
 
+    getNumberOfVariantGroups() {
+        return this.getVHashes()[0].split('$').length
+    }
+
     registerTime(diff, vHash) {
         this.dataset[vHash].push(diff)
+        vHash.split('$').forEach((v) => {
+            this.variantDataset[v].push(diff)
+        }
+        )
     }
 
     registerTimeWithBPM(diff, vHash, bpm) {
         this.dataset[vHash].push(diff)
         this.bpms[vHash].push(bpm)
     }
+
+    getVariantTimesByVariant(variant) {
+        return Util.copyOf(this.variantDataset[variant])
+    }
+
 
     totalTimes(vHash) {
         return this.dataset[vHash].length
@@ -165,6 +188,10 @@ export default class Lesson {
 
     getDataset() {
         return Util.copyOf(this.dataset)
+    }
+
+    getVariantDataset() {
+        return Util.copyOf(this.variantDataset)
     }
 
     getName() {
@@ -183,12 +210,24 @@ export default class Lesson {
         return this.v2 == undefined || this.v2.length == 0 ? null : this.v2
     }
 
+    getAllVariants() {
+        let ans = []
+        if (this.v != undefined && this.v.length != 0) {
+            ans = ans.concat(this.v)
+        }
+        if (this.v2 != undefined && this.v2.length != 0) {
+            ans = ans.concat(this.v2)
+        }
+        ans = ans.concat(this.notes)
+        return ans  
+    }
+
     getWindowOfTimes(vHash, window) {
 
 
         let ans = (this.getDataset() == undefined || this.getDataset()[vHash] == undefined) ? [] : this.getDataset()[vHash].slice(window * (-1))
         if (this.getType() == Constants.LESSON_TYPE_TRIES) {
-            let bpmSister = this.getBPMs() == undefined || this.getBPMs()[vHash] == undefined ? [] : this.getBPMs()[vHash].slice(window * (-1))
+            let bpmSister = this.getBpms() == undefined || this.getBpms()[vHash] == undefined ? [] : this.getBpms()[vHash].slice(window * (-1))
             return Util.removeNonTargetBpm(ans, bpmSister, this.bpm)
         }
         return ans
@@ -208,6 +247,7 @@ export default class Lesson {
         let vHashes = lessonDict['vHashes']
         let type = lessonDict['type']
         let bpms = lessonDict['bpms']
+        let variantDataset = lessonDict['variantDataset']
         let bpm = lessonDict['bpm']
         let completedBPM = lessonDict['completedBPM']
         let l = new Lesson(
@@ -231,6 +271,7 @@ export default class Lesson {
             l.setVHashes(vHashes)
         }
         l.bpms = bpms == undefined ? {} : bpms
+        l.variantDataset = variantDataset == undefined ? {} : variantDataset
         return l
     }
 }

@@ -11,6 +11,7 @@ import Util from "../services/Util";
 import Constants from "../constant/Constants";
 import { BPMLineChartComponent } from "./BPMLineChartComponent";
 import { allTheStyles } from "../styles/allTheStyles";
+import ShapedLessonStats from "../models/ShapedLessonStats";
 const DOMAIN = { y: [0, 100] }
 const LIMIT = 30 * 1000
 
@@ -20,6 +21,7 @@ export class LessonStatsComponent extends React.Component {
     super(props);
     this.state = {
     };
+    this.generateStats = this.generateStats.bind(this)
   }
 
   componentDidMount() {
@@ -52,9 +54,23 @@ export class LessonStatsComponent extends React.Component {
     return (ret > 0 ? ret : 10)
   }
 
+  generateStats() {
+    let sls = new ShapedLessonStats()
+    sls.generateDataset(this.props.lesson)
+    alert("ds: " + JSON.stringify(sls.dataset))
+    alert("dsbpm: " + JSON.stringify(sls.datasetBpm))
+  }
+
 
 
   render() {
+
+    if (true){
+      return (
+        <View>
+          <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>Generate stats</Text>
+        </View>)
+    }
 
     let isTries = this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES
 

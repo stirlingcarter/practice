@@ -232,6 +232,13 @@ export default class Util {
         return maxNumber;
       }
 
+    static getWindowOfTimes(times, window) {
+
+
+        return (times == undefined || times.length == 0) ? [] : times.slice(window * (-1))
+
+    }
+
     static getNoParensForEachInListsIfNoDupe(names, names2) {
 
         //temporariily disable this

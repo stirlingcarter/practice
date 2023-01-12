@@ -33,4 +33,6 @@ export default class Constants {
     static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
     static DEFAULT_STARTING_BPM = 60
+
+    static TIMES_WINDOW_SIZE = 10
 }   

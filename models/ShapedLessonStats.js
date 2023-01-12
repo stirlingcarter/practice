@@ -1,0 +1,316 @@
+import Util from '../services/Util';
+import Constants from '../constant/Constants';
+
+const LIMIT = 30 * 1000
+
+export default class ShapedLessonStats {
+
+    TYPE = Constants.LESSON_TYPE_TIMED
+    VGROUPS = 3
+
+    dataset = {
+        radialCharts: {
+            v1: {
+                variantNames: [],
+                adjustedWindowedAverages: [],
+            },
+            v2: {
+                variantNames: [],
+                adjustedWindowedAverages: [],
+            },
+            v3: {
+                variantNames: [],
+                adjustedWindowedAverages: [],
+            }
+        },
+        totalIncreaseAvg: {
+            baselineAvg: 0,
+            currentAvg: 0,
+        },
+        variantHiMidLowLineChart: {
+        },
+
+        vHashHiMidLowLineChart: {
+        
+        }
+    }
+
+    datasetBpm = {
+        totalIncreaseAvg: {
+            startingBpm: 0,
+            currentBpm: 0,
+        },
+        vHashToBpmToAvgTriesLineChartBpm: {
+                // A$dom$LH" : [[60,61,62..],[5,7,9...]]
+                // VHASH          BPM          AVG TRIES
+                //TODO nah fam just do LMH DONE
+
+        }
+
+    }
+        
+    constructor() {
+    }
+
+    generateDataset(lesson){
+        this.TYPE = lesson.getType()
+        this.VGROUPS = lesson.getNumberOfVariantGroups()
+        
+        try {
+            if (this.TYPE == Constants.LESSON_TYPE_TIMED) {
+                this.filloutDataset(lesson)
+                this.datasetBpm = {}
+        }else{
+                this.filloutDatasetBpm(lesson)
+                this.dataset = {}
+        }
+        } catch (error) {
+            alert("error generating shaped stats: " + error)
+        }
+
+    }
+
+    getDataset() {
+        if (this.TYPE == Constants.LESSON_TYPE_TIMED) {
+            return this.dataset
+        }
+        else {
+            return this.datasetBpm
+    }}
+
+    setDataset(dataset, type){
+        if (type == Constants.LESSON_TYPE_TIMED) {
+            this.dataset = dataset
+        }
+        else {
+            this.datasetBpm = dataset
+        }
+    }
+
+    setType(type){
+        this.TYPE = type
+    }
+
+    setVGroups(vGroups){
+        this.VGROUPS = vGroups
+    }
+
+    getVHashToBpmToAvgTriesLineChart(lesson) {
+        let tries = lesson.getDataset() 
+        let bpms = lesson.getBpms()
+        let ans = {}
+
+        let vHashesWithTimes = lesson.getVHashes().filter((vHash)=>lesson.getTimesByVHash(vHash) != undefined && lesson.getTimesByVHash(vHash).length != 0) 
+        if (vHashesWithTimes == undefined || vHashesWithTimes.length == 0) {return ans}
+        
+        let worstVHash = vHashesWithTimes.reduce((a, b) => { return tries[a][0] > tries[b][0] ? a : b })
+        let bestVHash = vHashesWithTimes.reduce((a, b) => { return tries[a][0] < tries[b][0] ? a : b })
+
+
+        ans["L#" + worstVHash] = this.getBpmToAvgTries(tries[worstVHash], bpms[worstVHash])
+        ans["H#" + bestVHash] = this.getBpmToAvgTries(tries[bestVHash], bpms[bestVHash])
+        ans["AVG"] =  this.getBpmToAvgTries(vHashesWithTimes.map((vHash)=>{return tries[vHash]}).reduce((acc, curr) => acc.concat(curr), []), vHashesWithTimes.map((vHash)=>{return bpms[vHash]}).reduce((acc, curr) => acc.concat(curr), []))
+        return ans
+
+    }
+
+
+    getBpmToAvgTries(tries,bpms){
+        const bpmGroups = tries.reduce((acc, t, i) => {
+            const b = bpms[i]
+            if (!acc[b]) acc[b] = []
+            acc[b].push(t)
+            return acc
+          }, {})
+
+          
+          const uniqueBpms = []
+          
+
+          const averageTimes = []
+          for (const bpm in bpmGroups) {
+              const bpmTimes = bpmGroups[bpm]
+              uniqueBpms.push(bpm)
+              averageTimes.push(bpmTimes.reduce((a, b) => a + b, 0) / bpmTimes.length)
+          }
+          //get the min and max from above list uniqueBpms
+
+
+          
+        return [uniqueBpms, averageTimes]
+    }
+
+
+    static fromJSONStringified(ShapedLessonStatsString) {
+        let ShapedLessonStatsDict = JSON.parse(ShapedLessonStatsString)
+
+        let type = ShapedLessonStatsDict['TYPE']
+        let vGroups = ShapedLessonStatsDict['VGROUPS']
+
+        let dataset = ShapedLessonStatsDict['dataset']
+        let datasetBpm = ShapedLessonStatsDict['datasetBpm']
+
+        let ss = new ShapedLessonStats()
+        ss.setDataset(dataset != undefined ? dataset : datasetBpm, type)
+        ss.setType(type)
+        ss.setVGroups(vGroups)
+
+        return ss
+    }
+
+
+    filloutDataset(lesson) {
+        let vHashesWithTimes = lesson.getVHashes().filter((vHash)=>lesson.getTimesByVHash(vHash) != undefined && lesson.getTimesByVHash(vHash).length != 0)
+ 
+        let baselineAvg = 0
+        vHashesWithTimes.forEach((vHash)=>{
+            baselineAvg += lesson.getTimesByVHash(vHash)[0]
+        })
+        baselineAvg = baselineAvg / vHashesWithTimes.length
+
+        let currentAvg = 0
+        vHashesWithTimes.forEach((vHash)=>{
+            currentAvg += lesson.getTimesByVHash(vHash)[lesson.getTimesByVHash(vHash).length-1]//i use length-1 instead of -1 because javascript is broken. The language feature of -1 is supposed to return the last element of an array, but it doesn't work. This is a known bug in javascript. It exists because the language authors are idiots.
+        })
+        currentAvg = currentAvg / vHashesWithTimes.length
+
+        this.dataset = {
+            radialCharts: this.getRadialCharts(lesson),
+            totalIncreaseAvg: {
+                baselineAvg : baselineAvg,
+                currentAvg :  currentAvg,
+            },
+            vHashHiMidLowLineChart: this.getVHashToTimesVHashLineChart(lesson),
+            variantHiMidLowLineChart: this.getVariantToTimesVariantLineChart(lesson)
+        }
+    }
+
+    getHistoricalAverages(sublists) {
+        let averages = [];
+
+
+        // Find the length of the longest sublist
+        let minLength = Math.min(...sublists.map(sublist => sublist.length));
+        // Initialize the averages array with zeroes
+        for (let i = 0; i < minLength; i++) {
+          averages[i] = 0;
+        }
+      
+        // Sum up the values for each index in the sublists
+        sublists.forEach(sublist => {
+          for (let i = 0; i < minLength; i++) {
+            averages[i] += sublist[i];
+          }
+        })
+
+        alert(JSON.stringify(averages))
+      
+        return averages.map((avg)=>{return avg/sublists.length});
+      }
+
+    getVHashToTimesVHashLineChart(lesson) {
+        let vHashesWithTimes = lesson.getVHashes().filter((vHash)=>lesson.getTimesByVHash(vHash) != undefined && lesson.getTimesByVHash(vHash).length != 0)
+        if (vHashesWithTimes == undefined || vHashesWithTimes.length == 0) {return {}}
+
+        let worstVHash = vHashesWithTimes.reduce((a, b) => { return lesson.getTimesByVHash(a)[0] > lesson.getTimesByVHash(b)[0] ? a : b })
+        let bestVHash = vHashesWithTimes.reduce((a, b) => { return lesson.getTimesByVHash(a)[0] < lesson.getTimesByVHash(b)[0] ? a : b })
+        let avgs = this.getHistoricalAverages(Object.values(lesson.getDataset()))
+        let ans = {}
+        ans["L#" + worstVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(worstVHash), avgs.length)
+        ans["H#" + bestVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(bestVHash), avgs.length)
+        ans["AVG"] =  avgs
+        return ans
+    }
+
+    getVariantToTimesVariantLineChart(lesson) {
+        let variantsWithTimes = lesson.getAllVariants().filter((v)=>lesson.getVariantTimesByVariant(v) != undefined && lesson.getVariantTimesByVariant(v).length != 0)
+        if (variantsWithTimes == undefined || variantsWithTimes.length == 0) {return {}}
+
+        let worstVariant = variantsWithTimes.reduce((a, b) => { return lesson.getVariantTimesByVariant(a)[0] > lesson.getVariantTimesByVariant(b)[0] ? a : b })
+        let bestVariant = variantsWithTimes.reduce((a, b) => { return lesson.getVariantTimesByVariant(a)[0] < lesson.getVariantTimesByVariant(b)[0] ? a : b })
+        let avgs = this.getHistoricalAverages(Object.values(lesson.getVariantDataset()))
+        let ans = {}
+        ans["L#" + worstVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(worstVariant), avgs.length)
+        ans["H#" + bestVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(bestVariant), avgs.length)
+        ans["AVG"] =  avgs
+        return ans
+
+    }
+
+    getHistoricalTimesSpacedToTotalN(times, totalN) {
+        let n = times.length
+        if (totalN > n){
+            return times
+        }
+        let ans = []
+        for (let i = 0; i < totalN; i++) {
+            let index = Math.floor(i * n / totalN)
+            ans.push(times[index])
+        }
+        return ans
+    }
+
+
+    filloutDatasetBpm(lesson) {
+        let vHashToBpmToAvgTriesLineChartBpm = this.getVHashToBpmToAvgTriesLineChart(lesson)
+        alert(JSON.stringify(vHashToBpmToAvgTriesLineChartBpm))
+        let uniqueBpms = vHashToBpmToAvgTriesLineChartBpm["AVG"][0]
+
+        this.datasetBpm = {
+            totalIncreaseAvg: {
+                startingBpm : uniqueBpms[0],
+                currentBpm : uniqueBpms[uniqueBpms.length - 1]
+            },
+            vHashToBpmToAvgTriesLineChartBpm: vHashToBpmToAvgTriesLineChartBpm
+        }
+
+    }
+
+    getRadialCharts(lesson) {
+
+        
+        return {
+            v0: this.getRadialChart(lesson.getVariantDataset(), lesson.getNotes(), lesson.getGoal()),
+            v1: this.getRadialChart(lesson.getVariantDataset(), lesson.getV(), lesson.getGoal()),
+            v2: this.getRadialChart(lesson.getVariantDataset(), lesson.getV2(), lesson.getGoal()),
+        }
+
+    }
+
+    //variantNames is a list of a sector of variantDatasets keys 
+    getRadialChart(variantDataset, variantNames, goal) {
+        if (variantNames == undefined || variantNames.length == 0) {
+            return {
+            }}
+        let adjustedWindowedAvgs = []
+        variantNames.forEach((vName) => {
+            adjustedWindowedAvgs.push(this.getAdjustedWindowedAverage(variantDataset[vName], goal))
+        })
+        return {
+            variantNames: variantNames,
+            adjustedWindowedAverages: adjustedWindowedAvgs
+        }
+    }
+
+    f(x, goal) {
+
+        let g = goal * 1000
+    
+        //approach 100 as x approaches  0
+        //approach 0 as x approaches inf  
+        if (x == 0 || x > LIMIT) {
+          return 10
+        } if (x <= g) {
+          return 100
+        }
+        let diffFromGoal = (x - g) / 1000
+        let ret = 100 - (16.4317 * Math.sqrt(diffFromGoal))
+        return (ret > 0 ? ret : 10)
+      }
+
+    getAdjustedWindowedAverage(variantTimes, goal) {
+        let windowedAvg = Util.arrayAvg(Util.getWindowOfTimes(variantTimes, Constants.TIMES_WINDOW_SIZE))
+        return this.f(windowedAvg, goal)
+    }
+
+}
