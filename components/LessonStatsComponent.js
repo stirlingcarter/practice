@@ -19,9 +19,12 @@ export class LessonStatsComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    let sls = new ShapedLessonStats()
+    sls.generateDataset(this.props.lesson)
     this.state = {
+      shapedStats: sls
     };
-    this.generateStats = this.generateStats.bind(this)
+
   }
 
   componentDidMount() {
@@ -54,12 +57,11 @@ export class LessonStatsComponent extends React.Component {
     return (ret > 0 ? ret : 10)
   }
 
-  generateStats() {
-    let sls = new ShapedLessonStats()
-    sls.generateDataset(this.props.lesson)
-    alert("ds: " + JSON.stringify(sls.dataset))
-    alert("dsbpm: " + JSON.stringify(sls.datasetBpm))
-  }
+  // generateStats() {
+  //   let sls = this.state.shapedStats
+  //   sls.generateDataset(this.props.lesson)
+  //   this.setState({ shapedStats: sls })
+  // }
 
 
 
@@ -69,6 +71,7 @@ export class LessonStatsComponent extends React.Component {
       return (
         <View>
           <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>Generate stats</Text>
+          {this.state.shapedStats.getRadialV0 != undefined && <LessonCategoryRadarChartComponent averages={this.state.shapedStats.getRadialV0[1]} namesOfVariants={this.props.lesson.getNotes()} />}
         </View>)
     }
 

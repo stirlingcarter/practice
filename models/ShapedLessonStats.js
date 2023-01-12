@@ -10,15 +10,15 @@ export default class ShapedLessonStats {
 
     dataset = {
         radialCharts: {
+            v0: {
+                variantNames: [],
+                adjustedWindowedAverages: [],
+            },
             v1: {
                 variantNames: [],
                 adjustedWindowedAverages: [],
             },
             v2: {
-                variantNames: [],
-                adjustedWindowedAverages: [],
-            },
-            v3: {
                 variantNames: [],
                 adjustedWindowedAverages: [],
             }
@@ -52,6 +52,13 @@ export default class ShapedLessonStats {
     constructor() {
     }
 
+    getRadialV0() {
+        if (this.dataset != undefined && this.dataset.radialCharts != undefined && this.dataset.radialCharts.v0 != undefined && this.dataset.radialCharts.v0.adjustedWindowedAverages != undefined) {
+            return this.dataset.radialCharts.v0
+        }
+        return undefined
+    }
+
     generateDataset(lesson){
         this.TYPE = lesson.getType()
         this.VGROUPS = lesson.getNumberOfVariantGroups()
@@ -72,10 +79,10 @@ export default class ShapedLessonStats {
 
     getDataset() {
         if (this.TYPE == Constants.LESSON_TYPE_TIMED) {
-            return this.dataset
+            return this.dataset != undefined ? this.dataset : undefined
         }
         else {
-            return this.datasetBpm
+            return this.datasetBpm != undefined ? this.datasetBpm : undefined
     }}
 
     setDataset(dataset, type){
