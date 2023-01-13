@@ -19,18 +19,19 @@ export class LessonStatsComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    let sls = new ShapedLessonStats()
-    sls.generateDataset(this.props.lesson)
+
     this.state = {
-      shapedStats: sls
+      shapedStats: undefined
     };
 
   }
 
   componentDidMount() {
-    this.setState({
+    let sls = new ShapedLessonStats();
+    sls.generateDataset(this.props.lesson);
+    this.setState({shapedStats: sls});
+    // alert(sls.radialCharts.v0.adjustedWindowedAverages)
 
-    });
   }
 
   componentWillUnmount() {
@@ -70,8 +71,18 @@ export class LessonStatsComponent extends React.Component {
     if (true){
       return (
         <View>
-          <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>Generate stats</Text>
-          {this.state.shapedStats.getRadialV0 != undefined && <LessonCategoryRadarChartComponent averages={this.state.shapedStats.getRadialV0[1]} namesOfVariants={this.props.lesson.getNotes()} />}
+            <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>Generate stats</Text>
+        <ScrollView>
+          {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages.length > 0 ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getNotes()} /> : null}
+          {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages.length > 0 ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV()} /> : null}
+          {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages.length > 0 ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV2()} /> : null}
+
+          {this.state.shapedStats && this.state.shapedStats.dataset.variantHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.variantHiMidLowLineChart} /> : null}
+          {this.state.shapedStats && this.state.shapedStats.dataset.vHashHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.vHashHiMidLowLineChart} /> : null}
+
+          <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>{JSON.stringify(this.state.shapedStats)}</Text>
+
+        </ScrollView>
         </View>)
     }
 

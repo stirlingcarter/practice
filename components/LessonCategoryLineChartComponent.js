@@ -9,6 +9,22 @@ import Constants from "../constant/Constants";
 import { allTheStyles } from "../styles/allTheStyles";
 const DOMAIN_X_BOUND = 100
 
+
+/*
+expects shapedData to be an object with keys being the variant names and values being arrays of times and intended x values
+for example:
+{
+  // A$dom$LH" : [[60,61,62..],[5,7,9...]]
+  // VHASH          BPM x          AVG TRIES y
+
+  or
+
+  // A$dom$LH" : [[60,61,62..],[5,7,9...]]
+  // VHASH          "date/timeline x dim" AVG TRIES y
+}
+
+the component will shape the data further into coordinates.
+*/
 export class LessonCategoryLineChartComponent extends React.Component {
 
   constructor(props) {
@@ -51,7 +67,15 @@ export class LessonCategoryLineChartComponent extends React.Component {
     return res
   }
 
-  getColoredSubtitles(namesOfVariants) {
+  getCoordinates(xs, ys) {
+    let res = []
+    for (let i = 0; i < xs.length; i++) {
+      res.push({ x: xs[i], y: ys[i] })
+    }
+    return res
+  }
+
+  getColoredSubtitlesBullshit(namesOfVariants) {
 
     const subtitles = []
     for (let i = 0; i < namesOfVariants.length; i++) {
@@ -69,18 +93,18 @@ export class LessonCategoryLineChartComponent extends React.Component {
     )
   }
 
-  getOneGroupElement(times, variant, color) {
+  getOneGroupElement(ys, xs, label, color) {
     return (
       <VictoryGroup
         color={color}
-        labels={({ datum }) => `${variant}: ${datum.y}`}
+        labels={({ datum }) => `${label}: ${datum.y}`}
         labelComponent={
           <VictoryTooltip
-            style={{ fontSize: 10 }}
+            style={{ fontSize: 25, color: "white" }}
           />
         }
         data={
-          this.getCoords(times)
+          this.getCoordinates(ys, xs)
         }
       >
         <VictoryLine />
@@ -93,20 +117,15 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
   render() {
     const fields = []
-    let historicalAveragesByVariant = undefined
-    if (this.props.lesson != undefined){
-      historicalAveragesByVariant = statService.getHistoricalAveragesByVariantBPM(this.props.namesOfVariants, this.props.lesson.getVHashes(), this.props.lesson.getDataset())
-          let i = 0
+    let i = 0
 
-      this.props.namesOfVariants.forEach(variant => {
-        let color = Constants.COLORS[i % 12]
-        fields.push(this.getOneGroupElement(historicalAveragesByVariant[variant], variant, color))
+    Object.keys(this.props.shapedData).forEach(label => {
+        let color = Constants.COLORS[i % Constants.COLORS.length]
+        let xAndYVals = this.props.shapedData[label]
+        fields.push(this.getOneGroupElement(xAndYVals[0], xAndYVals[1], label, color))
         i += 1
       });
-    }else{
-      fields.push(this.getOneGroupElement(this.props.times, this.props.namesOfVariants[0], Constants.COLORS[0]))
-      fields.push(this.getOneGroupElement(this.props.bpms, this.props.namesOfVariants[1], Constants.COLORS[1]))
-    }
+
     
     return ( 
       <View>
@@ -115,7 +134,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
         >
           {fields}
         </VictoryChart>
-        {this.getColoredSubtitles(this.props.namesOfVariants)}</View>
+        {this.getColoredSubtitlesBullshit(Object.keys(this.props.shapedData))}</View>
 
     )
   }

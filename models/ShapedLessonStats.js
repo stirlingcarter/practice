@@ -53,10 +53,7 @@ export default class ShapedLessonStats {
     }
 
     getRadialV0() {
-        if (this.dataset != undefined && this.dataset.radialCharts != undefined && this.dataset.radialCharts.v0 != undefined && this.dataset.radialCharts.v0.adjustedWindowedAverages != undefined) {
-            return this.dataset.radialCharts.v0
-        }
-        return undefined
+        return this.dataset.radialCharts.v0.adjustedWindowedAverages.length > 0 ? this.dataset.radialCharts.v0.adjustedWindowedAverages : undefined
     }
 
     generateDataset(lesson){
