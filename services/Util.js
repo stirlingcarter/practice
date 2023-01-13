@@ -98,6 +98,16 @@ export default class Util {
         return arr.length < 1 ? 0 : arr.reduce((a, b) => a + b) / arr.length;
     }
 
+    static addIndexList(dict) {
+        var newDict = {};
+        for (var key in dict) {
+            var value = dict[key];
+            var indexList = Array.from({length: value.length}, (_, i) => i);
+            newDict[key] = [value, indexList];
+        }
+        return newDict;
+    }
+
     static getIntRep(note) {
         if (note == "A") {
             return 1;

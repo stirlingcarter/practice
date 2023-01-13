@@ -11,16 +11,16 @@ export default class ShapedLessonStats {
     dataset = {
         radialCharts: {
             v0: {
-                variantNames: [],
-                adjustedWindowedAverages: [],
+                variantNames: undefined,
+                adjustedWindowedAverages: undefined,
             },
             v1: {
-                variantNames: [],
-                adjustedWindowedAverages: [],
+                variantNames: undefined,
+                adjustedWindowedAverages: undefined,
             },
             v2: {
-                variantNames: [],
-                adjustedWindowedAverages: [],
+                variantNames: undefined,
+                adjustedWindowedAverages: undefined,
             }
         },
         totalIncreaseAvg: {
@@ -111,8 +111,8 @@ export default class ShapedLessonStats {
         let bestVHash = vHashesWithTimes.reduce((a, b) => { return tries[a][0] < tries[b][0] ? a : b })
 
 
-        ans["L#" + worstVHash] = this.getBpmToAvgTries(tries[worstVHash], bpms[worstVHash])
-        ans["H#" + bestVHash] = this.getBpmToAvgTries(tries[bestVHash], bpms[bestVHash])
+        ans[worstVHash] = this.getBpmToAvgTries(tries[worstVHash], bpms[worstVHash])
+        ans[bestVHash] = this.getBpmToAvgTries(tries[bestVHash], bpms[bestVHash])
         ans["AVG"] =  this.getBpmToAvgTries(vHashesWithTimes.map((vHash)=>{return tries[vHash]}).reduce((acc, curr) => acc.concat(curr), []), vHashesWithTimes.map((vHash)=>{return bpms[vHash]}).reduce((acc, curr) => acc.concat(curr), []))
         return ans
 
@@ -220,10 +220,10 @@ export default class ShapedLessonStats {
         let bestVHash = vHashesWithTimes.reduce((a, b) => { return lesson.getTimesByVHash(a)[0] < lesson.getTimesByVHash(b)[0] ? a : b })
         let avgs = this.getHistoricalAverages(Object.values(lesson.getDataset()))
         let ans = {}
-        ans["L#" + worstVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(worstVHash), avgs.length)
-        ans["H#" + bestVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(bestVHash), avgs.length)
-        ans["AVG"] =  avgs
-        return ans
+        ans[worstVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(worstVHash), avgs.length).map(y => y*1000)
+        ans[bestVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(bestVHash), avgs.length).map(y => y*1000)
+        ans["AVG"] =  avgs.map(y => y*1000)
+        return Util.addIndexList(ans)//yes,
     }
 
     getVariantToTimesVariantLineChart(lesson) {
@@ -234,10 +234,10 @@ export default class ShapedLessonStats {
         let bestVariant = variantsWithTimes.reduce((a, b) => { return lesson.getVariantTimesByVariant(a)[0] < lesson.getVariantTimesByVariant(b)[0] ? a : b })
         let avgs = this.getHistoricalAverages(Object.values(lesson.getVariantDataset()))
         let ans = {}
-        ans["L#" + worstVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(worstVariant), avgs.length)
-        ans["H#" + bestVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(bestVariant), avgs.length)
-        ans["AVG"] =  avgs
-        return ans
+        ans[worstVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(worstVariant), avgs.length).map(y => y*1000)
+        ans[bestVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(bestVariant), avgs.length).map(y => y*1000)
+        ans["AVG"] =  avgs.map(y => y*1000)
+        return Util.addIndexList(ans)//yes,
 
     }
 
