@@ -48,7 +48,6 @@ export class HomeScreenComponent extends React.Component {
     return (
       <>
         <View>
-        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
           <View snapToStart={false} style={allTheStyles.scrollStyle}>
           <Text
@@ -62,7 +61,7 @@ export class HomeScreenComponent extends React.Component {
                 path: Constants.HEAD_GROUP_PATH,
                 cb: this.getGroupNames,
               })}
-              style={allTheStyles.goToStatsButton}
+              style={allTheStyles.addInstrumentButton}
             >
               {"tap here to add instruments.\n"}
             </Text>
@@ -70,6 +69,7 @@ export class HomeScreenComponent extends React.Component {
             {/* INSTRUMENTS (aka any group that level=1) */}
 
             <FlatList
+            style = {{top: 20}}
               data={this.state.groupNames}
               renderItem={({ item }) => (
                 <Swipeable

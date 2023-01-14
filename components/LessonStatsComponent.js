@@ -7,6 +7,7 @@ import { statService } from "../App"
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { LessonCategoryRadarChartComponent } from "../components/LessonCategoryRadarChartComponent";
 import { LessonCategoryLineChartComponent } from "../components/LessonCategoryLineChartComponent";
+import { LessonCategoryScatterPlotComponent } from "../components/LessonCategoryScatterPlotComponent";
 import Util from "../services/Util";
 import Constants from "../constant/Constants";
 import { BPMLineChartComponent } from "./BPMLineChartComponent";
@@ -68,13 +69,14 @@ export class LessonStatsComponent extends React.Component {
 
   render() {
 
-    if (true){
+    if (this.props.lesson.getType() == Constants.LESSON_TYPE_TIMED){
       return (
-        <View><ScrollView>
+        <View>
+          <ScrollView>
             <Text style={{color: "pink", fontSize: 50, top:40, textAlign: "center"}}>{this.props.lesson.getName()}</Text>
             <Text style={{color: "white", fontSize: 30, top: 40, textAlign: "center"}}>{"Latency goal: " + this.props.lesson.getGoal() + "s"}</Text>
-        
           <Text style={{color: "white", fontSize: 40, marginTop: 50, textAlign: "center"}}>{"Completion by variant"}</Text>
+
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getNotes()} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV()} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV2()} /> : null}
@@ -83,117 +85,22 @@ export class LessonStatsComponent extends React.Component {
           {this.state.shapedStats && this.state.shapedStats.dataset.variantHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.variantHiMidLowLineChart} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.vHashHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.vHashHiMidLowLineChart} /> : null}
 
-          <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>{JSON.stringify(this.state.shapedStats)}</Text>
 
         </ScrollView>
         </View>)
-    }
-
-    let isTries = this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES
-
-    if (isTries) {
-      var variantsToTryBPMPairs = Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())
-      var allSingleKeys = Object.keys(variantsToTryBPMPairs)
-    }
-
-    /*
-  returns -> [[[2,6,3,6,4,7,6,4,8,2,6,7],
-               [5,2,6,7,3],
-               [1,6]],
-               [[a,b,c....g],
-               [maj7,m7...d7],
-               [left,right]]]
-
-  second array maps to first via this.getAverageForVariant(elem)
-*/
-    let response = statService.getRecentAveragesByVariant(this.props.lesson)
-    let averagesByVariant = response[0]
-    let namesOfVariants = response[1]
-    let adjustedAveragesByVariant = []
-    for (let i = 0; i < averagesByVariant.length; i++) {
-      let adjustedList = []
-      for (let k = 0; k < averagesByVariant[i].length; k++) {
-        adjustedList.push(this.f(averagesByVariant[i][k]))
-      }
-      adjustedAveragesByVariant.push(adjustedList)
-    }
-    if (adjustedAveragesByVariant.length == 1) {
+    } else if (this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES) {
       return (
-        <ScrollView>
-
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
-          {<Text>{isTries && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
-          {isTries && allSingleKeys.map((key) => {
-            <View>
-              <Text>{key}</Text>
-              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()} />
-            </View>
-          }
+        <View>
+          <ScrollView>
+            <Text style={{color: "pink", fontSize: 50, top:40, textAlign: "center"}}>{this.props.lesson.getName()}</Text>
+            <Text style={{color: "white", fontSize: 30, top: 40, textAlign: "center"}}>{"Latency goal: " + this.props.lesson.getGoal() + " bpm"}</Text>
+          <Text style={{color: "white", fontSize: 40, marginTop: 50, textAlign: "center"}}>{"avg tries by bpm [recent]"}</Text>
 
 
-          )}
+          {this.state.shapedStats && this.state.shapedStats.datasetBpm && this.state.shapedStats.datasetBpm.scatter ? <LessonCategoryScatterPlotComponent coordinates={this.state.shapedStats.datasetBpm.scatter} /> : null}
+          <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>{JSON.stringify(this.state.shapedStats)}</Text>
+</ScrollView>
+        </View>)
 
-        </ScrollView>
-
-      );
-    } else if (adjustedAveragesByVariant.length == 2) {
-
-      return (
-        <ScrollView>
-
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1].map(v => Util.getNoParens(v))} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson} />
-          {/* {<Text>{this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(),this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>} */}
-
-          {/*Why won't the below component render? */}
-          {//the reason is that the below component is not a valid react component. It is a function.
-            //so how do we fix this by encapsulating the below code in a react component?
-            // all we need to do is to make a react component that takes in the props and returns the below code}
-
-            isTries && <FlatList data={allSingleKeys} renderItem={({ item }) => (
-              <View>
-                <Text style={{ color: "white", fontSize: 30 }}>{Util.getVHashPretty(item)}</Text>
-                <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[item].map(pair => pair[0] * 1000)} bpms={variantsToTryBPMPairs[item].map(pair => pair[1])} vHashes={this.props.lesson.getVHashes()} />
-              </View>
-            )} />
-          }
-
-        </ScrollView>
-
-
-      );
-    } else if (adjustedAveragesByVariant.length == 3) {
-
-      return (
-
-        <ScrollView>
-
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[0]} namesOfVariants={namesOfVariants[0].map(v => Util.getNoParens(v))} />
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[1]} namesOfVariants={namesOfVariants[1].map(v => Util.getNoParens(v))} />
-          <LessonCategoryRadarChartComponent averages={adjustedAveragesByVariant[2]} namesOfVariants={namesOfVariants[2].map(v => Util.getNoParens(v))} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[0]} lesson={this.props.lesson} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[1]} lesson={this.props.lesson} />
-          <LessonCategoryLineChartComponent namesOfVariants={namesOfVariants[2]} lesson={this.props.lesson} />
-          {<Text>{isTries && JSON.stringify(Util.pairTriesAndBPMsDatasets(this.props.lesson.getDataset(), this.props.lesson.getBPMs())).replace(/,/g, ",\n")}</Text>}
-          {isTries && allSingleKeys.map((key) => {
-            <View>
-              <Text style={{ color: "white" }}>{Util.getVHashPretty(key)}</Text>
-              <LessonCategoryLineChartComponent lesson={undefined} namesOfVariants={["TRIES", "BPM"]} times={variantsToTryBPMPairs[key].map(p => p[0])} bpms={variantsToTryBPMPairs[key].map(p => p[1])} vHashes={this.props.lesson.getVHashes()} />
-            </View>
-          }
-
-          )}
-
-        </ScrollView>
-
-
-      );
-    } else {
-      return (<View><Text>huh?</Text></View>)
-    }
-  }
-}
+}}}
 

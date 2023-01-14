@@ -341,8 +341,17 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
   },
-  groupScreenPathHeader: {
+  addInstrumentButton: {
     textAlignVertical: "top",
+    textAlign: "center",
+    color: themeColor,
+    fontSize: 12,
+    top: 30,
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  groupScreenPathHeader: {
+    top: 30,
     textAlign: "center",
     color: themeColor,
     fontSize: 15,
@@ -351,10 +360,10 @@ export const allTheStyles = StyleSheet.create({
     marginBottom: 0
   },
   backButton: {
-    textAlignVertical: "top",
     textAlign: "left",
     color: themeColor,
     fontSize: 33,
+    top: 30,
     height: 39,
     fontStyle: "italic",
     fontWeight: "bold"
@@ -394,7 +403,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   groupScreenTitle: {
-    textAlignVertical: "top",
+    top: 30,
     textAlign: "center",
     color: "white",
     fontSize: 74,
@@ -912,6 +921,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,
+    top: 10,
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
@@ -931,6 +941,7 @@ export const allTheStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     color: "red",
+    top: 20,
     fontStyle: "italic",
     fontWeight: "bold",
     backgroundColor: "black",
@@ -940,6 +951,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
     fontSize: 100,
+    top: 10,
     color: "red",
     fontStyle: "italic",
     fontWeight: "bold",

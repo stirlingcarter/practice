@@ -75,12 +75,11 @@ export class GroupPreviewComponent extends React.Component {
     return (
       <>
         <View>
-        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
           <View snapToStart={false} style={allTheStyles.scrollStyle}>
 
             {/* Group Title */}
             <View style={allTheStyles.addLessonOrGroupRow}>
-              <Text
+              {/* <Text
                 onPress={() => {
 
                   let prevPath = Path.up(this.props.path)
@@ -99,19 +98,12 @@ export class GroupPreviewComponent extends React.Component {
 
                 }
                 }
-                style={allTheStyles.backButton}>BACK</Text>
+                style={allTheStyles.backButton}>BACK</Text> */}
 
 
               <Text>                                                           </Text>
 
-              <Text
-                onPress={() => this.props.nav.navigate("GroupStatsScreen", {
-                  path: this.props.path,
-                  cb: this.getLessonNames,
-                })}
-                style={allTheStyles.backButtonButItsStats}// < color
-              >
-                {"STATS"}
+              <Text>
               </Text>
             </View  >
             <Text
@@ -119,7 +111,7 @@ export class GroupPreviewComponent extends React.Component {
             >
               {Path.currentDir(this.props.path)}
             </Text>
-            <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
+            <Text style={allTheStyles.c}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
 
             <Text onPress={this.handlePlus}
               style={this.state.plusOpen ? allTheStyles.addStuffButtonRed : allTheStyles.addStuffButton}
