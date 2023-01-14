@@ -103,7 +103,7 @@ export default class Util {
         for (var key in dict) {
             var value = dict[key];
             var indexList = Array.from({length: value.length}, (_, i) => i);
-            newDict[key] = [value, indexList];
+            newDict[key] = [indexList, value];
         }
         return newDict;
     }

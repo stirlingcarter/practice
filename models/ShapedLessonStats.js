@@ -1,8 +1,9 @@
 import Util from '../services/Util';
 import Constants from '../constant/Constants';
+import Lesson from './Lesson';
 
 const LIMIT = 30 * 1000
-
+const GRAPH_LEADER_LOOKBACK = 1
 export default class ShapedLessonStats {
 
     TYPE = Constants.LESSON_TYPE_TIMED
@@ -32,7 +33,10 @@ export default class ShapedLessonStats {
 
         vHashHiMidLowLineChart: {
         
-        }
+        },
+        allLineChart: {
+
+        },
     }
 
     datasetBpm = {
@@ -107,8 +111,24 @@ export default class ShapedLessonStats {
         let vHashesWithTimes = lesson.getVHashes().filter((vHash)=>lesson.getTimesByVHash(vHash) != undefined && lesson.getTimesByVHash(vHash).length != 0) 
         if (vHashesWithTimes == undefined || vHashesWithTimes.length == 0) {return ans}
         
-        let worstVHash = vHashesWithTimes.reduce((a, b) => { return tries[a][0] > tries[b][0] ? a : b })
-        let bestVHash = vHashesWithTimes.reduce((a, b) => { return tries[a][0] < tries[b][0] ? a : b })
+        let worstVHash, bestVHash;
+        let worstVHashSum = Number.MIN_SAFE_INTEGER;
+        let bestVHashSum = Number.MAX_SAFE_INTEGER;
+        vHashesWithTimes.forEach(vHash => {
+            let last10 = tries[vHash].slice(-10);
+            let length = last10.length;
+            let sum = last10.reduce((sum,val)=>sum+val,0);
+            let average = sum/length
+            if (average > worstVHashSum) {//less tries is better
+                worstVHashSum = average;
+                worstVHash = vHash;
+            }
+            if (average < bestVHashSum) {
+                bestVHashSum = average;
+                bestVHash = vHash;
+            }
+        });
+
 
 
         ans[worstVHash] = this.getBpmToAvgTries(tries[worstVHash], bpms[worstVHash])
@@ -185,7 +205,8 @@ export default class ShapedLessonStats {
                 currentAvg :  currentAvg,
             },
             vHashHiMidLowLineChart: this.getVHashToTimesVHashLineChart(lesson),
-            variantHiMidLowLineChart: this.getVariantToTimesVariantLineChart(lesson)
+            variantHiMidLowLineChart: this.getVariantToTimesVariantLineChart(lesson),
+            allLineChart: this.getAllLineChart(lesson),
         }
     }
 
@@ -207,36 +228,80 @@ export default class ShapedLessonStats {
           }
         })
 
-        alert(JSON.stringify(averages))
+        // alert(JSON.stringify(averages))
       
         return averages.map((avg)=>{return avg/sublists.length});
       }
 
     getVHashToTimesVHashLineChart(lesson) {
+        let times = lesson.getDataset() 
         let vHashesWithTimes = lesson.getVHashes().filter((vHash)=>lesson.getTimesByVHash(vHash) != undefined && lesson.getTimesByVHash(vHash).length != 0)
         if (vHashesWithTimes == undefined || vHashesWithTimes.length == 0) {return {}}
 
-        let worstVHash = vHashesWithTimes.reduce((a, b) => { return lesson.getTimesByVHash(a)[0] > lesson.getTimesByVHash(b)[0] ? a : b })
-        let bestVHash = vHashesWithTimes.reduce((a, b) => { return lesson.getTimesByVHash(a)[0] < lesson.getTimesByVHash(b)[0] ? a : b })
+        let worstVHash, bestVHash;
+        let worstVHashSum = Number.MIN_SAFE_INTEGER;
+        let bestVHashSum = Number.MAX_SAFE_INTEGER;
+        vHashesWithTimes.forEach(vHash => {
+
+            let last10 = times[vHash].slice(-1 * GRAPH_LEADER_LOOKBACK);
+            let length = last10.length;
+            let sum = last10.reduce((sum,val)=>sum+val,0);
+            let average = sum/length
+            if (average > worstVHashSum) {//less timie is better
+                worstVHashSum = average;
+                worstVHash = vHash;
+            }
+            if (average < bestVHashSum) {
+                bestVHashSum = average;
+                bestVHash = vHash;
+            }
+        });
+
         let avgs = this.getHistoricalAverages(Object.values(lesson.getDataset()))
         let ans = {}
-        ans[worstVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(worstVHash), avgs.length).map(y => y*1000)
-        ans[bestVHash] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(bestVHash), avgs.length).map(y => y*1000)
-        ans["AVG"] =  avgs.map(y => y*1000)
-        return Util.addIndexList(ans)//yes,
+        ans[Util.getVHashPretty(worstVHash) + " [current slowest]"] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(worstVHash), avgs.length).map(y => y/1000)
+        ans[Util.getVHashPretty(bestVHash) + " [current leader]"] = this.getHistoricalTimesSpacedToTotalN(lesson.getTimesByVHash(bestVHash), avgs.length).map(y => y/1000)
+        ans["[Average (cross section)]"] =  avgs.map(y => y/1000)
+        return Util.addIndexList(ans)//yes, yes. 
+    }
+
+    getAllLineChart(lesson) {
+        let ans = {}
+        ans["All times"] =  lesson.getAllTimes().map(y => y/1000)
+        return Util.addIndexList(ans)//yes, yes. 
     }
 
     getVariantToTimesVariantLineChart(lesson) {
+        let times = lesson.getVariantDataset() 
+
         let variantsWithTimes = lesson.getAllVariants().filter((v)=>lesson.getVariantTimesByVariant(v) != undefined && lesson.getVariantTimesByVariant(v).length != 0)
         if (variantsWithTimes == undefined || variantsWithTimes.length == 0) {return {}}
 
-        let worstVariant = variantsWithTimes.reduce((a, b) => { return lesson.getVariantTimesByVariant(a)[0] > lesson.getVariantTimesByVariant(b)[0] ? a : b })
-        let bestVariant = variantsWithTimes.reduce((a, b) => { return lesson.getVariantTimesByVariant(a)[0] < lesson.getVariantTimesByVariant(b)[0] ? a : b })
+        let worstVariant, bestVariant;
+        let worstVariantSum = Number.MIN_SAFE_INTEGER;
+        let bestVariantSum = Number.MAX_SAFE_INTEGER;
+        variantsWithTimes.forEach((variant) => {
+            let last10 = times[variant].slice(-1 * GRAPH_LEADER_LOOKBACK);
+            let length = last10.length;
+            let sum = last10.reduce((sum,val)=>sum+val,0);
+            let average = sum/length
+            if (average > worstVariantSum) {//less timie is better
+                worstVariantSum = average;
+                worstVariant = variant;
+            }
+            if (average < bestVariantSum) {
+                bestVariantSum = average;
+                bestVariant = variant;
+            }
+        });
+
+        alert(worstVariant)
+        
         let avgs = this.getHistoricalAverages(Object.values(lesson.getVariantDataset()))
         let ans = {}
-        ans[worstVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(worstVariant), avgs.length).map(y => y*1000)
-        ans[bestVariant] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(bestVariant), avgs.length).map(y => y*1000)
-        ans["AVG"] =  avgs.map(y => y*1000)
+        ans[worstVariant + " [current slowest]"] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(worstVariant), avgs.length).map(y => y/1000)
+        ans[bestVariant + " [current leader]"] = this.getHistoricalTimesSpacedToTotalN(lesson.getVariantTimesByVariant(bestVariant), avgs.length).map(y => y/1000)
+        ans["[Average (cross section)]"] =  avgs.map(y => y/1000)
         return Util.addIndexList(ans)//yes,
 
     }
@@ -257,7 +322,7 @@ export default class ShapedLessonStats {
 
     filloutDatasetBpm(lesson) {
         let vHashToBpmToAvgTriesLineChartBpm = this.getVHashToBpmToAvgTriesLineChart(lesson)
-        alert(JSON.stringify(vHashToBpmToAvgTriesLineChartBpm))
+        // alert(JSON.stringify(vHashToBpmToAvgTriesLineChartBpm))
         let uniqueBpms = vHashToBpmToAvgTriesLineChartBpm["AVG"][0]
 
         this.datasetBpm = {
@@ -271,8 +336,6 @@ export default class ShapedLessonStats {
     }
 
     getRadialCharts(lesson) {
-
-        
         return {
             v0: this.getRadialChart(lesson.getVariantDataset(), lesson.getNotes(), lesson.getGoal()),
             v1: this.getRadialChart(lesson.getVariantDataset(), lesson.getV(), lesson.getGoal()),

@@ -29,6 +29,8 @@ export default class Lesson {
         // B : [5,5,6,5,4,3,4,5,3,2,4,3,2,1,3,2,1,1,1],...
     }
 
+    allTimes = [] //all recorded times, OR in the form [time,bpm] for bpm enabled lessons
+
     notes = Constants.ALL_NOTES
 
     completedBPM = Constants.DEFAULT_STARTING_BPM
@@ -161,6 +163,7 @@ export default class Lesson {
     }
 
     registerTime(diff, vHash) {
+        this.allTimes.push(diff)
         this.dataset[vHash].push(diff)
         vHash.split('$').forEach((v) => {
             this.variantDataset[v].push(diff)
@@ -169,6 +172,7 @@ export default class Lesson {
     }
 
     registerTimeWithBPM(diff, vHash, bpm) {
+        this.allTimes.push([diff, bpm])
         this.dataset[vHash].push(diff)
         this.bpms[vHash].push(bpm)
     }
@@ -222,6 +226,10 @@ export default class Lesson {
         return ans  
     }
 
+    getAllTimes() {
+        return Util.copyOf(this.allTimes)
+    }
+
     getWindowOfTimes(vHash, window) {
 
 
@@ -250,6 +258,7 @@ export default class Lesson {
         let variantDataset = lessonDict['variantDataset']
         let bpm = lessonDict['bpm']
         let completedBPM = lessonDict['completedBPM']
+        let allTimes = lessonDict['allTimes']
         let l = new Lesson(
             name == undefined ? '' : name,
             criteria == undefined ? '' : criteria,
@@ -270,6 +279,7 @@ export default class Lesson {
         if (vHashes != undefined) {
             l.setVHashes(vHashes)
         }
+        l.allTimes = allTimes == undefined ? [] : allTimes
         l.bpms = bpms == undefined ? {} : bpms
         l.variantDataset = variantDataset == undefined ? {} : variantDataset
         return l

@@ -89,7 +89,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
 
   getOneSubtitle(variant, color) {
     return (
-      <Text style={{ color: color }}>{variant}</Text>
+      <Text style={{ color: color, textAlign: "center"}}>{variant}</Text>
     )
   }
 
@@ -119,7 +119,12 @@ export class LessonCategoryLineChartComponent extends React.Component {
     const fields = []
     let i = 0
 
+    let wellPopulated = true && this.props.shapedData && Object.keys(this.props.shapedData).length > 0
     Object.keys(this.props.shapedData).forEach(label => {
+        if (this.props.shapedData[label][0].length < 2) {
+          wellPopulated = false
+          return
+        }
         let color = Constants.COLORS[i % Constants.COLORS.length]
         let xAndYVals = this.props.shapedData[label]
         fields.push(this.getOneGroupElement(xAndYVals[0], xAndYVals[1], label, color))
@@ -127,7 +132,7 @@ export class LessonCategoryLineChartComponent extends React.Component {
       });
 
     
-    return ( 
+    return !wellPopulated ? (<View><Text style={{color: "white", fontSize:40, textAlign: "center"}}>{"[practice more to unlock this graph]"}</Text></View>) : ( 
       <View>
         <VictoryChart theme={allTheStyles.chartTheme} height={400} width={400}
           containerComponent={<VictoryVoronoiContainer />}

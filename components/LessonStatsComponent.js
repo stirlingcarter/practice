@@ -70,13 +70,16 @@ export class LessonStatsComponent extends React.Component {
 
     if (true){
       return (
-        <View>
-            <Text style={{color: "white", fontSize: 40, top:200}} onPress={this.generateStats}>Generate stats</Text>
-        <ScrollView>
+        <View><ScrollView>
+            <Text style={{color: "pink", fontSize: 50, top:40, textAlign: "center"}}>{this.props.lesson.getName()}</Text>
+            <Text style={{color: "white", fontSize: 30, top: 40, textAlign: "center"}}>{"Latency goal: " + this.props.lesson.getGoal() + "s"}</Text>
+        
+          <Text style={{color: "white", fontSize: 40, marginTop: 50, textAlign: "center"}}>{"Completion by variant"}</Text>
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getNotes()} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v1.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV()} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v2.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getV2()} /> : null}
 
+          {this.state.shapedStats && this.state.shapedStats.dataset.allLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.allLineChart} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.variantHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.variantHiMidLowLineChart} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.vHashHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.vHashHiMidLowLineChart} /> : null}
 
