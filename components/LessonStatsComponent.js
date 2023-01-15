@@ -72,15 +72,17 @@ export class LessonStatsComponent extends React.Component {
     if (this.props.lesson.getType() == Constants.LESSON_TYPE_TIMED){
       return (
         <View>
-          <ScrollView>
-            <Text style={allTheStyles.groupScreenTitle}>{this.props.lesson.getName() + " stats"}</Text>
+          
+            <View style={{backgroundColor: "pink", height: 300}}>
+            <Text style={allTheStyles.groupScreenTitle}>{this.props.lesson.getName()}</Text>
             <Text style={allTheStyles.statsStyle1}>{"latency eliminated"}</Text>
-            {this.state.shapedStats && <Text style={{color: this.state.shapedStats.dataset.latencyElimination < 100 ? "pink" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{this.state.shapedStats.dataset.latencyElimination + "%"}</Text>}
+            {this.state.shapedStats && <Text style={{color: this.state.shapedStats.dataset.latencyElimination < 100 ? "#222222" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{this.state.shapedStats.dataset.latencyElimination + "%"}</Text>}
             
             <View style={{flexDirection: "row", justifyContent: "center"}}>
             <Text style={allTheStyles.statsStyle3}>{"latency goal: "}</Text>
             <Text style={allTheStyles.statsStyle2}>{this.props.lesson.getGoal() + "s"}</Text>
-</View>
+            </View>
+            </View><ScrollView>
           <Text style={allTheStyles.statsStyle1}>{"completion by variant"}</Text>
 
           {this.state.shapedStats && this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages ? <LessonCategoryRadarChartComponent averages={this.state.shapedStats.dataset.radialCharts.v0.adjustedWindowedAverages} namesOfVariants={this.props.lesson.getNotes()} /> : null}
@@ -91,6 +93,9 @@ export class LessonStatsComponent extends React.Component {
           {this.state.shapedStats && this.state.shapedStats.dataset.allLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.allLineChart} /> : null}
           {this.state.shapedStats && this.state.shapedStats.dataset.variantHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.variantHiMidLowLineChart} /> : null}
           {this.props.lesson.getNumberOfVariantGroups() > 1 && this.state.shapedStats && this.state.shapedStats.dataset.vHashHiMidLowLineChart ? <LessonCategoryLineChartComponent shapedData={this.state.shapedStats.dataset.vHashHiMidLowLineChart} /> : null}
+          {<Text style={allTheStyles.statsStyle1}>{"\n\n\n\n\n\n\n\n\n"}</Text>}
+
+      
 
           {/* {this.state.shapedStats ? <Text style={{color: "white", fontSize: 40, textAlign: "center"}}>{JSON.stringify(this.state.shapedStats.dataset.radialCharts)}</Text> : null} */}
         </ScrollView>
@@ -98,20 +103,26 @@ export class LessonStatsComponent extends React.Component {
     } else if (this.props.lesson.getType() == Constants.LESSON_TYPE_TRIES) {
       return (
         <View>
-          <ScrollView>
-          <Text style={allTheStyles.groupScreenTitle}>{this.props.lesson.getName() + " stats"}</Text>
+          
+          <View style={{backgroundColor: "pink", height: 300}}>
+
+          <Text style={allTheStyles.groupScreenTitle}>{this.props.lesson.getName()}</Text>
             {this.state.shapedStats && this.state.shapedStats.datasetBpm &&
             <View>
             <Text style={allTheStyles.statsStyle1}>{"latency eliminated"}</Text>
-            <Text style={{color: this.state.shapedStats.datasetBpm.latencyElimination < 100 ? "pink" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{this.state.shapedStats.datasetBpm.latencyElimination + "%"}</Text>
+            <Text style={{color: this.state.shapedStats.datasetBpm.latencyElimination < 100 ? "#222222" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{this.state.shapedStats.datasetBpm.latencyElimination + "%"}</Text>
             <View style={{flexDirection: "row", justifyContent: "center"}}>
             <Text style={allTheStyles.statsStyle3}>{"latency goal: "}</Text>
             <Text style={allTheStyles.statsStyle2}>{this.props.lesson.getGoal() + " bpm"}</Text>
+            
             </View>
           </View>}
+          </View>
           <Text style={allTheStyles.statsStyle1}>{"tries by bpm"}</Text>
           {this.state.shapedStats && this.state.shapedStats.datasetBpm && this.state.shapedStats.datasetBpm.scatter ? <LessonCategoryScatterPlotComponent coordinates={this.state.shapedStats.datasetBpm.scatter} /> : null}
-</ScrollView>
+          {<Text style={allTheStyles.statsStyle1}>{"\n\n\n\n\n\n\n\n\n"}</Text>}
+          {<Text style={allTheStyles.statsStyle1}>{"\n\n\n\n\n\n\n\n\n"}</Text>}
+
         </View>)
 
 }}}

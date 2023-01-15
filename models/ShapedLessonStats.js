@@ -314,7 +314,6 @@ export default class ShapedLessonStats {
             }
         });
 
-        alert(worstVariant)
 
         let avgs = this.getHistoricalAverages(Object.values(lesson.getVariantDataset()))
         let ans = {}

@@ -1179,7 +1179,7 @@ export const allTheStyles = StyleSheet.create({
   },
   challengeBorder: {
     top: -300,
-    height: 870,
+    height: 880,
     width: 430,
     borderWidth: 20,
     borderColor: '#FFFFFF',
@@ -1190,7 +1190,7 @@ export const allTheStyles = StyleSheet.create({
   l: {
     position: 'absolute',
     top: 60,
-    left: 390,
+    left: 389,
     height: 710,
     width: 0,
     borderColor: 'black',
@@ -1209,7 +1209,17 @@ export const allTheStyles = StyleSheet.create({
   },
   b: {
     position: 'absolute',
-    top: 830,
+    top: 820,
+    left: 60,
+    height: 0,
+    width: 270,
+    borderColor: 'black',
+    borderLeftWidth: 20,
+    borderTopWidth: 20,
+  },
+  b2: {
+    position: 'absolute',
+    top: 840,
     left: 60,
     height: 0,
     width: 270,
@@ -1236,17 +1246,17 @@ export const allTheStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  lT: {
+  lT: {//this is right lol
     position: 'absolute',
     top: 60,
-    left: 390,
+    left: 389,
     height: 300,
     width: 0,
     borderColor: 'black',
     borderLeftWidth: 20,
     borderTopWidth: 20,
   },
-  rT: {
+  rT: {//this is left lol
     position: 'absolute',
     top: 60,
     left: -20,
@@ -1258,7 +1268,17 @@ export const allTheStyles = StyleSheet.create({
   },
   bT: {
     position: 'absolute',
-    top: 410,
+    top: 409,
+    left: 60,
+    height: 0,
+    width: 270,
+    borderColor: 'black',
+    borderLeftWidth: 20,
+    borderTopWidth: 20,
+  },
+  bT2: {
+    position: 'absolute',
+    top: 411,
     left: 60,
     height: 0,
     width: 270,
@@ -1277,7 +1297,7 @@ export const allTheStyles = StyleSheet.create({
     borderTopWidth: 20,
   },
   statsStyle1: {
-    color: themeColor, 
+    color: "white", 
     fontSize: 40, 
     marginTop: 50, 
     textAlign: "center", 
@@ -1285,7 +1305,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold"
   },
   statsStyle2: {
-    color: themeColor, 
+    color: "#222222", 
     fontSize: 30, 
     top: 3, 
     textAlign: "center", 

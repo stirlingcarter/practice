@@ -44,10 +44,6 @@ export class ChallengeComponent extends React.Component {
     if (this.state.auto) {
       this.handleAutoToggle()
     }
-    this.setState({
-      bpm: this.state.bpm + 1
-    })
-
     this.updateLessonBPM(1)
 
   }
@@ -57,6 +53,10 @@ export class ChallengeComponent extends React.Component {
     newLesson.setBPM(this.state.bpm + n)
     lessonRepository.save(newLesson)
     this.lesson = newLesson
+    this.setState({
+      bpm: newLesson.getBPM()
+    })
+    alert("b: " + newLesson.getBPM())
 
   }
 
@@ -67,10 +67,6 @@ export class ChallengeComponent extends React.Component {
     if (this.state.bpm == 1) {
       return;
     }
-    this.setState({
-      bpm: this.state.bpm - 1
-    })
-
     this.updateLessonBPM(-1)
   }
 
@@ -109,7 +105,7 @@ export class ChallengeComponent extends React.Component {
       }
       this.lesson.registerTimeWithBPM(this.state.count, this.state.vHash, this.state.bpm)
       let newBPM = this.state.bpm
-      if (this.props.auto) {
+      if (this.state.auto) {
         newBPM = challengeService.reccommendBPM(this.lesson)
         this.lesson.setCompletedBPM(newBPM)//mostly this will be the same and do nothing. but sometimes it will be one more or less if youre doing well or poorly, and it will update the lesson
         this.lesson.setBPM(newBPM)
@@ -178,7 +174,8 @@ export class ChallengeComponent extends React.Component {
               <View style={isTries ? allTheStyles.rT : allTheStyles.r}/>
               <View style={isTries ? allTheStyles.tT : allTheStyles.t}/>
               <View style={isTries ? allTheStyles.bT : allTheStyles.b}/>
-              
+              <View style={isTries ? allTheStyles.bT2 : allTheStyles.b2}/>
+
               {variants != undefined && <Text style={allTheStyles.actualExample}>{variants[0] + " "}</Text>}
               {l > 1 && <Text style={allTheStyles.actualExampleG}>{Util.getNoParens(variants[1]) + " "}</Text>}
               {l > 2 && <Text style={allTheStyles.actualExampleB}>{Util.getNoParens(variants[2])}</Text>}
