@@ -99,7 +99,7 @@ export class AddVariantGroupComponent extends React.Component {
 
     alreadyExists(variant, category) {
         if (!Constants.VALID_CATEGORIES.includes(category)) {
-            return true
+            return false
         }
 
         let customCSV = customVariantSetRepository.getCustomVariantSetByCategory(category)
@@ -134,6 +134,7 @@ export class AddVariantGroupComponent extends React.Component {
 
         return (
             <View>
+                <View style={allTheStyles.variantAddHeading}>
                 <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
@@ -142,7 +143,27 @@ export class AddVariantGroupComponent extends React.Component {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{"SAVE"}</Text>
-                <Text onPress={() => {
+                <Text style={allTheStyles.filterOrCreate}>{"Filter or create"}</Text>
+
+                
+                <TextInput
+                    style={allTheStyles.filterRowVA}
+                    onBlur={Keyboard.dismiss}
+                    placeholder="Name"
+                    placeholderTextColor="#333333"
+                    multiline={true}
+                    value={this.state.filter}
+                    onChangeText={this.handleFilterChange} />
+                <TextInput
+                    style={allTheStyles.filterRowVA}
+                    onBlur={Keyboard.dismiss}
+                    placeholder="Category"
+                    placeholderTextColor="#333333"
+                    multiline={true}
+                    value={this.state.categoryFilter}
+                    onChangeText={this.handleCategoryFilterChange} />
+
+{<Text onPress={() => {
                     if (this.state.filter == "") {
                         alert("Please enter a name")
                         return
@@ -154,24 +175,8 @@ export class AddVariantGroupComponent extends React.Component {
                     }
                     customVariantSetRepository.appendVariant(categoryCorrected, this.state.filter)
                     this.props.nav.navigate("AddVariantGroupScreen", { cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path })
-                }} style={allTheStyles.variantAddCreateButton}>{this.state.categoryFilter == "" || !this.alreadyExists(this.state.filter, this.state.categoryFilter) ? "Create" : ""}</Text>
-                <TextInput
-                    style={allTheStyles.filterRow}
-                    onBlur={Keyboard.dismiss}
-                    placeholder="Name"
-                    placeholderTextColor="#333333"
-                    multiline={true}
-                    value={this.state.filter}
-                    onChangeText={this.handleFilterChange} />
-                <TextInput
-                    style={allTheStyles.filterRow}
-                    onBlur={Keyboard.dismiss}
-                    placeholder="Category"
-                    placeholderTextColor="#333333"
-                    multiline={true}
-                    value={this.state.categoryFilter}
-                    onChangeText={this.handleCategoryFilterChange} />
-
+                }} style={(this.state.filter != "" && this.state.categoryFilter != "" && !this.alreadyExists(this.state.filter, this.state.categoryFilter)) ? allTheStyles.variantAddCreateButton : allTheStyles.variantAddCreateButtonGrey}>{"Create"}</Text>}
+                </View>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     {Object.keys(BuiltInVariants.getAllGroups()).map(category => (
                         (category.toLowerCase().includes(this.state.categoryFilter.toLowerCase()) || this.state.categoryFilter == "") && <View>

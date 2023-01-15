@@ -14,12 +14,13 @@ export const allTheStyles = StyleSheet.create({
     height: 190,
   },
   leTitleButton: {
+    top: 20,
     textAlignVertical: "center",
     textAlign: "center",
-    fontSize: 100,
+    fontSize: 50,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 190,
+    height: 180,
     color: 'white'
   },
   logo: {
@@ -104,13 +105,31 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 60
   },
+  addNotesPlus : {
+    textAlign: "right",
+    fontSize: 50,
+    color: themeColor,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 60,
+    marginTop: 10
+  },
   addVariantPlusLeft : {
     textAlign: "left",
     fontSize: 50,
     color: "green",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 60
+    height: 70
+  },
+  addNotesPlusLeft : {
+    textAlign: "left",
+    fontSize: 50,
+    color: themeColor,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    marginTop: 10,
+    height: 70
   },
   addVariantDone : {
     textAlignVertical: "bottom",
@@ -163,7 +182,7 @@ export const allTheStyles = StyleSheet.create({
     color: "blue",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 50
+    height: 70
   },
   addVariantPlus2Right : {
     textAlign: "right",
@@ -171,7 +190,7 @@ export const allTheStyles = StyleSheet.create({
     color: "blue",
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 50
+    height: 70
   },
   startButton: {
     textAlignVertical: "center",
@@ -223,18 +242,19 @@ export const allTheStyles = StyleSheet.create({
   notesHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "black",
-    backgroundColor: "#222222",
+    color: "white",
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
-    flexGrow: 1
+    flexGrow: 1,
+    height: 40
   },
   highlighteableOption: {
     textAlignVertical: "top",
     textAlign: "center",
     color: "white",
-    backgroundColor: vsrs,
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -264,7 +284,7 @@ export const allTheStyles = StyleSheet.create({
     textAlignVertical: "top",
     textAlign: "center",
     color: "green",
-    backgroundColor: vsrs,
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -284,26 +304,45 @@ export const allTheStyles = StyleSheet.create({
   variantAddSaveHeader: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: themeColor,
-    backgroundColor: vsrs,
     fontSize: 50,
-    marginBottom: 25,
+    marginBottom: 0,
     fontStyle: "italic",
     fontWeight: "bold",
     flexGrow: 1,
     marginTop: 25
   },
+  variantAddHeading: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    backgroundColor: themeColor,
+    fontSize: 50,
+    marginBottom: 20,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1,
+    marginTop: 0,
+  },
   variantAddCreateButton: {
     textAlignVertical: "top",
     textAlign: "center",
     color: "green",
-    backgroundColor: vsrs,
     fontSize: 25,
-    marginBottom: 25,
+    marginBottom: 12,
     fontStyle: "italic",
     fontWeight: "bold",
     flexGrow: 1,
-    marginTop: 25
+    marginTop: 12
+  },
+  variantAddCreateButtonGrey: {
+    textAlignVertical: "top",
+    textAlign: "center",
+    color: vsrs,
+    fontSize: 25,
+    marginBottom: 12,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    flexGrow: 1,
+    marginTop: 12
   },
   saveButton3r: {
     textAlignVertical: "top",
@@ -430,6 +469,9 @@ export const allTheStyles = StyleSheet.create({
   addLessonOrGroupRow: {
     flexDirection:"row"
   },
+  notesBackground: {
+    backgroundColor: "black",
+  },
   examplesRow: {
     flexDirection:"row",
     textAlign: "center",
@@ -527,14 +569,30 @@ export const allTheStyles = StyleSheet.create({
 
     
   },
-  goalTime: {
+  criteriaTextInputG: {
     flexShrink: 1,
     textAlignVertical: "top",
     textAlign: "left",
     fontSize: 40,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 75,
+    height: 60,
+    color: "green",
+    flexDirection: "column",
+
+    textAlignVertical: "center",
+    textAlign: "center",
+
+    
+  },
+  goalTime: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "center",
+    fontSize: 37,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 45,
     flexDirection: "column",
     color: "white",
     
@@ -551,6 +609,28 @@ export const allTheStyles = StyleSheet.create({
     backgroundColor: "black",
     flexDirection: "column"
   },
+  filterOrCreate: {
+    flexShrink: 1,
+    textAlign: "left",
+    fontSize: 22,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 22,
+    color: "black",
+    flexDirection: "column"
+  },
+  filterRowVA: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+    color: "white",
+    backgroundColor: themeColor,
+    flexDirection: "column"
+  },
   snazzyCategorySubHeader: {
     flexShrink: 1,
     textAlignVertical: "top",
@@ -560,7 +640,7 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 65,
     color: "white",
-    backgroundColor: "#222222",
+    backgroundColor: "black",
     flexDirection: "column",
     color: themeColor
 
@@ -704,7 +784,8 @@ export const allTheStyles = StyleSheet.create({
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
-    height: 50,
+    height: 40,
+    color: "white",
   },
   actualExample: {
     textAlignVertical: "center",
@@ -716,6 +797,14 @@ export const allTheStyles = StyleSheet.create({
     height: 100,
     marginLeft: -230,
   },
+  addLessonExample: {
+    textAlign: "center",
+    fontSize: 100,
+    color: themeColor,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    marginLeft: 30,
+  },
   actualExampleB: {
     textAlignVertical: "center",
     textAlign: "center",
@@ -726,6 +815,16 @@ export const allTheStyles = StyleSheet.create({
     height: 70,
     marginLeft: 40,
   },
+  addLessonExampleB: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 35,
+    color: "blue",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
+    marginLeft: 40,
+  },
     actualExampleG: {
     textAlignVertical: "center",
     textAlign: "center",
@@ -734,6 +833,15 @@ export const allTheStyles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "bold",
     height: 70,
+  },
+  addLessonExampleG: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 35,
+    color: "green",
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 50,
   },
   actualExampleO: {
     textAlignVertical: "center",

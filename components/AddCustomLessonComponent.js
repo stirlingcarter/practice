@@ -23,7 +23,8 @@ export class AddCustomLessonComponent extends React.Component {
     this.state = {
       selectedNotes: Constants.ALL_NOTES,
       mode: Constants.LESSON_TYPE_TIMED,
-      criteria: "Play the following notes",
+      criteria: undefined,
+      notesOpen: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -33,7 +34,7 @@ export class AddCustomLessonComponent extends React.Component {
     this.handleVariants2Change = this.handleVariants2Change.bind(this);
     this.handleGoalChange = this.handleGoalChange.bind(this);
     this.handleModeChange = this.handleModeChange.bind(this);
-
+    this.handleNotesOpenChange = this.handleNotesOpenChange.bind(this);
   
   }
 
@@ -42,24 +43,31 @@ export class AddCustomLessonComponent extends React.Component {
   }
 
   componentDidMount = () => {
+
+
     this.interval = setInterval(() => {
       this.setState((state, props) => {
         return {
-          examples: [Util.getRandomFromArray(this.selectedNotes),Util.getRandomFromArray(this.state.variants),Util.getRandomFromArray(this.state.variants2)]
+          examples: [Util.getRandomFromArray(this.state.selectedNotes),Util.getRandomFromArray(this.state.variants),Util.getRandomFromArray(this.state.variants2)]
         };
       });
     }, 1600);
   };
 
-  handleModeChange() {
-    let indexOfCurrentMode = Constants.VALID_CHALLENGE_MODES.indexOf(this.state.mode)
-    let indexOfNextMode = (indexOfCurrentMode + 1) % Constants.VALID_CHALLENGE_MODES.length
-    let nextMode = Constants.VALID_CHALLENGE_MODES[indexOfNextMode]
-    this.setState({ mode: nextMode })
+  handleModeChange(n) {
+    if (n==0){
+      this.setState({ mode: Constants.LESSON_TYPE_TIMED});
+    }else{
+      this.setState({ mode: Constants.LESSON_TYPE_TRIES});
+    }
   }
 
   handleCriteriaChange(criteria) {
     this.setState({ criteria });
+  }
+
+  handleNotesOpenChange() {
+    this.setState({ notesOpen: !this.state.notesOpen });
   }
 
   handleVariantsChange(variants) {
@@ -147,51 +155,48 @@ export class AddCustomLessonComponent extends React.Component {
 
     return (
       <View>
-        <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
         <ScrollView style={allTheStyles.addLessonCol}>
-          <TextInput
-            style={allTheStyles.leTitleButton}
-            onBlur={Keyboard.dismiss}
-            placeholder="Title"
-            maxLength={200}
-            value={this.state.name}
-            onChangeText={this.handleNameChange} />
-          <TextInput
-            style={allTheStyles.criteriaTextInput}
-            onBlur={Keyboard.dismiss}
-            placeholder="Criteria"
-            multiline={true}
-            value={this.state.criteria}
-            onChangeText={this.handleCriteriaChange} />
-          
-        
-            <Text onPress={this.handleModeChange} style={allTheStyles.criteriaTextInput}>{"Mode: " + (this.state.mode == Constants.LESSON_TYPE_TIMED ? "times" : "number of tries")}              </Text>
-          <TextInput
-            style={allTheStyles.goalTime}
-            onBlur={Keyboard.dismiss}
-            placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Goal time (seconds)" : "Goal BPM"}
-            multiline={true}
-            numberOfLines={2}
-            value={this.state.goal}
-            onChangeText={this.handleGoalChange} />
-          <Text>                            </Text>
 
-          <View style={allTheStyles.addLessonOrGroupRow}>
-          <Text style={allTheStyles.addVariantPlusLeft} >{(this.state.variants == undefined ? "0 Variations" : this.state.variants.length + " variation" + (this.state.variants.length == 1 ? "" : "s"))}</Text>
+        <View style={{backgroundColor:"pink", height:370}}>
+        <TextInput
+          style={allTheStyles.leTitleButton}
+          onBlur={Keyboard.dismiss}
+          placeholder="Name your lesson"
+          maxLength={200}
+          value={this.state.name}
+          onChangeText={this.handleNameChange} />
+        <TextInput
+          style={allTheStyles.criteriaTextInput}
+          onBlur={Keyboard.dismiss}
+          placeholder="Criteria (optional)"
+          multiline={true}
+          value={this.state.criteria}
+          onChangeText={this.handleCriteriaChange} />
 
-          <Text style={allTheStyles.addVariantPlus} onPress={() => {
-            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true, cb: this.handleVariantsChange, alreadyChosen: this.state.variants })
-          }}>{"      (+)"}</Text></View>
-          <View style={allTheStyles.addLessonOrGroupRow}>
-          <Text style={allTheStyles.addVariantPlus2}>{(this.state.variants2 == undefined ? "0 Variations" : this.state.variants2.length + " variation" + (this.state.variants2.length == 1 ? "" : "s"))}</Text>
 
-          <Text style={allTheStyles.addVariantPlus2Right} onPress={() => {
-            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false, cb: this.handleVariants2Change, alreadyChosen: this.state.variants2})
-          }}>{"      (+)"}</Text></View>
+<View style={allTheStyles.examplesRow}>
+          <Text style={allTheStyles.criteriaTextInput}>{"Mode: "}</Text>
+          <Text onPress={()=>{this.handleModeChange(0)}} style={this.state.mode != Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"Times"}</Text>
+          <Text style={allTheStyles.criteriaTextInput}>{"/"}</Text>
+          <Text onPress={()=>{this.handleModeChange(1)}} style={this.state.mode == Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"Tries"}</Text>
+          </View>
+        <TextInput
+          style={allTheStyles.goalTime}
+          onBlur={Keyboard.dismiss}
+          placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Latency goal (seconds)" : "Latency goal (bpm)"}
+          value={this.state.goal}
+          onChangeText={this.handleGoalChange} />
+        </View>
 
-          <Text style={allTheStyles.notesHeader}>{"NOTES"}</Text>            
-          <View>
+        <View style={allTheStyles.addLessonOrGroupRow}>
+          <Text style={allTheStyles.addNotesPlusLeft} >{(this.state.selectedNotes == undefined ? "12 Notes    " : this.state.selectedNotes.length + " Note" + (this.state.selectedNotes.length == 1 ? "" : "s"))}</Text>
+
+          <Text style={allTheStyles.addNotesPlus} onPress={
+            this.handleNotesOpenChange
+          }>{"             (+)"}</Text></View>
+
+          {this.state.notesOpen && <View style={allTheStyles.notesBackground}>
           <View style={allTheStyles.examplesRow}>
               <Text onPress={() => this.handleNotesChange("A")} style={this.state.selectedNotes.includes("A") ? green : init}>{"A"}</Text>
               <Text onPress={() => this.handleNotesChange("Bb")} style={this.state.selectedNotes.includes("Bb") ? green : init}>{"Bb"}</Text>
@@ -208,8 +213,31 @@ export class AddCustomLessonComponent extends React.Component {
               <Text onPress={() => this.handleNotesChange("G")} style={this.state.selectedNotes.includes("G") ? green : init}>{"G"}</Text>
               <Text onPress={() => this.handleNotesChange("Ab")} style={this.state.selectedNotes.includes("Ab") ? green : init}>{"Ab"}</Text>
           </View>
-          </View>
+          </View>}
+          <View style={allTheStyles.addLessonOrGroupRow}>
+          <Text style={allTheStyles.addVariantPlusLeft} >{(this.state.variants == undefined ? "0 Variations" : this.state.variants.length + " variation" + (this.state.variants.length == 1 ? "" : "s"))}</Text>
+<Text>  </Text>
+          <Text style={allTheStyles.addVariantPlus} onPress={() => {
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true, cb: this.handleVariantsChange, alreadyChosen: this.state.variants })
+          }}>{"      (+)"}</Text></View>
+
+          <View style={allTheStyles.addLessonOrGroupRow}>
+          <Text style={allTheStyles.addVariantPlus2}>{(this.state.variants2 == undefined ? "0 Variations" : this.state.variants2.length + " variation" + (this.state.variants2.length == 1 ? "" : "s"))}</Text>
+
+          <Text style={allTheStyles.addVariantPlus2Right} onPress={() => {
+            this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false, cb: this.handleVariants2Change, alreadyChosen: this.state.variants2})
+          }}>{"      (+)"}</Text></View>
           
+
+          <Text style={allTheStyles.examplesButton}>{"Examples"}</Text>
+
+          <View style={allTheStyles.examplesRow}>
+          <Text style={allTheStyles.addLessonExample}>{this.state.examples == undefined ? "e.g." : this.state.examples[0] + " "}</Text>
+          <View style={{flexDirection: "column"}}>
+          <Text style={allTheStyles.addLessonExampleG}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
+          <Text style={allTheStyles.addLessonExampleB}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
+          </View>
+          </View>          
           <Text
             style={allTheStyles.saveLessonButton}
             onPress={this.handleSubmit}
@@ -217,13 +245,6 @@ export class AddCustomLessonComponent extends React.Component {
           >
             {"save"}
           </Text>
-          <Text style={allTheStyles.examplesButton}>{"Examples"}</Text>
-
-          <View style={allTheStyles.examplesRow}>
-          <Text style={allTheStyles.actualExample}>{this.state.examples == undefined ? "e.g." : this.state.examples[0] + " "}</Text>
-          <Text style={allTheStyles.actualExampleG}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
-          <Text style={allTheStyles.actualExampleB}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
-          </View>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
           <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
