@@ -57,13 +57,12 @@ export class AddGroupComponent extends React.Component {
 
         return (
             <View style={allTheStyles.saveScreenBackground}>
-                      <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
 
-                <ScrollView>
+                <View>
                     <View>
                         <TextInput
-                            style={allTheStyles.saveButton}
+                            style={allTheStyles.saveButtonNew}
                             onBlur={Keyboard.dismiss}
                             placeholder="name"
                             maxLength={200}
@@ -71,13 +70,13 @@ export class AddGroupComponent extends React.Component {
                             onChangeText={this.handleNameChange} />
                         <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
 
-                        <TextInput
+                        {/* <TextInput
                             style={allTheStyles.saveButton}
                             onBlur={Keyboard.dismiss}
                             placeholder="notes"
                             maxLength={200}
                             value={this.state.description}
-                            onChangeText={this.handleDescriptionChange} />
+                            onChangeText={this.handleDescriptionChange} /> */}
                         <Text style={allTheStyles.saveScreenSpacer}>{"\n"}</Text>
                         <Text style={allTheStyles.homeScreenSpacer}>{"\n"}</Text>
 
@@ -90,7 +89,7 @@ export class AddGroupComponent extends React.Component {
                         </Text>
 
                     </View>
-                </ScrollView>
+                </View>
             </View>
         );
     }

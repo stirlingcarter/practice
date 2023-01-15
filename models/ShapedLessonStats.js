@@ -24,10 +24,7 @@ export default class ShapedLessonStats {
                 adjustedWindowedAverages: undefined,
             }
         },
-        totalIncreaseAvg: {
-            baselineAvg: 0,
-            currentAvg: 0,
-        },
+        latencyElimination: undefined,
         variantHiMidLowLineChart: {
         },
 
@@ -40,10 +37,7 @@ export default class ShapedLessonStats {
     }
 
     datasetBpm = {
-        totalIncreaseAvg: {
-            startingBpm: 0,
-            currentBpm: 0,
-        },
+        latencyElimination: undefined,
         vHashToBpmToAvgTriesLineChartBpm: {
             // A$dom$LH" : [[60,61,62..],[5,7,9...]]
             // VHASH          BPM          AVG TRIES
@@ -196,16 +190,39 @@ export default class ShapedLessonStats {
 
         let currentAvg = 0
         vHashesWithTimes.forEach((vHash) => {
+            //add up the last 
             currentAvg += lesson.getTimesByVHash(vHash)[lesson.getTimesByVHash(vHash).length - 1]//i use length-1 instead of -1 because javascript is broken. The language feature of -1 is supposed to return the last element of an array, but it doesn't work. This is a known bug in javascript. It exists because the language authors are idiots.
         })
         currentAvg = currentAvg / vHashesWithTimes.length
 
+        let latencyElimination = 0
+        let points = 0
+
+        let radialCharts = this.getRadialCharts(lesson)
+        if (radialCharts.v0.adjustedWindowedAverages != undefined) {
+            radialCharts.v0.adjustedWindowedAverages.forEach((avg) => {
+                points += 1
+                latencyElimination += avg
+            })
+        }
+        if (radialCharts.v1.adjustedWindowedAverages != undefined) {
+            radialCharts.v1.adjustedWindowedAverages.forEach((avg) => {
+                points += 1
+                latencyElimination += avg
+            })
+        }
+        if (radialCharts.v2.adjustedWindowedAverages != undefined) {
+            radialCharts.v2.adjustedWindowedAverages.forEach((avg) => {
+                points += 1
+                latencyElimination += avg
+            })
+        }
+        if (points != 0) {
+            latencyElimination = latencyElimination / points
+        }
         this.dataset = {
             radialCharts: this.getRadialCharts(lesson),
-            totalIncreaseAvg: {
-                baselineAvg: baselineAvg,
-                currentAvg: currentAvg,
-            },
+            latencyElimination: latencyElimination,
             vHashHiMidLowLineChart: this.getVHashToTimesVHashLineChart(lesson),
             variantHiMidLowLineChart: this.getVariantToTimesVariantLineChart(lesson),
             allLineChart: this.getAllLineChart(lesson),
@@ -327,12 +344,10 @@ export default class ShapedLessonStats {
         if (vHashToBpmToAvgTriesLineChartBpm == undefined || Object.keys(vHashToBpmToAvgTriesLineChartBpm).length == 0) { return undefined }
         // alert(JSON.stringify(vHashToBpmToAvgTriesLineChartBpm))
         let uniqueBpms = vHashToBpmToAvgTriesLineChartBpm["AVG"][0]
-
+        let startingBpm = uniqueBpms[0]
+        let currentBpm = uniqueBpms[uniqueBpms.length - 1]
         this.datasetBpm = {
-            totalIncreaseAvg: {
-                startingBpm: uniqueBpms[0],
-                currentBpm: uniqueBpms[uniqueBpms.length - 1]
-            },
+            latencyElimination: lesson.getGoal() < currentBpm ? 100 : ((100/(lesson.getGoal()-startingBpm))*(currentBpm-startingBpm)),
             vHashToBpmToAvgTriesLineChartBpm: vHashToBpmToAvgTriesLineChartBpm,
             scatter: this.getScatter(lesson),
         }

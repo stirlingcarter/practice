@@ -44,14 +44,17 @@ export class LessonLaunchComponent extends React.Component {
     return (
       <SafeAreaView>
         <ScrollView snapToStart={false} style={allTheStyles.scrollStyle}>
+        <Text style={allTheStyles.groupScreenTitle}>{this.state.lesson.getName()}</Text>
+        <Text>{"\n\n\n"}</Text>
 
           <Text style={allTheStyles.criWhite}>{this.state.lesson.getCriteria()}</Text>
+          <Text>{"\n\n\n"}</Text>
+
           { (this.state.lesson.getType() === Constants.LESSON_TYPE_TRIES) && 
       <View
       style={ allTheStyles.examplesRow}>    
-      <Text>{"\n\n\n\n\n\n\n"}</Text>
+      <Text>{"\n\n\n"}</Text>
 
-      <Text>{"\n\n\n\n\n\n\n"}</Text>
 
 
 
@@ -60,10 +63,12 @@ export class LessonLaunchComponent extends React.Component {
   }        
                     <View style={allTheStyles.examplesRow}>
           <Text style={allTheStyles.actualExampleO}>{this.state.examples == undefined ? "For example" : this.state.examples[0] + " "}</Text>
-          <Text style={allTheStyles.actualExampleGO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
-          <Text style={allTheStyles.actualExampleBO}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
+          <View style={{flexDirection: "column"}}>
+          <Text style={allTheStyles.addLessonExampleG}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[1]) + " "}</Text>
+          <Text style={allTheStyles.addLessonExampleB}>{this.state.examples == undefined ? "" : Util.getNoParens(this.state.examples[2])}</Text>
           </View>
-          
+          </View>
+          <Text>{"\n\n\n"}</Text>
           <Text
             style={allTheStyles.startButton}
             title={"start " + this.props.lessonName}

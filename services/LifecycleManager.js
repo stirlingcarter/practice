@@ -1,11 +1,12 @@
 
-import { groupRepository } from "../App";
 import Group from "../models/Group";
 import Constants from "../constant/Constants"
 import TreeUtils from "./TreeUtils";
 import { GroupPreviewComponent } from "../components/GroupPreviewComponent";
 import { HEAD_PATH } from "./TreeUtils";
 import { HEAD_NAME } from "./TreeUtils";
+import Path from "./Path";
+import { groupRepository } from "../App";
 
 export default class LifecycleManager {
 
@@ -19,6 +20,15 @@ export default class LifecycleManager {
             groupRepository.save(new Group(HEAD_NAME, 'permanent top level group', [], [], HEAD_PATH))
             alert(JSON.stringify(groupRepository.getGroupByPath(HEAD_PATH)))
         }
+
+
+        Constants.VALID_INSTRUMENTS.forEach(instrument => {
+            if (groupRepository.getGroupByPath(Path.plus(HEAD_PATH, instrument)) == undefined){
+                TreeUtils.saveGroup(new Group(instrument, '', [], [], Path.plus(HEAD_PATH, instrument)))
+            }
+        })
+
+
     }
 
 }

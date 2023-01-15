@@ -57,13 +57,13 @@ export class HomeScreenComponent extends React.Component {
             </Text>
 
             <Text
-              onPress={() => this.props.nav.navigate("AddGroupScreen", {
-                path: Constants.HEAD_GROUP_PATH,
-                cb: this.getGroupNames,
-              })}
+              // onPress={() => this.props.nav.navigate("AddGroupScreen", {
+              //   path: Constants.HEAD_GROUP_PATH,
+              //   cb: this.getGroupNames,
+              // })}
               style={allTheStyles.addInstrumentButton}
             >
-              {"tap here to add instruments.\n"}
+              {"more instruments coming soon\n"}
             </Text>
 
             {/* INSTRUMENTS (aka any group that level=1) */}

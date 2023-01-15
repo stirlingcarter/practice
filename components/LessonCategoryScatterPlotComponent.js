@@ -4,7 +4,7 @@ import {
   Text,
   View
 } from "react-native";
-import { VictoryChart, VictoryScatter, VictoryPolarAxis, VictoryLabel } from "victory-native";
+import { VictoryChart, VictoryScatter, VictoryAxis, VictoryLabel } from "victory-native";
 import * as V from 'victory';
 
 
@@ -21,6 +21,22 @@ export class LessonCategoryScatterPlotComponent extends React.Component {
 
 
     render () {
+        let maxy = 5
+        let minx = 60
+        let maxx = 63
+        for (let i = 0; i < this.props.coordinates.length; i++) {
+            if (this.props.coordinates[i].y > maxy) {
+                maxy = this.props.coordinates[i].y
+            }
+            if (this.props.coordinates[i].x < minx) {
+                minx = this.props.coordinates[i].x
+            }
+            if (this.props.coordinates[i].x > maxx) {
+                maxx = this.props.coordinates[i].x
+            }
+        }
+        minx -= 1
+        maxx += 1
 
 
         let coordinateToCount = {}
@@ -35,8 +51,33 @@ export class LessonCategoryScatterPlotComponent extends React.Component {
 
 
         return (
-            <VictoryChart>
+            <VictoryChart style={{
+
+              }}>
+
+<VictoryAxis
+      label="bpm"
+      tickFormat={(tick) => tick.toFixed(0)}
+      domain={ {x: [minx, maxx]} }
+      style={{
+
+        axisLabel: { fontSize: 20, fill: "pink" },
+        tickLabels: { fill: "white" }      }}
+    />
+    <VictoryAxis
+      dependentAxis
+      label="tries"
+      domain={ {y: [0, maxy]} }
+      tickFormat={(tick) => tick.toFixed(0)}
+      style={{
+        axisLabel: { fontSize: 20, fill: "pink" },
+                tickLabels: { fill: "white" }      
+
+      }}
+    />
         <VictoryScatter
+            style={{ data: { fill: "pink" },
+                    labels: { fontSize: 10, fill: "pink" } }}
           data={this.props.coordinates}
           labels={({ datum }) => ` ${coordinateToCount[JSON.stringify({x : datum.x, y : datum.y})]}`}
 

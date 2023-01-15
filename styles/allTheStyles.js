@@ -13,6 +13,15 @@ export const allTheStyles = StyleSheet.create({
     fontWeight: "bold",
     height: 190,
   },
+  saveButtonNew: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    fontStyle: "italic",
+    backgroundColor: themeColor,
+    fontWeight: "bold",
+    height: 440,
+  },
   leTitleButton: {
     top: 20,
     textAlignVertical: "center",
@@ -569,6 +578,22 @@ export const allTheStyles = StyleSheet.create({
 
     
   },
+  criteriaTextInput4: {
+    flexShrink: 1,
+    textAlignVertical: "top",
+    textAlign: "left",
+    fontSize: 40,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    height: 60,
+    color: vsrs,
+    flexDirection: "column",
+
+    textAlignVertical: "center",
+    textAlign: "center",
+
+    
+  },
   criteriaTextInputG: {
     flexShrink: 1,
     textAlignVertical: "top",
@@ -846,7 +871,7 @@ export const allTheStyles = StyleSheet.create({
   actualExampleO: {
     textAlignVertical: "center",
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 60,
     color: themeColor,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -1250,5 +1275,37 @@ export const allTheStyles = StyleSheet.create({
     borderColor: 'black',
     borderLeftWidth: 20,
     borderTopWidth: 20,
+  },
+  statsStyle1: {
+    color: themeColor, 
+    fontSize: 40, 
+    marginTop: 50, 
+    textAlign: "center", 
+    fontStyle: "italic", 
+    fontWeight: "bold"
+  },
+  statsStyle2: {
+    color: themeColor, 
+    fontSize: 30, 
+    top: 3, 
+    textAlign: "center", 
+    fontStyle: "italic", 
+    fontWeight: "bold"
+  },
+  statsStyle3: {
+    color: "white", 
+    fontSize: 30, 
+    top: 3, 
+    textAlign: "center", 
+    fontStyle: "italic", 
+    fontWeight: "bold"
+  },
+  statsStyle4: {
+    color: "white", 
+    fontSize: 40, 
+    marginTop: 50, 
+    textAlign: "center", 
+    fontStyle: "italic", 
+    fontWeight: "bold"
   }
 });

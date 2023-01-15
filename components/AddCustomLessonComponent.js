@@ -156,45 +156,44 @@ export class AddCustomLessonComponent extends React.Component {
     return (
       <View>
 
-        <ScrollView style={allTheStyles.addLessonCol}>
+        
 
         <View style={{backgroundColor:"pink", height:370}}>
         <TextInput
           style={allTheStyles.leTitleButton}
           onBlur={Keyboard.dismiss}
-          placeholder="Name your lesson"
+          placeholder="name"
           maxLength={200}
           value={this.state.name}
           onChangeText={this.handleNameChange} />
         <TextInput
           style={allTheStyles.criteriaTextInput}
           onBlur={Keyboard.dismiss}
-          placeholder="Criteria (optional)"
+          placeholder="criteria (optional)"
           multiline={true}
           value={this.state.criteria}
           onChangeText={this.handleCriteriaChange} />
 
 
 <View style={allTheStyles.examplesRow}>
-          <Text style={allTheStyles.criteriaTextInput}>{"Mode: "}</Text>
-          <Text onPress={()=>{this.handleModeChange(0)}} style={this.state.mode != Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"Times"}</Text>
-          <Text style={allTheStyles.criteriaTextInput}>{"/"}</Text>
-          <Text onPress={()=>{this.handleModeChange(1)}} style={this.state.mode == Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"Tries"}</Text>
+          <Text onPress={()=>{this.handleModeChange(0)}} style={this.state.mode != Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"times"}</Text>
+          <Text style={allTheStyles.criteriaTextInput4}>{"/"}</Text>
+          <Text onPress={()=>{this.handleModeChange(1)}} style={this.state.mode == Constants.LESSON_TYPE_TRIES ? allTheStyles.criteriaTextInputG : allTheStyles.criteriaTextInput}>{"tries"}</Text>
           </View>
         <TextInput
           style={allTheStyles.goalTime}
           onBlur={Keyboard.dismiss}
-          placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "Latency goal (seconds)" : "Latency goal (bpm)"}
+          placeholder={this.state.mode == Constants.LESSON_TYPE_TIMED ? "latency goal (seconds)" : "latency goal (bpm)"}
           value={this.state.goal}
           onChangeText={this.handleGoalChange} />
         </View>
-
+        <ScrollView style={allTheStyles.addLessonCol}>
         <View style={allTheStyles.addLessonOrGroupRow}>
-          <Text style={allTheStyles.addNotesPlusLeft} >{(this.state.selectedNotes == undefined ? "12 Notes    " : this.state.selectedNotes.length + " Note" + (this.state.selectedNotes.length == 1 ? "" : "s"))}</Text>
+          <Text style={allTheStyles.addNotesPlusLeft} >{(this.state.selectedNotes == undefined ? "12 notes    " : this.state.selectedNotes.length + " note" + (this.state.selectedNotes.length == 1 ? "" : "s"))}</Text>
 
           <Text style={allTheStyles.addNotesPlus} onPress={
             this.handleNotesOpenChange
-          }>{"             (+)"}</Text></View>
+          }>{this.state.notesOpen ? "             (-)" : "             (+)"}</Text></View>
 
           {this.state.notesOpen && <View style={allTheStyles.notesBackground}>
           <View style={allTheStyles.examplesRow}>
@@ -215,18 +214,18 @@ export class AddCustomLessonComponent extends React.Component {
           </View>
           </View>}
           <View style={allTheStyles.addLessonOrGroupRow}>
-          <Text style={allTheStyles.addVariantPlusLeft} >{(this.state.variants == undefined ? "0 Variations" : this.state.variants.length + " variation" + (this.state.variants.length == 1 ? "" : "s"))}</Text>
+          <Text style={allTheStyles.addVariantPlusLeft} >{(this.state.variants == undefined ? "0 variations" : this.state.variants.length + " variation" + (this.state.variants.length == 1 ? "" : "s"))}</Text>
 <Text>  </Text>
           <Text style={allTheStyles.addVariantPlus} onPress={() => {
             this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: true, cb: this.handleVariantsChange, alreadyChosen: this.state.variants })
-          }}>{"      (+)"}</Text></View>
+          }}>{"    (+)"}</Text></View>
 
           <View style={allTheStyles.addLessonOrGroupRow}>
-          <Text style={allTheStyles.addVariantPlus2}>{(this.state.variants2 == undefined ? "0 Variations" : this.state.variants2.length + " variation" + (this.state.variants2.length == 1 ? "" : "s"))}</Text>
+          <Text style={allTheStyles.addVariantPlus2}>{(this.state.variants2 == undefined ? "0 variations" : this.state.variants2.length + " variation" + (this.state.variants2.length == 1 ? "" : "s"))}</Text>
 
           <Text style={allTheStyles.addVariantPlus2Right} onPress={() => {
             this.props.nav.navigate("AddVariantGroupScreen", { path: this.props.path, green: false, cb: this.handleVariants2Change, alreadyChosen: this.state.variants2})
-          }}>{"      (+)"}</Text></View>
+          }}>{"     (+)"}</Text></View>
           
 
           <Text style={allTheStyles.examplesButton}>{"Examples"}</Text>
