@@ -16,6 +16,7 @@ import ShapedLessonStats from "../models/ShapedLessonStats";
 const DOMAIN = { y: [0, 100] }
 const LIMIT = 30 * 1000
 
+import { lessonRepository } from "../App";
 export class LessonStatsComponent extends React.Component {
 
   constructor(props) {
@@ -29,7 +30,8 @@ export class LessonStatsComponent extends React.Component {
 
   componentDidMount() {
     let sls = new ShapedLessonStats();
-    sls.generateDataset(this.props.lesson);
+    let refreshedLesson = lessonRepository.getLessonByPath(this.props.lesson.getPath())
+    sls.generateDataset(refreshedLesson);
     this.setState({shapedStats: sls});
     // alert(sls.radialCharts.v0.adjustedWindowedAverages)
 

@@ -19,7 +19,8 @@ export class ChallengeComponent extends React.Component {
     this.addBpm = this.addBpm.bind(this);
     this.subtractBpm = this.subtractBpm.bind(this);
     this.lesson = this.props.lesson
-
+    this.handleUndoLast = this.handleUndoLast.bind(this);
+    this.handleLeave = this.handleLeave.bind(this);
     this.addTries = this.addTries.bind(this);
     this.subtractTries = this.subtractTries.bind(this);
     this.handleAutoToggle = this.handleAutoToggle.bind(this);
@@ -31,6 +32,7 @@ export class ChallengeComponent extends React.Component {
     this.state = {
       start: 0,
       vHash: challengeService.getNextVHash(this.lesson),
+      prevVHash: undefined,
       count: 0,
       bpm: this.lesson.getBPM(),
       auto: this.lesson.getBPM() == undefined || this.lesson.getBPM() == recc,
@@ -56,7 +58,7 @@ export class ChallengeComponent extends React.Component {
     this.setState({
       bpm: newLesson.getBPM()
     })
-    alert("b: " + newLesson.getBPM())
+ 
 
   }
 
@@ -97,6 +99,7 @@ export class ChallengeComponent extends React.Component {
   }
 
   challengeCallback(nav) {
+    
 
     if (this.type == Constants.LESSON_TYPE_TRIES) {
       if (this.state.count == undefined || this.state.count == 0) {
@@ -120,10 +123,13 @@ export class ChallengeComponent extends React.Component {
       this.lesson.registerTime(diff, this.state.vHash)
     }
 
+    let prev = this.state.vHash
+
     this.setState({
       vHash: challengeService.getNextVHash(this.lesson),
       start: Date.now(),
-      count: 0
+      count: 0,
+      prevVHash: prev
     })
     // nav.navigate("LessonChallengeScreen");
   }
@@ -150,6 +156,27 @@ export class ChallengeComponent extends React.Component {
 
   }
 
+  handleUndoLast(){
+      if (this.state.prevVHash == undefined) {
+        alert("Nothing to undo!")
+        return
+      }
+      this.lesson.undoLastTriesLessonTypeAgnostic(this.state.prevVHash)
+      lessonRepository.save(this.lesson)
+      this.setState({
+        prevVHash: undefined
+      }
+      )
+  }
+
+  handleLeave(){
+    this.props.nav.navigate("LessonLaunchScreen", {
+      path: this.props.lesson.getPath(),
+      lessonName: this.props.lesson.getName(),
+      nav: this.props.nav
+    })
+  }
+
   render() {
     let init = allTheStyles.challengeButton
     let green = allTheStyles.challengeButtonGreen
@@ -157,16 +184,60 @@ export class ChallengeComponent extends React.Component {
     let l = variants.length
 
     let isTries = this.type == Constants.LESSON_TYPE_TRIES
+    let prevVariants = undefined
+    if (this.state.prevVHash) {
+      prevVariants = this.state.prevVHash.split("$")
+    }
+
+    let p0 = !prevVariants || prevVariants.length == 0 ? "NA   " : prevVariants[0] 
+    let p1 = !prevVariants || prevVariants.length < 2 ? "     " : prevVariants[1] 
+    let p2 = !prevVariants || prevVariants.length < 3 ? "     " : prevVariants[2] 
+    p1 = Util.getNoParens(p1)
+    p2 = Util.getNoParens(p2)
 
     return (
       <View>
         <View
           style={{ width: '100%', height: '33%' }}>
           <Text>{"\n\n\n"}</Text>
-          { this.type != Constants.LESSON_TYPE_TRIES && <Text>{"\n\n\n\n\n"}</Text>}
-          { this.type != Constants.LESSON_TYPE_TRIES && <Text>{"\n\n\n\n"}</Text>}
-          { this.type != Constants.LESSON_TYPE_TRIES && <Text>{"\n\n\n\n\n"}</Text>}
 
+          {<View style={allTheStyles.examplesRow}>
+            <Text onPress={this.handleLeave}
+              style={allTheStyles.challengeExitButton}
+            >
+              {"leave"}
+            </Text>
+
+<View style={allTheStyles.examplesRow}>
+            <Text onPress={this.handleUndoLast}
+              style={this.state.prevVHash ? allTheStyles.challengeUndoButton : allTheStyles.challengeUndoButtonDisabled}
+            >
+              {" undo"}
+            </Text>
+            <View style={{flexDirection: "column"}}>
+            <Text style={allTheStyles.challengeText}>
+              {p0}
+              </Text>
+
+
+
+              {p1 && <Text style={allTheStyles.challengeTextG}>
+              {p1.slice(0, 7) + (p1.trim().length < 7 ? '' : '...')}
+              </Text>}
+              {p2 && <Text style={allTheStyles.challengeTextB}>
+              {p2.slice(0, 7) + (p2.trim().length < 7 ? '' : '...')}
+              </Text>}
+
+
+              </View>
+            </View>
+          </View>}     
+          {!isTries && <Text>{"\n"}</Text>}
+
+
+                    { !isTries && <Text>{"\n\n\n\n\n"}</Text>}
+          { !isTries && <Text>{"\n\n\n\n"}</Text>}
+          { !isTries && <Text>{"\n\n\n\n\n"}</Text>}     
           {
 
             <View style={isTries ? allTheStyles.challengeBorderT : allTheStyles.challengeBorder} onTouchStart={() => this.challengeCallback(this.props.nav)}>
@@ -224,7 +295,6 @@ export class ChallengeComponent extends React.Component {
                   >
                     {"      METRONOME        "}
                   </Text>
-                  <Metronome onPressCB={this.handleMetronomeIsPlayingChange} playPauseButtonTextStyle={allTheStyles.challengeMetronomeButton} bpm={this.state.bpm}></Metronome>
                 </View>
 
                 <View style={allTheStyles.metronomeLabelAndPlayButtonRow}>
@@ -240,6 +310,8 @@ export class ChallengeComponent extends React.Component {
                 >
                   {this.state.bpm}
                 </Text>
+                <Metronome onPressCB={this.handleMetronomeIsPlayingChange} playPauseButtonTextStyle={allTheStyles.challengeMetronomeButton} bpm={this.state.bpm}></Metronome>
+
                 </View>
               </View>
             </View>

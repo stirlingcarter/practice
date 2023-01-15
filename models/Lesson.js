@@ -177,6 +177,24 @@ export default class Lesson {
         this.bpms[vHash].push(bpm)
     }
 
+    undoLastTriesLessonTypeAgnostic(vHash) {
+        if (this.dataset[vHash].length > 0) {
+            this.dataset[vHash].pop()
+        }
+        if (this.bpms[vHash].length > 0) {
+            this.bpms[vHash].pop()
+        }
+        vHash.split('$').forEach((v) => {
+            if (this.variantDataset[v].length > 0) {
+                this.variantDataset[v].pop()
+            }
+        }
+        )
+        if (this.allTimes.length > 0) {
+            this.allTimes.pop()
+        }
+    }
+
     getVariantTimesByVariant(variant) {
         return Util.copyOf(this.variantDataset[variant])
     }

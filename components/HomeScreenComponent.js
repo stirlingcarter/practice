@@ -76,10 +76,7 @@ export class HomeScreenComponent extends React.Component {
                   rightButtons={[
                     <TouchableOpacity
                       onPress={() => {
-                        TreeUtils.deleteGroupByPath(
-                          Path.plus(this.props.path, item)
-                        );
-                        this.getGroupNames()
+                        alert("no🖕")
                       }}
                       style={[
                         styles5.rightSwipeItem,

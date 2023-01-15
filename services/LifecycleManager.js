@@ -2,7 +2,6 @@
 import Group from "../models/Group";
 import Constants from "../constant/Constants"
 import TreeUtils from "./TreeUtils";
-import { GroupPreviewComponent } from "../components/GroupPreviewComponent";
 import { HEAD_PATH } from "./TreeUtils";
 import { HEAD_NAME } from "./TreeUtils";
 import Path from "./Path";
