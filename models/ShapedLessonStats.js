@@ -223,10 +223,12 @@ export default class ShapedLessonStats {
         this.dataset = {
             radialCharts: this.getRadialCharts(lesson),
             latencyElimination: latencyElimination,
-            vHashHiMidLowLineChart: this.getVHashToTimesVHashLineChart(lesson),
-            variantHiMidLowLineChart: this.getVariantToTimesVariantLineChart(lesson),
-            allLineChart: this.getAllLineChart(lesson),
+            vHashHiMidLowLineChart: this.reduceTo100(this.getVHashToTimesVHashLineChart(lesson)),
+            variantHiMidLowLineChart: this.reduceTo100(this.getVariantToTimesVariantLineChart(lesson)),
+            allLineChart: this.reduceTo100(this.getAllLineChart(lesson)),
         }
+
+        alert("K"+JSON.stringify(this.dataset.allLineChart))
     }
 
     getHistoricalAverages(sublists) {
@@ -336,6 +338,22 @@ export default class ShapedLessonStats {
         }
         return ans
     }
+
+    reduceTo100(d) {
+        let ans = {}
+        Object.keys(d).forEach((key) =>{
+          let xValues = d[key][0];
+          let yValues = d[key][1];
+          if (xValues.length > 100) {
+            let step = Math.ceil(xValues.length / 100);
+            yValues = yValues.filter((e, i) => i % step === 0 || i === yValues.length - 1);
+            xValues = Array.from({length: yValues.length}, (_, i) => i)
+          }
+          ans[key] = [xValues, yValues];
+        })
+
+        return ans;
+      }
 
 
     filloutDatasetBpm(lesson) {
