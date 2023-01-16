@@ -36,8 +36,15 @@ export class ChallengeComponent extends React.Component {
       count: 0,
       bpm: this.lesson.getBPM(),
       auto: this.lesson.getBPM() == undefined || this.lesson.getBPM() == recc,
-      metronomeIsPlaying: false
+      metronomeIsPlaying: false,
+      t: 3
     };
+
+    setTimeout(() => this.setState({t: 2}), 1000);
+    setTimeout(() => this.setState({t: 1}), 2000);
+    setTimeout(() => this.setState({t: 0}), 3000);
+
+
 
 
   }
@@ -195,7 +202,8 @@ export class ChallengeComponent extends React.Component {
     p1 = Util.getNoParens(p1)
     p2 = Util.getNoParens(p2)
 
-    return (
+    return (!isTries && this.state.t > 0) ? (<Text style={{top: 250, color: "white", textAlign: "center", fontSize: 300, fontStyle: "italic",
+    fontWeight: "bold"}}>{this.state.t}</Text>) : (
       <View>
         <View
           style={{ width: '100%', height: '33%' }}>

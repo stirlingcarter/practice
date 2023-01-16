@@ -67,7 +67,8 @@ export default class Metronome extends Component {
         try {
           await metronome.setPositionAsync(0);
           await metronome.setRateAsync(mult, false);
-          await metronome.playAsync();
+          await metronome.setIsLoopingAsync(true);
+          await metronome.replayAsync();
           this.setState({currentlyPlaying: i})
           
         } catch (error) {
