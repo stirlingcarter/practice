@@ -125,6 +125,7 @@ export class GroupPreviewComponent extends React.Component {
                 onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
                   path: this.props.path,
                   cb: this.getLessonNames,
+                  existingLessonNames: this.state.lessonNames
                 })}
                 style={allTheStyles.saveButton3}
               >

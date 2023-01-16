@@ -9,72 +9,21 @@ export default class Metronome extends Component {
   constructor(props) {
     super(props);
 
-  
-
     this.state = {
-      currentlyPlaying: -1,
-      // sounds: []
+      currentlyPlaying: -1,//else, it will be the index of the sound that is currently playing
     }
 
-    // this.prepareSounds = this.prepareSounds.bind(this);
     this.stopMetronome = this.stopMetronome.bind(this);
     this.getIndexAndMultiplierBasedOnBpm = this.getIndexAndMultiplierBasedOnBpm.bind(this);
     
 
 }
 
-  componentDidMount() {
-    // this.prepareSounds()
-  }
-
   componentWillUnmount() {
     if (this.currentlyPlaying != -1){
-      // this.stopMetronome(this.state.sounds[this.state.currentlyPlaying])
+      this.stopMetronome(sounds[this.state.currentlyPlaying])
       return
     }}
-
-  // async prepareSounds() {
-  //   const sound0 = new Audio.Sound();
-  //   const sound1 = new Audio.Sound();
-  //   const sound2 = new Audio.Sound();
-  //   const sound3 = new Audio.Sound();
-  //   const sound4 = new Audio.Sound();
-  //   const sound5 = new Audio.Sound();
-  //   const sound6 = new Audio.Sound();
-  //   const sound7 = new Audio.Sound();
-  //   const sound8 = new Audio.Sound();
-  //   const sound9 = new Audio.Sound();
-
-  //   try {
-  //       await sound0.loadAsync(require('../assets/sounds/metronome/25bpm10m.mp3'), {shouldPlay: false});
-  //       await sound1.loadAsync(require('../assets/sounds/metronome/35bpm10m.mp3'), {shouldPlay: false});
-  //       await sound2.loadAsync(require('../assets/sounds/metronome/45bpm10m.mp3'), {shouldPlay: false});
-  //       await sound3.loadAsync(require('../assets/sounds/metronome/55bpm10m.mp3'), {shouldPlay: false});
-  //       await sound4.loadAsync(require('../assets/sounds/metronome/65bpm10m.mp3'), {shouldPlay: false});
-  //       await sound5.loadAsync(require('../assets/sounds/metronome/75bpm10m.mp3'), {shouldPlay: false});
-  //       await sound6.loadAsync(require('../assets/sounds/metronome/85bpm10m.mp3'), {shouldPlay: false});
-  //       await sound7.loadAsync(require('../assets/sounds/metronome/95bpm10m.mp3'), {shouldPlay: false});
-  //       await sound8.loadAsync(require('../assets/sounds/metronome/105bpm10m.mp3'), {shouldPlay: false});
-  //       await sound9.loadAsync(require('../assets/sounds/metronome/120bpm10m.mp3'), {shouldPlay: false});
-
-  //       this.setState({
-  //           sounds: [
-  //               sound0,
-  //               sound1,
-  //               sound2,
-  //               sound3,
-  //               sound4,
-  //               sound5,
-  //               sound6,
-  //               sound7,
-  //               sound8,
-  //               sound9
-  //           ]
-  //       })
-  //   } catch (error) {
-  //       alert(error)
-  //     }
-  // }
 
   getIndexAndMultiplierBasedOnBpm(bpm) {
     if (bpm <= 30) {
@@ -124,7 +73,7 @@ export default class Metronome extends Component {
         } catch (error) {
           alert(error)
         }
-}
+    }
 
 
     async stopMetronome(metronome) {
@@ -139,7 +88,9 @@ export default class Metronome extends Component {
         <Text
         style={this.props.playPauseButtonTextStyle} onPress={() => {
           this.playSound(sounds)
-          this.props.onPressCB()
+          if (this.props.onPressCB){
+            this.props.onPressCB()
+          }
         }}
         >{this.state.currentlyPlaying > -1 ? "◻️" : "▶"}</Text>
       </View>

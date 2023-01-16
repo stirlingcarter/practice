@@ -345,11 +345,14 @@ export default class ShapedLessonStats {
         let uniqueBpms = vHashToBpmToAvgTriesLineChartBpm["AVG"][0]
         let startingBpm = uniqueBpms[0]
         let currentBpm = uniqueBpms[uniqueBpms.length - 1]
+        let currentlyCompletedBpm = currentBpm - 1
+
         this.datasetBpm = {
-            latencyElimination: lesson.getGoal() < currentBpm ? 100 : ((100/(lesson.getGoal()-startingBpm))*(currentBpm-startingBpm)),
+            latencyElimination: lesson.getGoal() <= currentlyCompletedBpm ? 100 : ((100/(lesson.getGoal()-startingBpm))*(currentlyCompletedBpm-startingBpm)),
             vHashToBpmToAvgTriesLineChartBpm: vHashToBpmToAvgTriesLineChartBpm,
             scatter: this.getScatter(lesson),
         }
+        alert(this.datasetBpm.latencyElimination)
 
     }
 

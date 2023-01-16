@@ -88,7 +88,9 @@ export class AddCustomLessonComponent extends React.Component {
 
   handleSubmit() {
     if (Util.isEmptyOrWS(this.state.name)) {
-      alert("error: Title cannot be empty")
+      alert("no🖕 add a name")
+    } else if (this.props.existingLessonNames.includes(this.state.name)) {
+      alert("no🖕 name taken")
     } else {
       let l = new Lesson(
         this.state.name,

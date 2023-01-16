@@ -38,7 +38,7 @@ export default class Lesson {
     constructor(name, criteria, goal, notes, v, v2, dataset, path, type) {
         this.name = name
         this.criteria = criteria
-        this.goal = goal
+        this.goal = goal == undefined ? Constants.DEFAULT_BPM_GOAL : (typeof goal === "string") ? parseInt(goal) : goal
         this.v = v == null ? [] : v
         this.v2 = v2 == null ? [] : v2
         this.notes = notes

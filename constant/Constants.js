@@ -8,7 +8,7 @@ export default class Constants {
     static CHORDAL_INSTRUMENTS = ['piano', 'guitar']
     static DEFAULT_BPM = 120;
     static ALL_NOTES = ["A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"]
-    
+    static DEFAULT_BPM_GOAL = 120
     static LESSON_TYPE_TIMED = "timed"
     static LESSON_TYPE_TRIES = "tries"
     static VALID_CHALLENGE_MODES = [this.LESSON_TYPE_TIMED, this.LESSON_TYPE_TRIES]

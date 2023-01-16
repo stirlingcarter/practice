@@ -112,7 +112,7 @@ export class LessonStatsComponent extends React.Component {
             {this.state.shapedStats && this.state.shapedStats.datasetBpm &&
             <View>
             <Text style={allTheStyles.statsStyle1}>{"latency eliminated"}</Text>
-            <Text style={{color: this.state.shapedStats.datasetBpm.latencyElimination < 100 ? "#222222" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{this.state.shapedStats.datasetBpm.latencyElimination + "%"}</Text>
+            <Text style={{color: this.state.shapedStats.datasetBpm.latencyElimination < 100 ? "#222222" : "green", fontSize: 40, marginTop: 4, textAlign: "center"}}>{!this.state.shapedStats.datasetBpm.latencyElimination ? "0%" : this.state.shapedStats.datasetBpm.latencyElimination + "%"}</Text>
             <View style={{flexDirection: "row", justifyContent: "center"}}>
             <Text style={allTheStyles.statsStyle3}>{"latency goal: "}</Text>
             <Text style={allTheStyles.statsStyle2}>{this.props.lesson.getGoal() + " bpm"}</Text>

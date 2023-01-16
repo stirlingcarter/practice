@@ -15,9 +15,9 @@ export default class ChallengeService {
 
   getNextVHash(lesson) {
     if (lesson.getType() == Constants.LESSON_TYPE_TRIES) {
-      let next = this.getFirstVHashWithoutEntryForBPM(lesson, lesson.getBPM())
-      if (next != undefined) {
-        return next
+      let cands = this.getVHashesWithoutEntryForBPM(lesson, lesson.getBPM())
+      if (cands != undefined) {
+        return Util.getRandomFromArray(cands)
       }
     } 
 
@@ -30,20 +30,16 @@ export default class ChallengeService {
   }
 
 
-  getFirstVHashWithoutEntryForBPM(lesson, bpm) {
-    let vHashes = lesson.getVHashes()
-    for (let i = 0; i < vHashes.length; i++) {
-      let vHash = vHashes[i]
+  getVHashesWithoutEntryForBPM(lesson, bpm) {
+    let reduced = lesson.getVHashes().filter(vHash => {
       let bpms = lesson.getBPMsByVHash(vHash)
+      return bpms[bpms.length - 1] != bpm
+    })
 
-      if (bpms[bpms.length - 1] != bpm) {
-        return vHash
-      }
-    }
-    return undefined
+    return reduced && reduced.length > 0 ? reduced : undefined
+
+
   }
-
-    
 
   static STRATS = {
     "SLOWEST" : function(lesson) {
