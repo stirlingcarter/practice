@@ -42,7 +42,9 @@ export class ChallengeComponent extends React.Component {
 
     setTimeout(() => this.setState({t: 2}), 1000);
     setTimeout(() => this.setState({t: 1}), 2000);
-    setTimeout(() => this.setState({t: 0}), 3000);
+    setTimeout(() => this.setState({t: 0,
+    start: Date.now()}), 3000);
+
 
 
 

@@ -38,7 +38,9 @@ export class FluencyRequirementsComponent extends React.Component {
             chordsOpen : false,
             arpsOpen : false,
             metronome: new Audio.Sound(),
-            metronomeIsPlaying: false
+            metronomeIsPlaying: false,
+            fineTuneIsOpen: false,
+            currentlySelectedPreset: undefined
         };
         this.handleNotesChange = this.handleNotesChange.bind(this);
         this.handleScalesChange = this.handleScalesChange.bind(this);
@@ -46,8 +48,9 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleChordsChange = this.handleChordsChange.bind(this);
         this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
         this.generate = this.generate.bind(this);
-        
-        
+        this.handleFineTuneOpen = this.handleFineTuneOpen.bind(this);
+        this.handlePresetChoose = this.handlePresetChoose.bind(this);
+
         this.handleNotesOpen = this.handleNotesOpen.bind(this);
         this.handleIntervalsOpen = this.handleIntervalsOpen.bind(this);
         this.handleScalesOpen = this.handleScalesOpen.bind(this);
@@ -64,13 +67,17 @@ export class FluencyRequirementsComponent extends React.Component {
         this.setState({ selectedScales: scales });
     }
 
+    handleFineTuneOpen() {
+        this.setState({ fineTuneIsOpen: !this.state.fineTuneIsOpen });
+    }
+
     handleScalePermutationsChange(permutations) {
         this.setState({ selectedScalePermutations: permutations });
         
     }
 
-    handleChordInversionsChange(inversions) {
-        this.setState({ selectedChordInversions: inversions });
+    handleChordInversionsChange() {
+        this.setState({ selectedChordInversions: !this.state.selectedChordInversions });
     }
 
     handleChordsChange(chords) {
@@ -145,6 +152,44 @@ export class FluencyRequirementsComponent extends React.Component {
 
     };
 
+    handlePresetChoose(preset) {
+        if (preset === "LO") {
+            this.setState({
+                selectedScales: Constants.PRESET_FOUNDATIONS.selectedScales, 
+                selectedScalePermutations: Constants.PRESET_FOUNDATIONS.selectedScalePermutations,
+                selectedChords: Constants.PRESET_FOUNDATIONS.selectedChords,
+                selectedChordInversions: Constants.PRESET_FOUNDATIONS.selectedChordInversions,
+                scalesBpm: Constants.PRESET_FOUNDATIONS.scalesBpm,
+                chordsBpm: Constants.PRESET_FOUNDATIONS.chordsBpm,
+                arpsBpm: Constants.PRESET_FOUNDATIONS.arpsBpm,
+                currentlySelectedPreset: "LO"
+            })
+        } else if (preset === "MID") {
+            this.setState({
+                selectedScales: Constants.PRESET_FAMILIARITY.selectedScales,
+                selectedScalePermutations: Constants.PRESET_FAMILIARITY.selectedScalePermutations,
+                selectedChords: Constants.PRESET_FAMILIARITY.selectedChords,
+                selectedChordInversions: Constants.PRESET_FAMILIARITY.selectedChordInversions,
+                scalesBpm: Constants.PRESET_FAMILIARITY.scalesBpm,
+                chordsBpm: Constants.PRESET_FAMILIARITY.chordsBpm,
+                arpsBpm: Constants.PRESET_FAMILIARITY.arpsBpm,
+                currentlySelectedPreset: "MID"
+            })
+        } else if (preset === "PRO") {
+            this.setState({
+                selectedScales: Constants.PRESET_NUANCE.selectedScales,
+                selectedScalePermutations: Constants.PRESET_NUANCE.selectedScalePermutations,
+                selectedChords: Constants.PRESET_NUANCE.selectedChords,
+                selectedChordInversions: Constants.PRESET_NUANCE.selectedChordInversions,
+                scalesBpm: Constants.PRESET_NUANCE.scalesBpm,
+                chordsBpm: Constants.PRESET_NUANCE.chordsBpm,
+                arpsBpm: Constants.PRESET_NUANCE.arpsBpm,
+                currentlySelectedPreset: "PRO"
+            })
+        }
+    }
+
+
     generate(isChordal) {
         let fgInput = new FgInput(
             this.state.selectedNotes,
@@ -174,6 +219,25 @@ export class FluencyRequirementsComponent extends React.Component {
 
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
                     <Text style={allTheStyles.fluentHeader}>{"\nIndicate your desired level of fluency"}</Text>
+
+                    <View style={allTheStyles.examplesRow}>
+                    <Text onPress={()=>{this.handlePresetChoose("LO")}} style={this.state.currentlySelectedPreset == "LO" ? allTheStyles.presetPickerP : allTheStyles.presetPicker}>{"LO"}</Text>
+                    <Text onPress={()=>{this.handlePresetChoose("MID")}} style={this.state.currentlySelectedPreset == "MID" ? allTheStyles.presetPickerP : allTheStyles.presetPicker}>{"MID"}</Text>
+                    <Text onPress={()=>{this.handlePresetChoose("PRO")}} style={this.state.currentlySelectedPreset == "PRO" ? allTheStyles.presetPickerP : allTheStyles.presetPicker}>{"PRO"}</Text>
+                    </View>
+                    <View style={allTheStyles.examplesRow}>
+                    <Text onPress={this.handleFineTuneOpen} style={allTheStyles.fineTunePresser}>{this.state.fineTuneIsOpen ? "🤙" : "✍️ fine tune"}</Text>
+                    </View>
+
+
+
+
+
+
+
+
+{this.state.fineTuneIsOpen && <View>
+
 
                     <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.fluentRow}>{"NOTES"}</Text><Text onPress={this.handleNotesOpen} style={this.state.notesOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.notesOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
@@ -248,23 +312,46 @@ export class FluencyRequirementsComponent extends React.Component {
                         <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.chordsBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
-                    <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.INVERSIONS, cb: this.handleChordInversionsChange, alreadyChosen: this.state.selectedChordInversions, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChordInversions.length > 0 ? this.state.selectedChordInversions.length + " inversion" + (this.state.selectedChordInversions.length > 1 ? "s" : "") + " chosen" : "tap to choose inversions"}</Text>
+                    <View style={allTheStyles.examplesRow}>
+                    <Text style={allTheStyles.highlighteableOption}>{"Inversions?"}</Text>
+                    <Text onPress={()=>{this.handleChordInversionsChange()}} style={allTheStyles.thumbo}>{this.state.selectedChordInversions ? "👍" : "👎"}</Text>
+                    </View>
                     </View>}
                     </View>}
 
 
-                    {isChordal && <View>
-                    {<View style={allTheStyles.examplesRow}><Text style={allTheStyles.fluentRow}>{"ARPS"}</Text><Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text></View>}
-                    {this.state.arpsOpen && <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
-                    <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
-                    <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.arpsBpm} />
-
-                    </View>}
+                    {<View>
+                        {<View style={allTheStyles.examplesRow}>
+                            <Text style={allTheStyles.fluentRow}>{"ARPS"}</Text>
+                            <Text onPress={this.handleArpsOpen} style={this.state.arpsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.arpsOpen ? "-" : "+"}</Text>
+                            <Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
+                        </View>}
+                        {this.state.arpsOpen && 
+                        <View> 
+                            <View style={allTheStyles.examplesRow}>
+                                <Text style={allTheStyles.bpmHeading}>{"BPM"}</Text>
+                                <TextInput onChangeText={this.handleArpsBpmChange } defaultValue={this.state.arpsBpm} style={allTheStyles.bpmOption}></TextInput>
+                                <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.arpsBpm} />
+                            </View>
+                            <View>
+                        {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
+</View>
+                        </View>
+                        
+                        
+                        }
                     </View>}
                         {/* <Text style={allTheStyles.highlighteableOption}>{"Audition"}</Text> */}
-                    {!isChordal && <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " arp" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose arpeggios"}</Text>}
                     
+
+
+</View>}
+
+
+
+
+
+
                     <Text style={allTheStyles.generateButton} onPress={() => {
                         if (this.state.selectedScales.length != 0 && this.state.selectedScalePermutations.length == 0) {
                             alert("You must choose at least one scale permutation")

@@ -28,9 +28,7 @@
     "android": {
       "package": "com.stirlingcarter.snackb63156572bd74ab899d952d2be36a4b5"
     },
-    "runtimeVersion": "1.0.0",
     "updates": {
-      "url": "https://u.expo.dev/8c20f4b9-cef3-4e0a-96f1-a8e9eb57ab95"
     }
   }
 }

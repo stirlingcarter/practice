@@ -1,3 +1,5 @@
+import BuiltInVariants from "./BuiltInVariants";
+
 export default class Constants {
 
     static HEAD_GROUP_NAME = "Instruments"
@@ -35,4 +37,54 @@ export default class Constants {
     static DEFAULT_STARTING_BPM = 60
 
     static TIMES_WINDOW_SIZE = 10
+
+    static PRESET_FOUNDATIONS = {
+        selectedScales: [BuiltInVariants.MAJOR, BuiltInVariants.CHROMATIC], // major
+        selectedScalePermutations: [BuiltInVariants.IONIAN],
+        selectedChords: [BuiltInVariants.MIN_TRIAD, BuiltInVariants.MAJ_TRIAD],
+        selectedChordInversions: false,
+        scalesBpm: "60",
+        chordsBpm: "45", //chords get ha;f treatment
+        arpsBpm: "60", 
+    }
+
+    static PRESET_FAMILIARITY = {
+        selectedScales: [BuiltInVariants.MAJOR, BuiltInVariants.MINOR, BuiltInVariants.DIMINISHED, BuiltInVariants.CHROMATIC], // major
+        selectedScalePermutations: [BuiltInVariants.IONIAN, BuiltInVariants.BASIC_PERM],
+        selectedChords: [BuiltInVariants.MIN_TRIAD, BuiltInVariants.MAJ_TRIAD, BuiltInVariants.DIM_TRIAD, BuiltInVariants.AUG_TRIAD, BuiltInVariants.MIN7, BuiltInVariants.MAJ7, BuiltInVariants.DOM7, BuiltInVariants.DIM],
+        selectedChordInversions: true,
+        scalesBpm: "90",
+        chordsBpm: "80",
+        arpsBpm: "90", 
+    }
+
+    static PRESET_NUANCE = {
+        selectedScales: [BuiltInVariants.MAJOR, BuiltInVariants.MINOR, BuiltInVariants.DIMINISHED, BuiltInVariants.CHROMATIC, BuiltInVariants.HARMONIC_MINOR, BuiltInVariants.PENTATONIC], // major
+        selectedScalePermutations: [BuiltInVariants.IONIAN,
+            BuiltInVariants.DORIAN,
+            BuiltInVariants.PHRYGIAN,
+            BuiltInVariants.LYDIAN,
+            BuiltInVariants.MIXOLYDIAN,
+            BuiltInVariants.AEOLIAN,
+            BuiltInVariants.LOCRIAN,
+            BuiltInVariants.BASIC_PERM],
+        selectedChords: [        BuiltInVariants.MIN_TRIAD,
+            BuiltInVariants.MAJ_TRIAD,
+            BuiltInVariants.DOM_TRIAD,
+            BuiltInVariants.MIN7,
+            BuiltInVariants.MAJ7,
+            BuiltInVariants.DOM7,
+            BuiltInVariants.DIM,
+            BuiltInVariants.HALF_DIM,
+            BuiltInVariants.AUG,
+            BuiltInVariants.DOM7_SHARP_5_SHARP_9,
+            BuiltInVariants.DOM7_SHARP_9,
+            BuiltInVariants.DOM7_SHARP_5,
+            BuiltInVariants.DOM7_SHARP_11],
+        selectedChordInversions: true,
+        scalesBpm: "200",
+        chordsBpm: "120",
+        arpsBpm: "200", 
+    }
+
 }   

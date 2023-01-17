@@ -47,6 +47,20 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
         this.setState({ filter });
     }
 
+    alreadyExists(variant, category) {
+        if (!BuiltInVariants.VALID_CATEGORIES.includes(category)) {
+            return false
+        }
+
+        let customCSV = customVariantSetRepository.getCustomVariantSetByCategory(category)
+        let customNameSet = customCSV == undefined ? [] : customCSV.getNames()
+        let BIVs = BuiltInVariants.getBIV(category)
+        let BIVsNameSet = BIVs.map(v => v.getName())
+        let withP = Util.toParens(variant.toLowerCase(), category)
+        return BIVsNameSet.map(n => n.toLowerCase()).includes(withP) ||  customNameSet.includes(withP) 
+
+    }
+
     render() {
         let init = allTheStyles.highlighteableOption
         let green = allTheStyles.highlighteableOptionGreen
@@ -57,6 +71,7 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
         let customCSV = customVariantSetRepository.getCustomVariantSetByCategory(category)
         let customNameSet = customCSV == undefined ? [] : customCSV.getNames()
         let BIVs = BuiltInVariants.getBIV(category)
+
         let BIVsNameSet = BIVs.map(v => v.getName())
 
         
@@ -65,30 +80,47 @@ export class SingleRowVariantChooserSaverComponent extends React.Component {
 
         return (
             <View>
-            <View>
-                <Text style={allTheStyles.fluentHeader} onPress={() => {
+
+
+
+
+                <View style={allTheStyles.variantAddHeading}>
+                <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{""}</Text>
-
-
                 <Text style={allTheStyles.variantAddSaveHeader} onPress={() => {
                     this.props.cb(this.state.chosenVariants)
                     this.props.nav.goBack()
                 }}>{"SAVE"}</Text>
-                                <Text onPress={() => {
-                    customVariantSetRepository.appendVariant(this.props.category, this.state.filter)
-                    this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { cb: this.props.cb, alreadyChosen: this.props.alreadyChosen, path: this.props.path, category: this.props.category })
-                }} style={allTheStyles.variantAddCreateButton}>{ !BIVsNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) && !customNameSet.map(n => n.toLowerCase()).includes(this.state.filter.toLowerCase()) ? "Create" : ""}</Text>
+                <Text style={allTheStyles.filterOrCreate}>{"Filter or create"}</Text>
+
+                
                 <TextInput
-                    style={allTheStyles.filterRow}
+                    style={allTheStyles.filterRowVA}
                     onBlur={Keyboard.dismiss}
-                    placeholder="Filter"
+                    placeholder="Name"
                     placeholderTextColor="#333333"
                     multiline={true}
                     value={this.state.filter}
                     onChangeText={this.handleFilterChange} />
 
+{<Text onPress={() => {
+                    if (this.state.filter == "") {
+                        alert("Please enter a name")
+                        return
+                    }
+
+                    customVariantSetRepository.appendVariant(this.props.category, this.state.filter)
+                    this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { cb: this.props.cb, alreadyChosen: this.state.chosenVariants, path: this.props.path, category: this.props.category })
+                }} style={(this.state.filter != "" && !this.alreadyExists(this.state.filter, this.props.category)) ? allTheStyles.variantAddCreateButton : allTheStyles.variantAddCreateButtonGrey}>{"Create"}</Text>}
+                </View>
+
+
+
+
+
+            <View>
 
 <ScrollView>
 

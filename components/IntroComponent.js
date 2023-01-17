@@ -46,7 +46,7 @@ export class IntroComponent extends React.Component {
             </ImageBackground>
             </View>) : 
             (<View >
-                <Text style={allTheStyles.warningScreenHeader}>{"The way this shit works is "}</Text>
+                <Text style={allTheStyles.warningScreenHeader}>{""}</Text>
             <Text onPress={this.enter} style={allTheStyles.warningScreen1}>{
 "Latency Elimination uses math to identify your slowest competencies, and forces you to exercise them until something else is your slowest competency.\n " +
 "\nLatency Elimination learns faster and faster how to make you learn faster and faster. It lifts the burden of choosing what to practice, which we tend to either dedicate a lot of time to or plan very poorly.\n " 
