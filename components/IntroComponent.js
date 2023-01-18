@@ -40,30 +40,31 @@ export class IntroComponent extends React.Component {
     render() {
         return this.state.count == 0 ? (<View style={{flex:1}}>
             <ImageBackground  resizeMode={'center'} source={require('../assets/Pics/logo9.png')} style={allTheStyles.logo} >
-            <Text style={{color: 'white'}}onPress={this.enter} ></Text>
+            <Text style={{color: 'white'}} ></Text>
             </ImageBackground>
             <ImageBackground resizeMode={'center'} source={require('../assets/Pics/logo8.png')} style={allTheStyles.logo} >
             </ImageBackground>
             </View>) : 
             (<View >
                 <Text style={allTheStyles.warningScreenHeader}>{""}</Text>
-            <Text onPress={this.enter} style={allTheStyles.warningScreen1}>{
-"Latency Elimination uses math to identify your slowest competencies, and forces you to exercise them until something else is your slowest competency.\n " +
-"\nLatency Elimination learns faster and faster how to make you learn faster and faster. It lifts the burden of choosing what to practice, which we tend to either dedicate a lot of time to or plan very poorly.\n " 
+                <Text style={allTheStyles.relax}>{
+"relax "            }</Text>
+            <Text style={allTheStyles.warningScreen1}>{
+"\n\nYour agility is equivalent to your ability to play relaxed, and practicing every day with bad form can and will cause injury.\n\n\n\n\n"
             }</Text>
-            <Image resizeMode={'stretch'} source={require('../assets/Pics/radialGraphExample.jpg')} style={allTheStyles.radialEx} />
+            {/* <Image resizeMode={'stretch'} source={require('../assets/Pics/radialGraphExample.jpg')} style={allTheStyles.radialEx} /> */}
 
-            <Text onPress={this.enter} style={allTheStyles.warningScreen}>{
+            {/* <Text onPress={this.enter} style={allTheStyles.warningScreen}>{
 "The algorithm delivers a pure, physical mastery of the instrument, which can then be applied by an artist to support any choice of form.\n "
 
-            }</Text>
-<Text onPress={this.enter} style={allTheStyles.warningScreen3}>{
-"\n\n\nLatency Elimination isn't intended for beginner instrumentalists and doesn't teach musicality, feeling, creativity, etc.\n" + 
+            }</Text> */}
+<Text style={allTheStyles.warningScreen3}>{
+"\n\n\n\n\nCHOPS delivers a pure, physical mastery of the instrument, which can then be applied by an artist to support any choice of form.\n \nCHOPS isn't intended for beginner instrumentalists and doesn't teach musicality, feeling, creativity, etc.\n" + 
 "\n\n " 
             }</Text>
 
 <Text onPress={this.enter} style={allTheStyles.warningScreenUnderstand}>{
-"I understand\n " +
+"OK\n " +
 "\n \n " 
             }</Text>
 </View>)

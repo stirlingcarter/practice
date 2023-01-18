@@ -221,7 +221,7 @@ export const allTheStyles = StyleSheet.create({
   saveButton3: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "white",
+    color: themeColor,
     backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
@@ -397,8 +397,8 @@ export const allTheStyles = StyleSheet.create({
   saveButton3r: {
     textAlignVertical: "top",
     textAlign: "center",
-    color: "#333333",
-    backgroundColor: "white",
+    color: themeColor,
+    backgroundColor: "black",
     fontSize: 30,
     fontStyle: "italic",
     fontWeight: "bold",
@@ -1264,7 +1264,7 @@ export const allTheStyles = StyleSheet.create({
   warningScreen1: {
     textAlignVertical: "center",
     textAlign: "auto",
-    fontSize: 11,
+    fontSize: 17,
     fontWeight: "bold",
     color: "white",
     marginLeft: 25,
@@ -1274,13 +1274,24 @@ export const allTheStyles = StyleSheet.create({
   warningScreenUnderstand: {
     textAlignVertical: "center",
     textAlign: "center",
-    fontSize: 33,
+    fontSize: 100,
     fontWeight: "bold",
     color: "black",
-    marginTop: 30,
+    marginTop: 0,
     marginBottom: 120,
     width: 430,
     backgroundColor: themeColor
+  },
+  relax: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    fontSize: 100,
+    fontWeight: "bold",
+    color: themeColor,
+    top: 0,
+    marginBottom: 0,
+    width: 430,
+    backgroundColor: "black"
   },
   scrollStyle: {
   },

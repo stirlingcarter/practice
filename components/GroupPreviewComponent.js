@@ -121,16 +121,7 @@ export class GroupPreviewComponent extends React.Component {
             {this.state.plusOpen && <View>
               {/* Add lesson */}
 
-              <Text
-                onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
-                  path: this.props.path,
-                  cb: this.getLessonNames,
-                  existingLessonNames: this.state.lessonNames
-                })}
-                style={allTheStyles.saveButton3}
-              >
-                {"ADD LESSON"}
-              </Text>
+
               {this.props.path.split('/').length === 2 && //we are at instr level
                 <Text
                   onPress={() => this.props.nav.navigate("FluencyRequirementsScreen", {
@@ -139,9 +130,18 @@ export class GroupPreviewComponent extends React.Component {
                   })}
                   style={allTheStyles.fluentButton}
                 >
-                  {"MAKE ME FLUENT (BETA)"}
+                  {"MAKE ME FLUENT"}
                 </Text>}
-
+              <Text
+                onPress={() => this.props.nav.navigate("AddCustomLessonScreen", {
+                  path: this.props.path,
+                  cb: this.getLessonNames,
+                  existingLessonNames: this.state.lessonNames
+                })}
+                style={allTheStyles.saveButton3}
+              >
+                {"ADD DRILL"}
+              </Text>
               {/* Add group */}
 
               <Text
