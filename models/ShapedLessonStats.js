@@ -228,7 +228,6 @@ export default class ShapedLessonStats {
             allLineChart: this.reduceTo100(this.getAllLineChart(lesson)),
         }
 
-        alert("K"+JSON.stringify(this.dataset.allLineChart))
     }
 
     getHistoricalAverages(sublists) {
@@ -370,7 +369,6 @@ export default class ShapedLessonStats {
             vHashToBpmToAvgTriesLineChartBpm: vHashToBpmToAvgTriesLineChartBpm,
             scatter: this.getScatter(lesson),
         }
-        alert(this.datasetBpm.latencyElimination)
 
     }
 

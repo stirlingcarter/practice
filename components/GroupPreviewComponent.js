@@ -114,7 +114,7 @@ export class GroupPreviewComponent extends React.Component {
             <Text style={allTheStyles.groupScreenPathHeader}>{this.props.path.length < 34 ? this.props.path : "..." + this.props.path.substring(this.props.path.length - 34, this.props.path.length)}</Text>
 
             <Text onPress={this.handlePlus}
-              style={this.state.plusOpen ? allTheStyles.addStuffButtonRed : allTheStyles.addStuffButton}
+              style={this.state.plusOpen ? allTheStyles.addStuffButtonRedBig : allTheStyles.addStuffButtonBeeg}
             >
               {this.state.plusOpen ? "-" : "+"}
             </Text>

@@ -20,7 +20,7 @@ import { AddVariantGroupScreen } from "./screens/AddVariantGroupScreen";
 import ChallengeService from "./services/ChallengeService";
 import StatService from "./services/StatService";
 import { Audio } from 'expo-av';
-
+import { useFonts } from 'expo-font';
 import GroupRepository from "./repositories/GroupRepository";
 import LessonRepository from "./repositories/LessonRepository";
 import CustomVariantSetRepository from "./repositories/CustomVariantSetRepository";
@@ -58,6 +58,9 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
+    useFonts({
+      'MarsAttack': require('./assets/fonts/MarsAttack.otf'),
+    });
 
     sounds[0].loadAsync(require('./assets/sounds/metronome/25bpm10m.mp3'), {shouldPlay: false});
     sounds[1].loadAsync(require('./assets/sounds/metronome/35bpm10m.mp3'), {shouldPlay: false});

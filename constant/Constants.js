@@ -34,6 +34,8 @@ export default class Constants {
     static ARPEGGIOS = "Arpeggios"
     static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
 
+    static GUITAR_INVERSIONS_3 = BuiltInVariants.GUITAR_INVERSION_VARIANT_NAMES.slice(0, 3)
+    static GUITAR_INVERSIONS_4 = BuiltInVariants.GUITAR_INVERSION_VARIANT_NAMES.slice(3)
     static DEFAULT_STARTING_BPM = 60
 
     static TIMES_WINDOW_SIZE = 10
@@ -60,7 +62,8 @@ export default class Constants {
 
     static PRESET_NUANCE = {
         selectedScales: [BuiltInVariants.MAJOR, BuiltInVariants.MINOR, BuiltInVariants.DIMINISHED, BuiltInVariants.CHROMATIC, BuiltInVariants.HARMONIC_MINOR, BuiltInVariants.PENTATONIC], // major
-        selectedScalePermutations: [BuiltInVariants.IONIAN,
+        selectedScalePermutations: [
+            BuiltInVariants.IONIAN,
             BuiltInVariants.DORIAN,
             BuiltInVariants.PHRYGIAN,
             BuiltInVariants.LYDIAN,
@@ -68,7 +71,8 @@ export default class Constants {
             BuiltInVariants.AEOLIAN,
             BuiltInVariants.LOCRIAN,
             BuiltInVariants.BASIC_PERM],
-        selectedChords: [        BuiltInVariants.MIN_TRIAD,
+        selectedChords: [        
+            BuiltInVariants.MIN_TRIAD,
             BuiltInVariants.MAJ_TRIAD,
             BuiltInVariants.DOM_TRIAD,
             BuiltInVariants.MIN7,

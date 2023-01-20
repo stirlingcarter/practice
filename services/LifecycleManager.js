@@ -17,7 +17,6 @@ export default class LifecycleManager {
         
         if (TreeUtils.getHeadGroup() == undefined){
             groupRepository.save(new Group(HEAD_NAME, 'permanent top level group', [], [], HEAD_PATH))
-            alert(JSON.stringify(groupRepository.getGroupByPath(HEAD_PATH)))
         }
 
 

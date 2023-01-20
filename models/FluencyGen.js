@@ -119,7 +119,7 @@ export default class FluencyGen {
     }
 
     generateLessonsForNotes(instrument, notes) {
-        let lessonName = 'Notes competency'
+        let lessonName = 'Notes'
         let criteria = 'Play the note everywhere it occurs on the instrument'
         let goal = 1
         let v = []
@@ -142,61 +142,64 @@ export default class FluencyGen {
     }
 
     generateIntervalsGroup() {
-        let intervals = this.fgInput.getIntervals().map(i => Util.toParens(i,Constants.INTERVALS))
-        if (intervals == undefined || intervals.length == 0) {
-            return null;
-        }
-
-        let description = 'Interval fluency'
-        let lessons = this.generateLessonsForIntervals(this.fgInput.getInstrument(), intervals)
+        let description = 'Intervals'
+        let lessons = this.generateLessonsForIntervals(this.fgInput.getInstrument())
         let group = new Group(Constants.INTERVALS, description, lessons.map(l => l.getName()), [], this.INTERVALS_LEVEL)
         groupRepository.save(group)
         lessons.forEach(l => lessonRepository.save(l))
         return group;    
     }
 
-    generateLessonsForIntervals(instrument, intervals) {
+    generateLessonsForIntervals(instrument) {
         let lessons = []
         let i = 1;
         let lessonName = ''
+
+
         switch (instrument.toLowerCase()) {
             case "piano":
-                lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval starting on the given note', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+                lessons.push(new Lesson("all", 'Play the given interval starting on the given note', 1, this.notes, Constants.ALL_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+
                 if (this.fgInput.getScales() != undefined){
                     this.fgInput.getScales().forEach(scaleType => {
-                        lessonName = 'Intervals ' + (i++)
+                        lessonName = Util.getNoParens(scaleType)
                         lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     })
                 }
+
+
                 break;
             case "guitar":
-                lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the same string if possible, else the next.', 1, this.notes, intervals, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
-                lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the next string if possible, else the 2nd next.', 1, this.notes, intervals, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
-                lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the 2nd next string if possible, else the 3rd next.', 1, this.notes, intervals, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+
+                lessonName = 'all' 
+                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the same string if possible, else the next.', 1, this.notes, Constants.ALL_INTERVALS, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+                lessonName = 'all+' 
+                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the next string if possible, else the 2nd next.', 1, this.notes, Constants.ALL_INTERVALS, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+                lessonName = 'all++' 
+                lessons.push(new Lesson(lessonName, 'Play the given interval from the given note on the given string. Use the 2nd next string if possible, else the 3rd next.', 1, this.notes, Constants.ALL_INTERVALS, Constants.STRINGSET_GUITAR, {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
 
                 this.fgInput.getScales().forEach(scaleType => {
-                    lessonName = 'Intervals ' + (i++)
+                    i = 1
+                    lessonName = Util.getNoParens(scaleType) + ' ' + (i++)
                     lessons.push(new Lesson(lessonName, 'Using the 6th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                    lessonName = 'Intervals ' + (i++)
+                    lessonName = Util.getNoParens(scaleType) + ' ' + (i++)
                     lessons.push(new Lesson(lessonName, 'Using the 4th string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                    lessonName = 'Intervals ' + (i++)
+                    lessonName = Util.getNoParens(scaleType) + ' ' + (i++)
                     lessons.push(new Lesson(lessonName, 'Using the 3rd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                    lessonName = 'Intervals ' + (i++)
+                    lessonName = Util.getNoParens(scaleType) + ' ' + (i++)
                     lessons.push(new Lesson(lessonName, 'Using the 2nd string, play the given note\'s ' + scaleType + ' scale, adding to each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                 })
+
+
                 break;
-            case "sax":
-                lessonName = 'Intervals ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given interval starting on the given note', 1, this.notes, intervals, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+            case "sax":        
+                lessons.push(new Lesson("all", 'Play the given interval starting on the given note', 1, this.notes, Constants.ALL_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
+                i = 1
                 this.fgInput.getScales().forEach(scaleType => {
-                    lessonName = 'Intervals ' + (i++)
+                    lessonName = Util.getNoParens(scaleType) 
                     lessons.push(new Lesson(lessonName, 'Play the given note\'s ' + scaleType + ' scale, adding after each note the given diatonic interval', 1, this.notes, Constants.DIATONIC_INTERVALS, [], {}, Path.plus(this.INTERVALS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     i++;
-                })
+                })                
                 break;
         }
         return lessons
@@ -207,7 +210,7 @@ export default class FluencyGen {
         if (chords == undefined || chords.length == 0){
             return null;
         }
-        let description = 'Chords fluency'
+        let description = 'Chords'
         let lessons = this.generateLessonsForChords(this.fgInput.getInstrument(), chords)
         let group = new Group(Constants.CHORDS, description, lessons.map(l => l.getName()), [], this.CHORDS_LEVEL)
         groupRepository.save(group)
@@ -219,39 +222,36 @@ export default class FluencyGen {
         let lessons = []
         let i = 1;
         let lessonName = ''
-        let inversions = this.fgInput.getChordInversions()
         switch (instrument.toLowerCase()) {
             case "piano":
                 chords.forEach(chord => {
-                    lessonName = 'Chords ' + (i++)
+                    lessonName = Util.getNoParens(chord)
                     if (Constants.CHORDS_3.includes(chord)) {
                         lessons.push(new Lesson(lessonName, 'Play the ' + Util.getNoParens(chord) + ' chord in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
                         lessons.push(new Lesson(lessonName, 'Play the ' + Util.getNoParens(chord) + ' chord in the following inversions/order: root, 1st, 2nd, 3rd, 2nd, 1st, root', 1, this.notes, [chord], [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })
-                lessonName = 'Chords ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the given inversion of the chord', 1, this.notes, chords, inversions, {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TIMED, -1))
                 break;
             case "guitar":
-                lessonName = 'Chords ' + (i++)
+                lessonName = '6-4'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 6-4 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, Constants.CHORDS_3, [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '5-3'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 5-3 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, Constants.CHORDS_3, [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '4-2'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 4-2 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, Constants.CHORDS_3, [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '3-1'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 3-1 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, Constants.CHORDS_3, [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '6-3'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 6-3 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, chords.filter(c => !Constants.CHORDS_3.includes(c)), [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '6-2'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 6-2 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, chords.filter(c => !Constants.CHORDS_3.includes(c)), [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
+                lessonName = '4-1'
                 lessons.push(new Lesson(lessonName, 'Play the given chord on strings 4-1 in the following inversions/order: root, 1st, 2nd, 1st, root', 1, this.notes, chords.filter(c => !Constants.CHORDS_3.includes(c)), [], {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the chord and inversion on strings 6-4, 5-3, 4-2, 3-1, and then back down. The chords should be the same quality and inversion but spaced a perfect fourth apart.', 1, this.notes, Constants.CHORDS_3, inversions, {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                lessonName = 'Chords ' + (i++)
-                lessons.push(new Lesson(lessonName, 'Play the chord and inversion on strings 6-3, 5-2, 4-1, and then back down. The chords should be the same quality and inversion but spaced a perfect fourth apart.', 1, this.notes, chords.filter(c => !Constants.CHORDS_3.includes(c)), inversions, {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                lessonName = 'upNdown' 
+                lessons.push(new Lesson(lessonName, 'Play the chord and inversion on strings 6-4, 5-3, 4-2, 3-1, and then back down. The chords should be the same quality and inversion but spaced a perfect fourth apart.', 1, this.notes, Constants.CHORDS_3, Constants.GUITAR_INVERSIONS_3, {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
+                lessonName = 'upNdown+'
+                lessons.push(new Lesson(lessonName, 'Play the chord and inversion on strings 6-3, 5-2, 4-1, and then back down. The chords should be the same quality and inversion but spaced a perfect fourth apart.', 1, this.notes, chords.filter(c => !Constants.CHORDS_3.includes(c)), Constants.GUITAR_INVERSIONS_4, {}, Path.plus(this.CHORDS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                 break;
         }
         return lessons
@@ -262,7 +262,7 @@ export default class FluencyGen {
         if (scales == undefined || scales.length == 0) {
             return null;
         }
-        let description = 'Scales fluency'
+        let description = 'Scales'
         let lessons = this.generateLessonsForScales(this.fgInput.getInstrument(), scales)
         let group = new Group(Constants.SCALES, description, lessons.map(l => l.getName()), [], this.SCALES_LEVEL);
         groupRepository.save(group)
@@ -279,23 +279,24 @@ export default class FluencyGen {
             case "piano":
             case "sax":
                 scales.forEach(scale => {
+                    i = 1
                     permutations.forEach(permutation => {
-                        lessonName = 'Scales ' + (i++)
+                        lessonName = Util.getNoParens(scale) + " " + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation, 1, this.notes, [], [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                     })
                 })
                 break;
             case "guitar":
                 scales.forEach(scale => {
+                    i = 1
                     permutations.forEach(permutation => {
-                        lessonName = 'Scales ' + (i++)
+                        lessonName = Util.getNoParens(scale) + " " + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 4 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                        lessonName = 'Scales ' + (i++)
+                        lessonName = Util.getNoParens(scale) + " " + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 3 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
-                        lessonName = 'Scales ' + (i++)
+                        lessonName = Util.getNoParens(scale) + " " + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(scale) + ' scale in the given key with permutation: ' + permutation + '. Start on the lowest/highest note in the scale and play 2 notes per string, asc/desc to the highest/lowest possible note in the scale.', 1, this.notes, Constants.ASC_DESC, [], {}, Path.plus(this.SCALES_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, 120))
                     })
-
                 })
                 break;
         }
@@ -307,7 +308,7 @@ export default class FluencyGen {
         if (chords == undefined || chords.length == 0) {
             return null;
         }
-        let description = 'Arps fluency'
+        let description = 'Arps'
         let lessons = this.generateLessonsForArps(this.fgInput.getInstrument(), chords)
         let group = new Group(Constants.ARPEGGIOS, description, lessons.map(l => l.getName()), [], this.ARPS_LEVEL);
         groupRepository.save(group)
@@ -323,7 +324,7 @@ export default class FluencyGen {
             case "piano":
             case "sax":
                 chords.forEach(chord => {
-                    lessonName = 'Arps ' + (i++)
+                    lessonName = Util.getNoParens(chord)
                     if (Constants.CHORDS_3.includes(chord)) {
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree', 1, this.notes, ["1st(root)", "2nd", "3rd"], [], {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
@@ -333,18 +334,19 @@ export default class FluencyGen {
                 break;
             case "guitar":
                 chords.forEach(chord => {
-                    lessonName = 'Arps ' + (i++)
+                    i = 1
+                    lessonName = Util.getNoParens(chord) + ' ' + (i++)
                     if (Constants.CHORDS_3.includes(chord)) {
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                        lessonName = 'Arps ' + (i++)
+                        lessonName = Util.getNoParens(chord) + ' ' + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                        lessonName = 'Arps ' + (i++)
+                        lessonName = Util.getNoParens(chord) + ' ' + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes, ["1st(root)", "2nd", "3rd"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     } else {
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 1 note per string.',  1, this.notes, ["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                        lessonName = 'Arps ' + (i++)
+                        lessonName = Util.getNoParens(chord) + ' ' + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 2 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
-                        lessonName = 'Arps ' + (i++)
+                        lessonName = Util.getNoParens(chord) + ' ' + (i++)
                         lessons.push(new Lesson(lessonName, 'Play a ' + Util.getNoParens(chord) + ' arp starting on the given arp degree. Begin on the 1st/6th string and play 3 notes per string.', 1, this.notes,["1st(root)", "2nd", "3rd", "4th"], Constants.ASC_DESC, {}, Path.plus(this.ARPS_LEVEL, lessonName), Constants.LESSON_TYPE_TRIES, Constants.DEFAULT_BPM))
                     }
                 })

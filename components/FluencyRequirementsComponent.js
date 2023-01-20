@@ -16,6 +16,7 @@ import FluencyGen from "../models/FluencyGen.js";
 import FgInput from "../models/FgInput.js";
 import Path from "../services/Path.js";
 import Metronome from "./Metronome.js";
+import Util from "../services/Util.js";
 
 export class FluencyRequirementsComponent extends React.Component {
 
@@ -24,16 +25,13 @@ export class FluencyRequirementsComponent extends React.Component {
         super(props);
         this.state = {
             selectedNotes: Constants.ALL_NOTES,
-            selectedIntervals: ["octave", "2nd", "-2nd", "3rd", "-3rd", "4th", "tritone", "5th", "6th", "-6th", "7th", "-7th"],
             selectedScales: [],
             selectedScalePermutations: [],
             selectedChords: '',
-            selectedChordInversions: [],
             scalesBpm: "120",
             chordsBpm: "120",
             arpsBpm: "120",
             notesOpen : false,
-            intervalsOpen : false,
             scalesOpen : false,
             chordsOpen : false,
             arpsOpen : false,
@@ -46,18 +44,15 @@ export class FluencyRequirementsComponent extends React.Component {
         this.handleScalesChange = this.handleScalesChange.bind(this);
         this.handleScalePermutationsChange = this.handleScalePermutationsChange.bind(this);
         this.handleChordsChange = this.handleChordsChange.bind(this);
-        this.handleChordInversionsChange = this.handleChordInversionsChange.bind(this);
         this.generate = this.generate.bind(this);
         this.handleFineTuneOpen = this.handleFineTuneOpen.bind(this);
         this.handlePresetChoose = this.handlePresetChoose.bind(this);
 
         this.handleNotesOpen = this.handleNotesOpen.bind(this);
-        this.handleIntervalsOpen = this.handleIntervalsOpen.bind(this);
         this.handleScalesOpen = this.handleScalesOpen.bind(this);
         this.handleChordsOpen = this.handleChordsOpen.bind(this);
         this.handleArpsOpen = this.handleArpsOpen.bind(this);
         
-        this.handleIntervalsChange = this.handleIntervalsChange.bind(this);
         this.handleScalesBpmChange = this.handleScalesBpmChange.bind(this);
         this.handleChordsBpmChange = this.handleChordsBpmChange.bind(this);
         this.handleArpsBpmChange = this.handleArpsBpmChange.bind(this);
@@ -74,10 +69,6 @@ export class FluencyRequirementsComponent extends React.Component {
     handleScalePermutationsChange(permutations) {
         this.setState({ selectedScalePermutations: permutations });
         
-    }
-
-    handleChordInversionsChange() {
-        this.setState({ selectedChordInversions: !this.state.selectedChordInversions });
     }
 
     handleChordsChange(chords) {
@@ -98,25 +89,8 @@ export class FluencyRequirementsComponent extends React.Component {
         this.setState({ selectedNotes: current });
     }
 
-    handleIntervalsChange(interval) {
-        let current = this.state.selectedIntervals;
-
-        let i = current.indexOf(interval);
-        if (i > -1) { // only splice array when item is found
-            current.splice(i, 1); // 2nd parameter means remove one item only
-        } else {
-            current.push(interval)
-        }
-
-        this.setState({ selectedIntervals: current });
-    }
-
     handleNotesOpen() {
         this.setState({ notesOpen: !this.state.notesOpen });
-    }
-
-    handleIntervalsOpen() {
-        this.setState({ intervalsOpen: !this.state.intervalsOpen });
     }
 
     handleScalesOpen() {
@@ -155,10 +129,9 @@ export class FluencyRequirementsComponent extends React.Component {
     handlePresetChoose(preset) {
         if (preset === "LO") {
             this.setState({
-                selectedScales: Constants.PRESET_FOUNDATIONS.selectedScales, 
+                selectedScales: Util.copyOf(Constants.PRESET_FOUNDATIONS.selectedScales), 
                 selectedScalePermutations: Constants.PRESET_FOUNDATIONS.selectedScalePermutations,
                 selectedChords: Constants.PRESET_FOUNDATIONS.selectedChords,
-                selectedChordInversions: Constants.PRESET_FOUNDATIONS.selectedChordInversions,
                 scalesBpm: Constants.PRESET_FOUNDATIONS.scalesBpm,
                 chordsBpm: Constants.PRESET_FOUNDATIONS.chordsBpm,
                 arpsBpm: Constants.PRESET_FOUNDATIONS.arpsBpm,
@@ -169,7 +142,6 @@ export class FluencyRequirementsComponent extends React.Component {
                 selectedScales: Constants.PRESET_FAMILIARITY.selectedScales,
                 selectedScalePermutations: Constants.PRESET_FAMILIARITY.selectedScalePermutations,
                 selectedChords: Constants.PRESET_FAMILIARITY.selectedChords,
-                selectedChordInversions: Constants.PRESET_FAMILIARITY.selectedChordInversions,
                 scalesBpm: Constants.PRESET_FAMILIARITY.scalesBpm,
                 chordsBpm: Constants.PRESET_FAMILIARITY.chordsBpm,
                 arpsBpm: Constants.PRESET_FAMILIARITY.arpsBpm,
@@ -180,7 +152,6 @@ export class FluencyRequirementsComponent extends React.Component {
                 selectedScales: Constants.PRESET_NUANCE.selectedScales,
                 selectedScalePermutations: Constants.PRESET_NUANCE.selectedScalePermutations,
                 selectedChords: Constants.PRESET_NUANCE.selectedChords,
-                selectedChordInversions: Constants.PRESET_NUANCE.selectedChordInversions,
                 scalesBpm: Constants.PRESET_NUANCE.scalesBpm,
                 chordsBpm: Constants.PRESET_NUANCE.chordsBpm,
                 arpsBpm: Constants.PRESET_NUANCE.arpsBpm,
@@ -193,11 +164,9 @@ export class FluencyRequirementsComponent extends React.Component {
     generate(isChordal) {
         let fgInput = new FgInput(
             this.state.selectedNotes,
-            this.state.selectedIntervals,
             this.state.selectedScales,
             this.state.selectedScalePermutations,
             this.state.selectedChords,
-            this.state.selectedChordInversions,
             this.state.scalesBpm,
             this.state.chordsBpm,
             this.state.arpsBpm,
@@ -264,30 +233,6 @@ export class FluencyRequirementsComponent extends React.Component {
 
 
                     <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.fluentRow}>{"INTERVALS"}</Text><Text onPress={this.handleIntervalsOpen} style={this.state.intervalsOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.intervalsOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
-                    </View>
-
-                    {this.state.intervalsOpen && <View>
-                    <View style={allTheStyles.examplesRow}>
-                        <Text onPress={() => this.handleIntervalsChange("octave")} style={this.state.selectedIntervals.includes("octave") ? green : init}>{"octave"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("2nd")} style={this.state.selectedIntervals.includes("2nd") ? green : init}>{"2nd"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("-2nd")} style={this.state.selectedIntervals.includes("-2nd") ? green : init}>{"-2nd"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("3rd")} style={this.state.selectedIntervals.includes("3rd") ? green : init}>{"3rd"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("-3rd")} style={this.state.selectedIntervals.includes("-3rd") ? green : init}>{"-3rd"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("4th")} style={this.state.selectedIntervals.includes("4th") ? green : init}>{"4th"}</Text>
-                    </View>
-                    <View style={allTheStyles.examplesRow}>
-                        <Text onPress={() => this.handleIntervalsChange("tritone")} style={this.state.selectedIntervals.includes("tritone") ? green : init}>{"tritone"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("5th")} style={this.state.selectedIntervals.includes("5th") ? green : init}>{"5th"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("6th")} style={this.state.selectedIntervals.includes("6th") ? green : init}>{"6th"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("-6th")} style={this.state.selectedIntervals.includes("-6th") ? green : init}>{"-6th"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("7th")} style={this.state.selectedIntervals.includes("7th") ? green : init}>{"7th"}</Text>
-                        <Text onPress={() => this.handleIntervalsChange("-7th")} style={this.state.selectedIntervals.includes("-7th") ? green : init}>{"-7th"}</Text>
-                    </View>
-                    </View>}
-
-
-                    <View style={allTheStyles.examplesRow}>
                     <Text style={allTheStyles.fluentRow}>{"SCALES"}</Text><Text onPress={this.handleScalesOpen} style={this.state.scalesOpen ? allTheStyles.smallerAddStuffButtonRed : allTheStyles.smallerAddStuffButton}>{this.state.scalesOpen ? "-" : "+"}</Text><Text style={allTheStyles.smallerAddStuffButton}>{"        "}</Text>
                     </View>
 
@@ -312,10 +257,6 @@ export class FluencyRequirementsComponent extends React.Component {
                         <Metronome playPauseButtonTextStyle={allTheStyles.metronomePlayPauseButton} bpm={this.state.chordsBpm} />
                     </View>
                     <Text onPress={() => this.props.nav.navigate("SingleRowVariantChooserSaverScreen", { category: Constants.CHORDS, cb: this.handleChordsChange, alreadyChosen: this.state.selectedChords, path: this.props.path })} style={allTheStyles.highlighteableOption}>{this.state.selectedChords.length > 0 ? this.state.selectedChords.length + " chord" + (this.state.selectedChords.length > 1 ? "s" : "") + " chosen" : "tap to choose chords"}</Text>
-                    <View style={allTheStyles.examplesRow}>
-                    <Text style={allTheStyles.highlighteableOption}>{"Inversions?"}</Text>
-                    <Text onPress={()=>{this.handleChordInversionsChange()}} style={allTheStyles.thumbo}>{this.state.selectedChordInversions ? "👍" : "👎"}</Text>
-                    </View>
                     </View>}
                     </View>}
 

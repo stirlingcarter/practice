@@ -14,6 +14,8 @@ export class IntroComponent extends React.Component {
     constructor(props) {
         super(props);
         setTimeout(() => this.setState({count: this.state.count + 1}), this.LOGO_OPEN_SEC*1000);
+        setTimeout(() => this.setState({count: this.state.count + 1}), (this.LOGO_OPEN_SEC+this.WARNING_OPEN_SEC)*1000);
+
         this.enter = this.enter.bind(this);
          this.state = {
             count: 0
@@ -38,13 +40,24 @@ export class IntroComponent extends React.Component {
 
 
     render() {
-        return this.state.count == 0 ? (<View style={{flex:1}}>
-            <ImageBackground  resizeMode={'center'} source={require('../assets/Pics/logo9.png')} style={allTheStyles.logo} >
-            <Text style={{color: 'white'}} ></Text>
-            </ImageBackground>
-            <ImageBackground resizeMode={'center'} source={require('../assets/Pics/logo8.png')} style={allTheStyles.logo} >
-            </ImageBackground>
-            </View>) : 
+        return this.state.count == 0 ? 
+        
+        
+        (<View style={{flex:1}}>
+
+            </View>) 
+            
+            : 
+
+            this.state.count == 1 ? 
+
+            (<View >
+                            <Text style={{top: -80, textAlign: "center", color: 'white', fontSize: 400, fontFamily: "MarsAttack"}} >{"CHOPS"}</Text>
+
+            </View>)
+
+            :
+
             (<View >
                 <Text style={allTheStyles.warningScreenHeader}>{""}</Text>
                 <Text style={allTheStyles.relax}>{
@@ -64,10 +77,13 @@ export class IntroComponent extends React.Component {
             }</Text>
 
 <Text onPress={this.enter} style={allTheStyles.warningScreenUnderstand}>{
-"OK\n " +
+"kk\n " +
 "\n \n " 
             }</Text>
 </View>)
+
+
+
     }
 
     enter(){

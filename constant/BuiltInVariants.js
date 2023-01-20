@@ -5,9 +5,23 @@ import { customVariantSetRepository } from "../App";
 
 export default class BuiltInVariants {
 
+    static INTERVALS = "Intervals"
+    static CHORDS = "Chords"
+    static PERMUTATIONS = "Permutations"
+    static SCALES = "Scales"
+    static INVERSIONS_PIANO = "Inversions(piano)"
+    static INVERSIONS_GUITAR = "Inversions(guitar)"
+    static TRAVERSALS = "Traversals"
+    static STRINGS = "Strings"
+    static NOTES = "Notes"
+    static ARPEGGIOS = "Arpeggios"
+    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
+
     static MIN_TRIAD = "min triad";
     static MAJ_TRIAD = "maj triad";
     static DOM_TRIAD = "dom triad";
+    static DIM_TRIAD = "dim triad";
+    static AUG_TRIAD = "aug triad";
     static MIN6 = "min6";
     static MAJ6 = "maj6";
     static MIN7 = "min7";
@@ -21,21 +35,12 @@ export default class BuiltInVariants {
     static DOM7_SHARP_5 = "7#5";
     static DOM7_SHARP_11 = "7#11";
 
-    static INTERVALS = "Intervals"
-    static CHORDS = "Chords"
-    static PERMUTATIONS = "Permutations"
-    static SCALES = "Scales"
-    static INVERSIONS = "Inversions"
-    static TRAVERSALS = "Traversals"
-    static STRINGS = "Strings"
-    static NOTES = "Notes"
-    static ARPEGGIOS = "Arpeggios"
-    static VALID_CATEGORIES = [this.INTERVALS, this.CHORDS, this.PERMUTATIONS, this.SCALES, this.INVERSIONS, this.TRAVERSALS, this.STRINGS]
-
     static CHORD_VARIANT_NAMES = [
         BuiltInVariants.MIN_TRIAD,
         BuiltInVariants.MAJ_TRIAD,
         BuiltInVariants.DOM_TRIAD,
+        BuiltInVariants.DIM_TRIAD,
+        BuiltInVariants.AUG_TRIAD,
         BuiltInVariants.MIN6,
         BuiltInVariants.MAJ6,
         BuiltInVariants.MIN7,
@@ -156,29 +161,42 @@ export default class BuiltInVariants {
     static TWO_THREE_ONE_FOUR = "2341";
     static THREE_ONE_TWO_FOUR = "3412";
     static FOUR_ONE_TWO_THREE = "4123";
+    
+    static ONE_THREE_FIVE = "135";
+    static THREE_FIVE_ONE = "351";
+    static FIVE_ONE_THREE = "513";
     static ONE_FIVE_SEVEN_THREE = "1573";
     static THREE_SEVEN_ONE_FIVE = "3715";
     static FIVE_ONE_SEVEN_THREE = "5173";
     static SEVEN_THREE_ONE_FIVE = "7315";
 
-    static INVERSION_VARIANT_NAMES = [
+    static PIANO_INVERSION_VARIANT_NAMES = [
         BuiltInVariants.ONE_TWO_THREE,
         BuiltInVariants.TWO_THREE_ONE,
         BuiltInVariants.THREE_ONE_TWO,
         BuiltInVariants.ONE_TWO_THREE_FOUR,
         BuiltInVariants.TWO_THREE_ONE_FOUR,
         BuiltInVariants.THREE_ONE_TWO_FOUR,
-        BuiltInVariants.FOUR_ONE_TWO_THREE,
+        BuiltInVariants.FOUR_ONE_TWO_THREE
+    ]
+
+    static GUITAR_INVERSION_VARIANT_NAMES = [
+        BuiltInVariants.ONE_THREE_FIVE,
+        BuiltInVariants.THREE_FIVE_ONE,
+        BuiltInVariants.FIVE_ONE_THREE,
         BuiltInVariants.ONE_FIVE_SEVEN_THREE,
         BuiltInVariants.THREE_SEVEN_ONE_FIVE,
         BuiltInVariants.FIVE_ONE_SEVEN_THREE,
         BuiltInVariants.SEVEN_THREE_ONE_FIVE
     ]
 
-    static INVERSION_VARIANTS = BuiltInVariants.INVERSION_VARIANT_NAMES.map((name) => {
-        return new BuiltInVariant(name + "(" + this.INVERSIONS + ")", this.INVERSIONS)
+    static PIANO_INVERSION_VARIANTS = BuiltInVariants.PIANO_INVERSION_VARIANT_NAMES.map((name) => {
+        return new BuiltInVariant(name + "(" + this.INVERSIONS_PIANO + ")", this.INVERSIONS_PIANO)
     })
 
+    static GUITAR_INVERSION_VARIANTS = BuiltInVariants.GUITAR_INVERSION_VARIANT_NAMES.map((name) => {
+        return new BuiltInVariant(name + "(" + this.INVERSIONS_GUITAR + ")", this.INVERSIONS_GUITAR)
+    })
 
     static ASCENDING = "ascending";
     static DESCENDING = "descending";
