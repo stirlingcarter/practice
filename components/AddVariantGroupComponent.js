@@ -122,9 +122,6 @@ export class AddVariantGroupComponent extends React.Component {
             cstyle = allTheStyles.addVariantDoneBlue
         }
 
-
-
-
         let customNamesByCategory = {}
         Constants.VALID_CATEGORIES.forEach(c => {
             customNamesByCategory[c] = customVariantSetRepository.getCustomVariantSetByCategory(c) == undefined ? [] : customVariantSetRepository.getCustomVariantSetByCategory(c).getNames()
@@ -178,6 +175,7 @@ export class AddVariantGroupComponent extends React.Component {
                 }} style={(this.state.filter != "" && this.state.categoryFilter != "" && !this.alreadyExists(this.state.filter, this.state.categoryFilter)) ? allTheStyles.variantAddCreateButton : allTheStyles.variantAddCreateButtonGrey}>{"Create"}</Text>}
                 </View>
                 <ScrollView keyboardShouldPersistTaps={true} style={allTheStyles.addLessonCol}>
+                {/* TODO why we mapping just the category names here? why not the variants themselves? */}
                     {Object.keys(BuiltInVariants.getAllGroups()).map(category => (
                         (category.toLowerCase().includes(this.state.categoryFilter.toLowerCase()) || this.state.categoryFilter == "") && <View>
                             <Text onPress={

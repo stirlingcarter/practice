@@ -164,14 +164,14 @@ export class AddCustomLessonComponent extends React.Component {
         <TextInput
           style={allTheStyles.leTitleButton}
           onBlur={Keyboard.dismiss}
-          placeholder="name"
+          placeholder="Name"
           maxLength={200}
           value={this.state.name}
           onChangeText={this.handleNameChange} />
         <TextInput
           style={allTheStyles.criteriaTextInput}
           onBlur={Keyboard.dismiss}
-          placeholder="criteria (optional)"
+          placeholder="Criteria (optional)"
           multiline={true}
           value={this.state.criteria}
           onChangeText={this.handleCriteriaChange} />
